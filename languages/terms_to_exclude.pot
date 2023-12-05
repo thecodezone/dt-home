@@ -1,0 +1,15 @@
+#. Plugin Name of the plugin
+msgid "Disciple.Tools - DT App Launcher"
+msgstr ""
+
+#. Description of the plugin
+msgid "Disciple.Tools - DT App Launcher is intended to help developers and integrator jumpstart their extension of the Disciple.Tools system."
+msgstr ""
+
+# Author URI of the plugin
+msgid "https://github.com/thecodezone"
+msgstr ""
+
+#. Plugin URI of the plugin
+msgid "https://github.com/thecodezone/dt-launcher"
+msgstr ""

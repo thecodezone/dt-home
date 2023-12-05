@@ -1,0 +1,59 @@
+{
+  "name": "dt/launcher",
+  "description": "A modern disciple.tools plugin starter template.",
+  "type": "project",
+  "license": "GNU",
+  "autoload": {
+    "psr-4": {
+      "DT\\Launcher\\": "src/"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "authors": [
+    {
+      "name": "Craig Wann",
+      "email": "craig@codezone.io"
+    }
+  ],
+  "require": {
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "wpify/scoper": "^3.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "yoast/phpunit-polyfills": "^2.0",
+    "wp-coding-standards/wpcs": "^3.0",
+    "phpunit/phpunit": "^9"
+  },
+  "extra": {
+    "wpify-scoper": {
+      "prefix": "DT\\Launcher",
+      "folder": "vendor-scoped",
+      "globals": [
+        "wordpress"
+      ],
+      "composerjson": "composer.scoped.json",
+      "composerlock": "composer.scoped.lock",
+      "autorun": true
+    },
+    "acorn": {
+      "providers": [
+        "DT\\Providers\\PluginServiceProvider"
+      ]
+    }
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "Roots\\Acorn\\ComposerScripts::postAutoloadDump"
+    ]
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "bamarni/composer-bin-plugin": true,
+      "wpify/scoper": true
+    }
+  }
+}

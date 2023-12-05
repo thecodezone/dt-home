@@ -1,0 +1,5 @@
+vendor
+vendor-scoped
+node_modules
+.idea
+.phpunit.result.cache

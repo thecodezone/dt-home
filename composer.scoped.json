@@ -1,0 +1,21 @@
+{
+  "require": {
+    "illuminate/container": "^10.34",
+    "illuminate/support": "^10.34",
+    "illuminate/config": "^10.34",
+    "nikic/fast-route": "^1.3",
+    "kucrut/vite-for-wp": "^0.8.0"
+  },
+  "extra": {
+    "wpify-scoper": {
+      "prefix": "cz",
+      "folder": "scoped",
+      "globals": [
+        "wordpress"
+      ],
+      "composerjson": "composer.scoped.json",
+      "composerlock": "composer.scoped.lock",
+      "autorun": true
+    }
+  }
+}
