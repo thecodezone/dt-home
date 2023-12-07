@@ -9,13 +9,13 @@ $_core_dir    = getenv( 'WP_CORE_DIR' ) ? getenv( 'WP_CORE_DIR' ) : rtrim( sys_g
 $_theme_dir   = getenv( 'WP_THEME_DIR' ) ? getenv( 'WP_THEME_DIR' ) : $_core_dir . '/wp-content/themes/disciple-tools-theme';
 $_plugin_file = getenv( 'WP_PLUGIN_FILE' ) ? getenv( 'WP_PLUGIN_FILE' ) : $_core_dir . '/wp-content/plugins/' . substr( getcwd(), strrpos( getcwd(), '/' ) + 1 ) . '/' . substr( getcwd(), strrpos( getcwd(), '/' ) + 1 ) . '.php';
 
-if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
-	echo "Could not find " . $_tests_dir . "/includes/functions.php, have you run tests/install-wp-tests.sh ?" . PHP_EOL; //@phpcs:ignore
+if ( ! file_exists( $_tests_dir . '/partials/functions.php' ) ) {
+	echo "Could not find " . $_tests_dir . "/partials/functions.php, have you run tests/install-wp-tests.sh ?" . PHP_EOL; //@phpcs:ignore
 	exit( 1 );
 }
 
 // Give access to tests_add_filter() function.
-require_once $_tests_dir . '/includes/functions.php';
+require_once $_tests_dir . '/partials/functions.php';
 require_once $_core_dir . '/wp-content/plugins/dt-launcher/vendor/autoload.php';
 
 
@@ -48,5 +48,5 @@ $_register_theme = function () use ( $_tests_dir, $_core_dir, $_theme_dir, $_plu
 tests_add_filter( 'muplugins_loaded', $_register_theme );
 
 // Start up the WP testing environment.
-require $_tests_dir . '/includes/bootstrap.php';
+require $_tests_dir . '/partials/bootstrap.php';
 require_once __DIR__ . '/TestCase.php';

@@ -38,7 +38,7 @@
          the sniffs in a standard, run phpcs -e \-\-standard=STANDARD -->
 
     <!-- For whatever reason, to get the WordPress rules to work, you have to
-         include all of WordPress, which includes a bunch of other rules not in
+         include all of WordPress, which partials a bunch of other rules not in
          the WordPress namespaces. -->
     <rule ref="WordPress">
 
@@ -221,6 +221,10 @@
     <rule ref="Squiz.WhiteSpace.LogicalOperatorSpacing"/>
     <rule ref="PEAR.NamingConventions.ValidClassName"/>
     <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+
+    <rule ref="wordpress.security.escapeoutput.outputnotescaped">
+        <exclude-pattern>/resources/views/*</exclude-pattern>
+    </rule>
 
     <!-- Maybe these rules will be enabled in the future: -->
     <!-- <rule ref="Generic.Files.LineLength"/> -->

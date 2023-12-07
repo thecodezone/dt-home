@@ -77,7 +77,7 @@ class AdminServiceProvider extends ServiceProvider {
 		$config = [
 			'id'           => 'disciple_tools',
 			// Unique ID for hashing notices for multiple instances of TGMPA.
-			'default_path' => '/includes/plugins/',
+			'default_path' => '/partials/plugins/',
 			// Default absolute path to bundled plugins.
 			'menu'         => 'tgmpa-install-plugins',
 			// Menu slug.

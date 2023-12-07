@@ -1,0 +1,10 @@
+{
+  "resources/js/plugin.js": {
+    "css": [
+      "assets/plugin-7bm2tXfp.css"
+    ],
+    "file": "assets/plugin-VQEmyM2x.js",
+    "isEntry": true,
+    "src": "resources/js/plugin.js"
+  }
+}

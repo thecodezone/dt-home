@@ -29,8 +29,12 @@ require_once plugin_dir_path( __FILE__ ) . '/vendor-scoped/scoper-autoload.php';
 require_once plugin_dir_path( __FILE__ ) . '/vendor-scoped/autoload.php';
 require_once plugin_dir_path( __FILE__ ) . '/vendor/autoload.php';
 
-
-$container = Container::getInstance();
-$container->singleton( Plugin::class );
+$container = new Container();
+$container->singleton( Container::class, function ( $container ) {
+	return $container;
+} );
+$container->singleton( Plugin::class, function ( $container ) {
+	return new Plugin( $container );
+} );
 $plugin_instance = $container->make( Plugin::class );
 $plugin_instance->init();

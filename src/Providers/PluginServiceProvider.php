@@ -3,7 +3,13 @@
 namespace DT\Launcher\Providers;
 
 class PluginServiceProvider extends ServiceProvider {
+	/**
+	 * List of providers to register
+	 *
+	 * @var array
+	 */
 	protected $providers = [
+		ViewServiceProvider::class,
 		RouteServiceProvider::class,
 		PostTypeServiceProvider::class,
 		AdminServiceProvider::class,

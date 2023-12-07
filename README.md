@@ -41,6 +41,7 @@ already well-versed in Laravel and Symfony frameworks.
 1. Inversion of control container
    using [Laravel's Service Container](https://laravel.com/docs/master/container#main-content). ```/src/Container.php```
 1. Routing system using [FastRoute](https://github.com/nikic/FastRoute). ```/routes/web/routes.php```
+1. View layouts, partials, and escaping provided by the plain PHP templating engine, [Plates](https://platesphp.com/).
 
 ### Components
 
@@ -175,7 +176,7 @@ symbol after the controller class name followed by the method name.
 ```php
     use DT\Launcher\Controllers\HelloController;
 
-    $r->get( 'dt/plugin/hello', HelloController::class . '@show' );
+    $r->get( 'dt/launcher/hello', HelloController::class . '@show' );
 ```
 
 ##### Rest Routes
@@ -204,12 +205,33 @@ make use of automatic dependency injection.
 
 #### Templating
 
+Templating is provided by the plain PHP templating engine, [Plates](https://platesphp.com/).
 The template service located at `src/Services/Template.php` is used to bootstrap a blank template for your plugin.
-Routes are mapped to controllers which load basic PHP templates from the `resources/templates` directory.
+Routes are mapped to controllers which load basic PHP templates from the `resources/views` directory.
 
 > **Tip:** Be sure to use WordPress escaping functions when outputting data in your templates.
 > See [Data Validation](https://developer.wordpress.org/themes/theme-security/data-sanitization-escaping/) for more
 > information.
+
+##### Loading a view inside of the plugin template
+
+```php
+    use DT\Launcher\view;
+    
+    \template( 'hello', [
+        'name' => 'World',
+    ] );
+```
+
+##### Loading a without the plugin template
+
+```php
+    use DT\Launcher\view;
+    
+    \view( 'hello', [
+        'name' => 'World',
+    ] );
+```
 
 #### Magic Links
 

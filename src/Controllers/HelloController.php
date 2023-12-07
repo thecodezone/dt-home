@@ -3,6 +3,7 @@
 namespace DT\Launcher\Controllers;
 
 use WP_REST_Response;
+use function DT\Launcher\template;
 
 class HelloController {
 	/**
@@ -19,6 +20,6 @@ class HelloController {
 
 	public function show() {
 		$name = 'Friend';
-		include __DIR__ . '/../../resources/templates/hello.php';
+		template( 'hello', compact( 'name' ) );
 	}
 }

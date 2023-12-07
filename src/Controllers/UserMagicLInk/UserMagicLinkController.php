@@ -4,7 +4,7 @@ namespace DT\Launcher\Controllers\UserMagicLInk;
 
 use DT\Launcher\MagicLinks\UserMagicLink;
 use WP_REST_Response;
-use function DT\Launcher\plugin;
+use function DT\Launcher\view;
 
 class UserMagicLinkController {
 
@@ -17,7 +17,11 @@ class UserMagicLinkController {
 		$subpage_url = $this->magic_link->url . '?' . http_build_query( [
 				'page' => 'subpage'
         ] );
-		include plugin()->templates_path . '/user-magic-link/show.php';
+
+		view( 'user-magic-link/show', compact(
+			'user',
+			'subpage_url'
+		) );
 	}
 
 	public function data() {

@@ -3,9 +3,11 @@
 namespace DT\Launcher\Services;
 
 use function DT\Launcher\Kucrut\Vite\enqueue_asset;
-use function DT\Launcher\plugin;
+use function DT\Launcher\plugin_path;
+use function DT\Launcher\view;
 
 class Template {
+
 	/**
 	 * Allow access to blank template
 	 * @return bool
@@ -30,7 +32,7 @@ class Template {
 	 */
 	public function wp_enqueue_scripts(): void {
 		enqueue_asset(
-			plugin()->resources_path . '/dist',
+			plugin_path( '/dist' ),
 			'resources/js/plugin.js',
 			[
 				'handle'    => 'dt_launcher',
@@ -41,6 +43,7 @@ class Template {
 		);
 	}
 
+
 	/**
 	 * Render the header
 	 * @return void
@@ -50,19 +53,24 @@ class Template {
 	}
 
 	/**
-	 * Render the body
+	 * Render the template
 	 *
 	 * @param $callback
 	 *
 	 * @return void
 	 */
-	public function make( $callback ) {
+	public function render( $template, $data ) {
 		add_action( 'template_redirect', [ $this, 'template_redirect' ] );
 		add_filter( 'dt_blank_access', [ $this, 'blank_access' ] );
 		add_action( 'dt_blank_head', [ $this, 'header' ] );
 		add_action( 'dt_blank_footer', [ $this, 'footer' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ] );
-		add_action( 'dt_blank_body', $callback );
+
+
+		add_action( 'dt_blank_body', function () use ( $template, $data ) {
+			// phpcs:ignore
+			echo view()->render( $template, $data );
+		} );
 	}
 
 	/**
