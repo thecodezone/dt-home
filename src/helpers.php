@@ -2,6 +2,7 @@
 
 namespace DT\Launcher;
 
+use DT\Launcher\Illuminate\Http\RedirectResponse;
 use DT\Launcher\Illuminate\Http\Request;
 use DT\Launcher\Illuminate\Support\Str;
 use DT\Launcher\League\Plates\Engine;
@@ -134,10 +135,10 @@ function request(): Request {
  * @param string $url The URL to redirect to.
  * @param int $status Optional. The status code for the redirect response. Default is 302.
  *
- * @return Illuminate\Http\RedirectResponse A new RedirectResponse instance.
+ * @return RedirectResponse A new RedirectResponse instance.
  */
-function redirect( string $url, int $status = 302 ): Illuminate\Http\RedirectResponse {
-	return container()->makeWith( Illuminate\Http\RedirectResponse::class, [
+function redirect( string $url, int $status = 302 ): RedirectResponse {
+	return container()->makeWith( RedirectResponse::class, [
 		'url'    => $url,
 		'status' => $status,
 	] );
