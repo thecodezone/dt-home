@@ -11,6 +11,11 @@
       "src/helpers.php"
     ]
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
   "authors": [
     {
       "name": "Craig Wann",
@@ -37,17 +42,7 @@
       "composerjson": "composer.scoped.json",
       "composerlock": "composer.scoped.lock",
       "autorun": true
-    },
-    "acorn": {
-      "providers": [
-        "DT\\Providers\\PluginServiceProvider"
-      ]
     }
-  },
-  "scripts": {
-    "post-autoload-dump": [
-      "Roots\\Acorn\\ComposerScripts::postAutoloadDump"
-    ]
   },
   "config": {
     "allow-plugins": {

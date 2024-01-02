@@ -1,11 +1,8 @@
-<?php
-
-?>
 <div class="wrap">
     <h2><?php $this->esc_html_e( 'DT App Launcher', 'dt_launcher' ) ?></h2>
 
     <h2 class="nav-tab-wrapper">
-        <a href="admin.php?page=disciple_tools_autolink&tab=general"
+        <a href="admin.php?page=dt_launcher&tab=general"
            class="nav-tab <?php echo $this->esc_html( ( $tab == 'general' || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
 			<?php $this->esc_html_e( 'General', 'dt_launcher' ) ?>
         </a>

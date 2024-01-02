@@ -222,10 +222,6 @@
     <rule ref="PEAR.NamingConventions.ValidClassName"/>
     <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
 
-    <rule ref="wordpress.security.escapeoutput.outputnotescaped">
-        <exclude-pattern>/resources/views/*</exclude-pattern>
-    </rule>
-
     <!-- Maybe these rules will be enabled in the future: -->
     <!-- <rule ref="Generic.Files.LineLength"/> -->
     <!-- <rule ref="Generic.Commenting.DocComment"/> -->
