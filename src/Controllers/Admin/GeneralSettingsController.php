@@ -2,40 +2,30 @@
 
 namespace DT\Launcher\Controllers\Admin;
 
+use DT\Launcher\Illuminate\Http\RedirectResponse;
+use DT\Launcher\Illuminate\Http\Request;
+use DT\Launcher\Illuminate\Http\Response;
 use function DT\Launcher\view;
 
 class GeneralSettingsController {
 	/**
 	 * Show the general settings admin tab
-	 * @return void
 	 */
-	public function show() {
-		if ( ! current_user_can( 'manage_dt' ) ) { // manage dt is a permission that is specific to Disciple.Tools and allows admins, strategists and dispatchers into the wp-admin
-			wp_die( 'You do not have sufficient permissions to access this page.' );
-		}
-
+	public function show( Request $request, Response $response ) {
 		$tab        = "general";
-		$link       = 'admin.php?page=disciple_tools_autolink&tab=';
-		$page_title = "Autolink Settings";
-		view( "settings/general", compact( 'tab', 'link', 'page_title' ) );
+		$link       = 'admin.php?page=dt_launcher&tab=';
+		$page_title = "Launcher Settings";
+
+		return view( "settings/general", compact( 'tab', 'link', 'page_title' ) );
 	}
 
 	/**
 	 * Submit the general settings admin tab form
-	 * @return void
 	 */
-	public function update() {
-		if ( ! isset( $_POST['dt_admin_form_nonce'] ) &&
-		     ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['dt_admin_form_nonce'] ) ), 'dt_admin_form' ) ) {
-			return;
-		}
+	public function update( Request $request, Response $response ) {
 
-		if ( ! current_user_can( 'manage_dt' ) ) { // manage dt is a permission that is specific to Disciple.Tools and allows admins, strategists and dispatchers into the wp-admin
-			wp_die( 'You do not have sufficient permissions.' );
-		}
+		// Add the settings update code here
 
-		//Do whatever we need to do to update the settings
-
-		wp_redirect( admin_url( 'admin.php?page=disciple_tools_autolink&tab=general&updated=true' ) );
+		return new RedirectResponse( 302, admin_url( 'admin.php?page=dt_launcher&tab=general&updated=true' ) );
 	}
 }

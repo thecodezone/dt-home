@@ -1,8 +1,13 @@
-<?php echo $this->layout( 'layouts/auth' ); ?>
-<title><?php echo esc_html( apply_filters( 'dt_blank_title', __( 'App Launcher', 'disciple_tools' ) ) ) ?></title>
+<?php
+$this->layout( 'layouts/plugin' );
+?>
+
 <div>
-    <h4>App launcher</h4>
-    <p>
-        Hello! This is the sample app launcher page!
-    </p>
+    <b>
+        Name: <?php echo $this->e( $user->user_nicename ); ?>
+    </b>
 </div>
+
+<a href="<?php echo esc_url( $subpage_url ); ?>">
+	<?php $this->esc_html_e( 'Visit subpage', 'dt-launcher' ); ?>
+</a>

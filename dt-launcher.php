@@ -36,5 +36,6 @@ $container->singleton( Container::class, function ( $container ) {
 $container->singleton( Plugin::class, function ( $container ) {
 	return new Plugin( $container );
 } );
+
 $plugin_instance = $container->make( Plugin::class );
 $plugin_instance->init();

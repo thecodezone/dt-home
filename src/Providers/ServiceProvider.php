@@ -4,9 +4,20 @@ namespace DT\Launcher\Providers;
 
 use DT\Launcher\Illuminate\Container\Container;
 
+/**
+ * Class ServiceProvider
+ *
+ * This class is an abstract base class for service providers.
+ * Service providers are responsible for setting up and booting application services.
+ */
 abstract class ServiceProvider {
 	protected $container;
 
+	/**
+	 * ServiceProvider constructor.
+	 *
+	 * @param Container $container
+	 */
 	public function __construct( Container $container ) {
 		$this->container = $container;
 	}

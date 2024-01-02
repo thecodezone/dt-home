@@ -1,11 +1,11 @@
 <?php
 
-namespace DT\Plugin\Conditions;
+namespace DT\Launcher\Conditions;
 
-use DT\Plugin\CodeZone\Router\Conditions\Condition;
-use DT\Plugin\Illuminate\Http\Request;
-use DT\Plugin\Illuminate\Support\Str;
-use DT\Plugin\Plugin as Main;
+use DT\Launcher\CodeZone\Router\Conditions\Condition;
+use DT\Launcher\Illuminate\Http\Request;
+use DT\Launcher\Illuminate\Support\Str;
+use DT\Launcher\Plugin as Main;
 
 class Plugin implements Condition {
 

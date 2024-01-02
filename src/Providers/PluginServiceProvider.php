@@ -2,6 +2,8 @@
 
 namespace DT\Launcher\Providers;
 
+use DT\Launcher\Illuminate\Http\Request;
+
 class PluginServiceProvider extends ServiceProvider {
 	/**
 	 * List of providers to register
@@ -10,10 +12,12 @@ class PluginServiceProvider extends ServiceProvider {
 	 */
 	protected $providers = [
 		ViewServiceProvider::class,
-		RouteServiceProvider::class,
-		PostTypeServiceProvider::class,
+		ConditionsServiceProvider::class,
+		MiddlewareServiceProvider::class,
 		AdminServiceProvider::class,
-		MagicLinkServiceProvider::class
+		//PostTypeServiceProvider::class,
+		MagicLinkServiceProvider::class,
+		RouterServiceProvider::class,
 	];
 
 	/**
@@ -21,6 +25,10 @@ class PluginServiceProvider extends ServiceProvider {
 	 * DT is not yet registered.
 	 */
 	public function register(): void {
+		$this->container->singleton( Request::class, function () {
+			return Request::capture();
+		} );
+
 		foreach ( $this->providers as $provider ) {
 			$provider = $this->container->make( $provider );
 			$provider->register();

@@ -8,23 +8,49 @@ use DT_Module_Base;
 use DT_Posts;
 use stdClass;
 
+/**
+ * Define the StarterPostType class.
+ */
 class StarterPostType extends DT_Module_Base {
 	/**
-	 * Define post type variables
+	 * The post type handle
+	 *
 	 * @var string
 	 */
 	public $post_type = 'starter_post_type';
+
+	/**
+	 * The module name for the post type.
+	 *
+	 * @var string $module The module name.
+	 */
 	public $module = 'starter_base';
+
+	/**
+	 * The singular display name for the post type.
+	 *
+	 * @var string $single_name The singular name.
+	 */
 	public $single_name = 'Starter';
+
+	/**
+	 * The plural display name for the post type.
+	 *
+	 * @var string $plural_name The plural name for the post type.
+	 */
 	public $plural_name = 'Starters';// scripts
 
+
+	/**
+	 * Constructor hooks.
+	 */
 	public function __construct() {
 		parent::__construct();
 
 		if ( ! self::check_enabled_and_prerequisites() ) {
 			return;
 		}
-        
+
 
 		//setup post type
 		add_action( 'after_setup_theme', [ $this, 'after_setup_theme' ], 100 );
