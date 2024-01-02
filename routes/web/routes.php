@@ -21,7 +21,7 @@ use DT\Launcher\Controllers\UserController;
 
 $r->condition( 'Launcher', function ( $r ) {
 	$r->group( 'dt/Launcher', function ( Routes $r ) {
-		$r->get( '/hello', [ HelloController::class, 'show' ] );
+		$r->get( '', [ RedirectController::class, 'show' ] );
 		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
 		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
 	} );
