@@ -1,1 +1,0 @@
-{"version":3,"file":"plugin-f703ccb1.js","sources":["../../resources/js/plugin.js"],"sourcesContent":["import \"../css/plugin.css\";\n\nconsole.log('plugin.js')"],"names":[],"mappings":"AAEA,QAAQ,IAAI,WAAW"}
