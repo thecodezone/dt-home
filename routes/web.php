@@ -18,6 +18,8 @@ use DT\Launcher\Controllers\MagicLink\HomeController;
 use DT\Launcher\Controllers\MagicLink\SubpageController;
 use DT\Launcher\Controllers\RedirectController;
 use DT\Launcher\Controllers\UserController;
+use DT\Launcher\Illuminate\Http\Request;
+use DT\Launcher\Symfony\Component\HttpFoundation\Response;
 
 $r->condition( 'plugin', function ( Routes $r ) {
 	$r->get( 'launcher', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
@@ -30,6 +32,7 @@ $r->condition( 'plugin', function ( Routes $r ) {
 		$r->group( 'launcher/app/{key}', function ( Routes $r ) {
 			$r->get( '', [ HomeController::class, 'show' ] );
 			$r->get( '/subpage', [ SubpageController::class, 'show' ] );
+			$r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
 		} );
 	} );
 } );

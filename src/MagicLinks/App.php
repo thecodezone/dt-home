@@ -2,7 +2,10 @@
 
 namespace DT\Launcher\MagicLinks;
 
+use DT\Launcher\Illuminate\Http\Request;
+use DT\Launcher\Illuminate\Support\Str;
 use DT_Magic_Url_Base;
+use function DT\Launcher\container;
 
 
 /**
@@ -74,16 +77,6 @@ class App extends DT_Magic_Url_Base {
 	public $meta = [];
 
 	/**
-	 * A list of actions that are allowed for the magic link type.
-	 * Routes to actions not defined here will be blocked.
-	 *
-	 * @var array
-	 */
-	public $type_actions = [
-		"subpage" => "subpage",
-	];
-
-	/**
 	 * Initializes the value of the meta key.
 	 *
 	 * The meta key is used to store meta information or key-value pairs.
@@ -124,6 +117,12 @@ class App extends DT_Magic_Url_Base {
 		];
 
 		$this->meta_key = $this->root . '_' . $this->type . '_magic_key';
+
+		/**
+		 * We aren't using the magic link for routing, so we need to add the current route to the list of allowed actions.
+		 */
+		$this->type_actions[ Str::afterLast( container()->make( Request::class )->getUri(), '/' ) ] = 'Current Route';
+
 		parent::__construct();
 
 		/**
