@@ -27,5 +27,24 @@ class GeneralSettingsController {
 		// Add the settings update code here
 
 		return new RedirectResponse( 302, admin_url( 'admin.php?page=dt_launcher&tab=general&updated=true' ) );
+		exit();
+
+	}
+
+	public function update_user_access_settings() {
+	
+		if (isset($_POST['dt_admin_form_nonce']) && wp_verify_nonce($_POST['dt_admin_form_nonce'], 'dt_admin_form')) {
+
+			if (isset($_POST['require_user'])) {
+				update_option('is_user_logged_in', true);
+			} else {
+				update_option('is_user_logged_in', false); 
+
+			}
+		}
+
+		wp_redirect(admin_url('admin.php?page=dt_launcher'));
+
+		exit();
 	}
 }
