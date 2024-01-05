@@ -1,7 +1,3 @@
-
-
-
-
 <?php
 $this->layout( 'layouts/auth' );
 ?>
