@@ -32,18 +32,21 @@ class GeneralSettingsController {
 	}
 
 	public function update_user_access_settings() {
-	
+		
 		if (isset($_POST['dt_admin_form_nonce']) && wp_verify_nonce($_POST['dt_admin_form_nonce'], 'dt_admin_form')) {
-
-			if (isset($_POST['require_user'])) {
-				update_option('is_user_logged_in', true);
-			} else {
-				update_option('is_user_logged_in', false); 
-
-			}
+			
+			
+			$is_user_logged_in = isset($_POST['require_user']) ? true : false;
+			update_option('is_user_logged_in', $is_user_logged_in);
+			
+			
+			$redirect_url = add_query_arg('message', 'updated', admin_url('admin.php?page=dt_launcher'));
+		} else {	
+	
+			$redirect_url = add_query_arg('message', 'error', admin_url('admin.php?page=dt_launcher'));
 		}
-
-		wp_redirect(admin_url('admin.php?page=dt_launcher'));
+	
+		wp_redirect($redirect_url);
 
 		exit();
 	}
