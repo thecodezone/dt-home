@@ -5,6 +5,7 @@ namespace DT\Launcher\Controllers;
 use DT\Launcher\Illuminate\Http\Request;
 use DT\Launcher\Illuminate\Http\Response;
 use function DT\Launcher\template;
+use function DT\Launcher\view;
 
 class UserController {
 
@@ -16,6 +17,7 @@ class UserController {
 	 * @param Response $response The response object.
 	 */
 	public function current( Request $request, Response $response ) {
+		
 		return template( 'user', [
 			'user' => wp_get_current_user()
 		] );
@@ -34,5 +36,18 @@ class UserController {
 		return template( 'user', [
 			'user' => $user
 		] );
+	}
+
+	public function login( Request $request, Response $response){
+
+		$require_login = get_option('is_user_logged_in');
+
+		if ($require_login === '1') {
+			return view( 'auth/login' );
+		}else{
+			wp_redirect( home_url('/launcher') );
+            exit;
+		}
+	
 	}
 }
