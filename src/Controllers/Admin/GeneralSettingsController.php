@@ -31,7 +31,7 @@ class GeneralSettingsController {
 
 	}
 
-	public function update_user_access_settings() {
+	public function update_user_access_settings(Request $request, Response $response) {
 		
 			$is_user_logged_in = isset($_POST['require_user']) ? true : false;
 
