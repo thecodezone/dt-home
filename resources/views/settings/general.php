@@ -10,7 +10,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
         <tr>
             <td>
                 <label for="require_user">
-                    <input type="checkbox" id="require_user" name="require_user" value="1" <?php checked(get_option('is_user_logged_in', false)); ?> required>
+                    <input type="checkbox" id="require_user" name="require_user" value="1" <?php checked(get_option('require_user', false)); ?> required>
                     <?php esc_html_e('Require users to login to access launcher'); ?>
                 </label>
             </td>
