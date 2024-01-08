@@ -41,6 +41,5 @@ class GeneralSettingsController {
 	
 			return new RedirectResponse($redirect_url);
 
-			exit();
 	}
 }
