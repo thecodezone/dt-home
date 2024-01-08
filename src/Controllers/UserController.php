@@ -6,6 +6,7 @@ use DT\Launcher\Illuminate\Http\Request;
 use DT\Launcher\Illuminate\Http\Response;
 use function DT\Launcher\template;
 use function DT\Launcher\view;
+use DT\Launcher\Illuminate\Http\RedirectResponse;
 
 class UserController {
 
@@ -39,14 +40,16 @@ class UserController {
 	}
 
 	public function login( Request $request, Response $response){
+	
+		$require_login = get_option('require_login');
 
-		$require_login = get_option('is_user_logged_in');
-
-		if ($require_login === '1') {
+		if ($require_login === 1) {
+			
 			return view( 'auth/login' );
 		}else{
-			wp_redirect( home_url('/launcher') );
-            exit;
+			
+			return new RedirectResponse( home_url('/launcher') );
+           
 		}
 	
 	}
