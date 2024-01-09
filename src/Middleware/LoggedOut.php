@@ -14,9 +14,8 @@ class LoggedOut implements Middleware {
 
 		$require_login = get_option('require_login');
 
-		if ($require_login || is_user_logged_in() ) {
+		if (!$require_login || is_user_logged_in() ) {
 			$response = new RedirectResponse( Plugin::HOME_ROUTE, 302 );
-
 		}
 
 		return $next( $request, $response );
