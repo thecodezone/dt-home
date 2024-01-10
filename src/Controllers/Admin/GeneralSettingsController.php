@@ -32,9 +32,9 @@ class GeneralSettingsController {
 
 	public function update_user_access_settings(Request $request, Response $response) {
 
-			$is_user_logged_in = isset($_POST['require_user']) ? true : false;
+        $require_user = isset($_POST['require_user']) ? true : false;
 
-			update_option('is_user_logged_in', $is_user_logged_in);
+			update_option('require_user', $require_user);
 
 			$redirect_url = add_query_arg('message', 'updated', admin_url('admin.php?page=dt_launcher'));
 
