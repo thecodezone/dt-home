@@ -23,10 +23,12 @@ use DT\Launcher\Symfony\Component\HttpFoundation\Response;
 
 $r->condition( 'plugin', function ( Routes $r ) {
 	$r->get( 'launcher', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
-
+	
 	$r->group( 'launcher', function ( Routes $r ) {
 		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
 		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
+		$r->get('/login', [ UserController::class, 'login', [ 'middleware' => 'guest'] ]);
+		
 	} );
 	$r->middleware( 'magic:launcher/app', function ( Routes $r ) {
 		$r->group( 'launcher/app/{key}', function ( Routes $r ) {
@@ -45,7 +47,7 @@ $r->condition( 'backend', function ( Routes $r ) {
 			
 			$r->middleware( 'nonce:dt_admin_form_nonce', function ( Routes $r ) {
 				$r->post( '?page=dt_launcher', [ GeneralSettingsController::class, 'update' ] );
-				$r->post( '?page=dt_launcher&tab=general&action=update', [ GeneralSettingsController::class, 'update_user_access_settings' ] );
+        $r->post( '?page=dt_launcher&tab=general&action=update', [ GeneralSettingsController::class, 'update_user_access_settings' ] );
 			} );
 		} );
 	} );
