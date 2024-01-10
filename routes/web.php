@@ -44,11 +44,10 @@ $r->condition( 'backend', function ( Routes $r ) {
 		$r->group( 'wp-admin/admin.php', function ( Routes $r ) {
 			$r->get( '?page=dt_launcher', [ GeneralSettingsController::class, 'show' ] );
 			$r->get( '?page=dt_launcher&tab=general', [ GeneralSettingsController::class, 'show' ] );
-
+			
 			$r->middleware( 'nonce:dt_admin_form_nonce', function ( Routes $r ) {
 				$r->post( '?page=dt_launcher', [ GeneralSettingsController::class, 'update' ] );
-				$r->post( '?page=dt_launcher&tab=general', [ GeneralSettingsController::class, 'update' ] );
-
+        $r->post( '?page=dt_launcher&tab=general&action=update', [ GeneralSettingsController::class, 'update_user_access_settings' ] );
 			} );
 		} );
 	} );

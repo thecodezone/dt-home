@@ -27,5 +27,18 @@ class GeneralSettingsController {
 		// Add the settings update code here
 
 		return new RedirectResponse( 302, admin_url( 'admin.php?page=dt_launcher&tab=general&updated=true' ) );
+
+	}
+
+	public function update_user_access_settings(Request $request, Response $response) {
+
+        $require_user = isset($_POST['require_user']) ? true : false;
+
+			update_option('require_user', $require_user);
+
+			$redirect_url = add_query_arg('message', 'updated', admin_url('admin.php?page=dt_launcher'));
+
+			return new RedirectResponse($redirect_url);
+
 	}
 }

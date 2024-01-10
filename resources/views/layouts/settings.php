@@ -6,6 +6,7 @@
            class="nav-tab <?php echo $this->esc_html( ( $tab == 'general' || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
 			<?php $this->esc_html_e( 'General', 'dt_launcher' ) ?>
         </a>
+      
     </h2>
 
     <div class="wrap">
