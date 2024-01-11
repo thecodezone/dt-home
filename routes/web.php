@@ -23,12 +23,12 @@ use DT\Launcher\Symfony\Component\HttpFoundation\Response;
 
 $r->condition( 'plugin', function ( Routes $r ) {
 	$r->get( 'launcher', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
-	
+
 	$r->group( 'launcher', function ( Routes $r ) {
 		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
 		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
 		$r->get('/login', [ UserController::class, 'login', [ 'middleware' => 'guest'] ]);
-		
+
 	} );
 	$r->middleware( 'magic:launcher/app', function ( Routes $r ) {
 		$r->group( 'launcher/app/{key}', function ( Routes $r ) {
@@ -44,10 +44,20 @@ $r->condition( 'backend', function ( Routes $r ) {
 		$r->group( 'wp-admin/admin.php', function ( Routes $r ) {
 			$r->get( '?page=dt_launcher', [ GeneralSettingsController::class, 'show' ] );
 			$r->get( '?page=dt_launcher&tab=general', [ GeneralSettingsController::class, 'show' ] );
-			
+			$r->get( '?page=dt_launcher&tab=app', [GeneralSettingsController::class, 'show_app_tab']);
+			$r->get( '?page=dt_launcher&tab=app&action=create', [GeneralSettingsController::class, 'create_app']);
+			$r->get( '?page=dt_launcher&tab=app&action=edit/{id}', [GeneralSettingsController::class, 'edit_app']);
+			$r->get( '?page=dt_launcher&tab=app&action=unhide/{id}', [GeneralSettingsController::class, 'unhide']);
+			$r->get( '?page=dt_launcher&tab=app&action=hide/{id}', [GeneralSettingsController::class, 'hide']);
+			$r->get( '?page=dt_launcher&tab=app&action=up/{id}', [GeneralSettingsController::class, 'up']);
+			$r->get( '?page=dt_launcher&tab=app&action=down/{id}', [GeneralSettingsController::class, 'down']);
+
 			$r->middleware( 'nonce:dt_admin_form_nonce', function ( Routes $r ) {
 				$r->post( '?page=dt_launcher', [ GeneralSettingsController::class, 'update' ] );
-        $r->post( '?page=dt_launcher&tab=general&action=update', [ GeneralSettingsController::class, 'update_user_access_settings' ] );
+                $r->post( '?page=dt_launcher&tab=general&action=update', [ GeneralSettingsController::class, 'update_user_access_settings' ] );
+                $r->post( '?page=dt_launcher&tab=general', [ GeneralSettingsController::class, 'update' ] );
+				$r->post( '?page=dt_launcher&tab=app&action=store', [ GeneralSettingsController::class, 'store' ] );
+				$r->post( '?page=dt_launcher&tab=app&action=update', [ GeneralSettingsController::class, 'update' ]);
 			} );
 		} );
 	} );
