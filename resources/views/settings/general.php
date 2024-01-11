@@ -1,6 +1,6 @@
 <?php
 
-$this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
+$this->layout('layouts/settings', compact('tab', 'link', 'page_title'))
 ?>
 
 <form method="post" action="admin.php?page=dt_launcher&tab=general&action=update">
@@ -10,7 +10,8 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
         <tr>
             <td>
                 <label for="require_user">
-                    <input type="checkbox" id="require_user" name="require_user" value="1" <?php checked(get_option('require_user', false)); ?> required>
+                    <input type="checkbox" id="dt_launcher_require_login" name="dt_launcher_require_login"
+                           value="1" <?php checked(get_option('dt_launcher_require_login', false)); ?> required>
                     <?php esc_html_e('Require users to login to access launcher'); ?>
                 </label>
             </td>
@@ -25,8 +26,8 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
     </table>
 </form>
 
-<?php $this->start( 'right' ) ?>
+<?php $this->start('right') ?>
 
-    <!-- Add some content to the right side -->
+<!-- Add some content to the right side -->
 
 <?php $this->stop() ?>

@@ -203,10 +203,22 @@ class GeneralSettingsController
         return $response;
     }
 
+    /**
+     * Submit the general settings admin tab form
+     */
+    public function update(Request $request, Response $response)
+    {
+
+        // Add the settings update code here
+
+        return new RedirectResponse(302, admin_url('admin.php?page=dt_launcher&tab=general&updated=true'));
+
+    }
+
     public function update_user_access_settings(Request $request, Response $response)
     {
 
-        $require_user = isset($_POST['require_user']) ? true : false;
+        $require_user = isset($_POST['dt_launcher_require_login']) ? true : false;
 
         update_option('require_user', $require_user);
 
