@@ -262,7 +262,7 @@ class AppSettingsController
         }
     }
 
-    protected function edit_app($id)
+    public function edit_app($id)
     {
         $edit_id = isset($id) ? intval($id) : 0;
 
