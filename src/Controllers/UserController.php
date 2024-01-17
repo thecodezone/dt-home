@@ -60,25 +60,22 @@ class UserController {
 		}
 
 		$user_obj = get_user_by( 'id', $user );
-
 		wp_set_current_user( $user );
 		wp_set_auth_cookie( $user_obj->ID );
 
 
 		if ( ! $user ) {
 			return $this->register( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'dt-launcher' ) ] );
-		} else {
-
-			return redirect( '/launcher' );
 		}
 
+		return redirect( '/launcher' );
 	}
 
 	/**
 	 * Show the register template
 	 */
 	public function register( $params = [] ) {
-		$form_action = '/launcher/register-process';
+		$form_action = '/launcher/register';
 		$error       = $params['error'] ?? '';
 		$username    = $params['username'] ?? '';
 		$email       = $params['email'] ?? '';
@@ -133,7 +130,7 @@ class UserController {
 	 */
 	public function login( $params = [] ) {
 		$register_url = '/launcher/register';
-		$form_action  = '/launcher/login-process';
+		$form_action  = '/launcher/register';
 		$username     = $params['username'] ?? '';
 		$password     = $params['password'] ?? '';
 		$error        = $params['error'] ?? '';
