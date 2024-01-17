@@ -16,6 +16,7 @@ use DT\Launcher\CodeZone\Router\FastRoute\Routes;
 use DT\Launcher\Controllers\Admin\AppSettingsController;
 use DT\Launcher\Controllers\Admin\GeneralSettingsController;
 use DT\Launcher\Controllers\MagicLink\HomeController;
+use DT\Launcher\Controllers\MagicLink\ShareController;
 use DT\Launcher\Controllers\MagicLink\SubpageController;
 use DT\Launcher\Controllers\RedirectController;
 use DT\Launcher\Controllers\UserController;
@@ -29,14 +30,23 @@ $r->condition('plugin', function (Routes $r) {
         $r->get('/users/{id}', [UserController::class, 'show', ['middleware' => ['auth', 'can:list_users']]]);
         $r->get('/me', [UserController::class, 'current', ['middleware' => 'auth']]);
         $r->get('/login', [UserController::class, 'login', ['middleware' => 'guest']]);
-
+        $r->post('/login-process', [UserController::class, 'login_process', ['middleware' => 'guest']]);
+        $r->get('/register', [UserController::class, 'register']);
+        $r->post('/register-process', [UserController::class, 'register_process']);
     });
-    $r->middleware('magic:launcher/app', function (Routes $r) {
+  
+   $r->middleware('magic:launcher/app', function (Routes $r) {
         $r->group('launcher/app/{key}', function (Routes $r) {
             $r->get('', [HomeController::class, 'show']);
             $r->get('/subpage', [SubpageController::class, 'show']);
             $r->get('/{path:.*}', fn(Request $request, Response $response) => $response->setStatusCode(404));
         });
+    });
+
+    $r->middleware('magic:launcher/share', function (Routes $r) {
+          $r->group('launcher/share/{key}', function (Routes $r) {
+              $r->get('', [ShareController::class, 'show']);
+          });
     });
 });
 
