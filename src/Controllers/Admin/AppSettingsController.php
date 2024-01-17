@@ -15,25 +15,20 @@ class AppSettingsController
      */
     public function show_app_tab(Request $request, Response $response)
     {
-        global $wpdb;
 
         $tab = "app";
         $link = 'admin.php?page=dt_launcher&tab=';
         $page_title = "Launcher Settings";
-
-        // Fetch data from the wp_apps table
-        //$table_name = $wpdb->prefix . 'apps'; // Replace with your actual table name
-        //$data = $wpdb->get_results("SELECT * FROM $table_name ORDER BY sort ASC", ARRAY_A);
 
         $data = $this->get_all_apps_data();
 
         return view("settings/app", compact('tab', 'link', 'page_title', 'data'));
     }
 
-    public function get_all_apps_data()
+    protected function get_all_apps_data()
     {
         // Get the apps array from the option
-        $apps_array = get_option('dt_launcher_apps', array()); // Default to an empty array if the option does not exist
+        $apps_array = get_option('dt_launcher_apps', []);
 
         // Sort the array based on the 'sort' key
         usort($apps_array, function ($a, $b) {
@@ -56,25 +51,25 @@ class AppSettingsController
     public function store(Request $request, Response $response)
     {
         // Retrieve form data
-        $name = isset($_POST['name']) ? sanitize_text_field(wp_unslash($_POST['name'])) : '';
-        $type = isset($_POST['type']) ? sanitize_text_field(wp_unslash($_POST['type'])) : '';
-        $url = isset($_POST['url']) ? esc_url(wp_unslash($_POST['url'])) : '';
-        $sort = isset($_POST['sort']) ? intval($_POST['sort']) : 0;
-        $is_hidden = isset($_POST['is_hidden']) ? 1 : 0;
-        $icon = isset($_POST['icon']) ? sanitize_text_field(wp_unslash($_POST['icon'])) : '';
+        $name = $request->input('name');
+        $type = $request->input('type');
+        $icon = $request->input('icon');
+        $url = $request->input('url');
+        $sort = $request->input('sort');
+        $is_hidden = $request->input('is_hidden');
 
         // Prepare the data to be stored
-        $app_data = array(
+        $app_data = [
             'name' => $name,
             'type' => $type,
             'icon' => $icon,
             'url' => $url,
             'sort' => $sort,
             'is_hidden' => $is_hidden,
-        );
+        ];
 
         // Get the existing apps array
-        $apps_array = get_option('dt_launcher_apps', array()); // Default to an empty array if the option does not exist
+        $apps_array = get_option('dt_launcher_apps', []); // Default to an empty array if the option does not exist
 
         // Generate a unique ID for the new app
         $next_id = 1;
@@ -96,45 +91,10 @@ class AppSettingsController
         return $response;
     }
 
-
-    public function edit_app($id)
-    {
-        $edit_id = isset($id) ? intval($id) : 0;
-
-        if ($edit_id) {
-            // Retrieve the existing data based on $edit_id
-            $existing_data = $this->get_data_by_id($edit_id);
-
-            $tab = "app";
-            $link = 'admin.php?page=dt_launcher&tab=';
-            $page_title = "Launcher Settings";
-
-            if ($existing_data) {
-                // Load the edit form view and pass the existing data
-                return view("settings/edit", compact('existing_data', 'link', 'tab', 'page_title'));
-            }
-        }
-
-        // Handle the case where no valid ID is provided or the app is not found
-        // Redirect to a default page or show an error message
-    }
-
-
-    public function get_data_by_id($id)
-    {
-        $apps_array = get_option('dt_launcher_apps', array());
-        foreach ($apps_array as $app) {
-            if (isset($app['id']) && $app['id'] == $id) {
-                return $app;
-            }
-        }
-        return null; // Return null if no app is found with the given ID
-    }
-
     public function unhide($id)
     {
         // Retrieve the existing array of apps
-        $apps_array = get_option('dt_launcher_apps', array());
+        $apps_array = get_option('dt_launcher_apps', []);
 
         // Find the app with the specified ID and update its 'is_hidden' status
         foreach ($apps_array as $key => $app) {
@@ -155,7 +115,7 @@ class AppSettingsController
     public function hide($id)
     {
         // Retrieve the existing array of apps
-        $apps_array = get_option('dt_launcher_apps', array());
+        $apps_array = get_option('dt_launcher_apps', []);
 
         // Find the app with the specified ID and update its 'is_hidden' status
         foreach ($apps_array as $key => $app) {
@@ -176,7 +136,7 @@ class AppSettingsController
     public function up($id)
     {
         // Retrieve the existing array of apps
-        $apps_array = get_option('dt_launcher_apps', array());
+        $apps_array = get_option('dt_launcher_apps', []);
 
         // Find the index of the app and its current sort value
         $current_index = null;
@@ -218,7 +178,7 @@ class AppSettingsController
     public function down($id)
     {
         // Retrieve the existing array of apps
-        $apps_array = get_option('dt_launcher_apps', array());
+        $apps_array = get_option('dt_launcher_apps', []);
 
         // Find the index of the app and its current sort value
         $current_index = null;
@@ -260,28 +220,27 @@ class AppSettingsController
         return $response;
     }
 
-
     public function update(Request $request, Response $response)
     {
         if (isset($_POST['submit'])) {
-            // Sanitize and validate your form data
-            $name = sanitize_text_field(wp_unslash($_POST['name']));
-            $type = sanitize_text_field(wp_unslash($_POST['type']));
-            $url = isset($_POST['url']) ? esc_url(wp_unslash($_POST['url'])) : '';
-            $sort = isset($_POST['sort']) ? intval($_POST['sort']) : 0;
-            $is_hidden = isset($_POST['is_hidden']) ? 1 : 0; // Checkbox value
-            $icon_url = sanitize_text_field(wp_unslash($_POST['icon']));
+
+            $name = $request->input('name');
+            $type = $request->input('type');
+            $icon_url = $request->input('icon');
+            $url = $request->input('url');
+            $sort = $request->input('sort');
+            $is_hidden = $request->input('is_hidden');
 
             // Get the ID of the item being edited
-            $edit_id = isset($_POST['edit_id']) ? intval($_POST['edit_id']) : 0;
+            $edit_id = $request->input('edit_id');
 
             // Retrieve the existing array of apps
-            $apps_array = get_option('dt_launcher_apps', array());
+            $apps_array = get_option('dt_launcher_apps', []);
 
             // Find and update the app in the array
             foreach ($apps_array as $key => $app) {
                 if ($app['id'] == $edit_id) {
-                    $apps_array[$key] = array(
+                    $apps_array[$key] = [
                         'id' => $edit_id, // Keep the ID unchanged
                         'name' => $name,
                         'type' => $type,
@@ -289,7 +248,7 @@ class AppSettingsController
                         'url' => $url,
                         'sort' => $sort,
                         'is_hidden' => $is_hidden,
-                    );
+                    ];
                     break; // Stop the loop once the app is found and updated
                 }
             }
@@ -301,8 +260,36 @@ class AppSettingsController
             $response = new RedirectResponse('admin.php?page=dt_launcher&tab=app&updated=true', 302);
             return $response;
         }
+    }
 
-        // Handle the case where the form is not submitted or the ID is not provided
-        // Redirect to a default page or show an error message
+    protected function edit_app($id)
+    {
+        $edit_id = isset($id) ? intval($id) : 0;
+
+        if ($edit_id) {
+            // Retrieve the existing data based on $edit_id
+            $existing_data = $this->get_data_by_id($edit_id);
+
+            $tab = "app";
+            $link = 'admin.php?page=dt_launcher&tab=';
+            $page_title = "Launcher Settings";
+
+            if ($existing_data) {
+                // Load the edit form view and pass the existing data
+                return view("settings/edit", compact('existing_data', 'link', 'tab', 'page_title'));
+            }
+        }
+    }
+
+    protected function get_data_by_id($id)
+    {
+        $apps_array = get_option('dt_launcher_apps', []);
+
+        foreach ($apps_array as $app) {
+            if (isset($app['id']) && $app['id'] == $id) {
+                return $app;
+            }
+        }
+        return null; // Return null if no app is found with the given ID
     }
 }
