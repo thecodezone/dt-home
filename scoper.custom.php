@@ -28,6 +28,7 @@ function customize_php_scoper_config( array $config ): array {
 		'cookie',
 		'csrf_field',
 		'csrf_token',
+		'data_get',
 		'dd',
 		'dispatch',
 		'dispatch_now',
