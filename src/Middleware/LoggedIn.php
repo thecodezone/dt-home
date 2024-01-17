@@ -12,7 +12,7 @@ class LoggedIn implements Middleware {
 
 		$require_login = get_option( 'dt_launcher_require_login' );
 
-		if ( ! is_user_logged_in() && $require_login === 1 ) {
+		if ( ! is_user_logged_in() && $require_login == 1 ) {
 			$response = new RedirectResponse( "/launcher/login", 302 );
 		}
 
