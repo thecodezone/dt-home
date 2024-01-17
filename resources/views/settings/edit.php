@@ -82,7 +82,7 @@ if (is_dir($svgDirPath)) {
         <tr>
             <td style="vertical-align: middle;">Type [&#63;]</td>
             <td colspan="3">
-                <select style="min-width: 100%;" name="type" id="type" required onchange="toggleURLField()" disabled>
+                <select style="min-width: 100%;" id="type" required onchange="toggleURLField()" disabled>
                     <option value="" <?php echo empty($existing_data['type']) ? 'selected' : ''; ?>>Please select
                     </option>
                     <option value="Web View" <?php echo ($existing_data['type'] === 'Web View') ? 'selected' : ''; ?>>
@@ -92,6 +92,8 @@ if (is_dir($svgDirPath)) {
                         Custom
                     </option>
                 </select>
+                <input style="min-width: 100%;" type="hidden" name="type"
+                       value="<?php echo esc_attr($existing_data['type']); ?>"/>
             </td>
         </tr>
         <tr>

@@ -34,17 +34,19 @@ $r->condition('plugin', function (Routes $r) {
         $r->get('/register', [UserController::class, 'register']);
         $r->post('/register-process', [UserController::class, 'register_process']);
     });
-    $r->middleware('magic:launcher/app', function (Routes $r) {
+  
+   $r->middleware('magic:launcher/app', function (Routes $r) {
         $r->group('launcher/app/{key}', function (Routes $r) {
             $r->get('', [HomeController::class, 'show']);
             $r->get('/subpage', [SubpageController::class, 'show']);
             $r->get('/{path:.*}', fn(Request $request, Response $response) => $response->setStatusCode(404));
         });
     });
+
     $r->middleware('magic:launcher/share', function (Routes $r) {
-        $r->group('launcher/share/{key}', function (Routes $r) {
-            $r->get('', [ShareController::class, 'show']);
-        });
+          $r->group('launcher/share/{key}', function (Routes $r) {
+              $r->get('', [ShareController::class, 'show']);
+          });
     });
 });
 
