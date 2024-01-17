@@ -52,6 +52,7 @@ $this->layout('layouts/settings', compact('tab', 'link', 'page_title'))
 
                                 <a href="admin.php?page=dt_launcher&tab=app&action=down/<?php echo esc_attr($app['id']); ?>">Down</a>
                             </td>
+
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
