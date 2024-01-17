@@ -30,6 +30,7 @@ $r->condition('plugin', function (Routes $r) {
         $r->get('/users/{id}', [UserController::class, 'show', ['middleware' => ['auth', 'can:list_users']]]);
         $r->get('/me', [UserController::class, 'current', ['middleware' => 'auth']]);
         $r->get('/login', [UserController::class, 'login', ['middleware' => 'guest']]);
+        $r->post('/login-process', [UserController::class, 'login_process', ['middleware' => 'guest']]);
         $r->get('/register', [UserController::class, 'register']);
         $r->post('/register-process', [UserController::class, 'register_process']);
     });
