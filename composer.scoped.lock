@@ -935,16 +935,16 @@
         },
         {
             "name": "codezone/router",
-            "version": "0.3.6",
+            "version": "0.3.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thecodezone/wp-router.git",
-                "reference": "3eb673606315226bac07173b6349c5da3fe30c41"
+                "reference": "4e7d533211b11ec71e070cefb0cd01242400fdcd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thecodezone/wp-router/zipball/3eb673606315226bac07173b6349c5da3fe30c41",
-                "reference": "3eb673606315226bac07173b6349c5da3fe30c41",
+                "url": "https://api.github.com/repos/thecodezone/wp-router/zipball/4e7d533211b11ec71e070cefb0cd01242400fdcd",
+                "reference": "4e7d533211b11ec71e070cefb0cd01242400fdcd",
                 "shasum": ""
             },
             "require": {
@@ -982,9 +982,9 @@
             "description": "A FastRoute-based router for use in Roots-based WordPress plugins and themes or any plugin or theme that use Illuminate/Container.",
             "support": {
                 "issues": "https://github.com/thecodezone/wp-router/issues",
-                "source": "https://github.com/thecodezone/wp-router/tree/0.3.6"
+                "source": "https://github.com/thecodezone/wp-router/tree/0.3.7"
             },
-            "time": "2024-01-03T18:04:50+00:00"
+            "time": "2024-01-17T17:56:03+00:00"
         },
         {
             "name": "daverandom/libdns",
