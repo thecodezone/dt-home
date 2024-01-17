@@ -7,30 +7,26 @@ use DT\Launcher\Illuminate\Http\Request;
 use DT\Launcher\Illuminate\Http\Response;
 use function DT\Launcher\view;
 
-class GeneralSettingsController
-{
-    /**
-     * Show the general settings admin tab
-     */
-    public function show(Request $request, Response $response)
-    {
-        $tab = "general";
-        $link = 'admin.php?page=dt_launcher&tab=';
-        $page_title = "Launcher Settings";
+class GeneralSettingsController {
+	/**
+	 * Show the general settings admin tab
+	 */
+	public function show( Request $request, Response $response ) {
+		$tab                       = "general";
+		$link                      = 'admin.php?page=dt_launcher&tab=';
+		$page_title                = "Launcher Settings";
+		$dt_launcher_require_login = get_option( 'dt_launcher_require_login', true );
 
-        return view("settings/general", compact('tab', 'link', 'page_title'));
-    }
+		return view( "settings/general", compact( 'tab', 'link', 'page_title', 'dt_launcher_require_login' ) );
+	}
 
-    public function update_user_access_settings(Request $request, Response $response)
-    {
+	public function update( Request $request, Response $response ) {
+		$require_user = $request->input( 'dt_launcher_require_login', false );
 
-        $require_user = isset($_POST['dt_launcher_require_login']) ? true : false;
+		update_option( 'dt_launcher_require_login', $require_user === 'on' );
 
-        update_option('require_user', $require_user);
+		$redirect_url = add_query_arg( 'message', 'updated', admin_url( 'admin.php?page=dt_launcher' ) );
 
-        $redirect_url = add_query_arg('message', 'updated', admin_url('admin.php?page=dt_launcher'));
-
-        return new RedirectResponse($redirect_url);
-
-    }
+		return new RedirectResponse( $redirect_url );
+	}
 }
