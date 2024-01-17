@@ -30,6 +30,8 @@ $r->condition('plugin', function (Routes $r) {
         $r->get('/users/{id}', [UserController::class, 'show', ['middleware' => ['auth', 'can:list_users']]]);
         $r->get('/me', [UserController::class, 'current', ['middleware' => 'auth']]);
         $r->get('/login', [UserController::class, 'login', ['middleware' => 'guest']]);
+        $r->get('/register', [UserController::class, 'register']);
+        $r->post('/register-process', [UserController::class, 'register_process']);
     });
     $r->middleware('magic:launcher/app', function (Routes $r) {
         $r->group('launcher/app/{key}', function (Routes $r) {
