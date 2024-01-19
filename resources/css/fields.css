@@ -1,0 +1,43 @@
+dt-text[type] {
+    background-color: initial;
+    border: initial;
+    border-radius: initial;
+    -webkit-box-shadow: none;
+    box-shadow: initial;
+    -webkit-box-sizing: none;
+    box-sizing: initial;
+    color: inherit;
+    display: initial;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    height: initial;
+    line-height: inherit;
+    margin: initial;
+    padding: initial;
+    -webkit-transition: none;
+    transition: none;
+    width: initial;
+    border: none !important;
+    display: block;
+}
+
+dt-input.question__input {
+    width: 50%;
+    background: #f9f9f9;
+    border: 1px solid #e4e4e4;
+    border-radius: 4px;
+}
+
+dt-text.question__input:focus {
+    border: none;
+    box-shadow: none;
+}
+
+dt-multi-select {
+    --container-width: 100%;
+}
+
+dt-copy-text {
+    --dt-form-padding: 0.53rem 2rem 0.53rem 0.53rem;
+}

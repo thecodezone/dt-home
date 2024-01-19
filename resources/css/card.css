@@ -1,0 +1,52 @@
+strong.greeting,
+h1.user_name,
+strong.coached_by {
+    text-align: center;
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: 0.5rem;
+    font-style: normal;
+}
+
+strong.greeting,
+strong.coached_by {
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+strong.greeting {
+    margin-bottom: 0;
+}
+
+h1.user_name {
+    font-weight: 700;
+    font-size: 32px;
+    text-transform: capitalize;
+}
+
+strong.coached_by {
+    margin-bottom: 3rem;
+}
+
+.help-text {
+    font-weight: 400;
+    font-size: 8px;
+    text-align: center;
+    font-style: normal !important;
+}
+
+.churches {
+    --dt-tile-header-justify-content: none;
+}
+
+ul.churches__list {
+    --dt-tile-header-margin: 0;
+    --dt-tile-header-justify-content: center;
+    --dt-tile-border-top: 1px solid #dadada;
+    --dt-tile-border-bottom: 1px solid #dadada;
+    --dt-tile-border-right: 1px solid #dadada;
+    --dt-tile-border-left: 1px solid #dadada;
+    margin: 10px;
+}

@@ -1,0 +1,33 @@
+submit-button,
+dt-button {
+    --dt-button-text-transform: uppercase;
+    --dt-button-padding-y: 8px;
+    --dt-button-padding-x: 12px;
+    --dt-button-font-size: 12px;
+    --dt-button-line-height: 12px;
+    --dt-button-font-weight: 700;
+    --dt-button-text-color-dark: #5E5E5E;
+}
+
+dt-button[context="link"] {
+    --dt-button-letter-spacing: 0.12em;
+    --dt-button-text-decoration: none;
+}
+
+dt-button[context="link"] dt-chevron-right {
+    display: inline-block;
+    font-size: 14px;
+    transform: translateY(20%);
+    margin-inline-start: 10px;
+    margin-inline-end: -10px;
+}
+
+dt-button.button--large {
+    --dt-button-padding-y: 18px;
+    --dt-button-padding-x: 18px;
+}
+
+dt-button.button--block {
+    display: block;
+    width: 100%;
+}
