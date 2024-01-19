@@ -15,6 +15,7 @@
 use DT\Launcher\CodeZone\Router\FastRoute\Routes;
 use DT\Launcher\Controllers\Admin\AppSettingsController;
 use DT\Launcher\Controllers\Admin\GeneralSettingsController;
+use DT\Launcher\Controllers\LoginController;
 use DT\Launcher\Controllers\Admin\TrainingSettingsController;
 use DT\Launcher\Controllers\MagicLink\HomeController;
 use DT\Launcher\Controllers\MagicLink\TrainingController;
@@ -25,17 +26,17 @@ use DT\Launcher\Controllers\UserController;
 use DT\Launcher\Illuminate\Http\Request;
 use DT\Launcher\Symfony\Component\HttpFoundation\Response;
 
-$r->condition('plugin', function (Routes $r) {
-    $r->get('launcher', [RedirectController::class, 'show', ['middleware' => 'auth']]);
+$r->condition( 'plugin', function ( Routes $r ) {
+	$r->get( 'launcher', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
 
-    $r->group('launcher', function (Routes $r) {
-        $r->get('/users/{id}', [UserController::class, 'show', ['middleware' => ['auth', 'can:list_users']]]);
-        $r->get('/me', [UserController::class, 'current', ['middleware' => 'auth']]);
-        $r->get('/login', [UserController::class, 'login', ['middleware' => 'guest']]);
-        $r->post('/login', [UserController::class, 'login_process', ['middleware' => 'guest']]);
-        $r->get('/register', [UserController::class, 'register']);
-        $r->post('/register', [UserController::class, 'register_process']);
-    });
+	$r->group( 'launcher', function ( Routes $r ) {
+		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
+		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
+		$r->get( '/login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
+		$r->post( '/login', [ LoginController::class, 'login_process', [ 'middleware' => 'guest' ] ] );
+		$r->get( '/register', [ UserController::class, 'register' ] );
+		$r->post( '/register', [ UserController::class, 'register_process' ] );
+	} );
 
   $r->middleware( [ 'magic:launcher/app', 'check_share' ], function ( Routes $r ) {
       $r->group( 'launcher/app/{key}', function ( Routes $r ) {
@@ -59,7 +60,7 @@ $r->condition( 'backend', function ( Routes $r ) {
 			$r->get( '?page=dt_launcher&tab=general', [ GeneralSettingsController::class, 'show' ] );
 			$r->get( '?page=dt_launcher&tab=app', [ AppSettingsController::class, 'show_app_tab' ] );
 			$r->get( '?page=dt_launcher&tab=app&action=create', [ AppSettingsController::class, 'create_app' ] );
-			$r->get( '?page=dt_launcher&tab=app&action=edit/{id}', [ AppSettingsController::class, 'edit_app' ] );
+			$r->get( '?page=dt_launcher&tab=app&action=edit/L{id}', [ AppSettingsController::class, 'edit_app' ] );
 			$r->get( '?page=dt_launcher&tab=app&action=unhide/{id}', [ AppSettingsController::class, 'unhide' ] );
 			$r->get( '?page=dt_launcher&tab=app&action=hide/{id}', [ AppSettingsController::class, 'hide' ] );
 			$r->get( '?page=dt_launcher&tab=app&action=up/{id}', [ AppSettingsController::class, 'up' ] );

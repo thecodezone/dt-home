@@ -1,8 +1,9 @@
-body {
-    background-color: #f1f1f1;
-    color: #636b6f;
-    font-family: 'Nunito', sans-serif;
-    font-weight: 200;
-    height: 100vh;
-    margin: 0;
-}
+@import "app.css";
+@import "card.css";
+@import "button.css";
+@import "fields.css";
+@import "container.css";
+@import "footer.css";
+@import "login.css";
+@import "register.css";
+@import "magic-link.css";

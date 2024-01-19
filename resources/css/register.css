@@ -1,0 +1,15 @@
+.register__buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.register .logo {
+    display: flex;
+    justify-content: center;
+}
+
+.register .logo__image {
+    width: 100%;
+    max-width: 200px;
+}

@@ -1,15 +1,15 @@
 <header>
-    <h1><?php $this->esc_html_e( 'Auth', 'dt_launcher' ); ?></h1>
+    <h3><?php $this->esc_html_e('', 'dt_launcher'); ?></h3>
 </header>
 
 <div>
-	<?php echo $this->section( 'content' ) ?>
+    <?php echo $this->section('content') ?>
 </div>
 
-<footer>
+<footer class="footer">
     <p>
-		<?php $this->esc_html_e( 'Copyright ', 'dt_launcher' ); ?>
+        <?php $this->esc_html_e('Copyright ', 'dt_launcher'); ?>
 
-		<?php echo $this->e( gmdate( 'Y' ) ); ?>
+        <?php echo $this->e(gmdate('Y')); ?>
     </p>
 </footer>
