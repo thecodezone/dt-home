@@ -61,7 +61,7 @@ $r->condition( 'backend', function ( Routes $r ) {
 
 			$r->get( '?page=dt_launcher&tab=app', [ AppSettingsController::class, 'show_app_tab' ] );
 			$r->get( '?page=dt_launcher&tab=app&action=create', [ AppSettingsController::class, 'create_app' ] );
-			$r->get( '?page=dt_launcher&tab=app&action=edit/L{id}', [ AppSettingsController::class, 'edit_app' ] );
+			$r->get( '?page=dt_launcher&tab=app&action=edit/{id}', [ AppSettingsController::class, 'edit_app' ] );
 			$r->get( '?page=dt_launcher&tab=app&action=unhide/{id}', [ AppSettingsController::class, 'unhide' ] );
 			$r->get( '?page=dt_launcher&tab=app&action=hide/{id}', [ AppSettingsController::class, 'hide' ] );
 			$r->get( '?page=dt_launcher&tab=app&action=up/{id}', [ AppSettingsController::class, 'up' ] );
