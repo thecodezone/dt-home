@@ -27,7 +27,7 @@ class RedirectController
         global $wpdb;
 
         $preference_key = 'dt-launcher-app';
-        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key('launcher', 'app');
+        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key('dt-launcher', 'app');
 
         if (!$this->is_activated()) {
             delete_user_meta(get_current_user_id(), $meta_key);
@@ -44,7 +44,7 @@ class RedirectController
     {
         global $wpdb;
         $preference_key = 'dt-launcher-app';
-        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key('launcher', 'app');
+        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key('dt-launcher', 'app');
         $public = get_user_meta(get_current_user_id(), $meta_key, true);
         $secret = get_user_option($preference_key);
 
