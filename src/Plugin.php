@@ -59,7 +59,7 @@ class Plugin {
 	public function init() {
 		static::$instance = $this;
 		$this->provider->register();
-		add_action( 'after_setup_theme', [ $this, 'after_setup_theme' ], 20 );
+		add_action( 'init', [ $this, 'after_setup_theme' ], 20 );
 		add_filter( 'dt_plugins', [ $this, 'dt_plugins' ] );
 	}
 

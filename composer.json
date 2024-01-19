@@ -8,8 +8,7 @@
       "DT\\Launcher\\": "src/"
     },
     "files": [
-      "src/helpers.php",
-      "src/globals.php"
+      "src/helpers.php"
     ]
   },
   "autoload-dev": {

@@ -1,5 +1,5 @@
 <?php
-$this->layout('layouts/settings', compact('tab', 'link', 'page_title'))
+$this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
 
 <?php
@@ -7,24 +7,24 @@ $this->layout('layouts/settings', compact('tab', 'link', 'page_title'))
 $svgDirPath = get_template_directory() . '/dt-assets/images/';
 
 // Check if the directory exists
-if (is_dir($svgDirPath)) {
-    // Read files from the directory
-    $svgFiles = array_diff(scandir($svgDirPath), array('..', '.'));
+if ( is_dir( $svgDirPath ) ) {
+	// Read files from the directory
+	$svgFiles = array_diff( scandir( $svgDirPath ), [ '..', '.' ] );
 
-    // Filter out only SVG files
-    $svgIconUrls = array_filter($svgFiles, function ($file) use ($svgDirPath) {
-        return pathinfo($svgDirPath . $file, PATHINFO_EXTENSION) === 'svg';
-    });
+	// Filter out only SVG files
+	$svgIconUrls = array_filter( $svgFiles, function ( $file ) use ( $svgDirPath ) {
+		return pathinfo( $svgDirPath . $file, PATHINFO_EXTENSION ) === 'svg';
+	} );
 
-    // Convert file paths to URLs
-    $svgIconUrls = array_map(function ($file) {
-        // Use get_template_directory_uri() to convert the file path to a URL
-        return get_template_directory_uri() . '/dt-assets/images/' . $file;
-    }, $svgIconUrls);
+	// Convert file paths to URLs
+	$svgIconUrls = array_map( function ( $file ) {
+		// Use get_template_directory_uri() to convert the file path to a URL
+		return get_template_directory_uri() . '/dt-assets/images/' . $file;
+	}, $svgIconUrls );
 } else {
-    // Directory not found, handle this case appropriately
-    $svgIconUrls = [];
-    // You might want to log this error or notify the user
+	// Directory not found, handle this case appropriately
+	$svgIconUrls = [];
+	// You might want to log this error or notify the user
 }
 ?>
 
@@ -57,8 +57,8 @@ if (is_dir($svgDirPath)) {
         cursor: pointer;
     }
 </style>
-<form action="admin.php?page=dt_launcher&tab=app&action=store" method="post" enctype="multipart/form-data">
-    <?php wp_nonce_field('dt_admin_form', 'dt_admin_form_nonce') ?>
+<form action="admin.php?page=dt_launcher&tab=app&action=create" method="post" enctype="multipart/form-data">
+	<?php wp_nonce_field( 'dt_admin_form', 'dt_admin_form_nonce' ) ?>
 
     <table class="widefat striped" id="ml_email_main_col_config">
         <thead>
@@ -68,7 +68,7 @@ if (is_dir($svgDirPath)) {
             <th></th>
         </tr>
         </thead>
-        <tbody>
+        <tbody>action
         <tr>
             <td style="vertical-align: middle;">Name [&#63;]</td>
             <td colspan="2">
@@ -91,7 +91,7 @@ if (is_dir($svgDirPath)) {
                                                        required/></td>
             <td style="vertical-align: middle;">
                 <a href="#" class="button change-icon-button" onclick="showPopup(); loadSVGIcons();">
-                    <?php esc_html_e('Change Icon', 'disciple_tools'); ?>
+					<?php esc_html_e( 'Change Icon', 'disciple_tools' ); ?>
                 </a>
             </td>
         </tr>
@@ -120,9 +120,9 @@ if (is_dir($svgDirPath)) {
     <span id="ml_email_main_col_update_msg" style="font-weight: bold; color: red;"></span>
     <span style="float:right;">
         <a href="admin.php?page=dt_launcher&tab=app"
-           class="button float-right"><?php esc_html_e('Cancel', 'disciple_tools') ?></a>
+           class="button float-right"><?php esc_html_e( 'Cancel', 'disciple_tools' ) ?></a>
         <button type="submit" id="ml_email_main_col_update_but"
-                class="button float-right"><?php esc_html_e('Submit', 'disciple_tools') ?></button>
+                class="button float-right"><?php esc_html_e( 'Submit', 'disciple_tools' ) ?></button>
     </span>
 </form>
 
@@ -163,7 +163,7 @@ if (is_dir($svgDirPath)) {
         var container = document.getElementById("svgContainer");
         container.innerHTML = ''; // Clear existing content
 
-        var svgIconUrls = <?php echo json_encode(array_values($svgIconUrls)); ?>;
+        var svgIconUrls = <?php echo json_encode( array_values( $svgIconUrls ) ); ?>;
 
         svgIconUrls.forEach(function (url) {
             var img = document.createElement("img");
@@ -214,7 +214,7 @@ if (is_dir($svgDirPath)) {
 </script>
 
 
-<?php $this->start('right') ?>
+<?php $this->start( 'right' ) ?>
 
 <!-- Add some content to the right side -->
 
