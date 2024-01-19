@@ -11,6 +11,11 @@
            class="nav-tab <?php echo $this->esc_html( ( $tab == 'app' || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
 			<?php $this->esc_html_e( 'App', 'dt_launcher' ) ?>
         </a>
+
+        <a href="admin.php?page=dt_launcher&tab=training"
+           class="nav-tab <?php echo $this->esc_html(($tab == 'training' || !isset($tab)) ? 'nav-tab-active' : ''); ?>">
+            <?php $this->esc_html_e('Training Videos', 'dt_launcher') ?>
+        </a>
     </h2>
 
     <div class="wrap">
