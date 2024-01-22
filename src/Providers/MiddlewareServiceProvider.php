@@ -11,6 +11,7 @@ use DT\Launcher\CodeZone\Router\Middleware\Route;
 use DT\Launcher\CodeZone\Router\Middleware\Stack;
 use DT\Launcher\CodeZone\Router\Middleware\UserHasCap;
 use DT\Launcher\Middleware\LoggedIn;
+use DT\Launcher\Middleware\CheckShareCookie;
 use DT\Launcher\Middleware\LoggedOut;
 use DT\Launcher\Middleware\MagicLink;
 use DT\Launcher\Middleware\Nonce;
@@ -37,6 +38,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		'guest' => LoggedOut::class,
 		'magic' => MagicLink::class,
 		'nonce' => Nonce::class,  // nonce:dt_launcher_nonce
+        'check_share' => CheckShareCookie::class,
 	];
 
 	/**
