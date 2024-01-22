@@ -17,6 +17,7 @@ use DT\Launcher\Controllers\Admin\AppSettingsController;
 use DT\Launcher\Controllers\Admin\GeneralSettingsController;
 use DT\Launcher\Controllers\Admin\TrainingSettingsController;
 use DT\Launcher\Controllers\MagicLink\HomeController;
+use DT\Launcher\Controllers\MagicLink\TrainingController;
 use DT\Launcher\Controllers\MagicLink\ShareController;
 use DT\Launcher\Controllers\MagicLink\SubpageController;
 use DT\Launcher\Controllers\RedirectController;
@@ -40,6 +41,7 @@ $r->condition( 'plugin', function ( Routes $r ) {
 		$r->group( 'launcher/app/{key}', function ( Routes $r ) {
 			$r->get( '', [ HomeController::class, 'show' ] );
 			$r->get( '/subpage', [ SubpageController::class, 'show' ] );
+            $r->get( '/training', [ TrainingController::class, 'show' ] );
 			$r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
 		} );
 	} );
