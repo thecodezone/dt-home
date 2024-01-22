@@ -35,7 +35,7 @@ $r->condition( 'plugin', function ( Routes $r ) {
 		$r->post( '/register', [ UserController::class, 'register_process' ] );
 	} );
 
-    $r->middleware( [ 'magic:launcher/app', 'dt_launcher_share' ], function ( Routes $r ) {
+    $r->middleware( [ 'magic:launcher/app', 'check_share' ], function ( Routes $r ) {
         $r->group( 'launcher/app/{key}', function ( Routes $r ) {
             $r->get( '', [ HomeController::class, 'show' ] );
             $r->get( '/subpage', [ SubpageController::class, 'show' ] );
