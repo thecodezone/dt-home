@@ -23,6 +23,7 @@ function customize_php_scoper_config( array $config ): array {
 		'bcrypt',
 		'broadcast',
 		'cache',
+		'collect',
 		'config',
 		'config_path',
 		'cookie',
