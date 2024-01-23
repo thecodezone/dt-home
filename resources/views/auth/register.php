@@ -44,9 +44,15 @@ $this->layout('layouts/auth');
                 <dt-button context="success"
                            type="submit"
                            class="button--large button--block">
-                    <?php esc_html_e('Register', 'disciple-tools-autolink') ?>
+                    <?php esc_html_e('Register', 'dt-launcher') ?>
                 </dt-button>
             </form>
         </div>
     </dt-tile>
+    <div class="login__footer">
+        <dt-button context="link"
+                   href="<?php echo esc_url($login_url); ?>">
+            <?php esc_html_e('Back to Login', 'dt-launcher'); ?>
+        </dt-button>
+    </div>
 </div>

@@ -25,17 +25,17 @@ use DT\Launcher\Controllers\UserController;
 use DT\Launcher\Illuminate\Http\Request;
 use DT\Launcher\Symfony\Component\HttpFoundation\Response;
 
-$r->condition( 'plugin', function ( Routes $r ) {
-	$r->get( 'launcher', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
+$r->condition('plugin', function (Routes $r) {
+    $r->get('launcher', [RedirectController::class, 'show', ['middleware' => 'auth']]);
 
-	$r->group( 'launcher', function ( Routes $r ) {
-		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
-		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
-		$r->get( '/login', [ UserController::class, 'login', [ 'middleware' => 'guest' ] ] );
-		$r->post( '/login', [ UserController::class, 'login_process', [ 'middleware' => 'guest' ] ] );
-		$r->get( '/register', [ UserController::class, 'register' ] );
-		$r->post( '/register', [ UserController::class, 'register_process' ] );
-	} );
+    $r->group('launcher', function (Routes $r) {
+        $r->get('/users/{id}', [UserController::class, 'show', ['middleware' => ['auth', 'can:list_users']]]);
+        $r->get('/me', [UserController::class, 'current', ['middleware' => 'auth']]);
+        $r->get('/login', [UserController::class, 'login', ['middleware' => 'guest']]);
+        $r->post('/login', [UserController::class, 'login_process', ['middleware' => 'guest']]);
+        $r->get('/register', [UserController::class, 'register']);
+        $r->post('/register', [UserController::class, 'register_process']);
+    });
 
   $r->middleware( [ 'magic:launcher/app', 'check_share' ], function ( Routes $r ) {
       $r->group( 'launcher/app/{key}', function ( Routes $r ) {
@@ -45,13 +45,12 @@ $r->condition( 'plugin', function ( Routes $r ) {
           $r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
       } );
   } );
-
-	$r->middleware( 'magic:launcher/share', function ( Routes $r ) {
-		$r->group( 'launcher/share/{key}', function ( Routes $r ) {
-			$r->get( '', [ ShareController::class, 'show' ] );
-		} );
-	} );
-} );
+    $r->middleware('magic:launcher/share', function (Routes $r) {
+        $r->group('launcher/share/{key}', function (Routes $r) {
+            $r->get('', [ShareController::class, 'show']);
+        });
+    });
+});
 
 $r->condition( 'backend', function ( Routes $r ) {
 	$r->middleware( 'can:manage_dt', function ( Routes $r ) {
