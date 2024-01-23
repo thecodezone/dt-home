@@ -26,8 +26,8 @@ use DT\Launcher\Controllers\UserController;
 use DT\Launcher\Illuminate\Http\Request;
 use DT\Launcher\Symfony\Component\HttpFoundation\Response;
 
-$r->condition( 'plugin', function ( Routes $r ) {
-	$r->get( 'launcher', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
+$r->condition('plugin', function (Routes $r) {
+    $r->get('launcher', [RedirectController::class, 'show', ['middleware' => 'auth']]);
 
 	$r->group( 'launcher', function ( Routes $r ) {
 		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
@@ -38,14 +38,15 @@ $r->condition( 'plugin', function ( Routes $r ) {
 		$r->post( '/register', [ UserController::class, 'register_process' ] );
 	} );
 
-  $r->middleware( [ 'magic:launcher/app', 'check_share' ], function ( Routes $r ) {
-      $r->group( 'launcher/app/{key}', function ( Routes $r ) {
-          $r->get( '', [ HomeController::class, 'show' ] );
-          $r->get( '/subpage', [ SubpageController::class, 'show' ] );
-          $r->get( '/training', [ TrainingController::class, 'show' ] );
-          $r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
-      } );
-  } );
+    $r->middleware( [ 'magic:launcher/app', 'check_share' ], function ( Routes $r ) {
+        $r->group( 'launcher/app/{key}', function ( Routes $r ) {
+            $r->get( '', [ HomeController::class, 'show' ] );
+            $r->get( '/subpage', [ SubpageController::class, 'show' ] );
+            $r->get( '/training', [ TrainingController::class, 'show' ] );
+            $r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
+        } );
+    } );
+  
     $r->middleware('magic:launcher/share', function (Routes $r) {
         $r->group('launcher/share/{key}', function (Routes $r) {
             $r->get('', [ShareController::class, 'show']);
@@ -95,6 +96,7 @@ $r->condition( 'backend', function ( Routes $r ) {
 				$r->post( '?page=dt_launcher&tab=training&action=edit/{id}', [
 					TrainingSettingsController::class,
 					'update'
+          
 				] );
 			} );
 		} );
