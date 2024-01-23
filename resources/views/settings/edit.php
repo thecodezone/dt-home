@@ -59,7 +59,7 @@ if ( is_dir( $svgDirPath ) ) {
     }
 </style>
 
-<form action="admin.php?page=dt_launcher&tab=app" method="post" enctype="multipart/form-data">
+<form action="admin.php?page=dt_launcher&tab=app&action=edit/<?php echo esc_attr( $existing_data['id'] ); ?>" method="post" enctype="multipart/form-data">
 	<?php wp_nonce_field( 'dt_admin_form', 'dt_admin_form_nonce' ) ?>
 
     <table class="widefat striped" id="ml_email_main_col_config">
