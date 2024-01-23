@@ -2,7 +2,11 @@
 
 namespace DT\Launcher\Providers;
 
+use DT\Launcher\Illuminate\Filesystem\Filesystem;
 use DT\Launcher\Illuminate\Http\Request;
+use DT\Launcher\Illuminate\Translation\FileLoader;
+use DT\Launcher\Illuminate\Translation\Translator;
+use DT\Launcher\Illuminate\Validation\Factory;
 
 class PluginServiceProvider extends ServiceProvider {
 	/**
@@ -33,6 +37,24 @@ class PluginServiceProvider extends ServiceProvider {
 			$provider = $this->container->make( $provider );
 			$provider->register();
 		}
+
+		$this->registerValidator();
+	}
+
+	/**
+	 * Register the validator
+	 */
+	protected function registerValidator(): void {
+		$this->container->bind( FileLoader::class, function ( $container ) {
+			return new FileLoader( $container->make( Filesystem::class ), 'lang' );
+		} );
+
+		$this->container->bind( Factory::class, function ( $container ) {
+			$loader     = $container->make( FileLoader::class );
+			$translator = new Translator( $loader, 'en' );
+
+			return new Factory( $translator, $container );
+		} );
 	}
 
 	/**
