@@ -15,8 +15,8 @@
 use DT\Launcher\CodeZone\Router\FastRoute\Routes;
 use DT\Launcher\Controllers\Admin\AppSettingsController;
 use DT\Launcher\Controllers\Admin\GeneralSettingsController;
-use DT\Launcher\Controllers\LoginController;
 use DT\Launcher\Controllers\Admin\TrainingSettingsController;
+use DT\Launcher\Controllers\LoginController;
 use DT\Launcher\Controllers\MagicLink\HomeController;
 use DT\Launcher\Controllers\MagicLink\TrainingController;
 use DT\Launcher\Controllers\MagicLink\ShareController;
@@ -58,6 +58,7 @@ $r->condition( 'backend', function ( Routes $r ) {
 		$r->group( 'wp-admin/admin.php', function ( Routes $r ) {
 			$r->get( '?page=dt_launcher', [ GeneralSettingsController::class, 'show' ] );
 			$r->get( '?page=dt_launcher&tab=general', [ GeneralSettingsController::class, 'show' ] );
+
 			$r->get( '?page=dt_launcher&tab=app', [ AppSettingsController::class, 'show_app_tab' ] );
 			$r->get( '?page=dt_launcher&tab=app&action=create', [ AppSettingsController::class, 'create_app' ] );
 			$r->get( '?page=dt_launcher&tab=app&action=edit/L{id}', [ AppSettingsController::class, 'edit_app' ] );
@@ -66,21 +67,36 @@ $r->condition( 'backend', function ( Routes $r ) {
 			$r->get( '?page=dt_launcher&tab=app&action=up/{id}', [ AppSettingsController::class, 'up' ] );
 			$r->get( '?page=dt_launcher&tab=app&action=down/{id}', [ AppSettingsController::class, 'down' ] );
 
-            $r->get('?page=dt_launcher&tab=training', [TrainingSettingsController::class, 'show_training_tab']);
-            $r->get('?page=dt_launcher&tab=training&action=create', [TrainingSettingsController::class, 'create_training']);
-            $r->get('?page=dt_launcher&tab=training&action=edit/{id}', [TrainingSettingsController::class, 'edit_training']);
-            $r->get('?page=dt_launcher&tab=training&action=up/{id}', [TrainingSettingsController::class, 'up']);
-            $r->get('?page=dt_launcher&tab=training&action=down/{id}', [TrainingSettingsController::class, 'down']);
-            $r->get('?page=dt_launcher&tab=training&action=delete/{id}', [TrainingSettingsController::class, 'delete']);
+			$r->get( '?page=dt_launcher&tab=training', [ TrainingSettingsController::class, 'show_training_tab' ] );
+			$r->get( '?page=dt_launcher&tab=training&action=create', [
+				TrainingSettingsController::class,
+				'create_training'
+			] );
+			$r->get( '?page=dt_launcher&tab=training&action=edit/{id}', [
+				TrainingSettingsController::class,
+				'edit_training'
+			] );
+			$r->get( '?page=dt_launcher&tab=training&action=up/{id}', [ TrainingSettingsController::class, 'up' ] );
+			$r->get( '?page=dt_launcher&tab=training&action=down/{id}', [ TrainingSettingsController::class, 'down' ] );
+			$r->get( '?page=dt_launcher&tab=training&action=delete/{id}', [
+				TrainingSettingsController::class,
+				'delete'
+			] );
 
 			$r->middleware( 'nonce:dt_admin_form_nonce', function ( Routes $r ) {
 				$r->post( '?page=dt_launcher', [ GeneralSettingsController::class, 'update' ] );
 				$r->post( '?page=dt_launcher&tab=general', [ GeneralSettingsController::class, 'update' ] );
 				$r->post( '?page=dt_launcher&tab=app&action=create', [ AppSettingsController::class, 'store' ] );
 				$r->post( '?page=dt_launcher&tab=app&action=edit/{id}', [ AppSettingsController::class, 'update' ] );
-                $r->post('?page=dt_launcher&tab=training&action=create', [TrainingSettingsController::class, 'store']);
-                $r->post('?page=dt_launcher&tab=training&action=edit/{id}', [TrainingSettingsController::class, 'update']);
-            } );
+				$r->post( '?page=dt_launcher&tab=training&action=create', [
+					TrainingSettingsController::class,
+					'store'
+				] );
+				$r->post( '?page=dt_launcher&tab=training&action=edit/{id}', [
+					TrainingSettingsController::class,
+					'update'
+				] );
+			} );
 		} );
 	} );
 } );
