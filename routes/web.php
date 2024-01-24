@@ -19,7 +19,6 @@ use DT\Launcher\Controllers\MagicLink\HomeController;
 use DT\Launcher\Controllers\MagicLink\ShareController;
 use DT\Launcher\Controllers\MagicLink\SubpageController;
 use DT\Launcher\Controllers\RedirectController;
-use DT\Launcher\Controllers\RegisterController;
 use DT\Launcher\Controllers\UserController;
 use DT\Launcher\Illuminate\Http\Request;
 use DT\Launcher\Symfony\Component\HttpFoundation\Response;
@@ -32,8 +31,8 @@ $r->condition('plugin', function (Routes $r) {
         $r->get('/me', [UserController::class, 'current', ['middleware' => 'auth']]);
         $r->get('/login', [UserController::class, 'login', ['middleware' => 'guest']]);
         $r->post('/login', [UserController::class, 'login_process', ['middleware' => 'guest']]);
-        $r->get('/register', [RegisterController::class, 'register']);
-        $r->post('/register', [RegisterController::class, 'register_process']);
+        $r->get('/register', [UserController::class, 'register']);
+        $r->post('/register', [UserController::class, 'register_process']);
     });
 
     $r->middleware('magic:launcher/app', function (Routes $r) {
