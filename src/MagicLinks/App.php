@@ -160,7 +160,8 @@ class App extends DT_Magic_Url_Base {
 	 * @return array The modified array of allowed JavaScript file paths.
 	 */
 	public function dt_magic_url_base_allowed_js( $allowed_js ) {
-		// @todo add or remove js files with this filter
+		$allowed_js = [ "dt_launcher" ];
+
 		return $allowed_js;
 	}
 
@@ -175,7 +176,8 @@ class App extends DT_Magic_Url_Base {
 	 * @return array The modified array of allowed CSS file paths.
 	 */
 	public function dt_magic_url_base_allowed_css( $allowed_css ) {
-		// @todo add or remove js files with this filter
+		$allowed_css = [ "dt_launcher-0" ];
+
 		return $allowed_css;
 	}
 
