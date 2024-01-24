@@ -22,6 +22,7 @@ use DT\Launcher\Controllers\MagicLink\TrainingController;
 use DT\Launcher\Controllers\MagicLink\ShareController;
 use DT\Launcher\Controllers\MagicLink\SubpageController;
 use DT\Launcher\Controllers\RedirectController;
+use DT\Launcher\Controllers\RegisterController;
 use DT\Launcher\Controllers\UserController;
 use DT\Launcher\Illuminate\Http\Request;
 use DT\Launcher\Symfony\Component\HttpFoundation\Response;
@@ -29,14 +30,14 @@ use DT\Launcher\Symfony\Component\HttpFoundation\Response;
 $r->condition( 'plugin', function ( Routes $r ) {
 	$r->get( 'launcher', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
 
-	$r->group( 'launcher', function ( Routes $r ) {
-		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
-		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
-		$r->get( '/login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
-		$r->post( '/login', [ LoginController::class, 'login_process', [ 'middleware' => 'guest' ] ] );
-		$r->get( '/register', [ UserController::class, 'register' ] );
-		$r->post( '/register', [ UserController::class, 'register_process' ] );
-	} );
+    $r->group('launcher', function (Routes $r) {
+        $r->get('/users/{id}', [UserController::class, 'show', ['middleware' => ['auth', 'can:list_users']]]);
+        $r->get('/me', [UserController::class, 'current', ['middleware' => 'auth']]);
+        $r->get('/login', [LoginController::class, 'login', ['middleware' => 'guest']]);
+        $r->post('/login', [LoginController::class, 'login_process', ['middleware' => 'guest']]);
+        $r->get('/register', [RegisterController::class, 'register']);
+        $r->post('/register', [RegisterController::class, 'register_process']);
+    });
 
   $r->middleware( [ 'magic:launcher/app', 'check_share' ], function ( Routes $r ) {
       $r->group( 'launcher/app/{key}', function ( Routes $r ) {
