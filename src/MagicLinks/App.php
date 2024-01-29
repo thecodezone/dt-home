@@ -6,6 +6,7 @@ use DT\Launcher\Illuminate\Http\Request;
 use DT\Launcher\Illuminate\Support\Str;
 use DT_Magic_Url_Base;
 use function DT\Launcher\container;
+use const DT\Launcher\Kucrut\Vite\VITE_CLIENT_SCRIPT_HANDLE;
 
 
 /**
@@ -150,33 +151,46 @@ class App extends DT_Magic_Url_Base {
 	}
 
 	/**
-	 * Filter the list of allowed JavaScript files for the dt_magic_url_base_allowed_js function.
+	 * Determines if the given asset handle is allowed.
 	 *
-	 * This filter allows plugins and themes to add or remove JavaScript files that are considered
-	 * allowed for the dt_magic_url_base_allowed_js function.
+	 * This method checks if the provided asset handle is contained in the list of allowed handles.
+	 * Allows the Template script file and the Vite client script file for dev use.
 	 *
-	 * @param array $allowed_js An array of JavaScript file paths that are allowed.
+	 * @param string $asset_handle The asset handle to check.
 	 *
-	 * @return array The modified array of allowed JavaScript file paths.
+	 * @return bool True if the asset handle is allowed, false otherwise.
+	 */
+	public function should_allow_asset( $asset_handle ) {
+		return Str::contains( $asset_handle, [
+			'dt_launcher',
+			VITE_CLIENT_SCRIPT_HANDLE
+		] );
+	}
+
+	/**
+	 * Returns the list of allowed JavaScript assets from the registered WordPress scripts.
+	 *
+	 * @param array $allowed_js The list of initially allowed JavaScript assets.
+	 *
+	 * @return array The filtered list of allowed JavaScript assets from the registered WordPress scripts.
 	 */
 	public function dt_magic_url_base_allowed_js( $allowed_js ) {
-		$allowed_js = [ "dt_launcher" ];
+		global $wp_scripts;
+		$allowed_js = array_filter( array_keys( $wp_scripts->registered ), [ $this, 'should_allow_asset' ] );
 
 		return $allowed_js;
 	}
 
 	/**
-	 * Filter the list of allowed CSS files for the dt_magic_url_base_allowed_css function.
+	 * Returns the list of allowed CSS assets from the registered WordPress styles.
 	 *
-	 * This filter allows plugins and themes to add or remove CSS files that are considered
-	 * allowed for the dt_magic_url_base_allowed_css function.
+	 * @param array $allowed_css The list of initially allowed CSS assets.
 	 *
-	 * @param array $allowed_css An array of CSS file paths that are allowed.
-	 *
-	 * @return array The modified array of allowed CSS file paths.
+	 * @return array The filtered list of allowed CSS assets from the registered WordPress styles.
 	 */
 	public function dt_magic_url_base_allowed_css( $allowed_css ) {
-		$allowed_css = [ "dt_launcher-0" ];
+		global $wp_styles;
+		$allowed_css = array_filter( array_keys( $wp_styles->registered ), [ $this, 'should_allow_asset' ] );
 
 		return $allowed_css;
 	}
