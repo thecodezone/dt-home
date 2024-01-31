@@ -6,7 +6,7 @@
     <dt-tile>
         <div class="section__inner">
             <div>
-                <dt-copy-text value="<?php echo DT\Launcher\magic_url(); ?>"></dt-copy-text>
+                <dt-copy-text value="<?php echo esc_url(DT\Launcher\magic_url()); ?>"></dt-copy-text>
             </div>
             <div>
                 <?php echo $this->section( 'content' ) ?>
