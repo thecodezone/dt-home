@@ -20,10 +20,7 @@ $this->layout( 'layouts/plugin' );
                 <?php $this->esc_html_e( 'Visit subpage', 'dt-launcher' ); ?>
             </a>
 
-
+            <dt-launcher-footer></dt-launcher-footer>
         </div>
     </dt-tile>
-
 </div>
-
-

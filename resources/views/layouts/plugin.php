@@ -7,6 +7,7 @@
         <?php echo $this->section( 'content' ) ?>
     </div>
 </div>
+
 <footer class="footer">
     <p>
 		<?php $this->esc_html_e( 'Copyright ', 'dt_launcher' ); ?>
