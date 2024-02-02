@@ -3,18 +3,9 @@
 </header>
 
 <div class="container">
-    <dt-tile>
-        <div class="section__inner">
-            <div>
-                <dt-copy-text value="<?php echo esc_url(DT\Launcher\magic_url()); ?>"></dt-copy-text>
-            </div>
-            <div>
-                <?php echo $this->section( 'content' ) ?>
-            </div>
-        </div>
-
-    </dt-tile>
-
+    <div>
+        <?php echo $this->section( 'content' ) ?>
+    </div>
 </div>
 <footer class="footer">
     <p>

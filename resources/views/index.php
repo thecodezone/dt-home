@@ -6,7 +6,7 @@ $this->layout( 'layouts/plugin' );
     <dt-tile>
         <div class="section__inner">
             <div>
-                <dt-copy-text value="<?php echo DT\Launcher\magic_url(); ?>"></dt-copy-text>
+                <dt-copy-text value="<?php echo esc_url( $magic_url ); ?>"></dt-copy-text>
             </div>
             <div>
                 <?php echo $this->section( 'content' ) ?>
@@ -20,7 +20,7 @@ $this->layout( 'layouts/plugin' );
                 <?php $this->esc_html_e( 'Visit subpage', 'dt-launcher' ); ?>
             </a>
 
-           
+
         </div>
     </dt-tile>
 
