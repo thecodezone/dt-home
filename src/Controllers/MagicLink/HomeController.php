@@ -7,24 +7,31 @@ use DT\Launcher\Illuminate\Http\Response;
 use function DT\Launcher\magic_url;
 use function DT\Launcher\template;
 
-class HomeController {
-	public function show( Request $request, Response $response, $key ) {
-		$user        = wp_get_current_user();
-		$subpage_url = magic_url( 'subpage', $key );
+class HomeController
+{
+    public function show(Request $request, Response $response, $key)
+    {
+        $user = wp_get_current_user();
+        $subpage_url = magic_url('subpage', $key);
 
-		return template( 'index', compact(
-			'user',
-			'subpage_url'
-		) );
-	}
+        $apps_array = get_option('dt_launcher_apps', []);
+        $data = json_encode($apps_array);
 
-	public function data( Request $request, Response $response, $key ) {
-		$user = wp_get_current_user();
-		$data = [
-			'user_login' => $user->user_login,
-		];
-		$response->setContent( $data );
+        return template('index', compact(
+            'user',
+            'subpage_url',
+            'data'
+        ));
+    }
 
-		return $response;
-	}
+    public function data(Request $request, Response $response, $key)
+    {
+        $user = wp_get_current_user();
+        $data = [
+            'user_login' => $user->user_login,
+        ];
+        $response->setContent($data);
+
+        return $response;
+    }
 }
