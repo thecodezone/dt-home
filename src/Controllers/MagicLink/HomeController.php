@@ -11,10 +11,12 @@ class HomeController {
 	public function show( Request $request, Response $response, $key ) {
 		$user        = wp_get_current_user();
 		$subpage_url = magic_url( 'subpage', $key );
+        $magic_url = magic_url();
 
 		return template( 'index', compact(
 			'user',
-			'subpage_url'
+			'subpage_url',
+            'magic_url'
 		) );
 	}
 
