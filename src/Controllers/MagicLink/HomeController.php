@@ -7,6 +7,7 @@ use DT\Launcher\Illuminate\Http\Response;
 use function DT\Launcher\magic_url;
 use function DT\Launcher\template;
 
+
 class HomeController
 {
     public function show(Request $request, Response $response, $key)
