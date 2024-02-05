@@ -16,6 +16,10 @@ class MenuComponent extends LitElement {
       float: inline-end;
     }
 
+    sp-button {
+      cursor: pointer;
+    }
+
     .inline-element {
       display: inline-block;
       vertical-align: top;
