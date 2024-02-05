@@ -118,7 +118,6 @@ class MenuComponent extends LitElement {
       ` : ''}
     `;
   }
-
 }
 
 customElements.define('menu-component', MenuComponent);

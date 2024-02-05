@@ -16,6 +16,5 @@ $this->layout('layouts/plugin');
         <?php $this->esc_html_e('Visit subpage', 'dt-launcher'); ?>
     </a>
 
-
 </div>
 

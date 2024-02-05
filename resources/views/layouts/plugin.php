@@ -20,5 +20,6 @@
                 </p>
             </footer>
         </div>
+
+    </dt-tile>
 </div>
-</dt-tile>
