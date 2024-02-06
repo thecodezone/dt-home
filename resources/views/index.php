@@ -8,7 +8,8 @@ $this->layout('layouts/plugin');
     <dt-tile>
         <div class="section__inner">
 
-            <dt-launcher-app-grid id="appGrid" app-data='<?php echo htmlspecialchars($data); ?>'>
+            <dt-launcher-app-grid id="appGrid" app-data='<?php echo htmlspecialchars($data); ?>'
+                                  app-url='<?php echo esc_url($app_url); ?>'>
                 <!-- Add more app icons as needed -->
             </dt-launcher-app-grid>
             <div>

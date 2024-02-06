@@ -1,6 +1,6 @@
 import {css, html, LitElement} from 'lit';
 
-class DtLauncherAppIcon extends LitElement {
+class AppIcon extends LitElement {
   static properties = {
     name: {type: String},
     icon: {type: String},
@@ -67,7 +67,7 @@ class DtLauncherAppIcon extends LitElement {
   }
 }
 
-customElements.define('dt-launcher-app-icon', DtLauncherAppIcon);
+customElements.define('dt-launcher-app-icon', AppIcon);
 
 
 

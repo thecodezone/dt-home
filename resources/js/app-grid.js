@@ -1,10 +1,12 @@
 import {css, html, LitElement} from 'lit';
-import "./dt-launcher-app-icon.js";
+import "./app-icon.js";
 
-class DtLauncherAppGrid extends LitElement {
+class AppGrid extends LitElement {
   static properties = {
     appData: {type: Array},
     selectedIndex: {type: Number},
+    appUrl: {type: String}
+
   };
   static styles = css`
     .app-grid {
@@ -95,11 +97,13 @@ class DtLauncherAppGrid extends LitElement {
       }
     }
   `;
+  debugger
 
   constructor() {
     super();
     this.appData = [];
     this.selectedIndex = -1; // -1 indicates no selection
+    this.pressTimer = 100;
   }
 
 
@@ -113,38 +117,97 @@ class DtLauncherAppGrid extends LitElement {
     // Fetch your data from an external source or set it from an attribute
     // For this example, let's assume it's set from a JSON attribute
     const jsonData = this.getAttribute('app-data');
+    this.appUrl = this.getAttribute('app-url');
+
     if (jsonData) {
       this.appData = JSON.parse(jsonData);
     }
   }
 
-  handleClick(index) {
-    this.selectedIndex = index;
+  handleSingleClick(index) {
+    const selectedApp = this.appData[index];
+    if (selectedApp && selectedApp.url) {
+      window.location.href = selectedApp.url; // Navigate in the same tab
+    }
+    this.showRemoveIconIndex = null; // Reset the index on single click
+    this.requestUpdate(); // Request an update to re-render the component
+  }
+
+
+  handleLongPress(index) {
+    this.showRemoveIconIndex = index;
+    this.requestUpdate();
+  }
+
+  startPressTimer(e, index) {
+    e.preventDefault();
+    this.pressTimer = setTimeout(() => {
+      this.handleLongPress(index);
+    }, 900); // 900 milliseconds for long press
+  }
+
+  clearPressTimer() {
+    clearTimeout(this.pressTimer);
   }
 
   handleRemove(e, index) {
     e.stopPropagation();
-    this.appData.splice(index, 1); // Remove the item at the specific index
-    this.selectedIndex = -1; // Reset the selection
+    const appId = this.appData[index].id;
+
+    this.postAppDataToServer(appId);
+
+    this.appData.splice(index, 1);
+    this.selectedIndex = -1;
+    this.showRemoveIconIndex = null; // Reset the index after removal
     this.requestUpdate(); // Request an update to re-render the component
+  }
+
+
+  postAppDataToServer(appId) {
+    const url = this.appUrl + "/update-hide-apps";
+    const appToHide = this.appData.find(app => app.id === appId);
+
+    if (!appToHide) {
+      console.error('App not found');
+      return;
+    }
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(appToHide),
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
 
 
   render() {
     return html`
       <div id="appGrid" class="app-grid">
-        ${this.appData.map((app, index) => html`
-          <div class="app-container" @click="${() => this.handleClick(index)}">
-            ${this.selectedIndex === index
+        ${this.appData.map((app, index) => app.is_hidden !== 1 ? html`
+          <div class="app-container"
+               @click="${() => this.handleSingleClick(index)}"
+               @mousedown="${(e) => this.startPressTimer(e, index)}"
+               @mouseup="${() => this.clearPressTimer()}"
+               @touchstart="${(e) => this.startPressTimer(e, index)}"
+               @touchend="${() => this.clearPressTimer()}">
+            ${this.showRemoveIconIndex === index
               ? html`<span id="remove-icon-${app.id}" class="remove-icon"
                            @click="${(e) => this.handleRemove(e, index)}">HIDE APP</span>`
               : ''}
             <dt-launcher-app-icon name="${app.name}" icon="${app.icon}"></dt-launcher-app-icon>
-          </div>`)}
+          </div>` : '')}
       </div>
     `;
   }
-
+  
 }
 
-customElements.define('dt-launcher-app-grid', DtLauncherAppGrid);
+customElements.define('dt-launcher-app-grid', AppGrid);
