@@ -14,10 +14,14 @@ class TrainingController
     public function show(Request $request, Response $response, $key)
     {
 
-        $data = $this->get_all_trainings_data();
+        $training_data = $this->get_all_trainings_data();
+        $data = json_encode($training_data);
+        $training_data_json_escaped = htmlspecialchars($data);
 
         return template( 'training', compact(
-            'data'
+            'data',
+            'training_data',
+            'training_data_json_escaped'
         ) );
     }
 
