@@ -2,9 +2,7 @@
 $this->layout('layouts/plugin');
 ?>
 
-
 <div>
-
     <dt-tile>
         <div class="section__inner">
 
@@ -28,4 +26,3 @@ $this->layout('layouts/plugin');
         </div>
     </dt-tile>
 </div>
-

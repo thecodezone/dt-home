@@ -9,4 +9,5 @@ import "@spectrum-web-components/progress-circle/sp-progress-circle.js";
 import "./app-grid.js";
 import "./action-group.js";
 import "./dt-launcher-footer.js";
+import "./menu.js";
 import "./training-video.js"
