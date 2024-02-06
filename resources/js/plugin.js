@@ -6,6 +6,7 @@ import '@spectrum-web-components/button/sp-clear-button.js';
 import '@spectrum-web-components/button/sp-close-button.js';
 import "@spectrum-web-components/progress-circle/sp-progress-circle.js";
 import "./dt-launcher-footer.js";
+import "./training-video.js"
 
 
 console.log('plugin.js')

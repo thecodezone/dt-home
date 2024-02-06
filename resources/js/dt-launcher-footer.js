@@ -4,7 +4,7 @@ import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/button/sp-clear-button.js';
 import '@spectrum-web-components/button/sp-close-button.js';
 import "@spectrum-web-components/progress-circle/sp-progress-circle.js";
-import { isInstalled } from './helpers.js';
+import { isInstalled , isAndroid} from './helpers.js';
 
 class DtLauncherFooter extends LitElement {
   static get styles() {
@@ -41,10 +41,14 @@ class DtLauncherFooter extends LitElement {
 
   render() {
     const currentUrl = window.location.href; // Gets the current URL
+    let trainingUrl = 'training#install-ios';
+    if(isAndroid()){
+      trainingUrl = 'training#install-android';
+    }
     return html`
       <div class="footer-container">
         ${!isInstalled() ? html`
-          <a href="${currentUrl}/training" variant="cta">
+          <a href="${currentUrl}/${trainingUrl}" variant="cta">
             <sp-button class="footer-button" variant="cta"> Install as App</sp-button>
           </a>
         `: ''}
