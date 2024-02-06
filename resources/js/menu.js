@@ -9,7 +9,8 @@ import '@spectrum-web-components/icons-ui/icons/sp-icon-triple-gripper.js';
 
 class MenuComponent extends LitElement {
   static properties = {
-    isOpen: {type: Boolean}
+    isOpen: {type: Boolean},
+    menuItems: {type: Array}
   };
   static styles = css`
     .menu-button {
@@ -90,6 +91,8 @@ class MenuComponent extends LitElement {
   constructor() {
     super();
     this.isOpen = false;
+    this.menuItems = [];
+
   }
 
   togglePopover() {
@@ -113,8 +116,8 @@ class MenuComponent extends LitElement {
             <sp-dialog>
               <h4 slot="heading" class="menu-title">Go to disciple.tools</h4>
               <sp-menu class="right-aligned-menu">
-                <sp-menu-item>Training</sp-menu-item>
-                <sp-menu-item>Log Out</sp-menu-item>
+                ${this.menuItems.map(item => html`
+                  <sp-menu-item>${item.label}</sp-menu-item>`)}
               </sp-menu>
             </sp-dialog>
           </sp-popover>
