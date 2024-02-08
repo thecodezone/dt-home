@@ -18,12 +18,14 @@ class HomeController
         $apps_array = get_option('dt_launcher_apps', []);
         $data = json_encode($apps_array);
         $app_url = magic_url('', $key);
+        $magic_link = magic_url();
 
         return template('index', compact(
             'user',
             'subpage_url',
             'data',
-            'app_url'
+            'app_url',
+            'magic_link'
         ));
     }
 
@@ -41,7 +43,7 @@ class HomeController
     public function update_hide_app(Request $request, Response $response, $key)
     {
         $data = $request->json()->all();
-        
+
         // Assuming $data contains 'id' and 'is_hidden'
         $appId = $data['id'];
 
