@@ -27,6 +27,25 @@ class HomeController
         ));
     }
 
+    public function show_hidden_apps(Request $request, Response $response, $key)
+    {
+        $user = wp_get_current_user();
+        $subpage_url = magic_url('subpage', $key);
+        $magic_link = magic_url();
+
+        $apps_array = get_option('dt_launcher_apps', []);
+        $data = json_encode($apps_array);
+        $app_url = magic_url('', $key);
+
+        return template('hidden-apps', compact(
+            'user',
+            'subpage_url',
+            'data',
+            'app_url',
+            'magic_link'
+        ));
+    }
+
     public function data(Request $request, Response $response, $key)
     {
         $user = wp_get_current_user();
@@ -41,7 +60,7 @@ class HomeController
     public function update_hide_app(Request $request, Response $response, $key)
     {
         $data = $request->json()->all();
-        
+
         // Assuming $data contains 'id' and 'is_hidden'
         $appId = $data['id'];
 
@@ -62,9 +81,31 @@ class HomeController
         $response->setContent(json_encode($responseData));
 
         return $response;
-
-
     }
 
+    public function update_unhide_app(Request $request, Response $response, $key)
+    {
+        $data = $request->json()->all();
 
+        // Assuming $data contains 'id' and 'is_hidden'
+        $appId = $data['id'];
+
+        $apps_array = get_option('dt_launcher_apps', []);
+
+        // Find the app with the specified ID and update its 'is_hidden' status
+        foreach ($apps_array as $key => $app) {
+            if (isset($app['id']) && $app['id'] == $appId) {
+                $apps_array[$key]['is_hidden'] = 0; // Set 'is_hidden' to 1 (hide)
+                break; // Exit the loop once the app is found and updated
+            }
+        }
+        // Save the updated array back to the option
+        update_option('dt_launcher_apps', $apps_array);
+
+        $responseData = ['message' => 'App visibility updated'];
+
+        $response->setContent(json_encode($responseData));
+
+        return $response;
+    }
 }

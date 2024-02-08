@@ -7,6 +7,8 @@ import '@spectrum-web-components/button/sp-close-button.js';
 import "@spectrum-web-components/progress-circle/sp-progress-circle.js";
 
 import "./app-grid.js";
+import  "./hidden-app-grid.js";
+
 import "./action-group.js";
 import "./dt-launcher-footer.js";
 import "./menu.js";

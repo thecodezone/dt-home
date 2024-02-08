@@ -52,7 +52,9 @@ class DtLauncherFooter extends LitElement {
             <sp-button class="footer-button" variant="cta"> Install as App</sp-button>
           </a>
         `: ''}
-        <sp-button class="footer-button" variant="cta">Hidden App</sp-button>
+          <a href="${currentUrl}/hidden-apps" variant="cta">
+              <sp-button class="footer-button" variant="cta">Hidden App</sp-button>
+          </a>
       </div>
     `;
   }
