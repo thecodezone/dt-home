@@ -65,8 +65,26 @@ class HomeController
 
         return $response;
 
-
     }
 
+    public function update_app_order(Request $request, Response $response, $key): Response
+    {
+        $data = $request->json()->all();
+        // Iterate through each app in the data
+        foreach ($data as $key => $app) {
+            // Update the 'sort' field for each app based on its position in the array
+            $data[$key]['sort'] = $key + 1;
+        }
+        // Save the updated app order back to the database or storage
+        update_option('dt_launcher_apps', $data);
+
+        $responseData = ['message' => 'App order updated'];
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        $response->setContent(json_encode($responseData));
+
+        return $response;
+    }
 
 }

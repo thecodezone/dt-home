@@ -1,4 +1,5 @@
 import {css, html, LitElement} from 'lit';
+import Sortable from 'sortablejs';
 import "./app-icon.js";
 
 class AppGrid extends LitElement {
@@ -97,21 +98,76 @@ class AppGrid extends LitElement {
       }
     }
   `;
-  debugger
+
 
   constructor() {
     super();
     this.appData = [];
     this.selectedIndex = -1; // -1 indicates no selection
-    this.pressTimer = 100;
+    this.sortableInstances = [];
+    this.clickTimer = null;
+    this.clickDelay = 300;
   }
 
 
   connectedCallback() {
     super.connectedCallback();
     this.loadAppData();
+    this.initSortable();
 
   }
+
+  updated(changedProperties) {
+    super.updated(changedProperties);
+    if (changedProperties.has('appData')) {
+      this.initSortable(); // Initialize sortable when appData changes
+    }
+  }
+
+
+  initSortable() {
+    // Select the container for the grid items
+    const appGrids = this.shadowRoot.querySelectorAll('.app-grid');
+    appGrids.forEach((appGrid) => {
+      const sortableInstance = new Sortable(appGrid, {
+        group: 'shared',
+        animation: 150,
+        draggable: '.app-container', // Specify draggable items
+        onEnd: (evt) => this.updateOrder(evt)
+
+      });
+      this.sortableInstances.push(sortableInstance);
+
+    });
+  }
+
+  updateOrder(evt) {
+    // evt.newIndex and evt.oldIndex can be used to update the order
+    const itemMoved = this.appData.splice(evt.oldIndex, 1)[0];
+    this.appData.splice(evt.newIndex, 0, itemMoved);
+
+    // Update the database with the new order
+    this.postNewOrderToServer();
+  }
+
+  postNewOrderToServer() {
+    const url = this.appUrl + "/update-app-order"; // Your API endpoint
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(this.appData), // Send the updated appData array
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Order update successful:', data);
+      })
+      .catch((error) => {
+        console.error('Error updating order:', error);
+      });
+  }
+
 
   loadAppData() {
     // Fetch your data from an external source or set it from an attribute
@@ -125,29 +181,26 @@ class AppGrid extends LitElement {
   }
 
   handleSingleClick(index) {
-    const selectedApp = this.appData[index];
-    if (selectedApp && selectedApp.url) {
-      window.location.href = selectedApp.url; // Navigate in the same tab
+    if (this.clickTimer === null) {
+      this.clickTimer = setTimeout(() => {
+        // Your single click logic here
+        const selectedApp = this.appData[index];
+        if (selectedApp && selectedApp.url) {
+          window.location.href = selectedApp.url;
+        }
+        this.showRemoveIconIndex = null;
+        this.requestUpdate();
+        this.clickTimer = null;
+      }, this.clickDelay);
     }
-    this.showRemoveIconIndex = null; // Reset the index on single click
-    this.requestUpdate(); // Request an update to re-render the component
   }
 
-
-  handleLongPress(index) {
+  handleDoubleClick(index) {
+    clearTimeout(this.clickTimer);
+    this.clickTimer = null;
+    // Your double click logic here
     this.showRemoveIconIndex = index;
     this.requestUpdate();
-  }
-
-  startPressTimer(e, index) {
-    e.preventDefault();
-    this.pressTimer = setTimeout(() => {
-      this.handleLongPress(index);
-    }, 900); // 900 milliseconds for long press
-  }
-
-  clearPressTimer() {
-    clearTimeout(this.pressTimer);
   }
 
   handleRemove(e, index) {
@@ -164,6 +217,7 @@ class AppGrid extends LitElement {
 
 
   postAppDataToServer(appId) {
+
     const url = this.appUrl + "/update-hide-apps";
     const appToHide = this.appData.find(app => app.id === appId);
 
@@ -187,27 +241,24 @@ class AppGrid extends LitElement {
       });
   }
 
-
   render() {
     return html`
       <div id="appGrid" class="app-grid">
         ${this.appData.map((app, index) => app.is_hidden !== 1 ? html`
-          <div class="app-container"
+          <div class="app-container" data-id="${app.id}"
                @click="${() => this.handleSingleClick(index)}"
-               @mousedown="${(e) => this.startPressTimer(e, index)}"
-               @mouseup="${() => this.clearPressTimer()}"
-               @touchstart="${(e) => this.startPressTimer(e, index)}"
-               @touchend="${() => this.clearPressTimer()}">
+               @dblclick="${() => this.handleDoubleClick(index)}"
+          >
             ${this.showRemoveIconIndex === index
               ? html`<span id="remove-icon-${app.id}" class="remove-icon"
                            @click="${(e) => this.handleRemove(e, index)}">HIDE APP</span>`
               : ''}
-            <dt-launcher-app-icon name="${app.name}" icon="${app.icon}"></dt-launcher-app-icon>
+            <dt-launcher-app-icon class=" app-icon" name="${app.name}" icon="${app.icon}"></dt-launcher-app-icon>
           </div>` : '')}
       </div>
     `;
   }
-  
+
 }
 
 customElements.define('dt-launcher-app-grid', AppGrid);
