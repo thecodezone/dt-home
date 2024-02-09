@@ -209,4 +209,4 @@ class HiddenAppGrid extends LitElement {
 
 }
 
-customElements.define('dt-launcher-hidden-app-grid', HiddenAppGrid);
+customElements.define('dt-launcher-hidden-app-menu', HiddenAppGrid);

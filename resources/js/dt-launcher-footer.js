@@ -1,5 +1,6 @@
 // Import LitElement base class and html helper function
 import { LitElement, html, css } from 'lit';
+import { translate } from './translate.js'; // Assuming you have an i18n module with a translate function
 import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/button/sp-clear-button.js';
 import '@spectrum-web-components/button/sp-close-button.js';
@@ -35,7 +36,6 @@ class DtLauncherFooter extends LitElement {
         color: #ffffff;
         cursor: pointer;
       }
-
     `;
   }
 
@@ -49,11 +49,11 @@ class DtLauncherFooter extends LitElement {
       <div class="footer-container">
         ${!isInstalled() ? html`
           <a href="${currentUrl}/${trainingUrl}" variant="cta">
-            <sp-button class="footer-button" variant="cta"> Install as App</sp-button>
+            <sp-button class="footer-button" variant="cta">${translate('installAppLabel')}</sp-button>
           </a>
-        `: ''}
+        ` : ''}
           <a href="${currentUrl}/hidden-apps" variant="cta">
-              <sp-button class="footer-button" variant="cta">Hidden App</sp-button>
+              <sp-button class="footer-button" variant="cta">${translate('hiddenAppLabel')}</sp-button>
           </a>
       </div>
     `;
@@ -61,4 +61,3 @@ class DtLauncherFooter extends LitElement {
 }
 
 customElements.define('dt-launcher-footer', DtLauncherFooter);
-
