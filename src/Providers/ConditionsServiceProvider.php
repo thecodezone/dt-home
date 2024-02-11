@@ -2,6 +2,7 @@
 
 namespace DT\Launcher\Providers;
 
+use DT\Launcher\CodeZone\Router;
 use DT\Launcher\CodeZone\Router\Conditions\HasCap;
 use DT\Launcher\Conditions\Backend;
 use DT\Launcher\Conditions\Frontend;
@@ -24,7 +25,7 @@ class ConditionsServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register(): void {
-		add_filter( 'codezone/router/conditions', function ( array $middleware ) {
+		add_filter( Router\namespace_string( 'conditions' ), function ( array $middleware ) {
 			return array_merge( $middleware, $this->conditions );
 		} );
 	}

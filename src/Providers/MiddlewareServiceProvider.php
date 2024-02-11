@@ -2,6 +2,7 @@
 
 namespace DT\Launcher\Providers;
 
+use DT\Launcher\CodeZone\Router;
 use DT\Launcher\CodeZone\Router\Middleware\DispatchController;
 use DT\Launcher\CodeZone\Router\Middleware\HandleErrors;
 use DT\Launcher\CodeZone\Router\Middleware\HandleRedirects;
@@ -10,12 +11,13 @@ use DT\Launcher\CodeZone\Router\Middleware\Render;
 use DT\Launcher\CodeZone\Router\Middleware\Route;
 use DT\Launcher\CodeZone\Router\Middleware\Stack;
 use DT\Launcher\CodeZone\Router\Middleware\UserHasCap;
-use DT\Launcher\Middleware\LoggedIn;
 use DT\Launcher\Middleware\CheckShareCookie;
+use DT\Launcher\Middleware\LoggedIn;
 use DT\Launcher\Middleware\LoggedOut;
 use DT\Launcher\Middleware\MagicLink;
 use DT\Launcher\Middleware\Nonce;
 use Exception;
+use function DT\Launcher\namespace_string;
 
 /**
  * Request middleware to be used in the request lifecycle.
@@ -33,12 +35,12 @@ class MiddlewareServiceProvider extends ServiceProvider {
 	];
 
 	protected $route_middleware = [
-		'auth'  => LoggedIn::class,
-		'can'   => UserHasCap::class, // can:manage_dt
-		'guest' => LoggedOut::class,
-		'magic' => MagicLink::class,
-		'nonce' => Nonce::class,  // nonce:dt_launcher_nonce
-        'check_share' => CheckShareCookie::class,
+		'auth'        => LoggedIn::class,
+		'can'         => UserHasCap::class, // can:manage_dt
+		'guest'       => LoggedOut::class,
+		'magic'       => MagicLink::class,
+		'nonce'       => Nonce::class,  // nonce:dt_launcher_nonce
+		'check_share' => CheckShareCookie::class,
 	];
 
 	/**
@@ -50,13 +52,13 @@ class MiddlewareServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register(): void {
-		add_filter( 'dt/launcher/middleware', function ( Stack $stack ) {
+		add_filter( namespace_string( 'middleware' ), function ( Stack $stack ) {
 			$stack->push( ...$this->middleware );
 
 			return $stack;
 		} );
 
-		add_filter( 'codezone/router/middleware', function ( array $middleware ) {
+		add_filter( Router\namespace_string( 'middleware' ), function ( array $middleware ) {
 			return array_merge( $middleware, $this->route_middleware );
 		} );
 
@@ -64,7 +66,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		 * Parse named signature to instantiate any middleware that takes arguments.
 		 * Signature format: "name:signature"
 		 */
-		add_filter( 'codezone/router/middleware/factory', function ( Middleware|null $middleware, $attributes ) {
+		add_filter( Router\namespace_string( 'middleware_factory' ), function ( Middleware|null $middleware, $attributes ) {
 			$classname = $attributes['className'] ?? null;
 			$name      = $attributes['name'] ?? null;
 			$signature = $attributes['signature'] ?? null;
