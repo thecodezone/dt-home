@@ -101,12 +101,12 @@ if ( is_dir( $svgDirPath ) ) {
                 <input style="min-width: 100%;" type="text" name="url" id="url"/>
             </td>
         </tr>
-        <tr>
+        <!--<tr>
             <td style="vertical-align: middle;">Sort [&#63;]</td>
             <td colspan="2">
                 <input style="min-width: 100%;" type="number" name="sort" id="sort" required/>
             </td>
-        </tr>
+        </tr>-->
         <tr>
             <td style="vertical-align: middle;">Is Hidden [&#63;]</td>
             <td colspan="2">
