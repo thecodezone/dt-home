@@ -55,12 +55,14 @@ class LoginController
         $username = $params['username'] ?? '';
         $password = $params['password'] ?? '';
         $error = $params['error'] ?? '';
+        $logo_path = get_site_url() . '/wp-content/plugins/dt-launcher/resources/img/logo-color.png';
 
         return template('auth/login', [
             'register_url' => $register_url,
             'form_action' => $form_action,
             'username' => $username,
             'password' => $password,
+            'logo_path' => $logo_path,
             'error' => $error
         ]);
 

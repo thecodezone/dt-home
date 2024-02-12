@@ -70,6 +70,7 @@ class RegisterController
         $username = $params['username'] ?? '';
         $email = $params['email'] ?? '';
         $password = $params['password'] ?? '';
+        $logo_path = get_site_url() . '/wp-content/plugins/dt-launcher/resources/img/logo-color.png';
 
         return template('auth/register', [
 
@@ -78,6 +79,7 @@ class RegisterController
             'username' => $username,
             'email' => $email,
             'password' => $password,
+            'logo_path' => $logo_path,
             'error' => $error
         ]);
     }
