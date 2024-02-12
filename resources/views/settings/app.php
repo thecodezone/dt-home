@@ -41,13 +41,13 @@ $this->layout('layouts/settings', compact('tab', 'link', 'page_title'))
                             </td>
 
                             <td style="border: 1px solid #ddd;">
-                                <a href="admin.php?page=dt_launcher&tab=app&action=up/<?php echo esc_attr($app['id']); ?>">Up</a>|
-                                <a href="admin.php?page=dt_launcher&tab=app&action=edit/<?php echo esc_attr($app['id']); ?>">Edit</a>|
+                                <a href="admin.php?page=dt_launcher&tab=app&action=up/<?php echo esc_attr($app['id']); ?>">Up</a>|&nbsp;
+                                <a href="admin.php?page=dt_launcher&tab=app&action=edit/<?php echo esc_attr($app['id']); ?>">Edit</a>|&nbsp;
 
                                 <?php if ($app['is_hidden'] == 1) { ?>
-                                    <a href="admin.php?page=dt_launcher&tab=app&action=unhide/<?php echo esc_attr($app['id']); ?>">Unhide</a>|
+                                    <a href="admin.php?page=dt_launcher&tab=app&action=unhide/<?php echo esc_attr($app['id']); ?>">Unhide</a>|&nbsp;
                                 <?php } else { ?>
-                                    <a href="admin.php?page=dt_launcher&tab=app&action=hide/<?php echo esc_attr($app['id']); ?>">Hide</a>|
+                                    <a href="admin.php?page=dt_launcher&tab=app&action=hide/<?php echo esc_attr($app['id']); ?>">Hide</a>|&nbsp;
                                 <?php } ?>
 
                                 <a href="admin.php?page=dt_launcher&tab=app&action=down/<?php echo esc_attr($app['id']); ?>">Down</a>
