@@ -38,9 +38,9 @@ $this->layout('layouts/settings', compact('tab', 'link', 'page_title'))
                             </td>
 
                             <td style="border: 1px solid #ddd;">
-                                <a href="admin.php?page=dt_launcher&tab=training&action=up/<?php echo esc_attr($training['id']); ?>">Up</a>|
-                                <a href="admin.php?page=dt_launcher&tab=training&action=edit/<?php echo esc_attr($training['id']); ?>">Edit</a>|
-                                <a href="#" onclick="confirmDelete(<?php echo esc_attr($training['id']); ?>)">Delete</a>|
+                                <a href="admin.php?page=dt_launcher&tab=training&action=up/<?php echo esc_attr($training['id']); ?>">Up</a>| &nbsp;
+                                <a href="admin.php?page=dt_launcher&tab=training&action=edit/<?php echo esc_attr($training['id']); ?>">Edit</a>|&nbsp;
+                                <a href="#" onclick="confirmDelete(<?php echo esc_attr($training['id']); ?>)">Delete</a>|&nbsp;
                                 <a href="admin.php?page=dt_launcher&tab=training&action=down/<?php echo esc_attr($training['id']); ?>">Down</a>
                             </td>
 
