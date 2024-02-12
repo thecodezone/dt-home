@@ -55,6 +55,7 @@ class LoginController
         $username = $params['username'] ?? '';
         $password = $params['password'] ?? '';
         $error = $params['error'] ?? '';
+        $logo_path = get_site_url() . '/wp-content/plugins/dt-launcher/resources/img/logo-color.png';
         $reset_url = wp_lostpassword_url($this->get_link_url());
 
         return template('auth/login', [
@@ -62,6 +63,7 @@ class LoginController
             'form_action' => $form_action,
             'username' => $username,
             'password' => $password,
+            'logo_path' => $logo_path,
             'reset_url' => $reset_url,
             'error' => $error
         ]);

@@ -6,7 +6,7 @@ $this->layout('layouts/auth');
         <div class="section__inner">
             <div class="logo">
                 <img
-                    src="https://sample.ddev.site/wp-content/plugins/disciple-tools-autolink/magic-link//images/logo-color.png"
+                    src="<?php echo esc_url($logo_path) ?>"
                     alt="Disciple.Tools"
                     class="logo__image">
             </div>
