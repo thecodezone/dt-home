@@ -48,7 +48,6 @@ class MenuComponent extends LitElement {
 
     .menu-title {
       font-weight: 100;
-      margin: 3px 0px;
     }
 
     @media (min-width: 230px) and (max-width: 950px) {
@@ -98,7 +97,7 @@ class MenuComponent extends LitElement {
       text-decoration: none !important;
       color: #0782eb !important;
     }
-    
+
   `;
 
   constructor() {
