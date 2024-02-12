@@ -9,7 +9,7 @@
 
         <a href="admin.php?page=dt_launcher&tab=app"
            class="nav-tab <?php echo $this->esc_html( ( $tab == 'app' || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
-			<?php $this->esc_html_e( 'App', 'dt_launcher' ) ?>
+			<?php $this->esc_html_e( 'Apps', 'dt_launcher' ) ?>
         </a>
 
         <a href="admin.php?page=dt_launcher&tab=training"
