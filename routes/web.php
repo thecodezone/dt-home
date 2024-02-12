@@ -46,6 +46,7 @@ $r->condition('plugin', function (Routes $r) {
             $r->get('/training', [TrainingController::class, 'show']);
             $r->post('/update-hide-apps', [HomeController::class, 'update_hide_app']);
             $r->post('/update-app-order', [HomeController::class, 'update_app_order']);
+            $r->get('/logout', [LoginController::class, 'logout']);
             $r->get('/{path:.*}', fn(Request $request, Response $response) => $response->setStatusCode(404));
 
 

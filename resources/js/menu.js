@@ -48,6 +48,7 @@ class MenuComponent extends LitElement {
 
     .menu-title {
       font-weight: 100;
+      margin: 3px 0px;
     }
 
     @media (min-width: 230px) and (max-width: 950px) {
@@ -86,6 +87,18 @@ class MenuComponent extends LitElement {
       border-radius: 19px;
       display: flex;
     }
+
+
+    .right-aligned-menu a {
+      text-decoration: none !important;
+      color: #222 !important;
+    }
+
+    .right-aligned-menu a:hover {
+      text-decoration: none !important;
+      color: #0782eb !important;
+    }
+    
   `;
 
   constructor() {
@@ -117,7 +130,9 @@ class MenuComponent extends LitElement {
               <h4 slot="heading" class="menu-title">Go to disciple.tools</h4>
               <sp-menu class="right-aligned-menu">
                 ${this.menuItems.map(item => html`
-                  <sp-menu-item>${item.label}</sp-menu-item>`)}
+                  <a href="${item.href}">
+                    <sp-menu-item>${item.label}</sp-menu-item>
+                  </a>`)}
               </sp-menu>
             </sp-dialog>
           </sp-popover>
