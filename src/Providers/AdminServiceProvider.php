@@ -21,8 +21,8 @@ class AdminServiceProvider extends ServiceProvider {
 	 */
 	public function register_menu(): void {
 		add_submenu_page( 'dt_extensions',
-			__( 'DT App Launcher', 'dt_launcher' ),
-			__( 'DT App Launcher', 'dt_launcher' ),
+			__( 'App Launcher', 'dt_launcher' ),
+			__( 'App Launcher', 'dt_launcher' ),
 			'manage_dt',
 			'dt_launcher',
 			[ $this, 'register_router' ]
