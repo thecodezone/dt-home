@@ -1,9 +1,11 @@
 // Import LitElement base class and html helper function
 import { LitElement, html, css } from 'lit';
+import { translate } from './translate.js'; // Assuming you have an i18n module with a translate function
 import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/button/sp-clear-button.js';
 import '@spectrum-web-components/button/sp-close-button.js';
 import "@spectrum-web-components/progress-circle/sp-progress-circle.js";
+import '@spectrum-web-components/action-menu/sp-action-menu.js';
 import { isInstalled , isAndroid} from './helpers.js';
 
 class DtLauncherFooter extends LitElement {
@@ -35,7 +37,6 @@ class DtLauncherFooter extends LitElement {
         color: #ffffff;
         cursor: pointer;
       }
-
     `;
   }
 
@@ -49,14 +50,21 @@ class DtLauncherFooter extends LitElement {
       <div class="footer-container">
         ${!isInstalled() ? html`
           <a href="${currentUrl}/${trainingUrl}" variant="cta">
-            <sp-button class="footer-button" variant="cta"> Install as App</sp-button>
+            <sp-button class="footer-button" variant="cta">${translate('installAppLabel')}</sp-button>
           </a>
-        `: ''}
-        <sp-button class="footer-button" variant="cta">Hidden App</sp-button>
+        ` : ''}
+
+          <sp-action-menu>
+            <span class="footer-button" slot="label-only">${translate('hiddenAppLabel')}</span>
+            <sp-menu-item class="footer-button">
+              <a href="${currentUrl}/hidden-apps" variant="cta">
+                ${translate('hiddenAppLabel')}
+              </a>
+            </sp-menu-item>
+          </sp-action-menu>
       </div>
     `;
   }
 }
 
 customElements.define('dt-launcher-footer', DtLauncherFooter);
-
