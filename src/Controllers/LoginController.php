@@ -55,15 +55,22 @@ class LoginController
         $username = $params['username'] ?? '';
         $password = $params['password'] ?? '';
         $error = $params['error'] ?? '';
+        $reset_url = wp_lostpassword_url($this->get_link_url());
 
         return template('auth/login', [
             'register_url' => $register_url,
             'form_action' => $form_action,
             'username' => $username,
             'password' => $password,
+            'reset_url' => $reset_url,
             'error' => $error
         ]);
 
+    }
+
+    public function get_link_url()
+    {
+        return get_site_url(null, 'launcher');
     }
 
 
