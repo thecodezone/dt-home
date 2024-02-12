@@ -123,13 +123,13 @@ if ( is_dir( $svgDirPath ) ) {
                 </td>
             </tr>
 		<?php } ?>
-        <tr>
+        <!--<tr>
             <td style="vertical-align: middle;">Sort [&#63;]</td>
             <td colspan="3">
                 <input style="min-width: 100%;" type="number" name="sort" id="sort" class="form-control"
-                       value="<?php echo esc_attr( $existing_data['sort'] ); ?>">
+                       value="<?php /*echo esc_attr( $existing_data['sort'] ); */?>">
             </td>
-        </tr>
+        </tr>-->
         <tr>
             <td style="vertical-align: middle;">Is Hidden [&#63;]</td>
             <td colspan="3">
