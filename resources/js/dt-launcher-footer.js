@@ -5,6 +5,7 @@ import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/button/sp-clear-button.js';
 import '@spectrum-web-components/button/sp-close-button.js';
 import "@spectrum-web-components/progress-circle/sp-progress-circle.js";
+import '@spectrum-web-components/action-menu/sp-action-menu.js';
 import { isInstalled , isAndroid} from './helpers.js';
 
 class DtLauncherFooter extends LitElement {
@@ -52,9 +53,15 @@ class DtLauncherFooter extends LitElement {
             <sp-button class="footer-button" variant="cta">${translate('installAppLabel')}</sp-button>
           </a>
         ` : ''}
-          <a href="${currentUrl}/hidden-apps" variant="cta">
-              <sp-button class="footer-button" variant="cta">${translate('hiddenAppLabel')}</sp-button>
-          </a>
+
+          <sp-action-menu>
+            <span class="footer-button" slot="label-only">${translate('hiddenAppLabel')}</span>
+            <sp-menu-item class="footer-button">
+              <a href="${currentUrl}/hidden-apps" variant="cta">
+                ${translate('hiddenAppLabel')}
+              </a>
+            </sp-menu-item>
+          </sp-action-menu>
       </div>
     `;
   }
