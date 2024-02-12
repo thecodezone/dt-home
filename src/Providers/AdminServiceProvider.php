@@ -3,6 +3,7 @@
 namespace DT\Launcher\Providers;
 
 use DT\Launcher\CodeZone\Router\Middleware\Stack;
+use function DT\Launcher\namespace_string;
 
 class AdminServiceProvider extends ServiceProvider {
 	/**
@@ -20,8 +21,8 @@ class AdminServiceProvider extends ServiceProvider {
 	 */
 	public function register_menu(): void {
 		add_submenu_page( 'dt_extensions',
-			__( 'DT App Launcher', 'dt_launcher' ),
-			__( 'DT App Launcher', 'dt_launcher' ),
+			__( 'App Launcher', 'dt_launcher' ),
+			__( 'App Launcher', 'dt_launcher' ),
 			'manage_dt',
 			'dt_launcher',
 			[ $this, 'register_router' ]
@@ -34,7 +35,7 @@ class AdminServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register_router(): void {
-		apply_filters( 'dt/launcher/middleware', $this->container->make( Stack::class ) )
+		apply_filters( namespace_string( 'middleware' ), $this->container->make( Stack::class ) )
 			->run();
 	}
 

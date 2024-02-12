@@ -7,7 +7,7 @@ $this->layout('layouts/auth');
         <div class="section__inner">
             <div class="logo">
                 <img
-                    src="https://sample.ddev.site/wp-content/plugins/disciple-tools-autolink/magic-link//images/logo-color.png"
+                    src="<?php echo esc_url($logo_path) ?>"
                     alt="Disciple.Tools"
                     class="logo__image">
             </div>
@@ -54,7 +54,7 @@ $this->layout('layouts/auth');
     </dt-tile>
     <div class="login__footer">
         <dt-button context="link"
-                   href="">
+                   href="<?php echo esc_url($reset_url); ?>">
             <?php esc_html_e('Forgot Password?', 'disciple-tools-autolink'); ?>
         </dt-button>
     </div>

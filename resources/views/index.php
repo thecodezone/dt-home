@@ -3,6 +3,10 @@ $this->layout('layouts/plugin');
 ?>
 
 <div>
+    <div>
+        <dt-copy-text value="<?php echo esc_url($magic_link); ?>"></dt-copy-text>
+    </div>
+
     <dt-launcher-app-grid id="appGrid" app-data='<?php echo htmlspecialchars($data); ?>'
                           app-url='<?php echo esc_url($app_url); ?>'>
         <!-- Add more app icons as needed -->

@@ -2,11 +2,12 @@
 
 namespace DT\Launcher\Providers;
 
+use DT\Launcher\CodeZone\Router;
 use DT\Launcher\CodeZone\Router\FastRoute\Routes;
 use DT\Launcher\CodeZone\Router\Middleware\Stack;
-use DT\Launcher\CodeZone\Router\Router;
 use DT\Launcher\FastRoute\RouteCollector;
 use DT\Launcher\Illuminate\Http\Response;
+use function DT\Launcher\namespace_string;
 use function DT\Launcher\routes_path;
 
 class RouterServiceProvider extends ServiceProvider {
@@ -19,8 +20,8 @@ class RouterServiceProvider extends ServiceProvider {
 			'container' => $this->container,
 		] );
 
-		add_filter( "codezone/router/routes", [ $this, 'include_route_file' ], 1 );
-		add_action( 'codezone/router/render', [ $this, 'render_response' ], 10, 2 );
+		add_filter( Router\namespace_string( "routes" ), [ $this, 'include_route_file' ], 1 );
+		add_action( Router\namespace_string( "render" ), [ $this, 'render_response' ], 10, 2 );
 	}
 
 	/**
@@ -32,7 +33,7 @@ class RouterServiceProvider extends ServiceProvider {
 			return;
 		}
 
-		apply_filters( 'dt/launcher/middleware', $this->container->make( Stack::class ) )
+		apply_filters( namespace_string( 'middleware' ), $this->container->make( Stack::class ) )
 			->run();
 	}
 

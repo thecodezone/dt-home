@@ -38,7 +38,7 @@ function plugin_path( string $path = '' ): string {
 	return '/' . implode( '/', [
 			trim( Str::remove( '/src', plugin_dir_path( __FILE__ ) ), '/' ),
 			trim( $path, '/' ),
-		] );
+    ] );
 }
 
 /**
@@ -162,4 +162,15 @@ function magic_url( $action = '', $key = '' ) {
 	}
 
 	return DT_Magic_URL::get_link_url( 'launcher', 'app', $key, $action );
+}
+
+/**
+ * Concatenates the given string to the namespace of the Router class.
+ *
+ * @param string $string The string to be concatenated to the namespace.
+ *
+ * @return string The result of concatenating the given string to the namespace of the Router class.
+ */
+function namespace_string( string $string ): string {
+	return Plugin::class . '\\' . $string;
 }

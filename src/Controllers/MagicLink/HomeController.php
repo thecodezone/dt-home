@@ -18,12 +18,14 @@ class HomeController
         $apps_array = get_option('dt_launcher_apps', []);
         $data = json_encode($apps_array);
         $app_url = magic_url('', $key);
+        $magic_link = magic_url();
 
         return template('index', compact(
             'user',
             'subpage_url',
             'data',
-            'app_url'
+            'app_url',
+            'magic_link'
         ));
     }
 
@@ -103,9 +105,30 @@ class HomeController
         update_option('dt_launcher_apps', $apps_array);
 
         $responseData = ['message' => 'App visibility updated'];
+    
+        $response->setContent(json_encode($responseData));
+
+        return $response;
+    }
+
+    public function update_app_order(Request $request, Response $response, $key): Response
+    {
+        $data = $request->json()->all();
+        // Iterate through each app in the data
+        foreach ($data as $key => $app) {
+            // Update the 'sort' field for each app based on its position in the array
+            $data[$key]['sort'] = $key + 1;
+        }
+        // Save the updated app order back to the database or storage
+        update_option('dt_launcher_apps', $data);
+
+        $responseData = ['message' => 'App order updated'];
+
+        $response->headers->set('Content-Type', 'application/json');
 
         $response->setContent(json_encode($responseData));
 
         return $response;
     }
+
 }

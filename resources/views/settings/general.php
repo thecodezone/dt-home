@@ -16,6 +16,19 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                 </label>
             </td>
         </tr>
+        <!--For giving some space between the field and the button.-->
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+        </tr>
         <tr>
             <td>
                 <button type="submit" id="ml_email_main_col_update_but" class="button float-right">

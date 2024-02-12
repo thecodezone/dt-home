@@ -1,5 +1,5 @@
 <div class="wrap">
-    <h2><?php $this->esc_html_e( 'DT App Launcher', 'dt_launcher' ) ?></h2>
+    <h2><?php $this->esc_html_e( 'App Launcher', 'dt_launcher' ) ?></h2>
 
     <h2 class="nav-tab-wrapper">
         <a href="admin.php?page=dt_launcher&tab=general"
@@ -9,7 +9,7 @@
 
         <a href="admin.php?page=dt_launcher&tab=app"
            class="nav-tab <?php echo $this->esc_html( ( $tab == 'app' || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
-			<?php $this->esc_html_e( 'App', 'dt_launcher' ) ?>
+			<?php $this->esc_html_e( 'Apps', 'dt_launcher' ) ?>
         </a>
 
         <a href="admin.php?page=dt_launcher&tab=training"
