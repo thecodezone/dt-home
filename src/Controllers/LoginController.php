@@ -68,10 +68,15 @@ class LoginController
 
     }
 
+    public function logout($params = [])
+    {
+        wp_logout();
+        return redirect('/launcher/login');
+        exit;
+    }
+
     public function get_link_url()
     {
         return get_site_url(null, 'launcher');
     }
-
-
 }
