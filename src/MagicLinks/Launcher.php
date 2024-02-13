@@ -1,12 +1,12 @@
 <?php
 
-namespace DT\Launcher\MagicLinks;
+namespace DT\Home\MagicLinks;
 
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Illuminate\Support\Str;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Illuminate\Support\Str;
 use DT_Magic_Url_Base;
-use function DT\Launcher\container;
-use const DT\Launcher\Kucrut\Vite\VITE_CLIENT_SCRIPT_HANDLE;
+use function DT\Home\container;
+use const DT\Home\Kucrut\Vite\VITE_CLIENT_SCRIPT_HANDLE;
 
 
 /**
@@ -14,7 +14,7 @@ use const DT\Launcher\Kucrut\Vite\VITE_CLIENT_SCRIPT_HANDLE;
  *
  * Represents the Starter Magic App for handling magic links.
  */
-class App extends DT_Magic_Url_Base {
+class Launcher extends DT_Magic_Url_Base {
 
 	/**
 	 * Initializes the value of the page title.
@@ -23,7 +23,7 @@ class App extends DT_Magic_Url_Base {
 	 *
 	 * @var string $page_title The value of the page title.
 	 */
-	public $page_title = 'DT Launcher';
+	public $page_title = 'DT Home';
 
 	/**
 	 * Initializes the value of the page description.
@@ -32,7 +32,7 @@ class App extends DT_Magic_Url_Base {
 	 *
 	 * @var string $page_description The value of the page description.
 	 */
-	public $page_description = 'DT application launcher.';
+	public $page_description = 'DT home screen.';
 
 	/**
 	 * Initializes the value of the root directory.
@@ -41,7 +41,7 @@ class App extends DT_Magic_Url_Base {
 	 *
 	 * @var string $root The value of the root directory.
 	 */
-	public $root = 'launcher';
+	public $root = 'home';
 
 	/**
 	 * Initializes the value of the type.
@@ -50,7 +50,7 @@ class App extends DT_Magic_Url_Base {
 	 *
 	 * @var string $type The value of the type.
 	 */
-	public $type = 'app';
+	public $type = 'launcher';
 
 
 	/**
@@ -162,7 +162,7 @@ class App extends DT_Magic_Url_Base {
 	 */
 	public function should_allow_asset( $asset_handle ) {
 		return Str::contains( $asset_handle, [
-			'dt_launcher',
+			'dt_home',
 			VITE_CLIENT_SCRIPT_HANDLE
 		] );
 	}

@@ -1,29 +1,29 @@
 {
-  "name": "DT App Launcher",
+  "name": "DT Home",
   "version": "0.1",
   "last_updated": "2023-12",
   "author": "CodeZone",
   "author_homepage": "https://codezone.io",
   "git_owner": "thecodezone",
-  "git_repo": "dt-launcher",
-  "download_url": "https://github.com/thecodezone/dt-launcher/releases/latest/download/dt-launcher.zip",
-  "homepage": "https://github.com/thecodezone/dt-launcher",
-  "issues_url": "https://github.com/thecodezone/dt-launcher/issues",
-  "projects_url": "https://github.com/thecodezone/dt-launcher/projects/1",
-  "discussions_url": "https://github.com/thecodezone/dt-launcher/discussions",
-  "wiki_url": "https://github.com/thecodezone/dt-launcher/wiki",
-  "license_url": "https://raw.githubusercontent.com/thecodezone/dt-launcher/master/LICENSE",
-  "readme_url": "https://raw.githubusercontent.com/thecodezone/dt-launcher/master/README.md",
+  "git_repo": "dt-home",
+  "download_url": "https://github.com/thecodezone/dt-home/releases/latest/download/dt-home.zip",
+  "homepage": "https://github.com/thecodezone/dt-home",
+  "issues_url": "https://github.com/thecodezone/dt-home/issues",
+  "projects_url": "https://github.com/thecodezone/dt-home/projects/1",
+  "discussions_url": "https://github.com/thecodezone/dt-home/discussions",
+  "wiki_url": "https://github.com/thecodezone/dt-home/wiki",
+  "license_url": "https://raw.githubusercontent.com/thecodezone/dt-home/master/LICENSE",
+  "readme_url": "https://raw.githubusercontent.com/thecodezone/dt-home/master/README.md",
   "requires": "4.7",
   "tested": "5.7",
   "upgrade_notice": "Upgrade to get the latest features.",
   "banners": {
-    "low": "https://raw.githubusercontent.com/thecodezone/dt-launcher/master/resources/img/banner.png",
-    "high": "https://raw.githubusercontent.com/thecodezone/dt-launcher/master/resources/img/banner.png"
+    "low": "https://raw.githubusercontent.com/thecodezone/dt-home/master/resources/img/banner.png",
+    "high": "https://raw.githubusercontent.com/thecodezone/dt-home/master/resources/img/banner.png"
   },
-  "icon": "https://raw.githubusercontent.com/thecodezone/dt-launcher/master/resources/img/icon.png",
+  "icon": "https://raw.githubusercontent.com/thecodezone/dt-home/master/resources/img/icon.png",
   "sections": {
-    "description": "A modern disciple.tools plugin starter template.",
+    "description": "An app home screen for disciple.tools. Part of the DT Toolbox.",
     "installation": "(Required) You must have Disciple.Tools Theme installed before using this plugin. Once Disciple.Tools is installed, you can use the normal Plugin system to install the plugin.",
     "changelog": ""
   }

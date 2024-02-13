@@ -1,10 +1,10 @@
 <?php
 
-namespace DT\Launcher\Controllers;
+namespace DT\Home\Controllers;
 
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Illuminate\Http\Response;
-use function DT\Launcher\template;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Illuminate\Http\Response;
+use function DT\Home\template;
 
 class UserController
 {

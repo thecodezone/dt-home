@@ -1,9 +1,9 @@
 <?php
-$this->layout('layouts/settings', compact('tab', 'link', 'page_title'))
+$this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
 
-<form action="admin.php?page=dt_launcher&tab=training&action=create" method="post" enctype="multipart/form-data">
-    <?php wp_nonce_field('dt_admin_form', 'dt_admin_form_nonce') ?>
+<form action="admin.php?page=dt_home&tab=training&action=create" method="post" enctype="multipart/form-data">
+	<?php wp_nonce_field( 'dt_admin_form', 'dt_admin_form_nonce' ) ?>
 
     <table class="widefat striped" id="ml_email_main_col_config">
         <thead>
@@ -46,14 +46,14 @@ $this->layout('layouts/settings', compact('tab', 'link', 'page_title'))
     <br>
     <span id="ml_email_main_col_update_msg" style="font-weight: bold; color: red;"></span>
     <span style="float:right;">
-        <a href="admin.php?page=dt_launcher&tab=training"
-           class="button float-right"><?php esc_html_e('Cancel', 'disciple_tools') ?></a>
+        <a href="admin.php?page=dt_home&tab=training"
+           class="button float-right"><?php esc_html_e( 'Cancel', 'disciple_tools' ) ?></a>
         <button type="submit" id="ml_email_main_col_update_but"
-                class="button float-right"><?php esc_html_e('Submit', 'disciple_tools') ?></button>
+                class="button float-right"><?php esc_html_e( 'Submit', 'disciple_tools' ) ?></button>
     </span>
 </form>
 
-<?php $this->start('right') ?>
+<?php $this->start( 'right' ) ?>
 
 <!-- Add some content to the right side -->
 

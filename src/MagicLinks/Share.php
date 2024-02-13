@@ -1,11 +1,11 @@
 <?php
 
-namespace DT\Launcher\MagicLinks;
+namespace DT\Home\MagicLinks;
 
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Illuminate\Support\Str;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Illuminate\Support\Str;
 use DT_Magic_Url_Base;
-use function DT\Launcher\container;
+use function DT\Home\container;
 
 
 /**
@@ -23,7 +23,7 @@ class Share extends DT_Magic_Url_Base
      *
      * @var string $page_title The value of the page title.
      */
-    public $page_title = 'DT Launcher Share';
+    public $page_title = 'DT Home Share';
 
     /**
      * Initializes the value of the page description.
@@ -32,7 +32,7 @@ class Share extends DT_Magic_Url_Base
      *
      * @var string $page_description The value of the page description.
      */
-    public $page_description = 'DT application launcher share.';
+    public $page_description = 'DT application home share.';
 
     /**
      * Initializes the value of the root directory.
@@ -41,7 +41,7 @@ class Share extends DT_Magic_Url_Base
      *
      * @var string $root The value of the root directory.
      */
-    public $root = 'launcher';
+    public $root = 'home';
 
     /**
      * Initializes the value of the type.
