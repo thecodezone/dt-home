@@ -88,9 +88,9 @@ if ( is_dir( $svgDirPath ) ) {
                     <option value="Web View" <?php echo ( $existing_data['type'] === 'Web View' ) ? 'selected' : ''; ?>>
                         Web View
                     </option>
-                    <option value="Custom" <?php echo ( $existing_data['type'] === 'Custom' ) ? 'selected' : ''; ?>>
+                    <!--<option value="Custom" <?php /*echo ( $existing_data['type'] === 'Custom' ) ? 'selected' : ''; */?>>
                         Custom
-                    </option>
+                    </option>-->
                 </select>
                 <input style="min-width: 100%;" type="hidden" name="type"
                        value="<?php echo esc_attr( $existing_data['type'] ); ?>"/>
