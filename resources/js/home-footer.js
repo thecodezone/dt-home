@@ -1,11 +1,6 @@
 // Import LitElement base class and html helper function
 import { LitElement, html, css } from 'lit';
 import { translate } from './translate.js'; // Assuming you have an i18n module with a translate function
-import '@spectrum-web-components/button/sp-button.js';
-import '@spectrum-web-components/button/sp-clear-button.js';
-import '@spectrum-web-components/button/sp-close-button.js';
-import "@spectrum-web-components/progress-circle/sp-progress-circle.js";
-import '@spectrum-web-components/action-menu/sp-action-menu.js';
 import { isInstalled , isAndroid} from './helpers.js';
 
 class HomeFooter extends LitElement {
@@ -67,4 +62,4 @@ class HomeFooter extends LitElement {
   }
 }
 
-customElements.define('home-footer', DtHomeFooter);
+customElements.define('dt-home-footer', HomeFooter);

@@ -1,12 +1,4 @@
 import {css, html, LitElement} from 'lit';
-import '@spectrum-web-components/menu/sp-menu.js';
-import '@spectrum-web-components/menu/sp-menu-group.js';
-import '@spectrum-web-components/menu/sp-menu-item.js';
-import '@spectrum-web-components/menu/sp-menu-divider.js';
-import '@spectrum-web-components/overlay/sp-overlay.js';
-import '@spectrum-web-components/icon/sp-icon.js';
-import '@spectrum-web-components/icons-ui/icons/sp-icon-triple-gripper.js';
-
 class MenuComponent extends LitElement {
   static properties = {
     isOpen: {type: Boolean},

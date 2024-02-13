@@ -8,3 +8,15 @@ export const isAndroid = function () {
   const userAgent = navigator.userAgent;
   return userAgent.includes('Android');
 }
+
+export const loaded = function (callback) {
+  if (document.readyState === 'complete') {
+    callback();
+  } else {
+    document.onreadystatechange = function () {
+      if (document.readyState === "complete") {
+        callback();
+      }
+    }
+  }
+}
