@@ -13,7 +13,9 @@
                 $magic_url = DT\Launcher\magic_url();
                 $training = $magic_url . '/training';
                 $logout = $magic_url . '/logout';
+                $home = '/launcher';
                 $menuItems = json_encode([
+                    ['label' => __('Apps', 'dt_launcher'), 'href' => $home],
                     ['label' => __('Training', 'dt_launcher'), 'href' => $training],
                     ['label' => __('Log Out', 'dt_launcher'), 'href' => $logout],
                 ]);
