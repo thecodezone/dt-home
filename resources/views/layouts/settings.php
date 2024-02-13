@@ -1,20 +1,20 @@
 <div class="wrap">
-    <h2><?php $this->esc_html_e( 'App Launcher', 'dt_launcher' ) ?></h2>
+    <h2><?php $this->esc_html_e( 'App Launcher', 'dt_home' ) ?></h2>
 
     <h2 class="nav-tab-wrapper">
-        <a href="admin.php?page=dt_launcher&tab=general"
+        <a href="admin.php?page=dt_home&tab=general"
            class="nav-tab <?php echo $this->esc_html( ( $tab == 'general' || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
-			<?php $this->esc_html_e( 'General', 'dt_launcher' ) ?>
+			<?php $this->esc_html_e( 'General', 'dt_home' ) ?>
         </a>
 
-        <a href="admin.php?page=dt_launcher&tab=app"
+        <a href="admin.php?page=dt_home&tab=app"
            class="nav-tab <?php echo $this->esc_html( ( $tab == 'app' || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
-			<?php $this->esc_html_e( 'Apps', 'dt_launcher' ) ?>
+			<?php $this->esc_html_e( 'Apps', 'dt_home' ) ?>
         </a>
 
-        <a href="admin.php?page=dt_launcher&tab=training"
-           class="nav-tab <?php echo $this->esc_html(($tab == 'training' || !isset($tab)) ? 'nav-tab-active' : ''); ?>">
-            <?php $this->esc_html_e('Training Videos', 'dt_launcher') ?>
+        <a href="admin.php?page=dt_home&tab=training"
+           class="nav-tab <?php echo $this->esc_html( ( $tab == 'training' || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
+			<?php $this->esc_html_e( 'Training Videos', 'dt_home' ) ?>
         </a>
     </h2>
 

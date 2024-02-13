@@ -21,10 +21,10 @@ class AdminServiceProvider extends ServiceProvider {
 	 */
 	public function register_menu(): void {
 		add_submenu_page( 'dt_extensions',
-			__( 'App Launcher', 'dt_launcher' ),
-			__( 'App Launcher', 'dt_launcher' ),
+			__( 'App Launcher', 'dt_home' ),
+			__( 'App Launcher', 'dt_home' ),
 			'manage_dt',
-			'dt_launcher',
+			'dt_home',
 			[ $this, 'register_router' ]
 		);
 	}

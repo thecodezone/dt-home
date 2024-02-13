@@ -162,7 +162,7 @@ class App extends DT_Magic_Url_Base {
 	 */
 	public function should_allow_asset( $asset_handle ) {
 		return Str::contains( $asset_handle, [
-			'dt_launcher',
+			'dt_home',
 			VITE_CLIENT_SCRIPT_HANDLE
 		] );
 	}

@@ -12,7 +12,7 @@ class LoggedOut implements Middleware {
 
 	public function handle( Request $request, Response $response, $next ) {
 
-		$require_login = get_option( 'dt_launcher_require_login' );
+		$require_login = get_option( 'dt_home_require_login' );
 
 		if ( ! $require_login || is_user_logged_in() ) {
 			$response = new RedirectResponse( "/" . Plugin::HOME_ROUTE, 302 );

@@ -165,11 +165,11 @@ function magic_url( $action = '', $key = '' ) {
 }
 
 /**
- * Concatenates the given string to the namespace of the Router class.
+ * Concatenates the given string to the namespace of Plugin class.
  *
  * @param string $string The string to be concatenated to the namespace.
  *
- * @return string The result of concatenating the given string to the namespace of the Router class.
+ * @return string The result of concatenating the given string to the namespace of the Plugin class.
  */
 function namespace_string( string $string ): string {
 	return Plugin::class . '\\' . $string;

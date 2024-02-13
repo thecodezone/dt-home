@@ -1,13 +1,13 @@
 <?php
 /**
  * Plugin Name: DT App Launcher
- * Plugin URI: https://github.com/TheCodeZone/dt_launcher
+ * Plugin URI: https://github.com/TheCodeZone/dt_home
  * Description: A modern disciple.tools plugin starter template.
  * Text Domain: dt-launcher
  * Domain Path: /languages
  * Version:  0.1
  * Author URI: https://github.com/TheCodeZone
- * GitHub Plugin URI: https://github.com/TheCodeZone/dt_launcher
+ * GitHub Plugin URI: https://github.com/TheCodeZone/dt_home
  * Requires at least: 4.7.0
  * (Requires 4.7+ because of the integration of the REST API at 4.7 and the security requirements of this milestone version.)
  * Tested up to: 5.6

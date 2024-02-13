@@ -13,8 +13,8 @@ class ShareController
 
         $contact = \Disciple_Tools_Users::get_contact_for_user(get_current_user_id());
 
-        if (!isset($_COOKIE['dt_launcher_share'])) {
-            setcookie('dt_launcher_share', $contact, time() + (86400 * 30), "/");
+        if (!isset($_COOKIE['dt_home_share'])) {
+            setcookie('dt_home_share', $contact, time() + (86400 * 30), "/");
         }
 
         return redirect('/login');

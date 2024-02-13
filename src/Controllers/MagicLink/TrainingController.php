@@ -28,7 +28,7 @@ class TrainingController
     protected function get_all_trainings_data()
     {
         // Get the apps array from the option
-        $trainings_array = get_option('dt_launcher_trainings', []);
+        $trainings_array = get_option('dt_home_trainings', []);
 
         // Sort the array based on the 'sort' key
         usort($trainings_array, function ($a, $b) {

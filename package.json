@@ -1,5 +1,5 @@
 {
-  "name": "dt_launcher",
+  "name": "dt_home",
   "version": "1.0.0",
   "description": "A modern disciple.tools plugin starter template.",
   "main": "vite.config.js",

@@ -27,84 +27,84 @@ use DT\Launcher\Controllers\UserController;
 use DT\Launcher\Illuminate\Http\Request;
 use DT\Launcher\Symfony\Component\HttpFoundation\Response;
 
-$r->condition('plugin', function (Routes $r) {
-    $r->get('launcher', [RedirectController::class, 'show', ['middleware' => 'auth']]);
+$r->condition( 'plugin', function ( Routes $r ) {
+	$r->get( 'launcher', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
 
-    $r->group('launcher', function (Routes $r) {
-        $r->get('/users/{id}', [UserController::class, 'show', ['middleware' => ['auth', 'can:list_users']]]);
-        $r->get('/me', [UserController::class, 'current', ['middleware' => 'auth']]);
-        $r->get('/login', [LoginController::class, 'login', ['middleware' => 'guest']]);
-        $r->post('/login', [LoginController::class, 'login_process', ['middleware' => 'guest']]);
-        $r->get('/register', [RegisterController::class, 'register']);
-        $r->post('/register', [RegisterController::class, 'register_process']);
-    });
+	$r->group( 'launcher', function ( Routes $r ) {
+		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
+		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
+		$r->get( '/login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
+		$r->post( '/login', [ LoginController::class, 'login_process', [ 'middleware' => 'guest' ] ] );
+		$r->get( '/register', [ RegisterController::class, 'register' ] );
+		$r->post( '/register', [ RegisterController::class, 'register_process' ] );
+	} );
 
-    $r->middleware(['magic:launcher/app', 'check_share'], function (Routes $r) {
-        $r->group('launcher/app/{key}', function (Routes $r) {
-            $r->get('', [HomeController::class, 'show']);
-            $r->get('/hidden-apps', [HomeController::class, 'show_hidden_apps']);
-            $r->get('/subpage', [SubpageController::class, 'show']);
-            $r->get('/training', [TrainingController::class, 'show']);
-            $r->post('/update-hide-apps', [HomeController::class, 'update_hide_app']);
-            $r->post('/update-unhide-apps', [HomeController::class, 'update_unhide_app']);
-            $r->post('/update-app-order', [HomeController::class, 'update_app_order']);
-            $r->get('/logout', [LoginController::class, 'logout']);
-            $r->get('/{path:.*}', fn(Request $request, Response $response) => $response->setStatusCode(404));
-        });
-    });
+	$r->middleware( [ 'magic:launcher/app', 'check_share' ], function ( Routes $r ) {
+		$r->group( 'launcher/app/{key}', function ( Routes $r ) {
+			$r->get( '', [ HomeController::class, 'show' ] );
+			$r->get( '/hidden-apps', [ HomeController::class, 'show_hidden_apps' ] );
+			$r->get( '/subpage', [ SubpageController::class, 'show' ] );
+			$r->get( '/training', [ TrainingController::class, 'show' ] );
+			$r->post( '/update-hide-apps', [ HomeController::class, 'update_hide_app' ] );
+			$r->post( '/update-unhide-apps', [ HomeController::class, 'update_unhide_app' ] );
+			$r->post( '/update-app-order', [ HomeController::class, 'update_app_order' ] );
+			$r->get( '/logout', [ LoginController::class, 'logout' ] );
+			$r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
+		} );
+	} );
 
-    $r->middleware('magic:launcher/share', function (Routes $r) {
-        $r->group('launcher/share/{key}', function (Routes $r) {
-            $r->get('', [ShareController::class, 'show']);
-        });
-    });
-});
+	$r->middleware( 'magic:launcher/share', function ( Routes $r ) {
+		$r->group( 'launcher/share/{key}', function ( Routes $r ) {
+			$r->get( '', [ ShareController::class, 'show' ] );
+		} );
+	} );
+} );
 
-$r->condition('backend', function (Routes $r) {
-    $r->middleware('can:manage_dt', function (Routes $r) {
-        $r->group('wp-admin/admin.php', function (Routes $r) {
-            $r->get('?page=dt_launcher', [GeneralSettingsController::class, 'show']);
-            $r->get('?page=dt_launcher&tab=general', [GeneralSettingsController::class, 'show']);
+$r->condition( 'backend', function ( Routes $r ) {
+	$r->middleware( 'can:manage_dt', function ( Routes $r ) {
+		$r->group( 'wp-admin/admin.php', function ( Routes $r ) {
+			$r->get( '?page=dt_home', [ GeneralSettingsController::class, 'show' ] );
+			$r->get( '?page=dt_home&tab=general', [ GeneralSettingsController::class, 'show' ] );
 
-            $r->get('?page=dt_launcher&tab=app', [AppSettingsController::class, 'show_app_tab']);
-            $r->get('?page=dt_launcher&tab=app&action=create', [AppSettingsController::class, 'create_app']);
-            $r->get('?page=dt_launcher&tab=app&action=edit/{id}', [AppSettingsController::class, 'edit_app']);
-            $r->get('?page=dt_launcher&tab=app&action=unhide/{id}', [AppSettingsController::class, 'unhide']);
-            $r->get('?page=dt_launcher&tab=app&action=hide/{id}', [AppSettingsController::class, 'hide']);
-            $r->get('?page=dt_launcher&tab=app&action=up/{id}', [AppSettingsController::class, 'up']);
-            $r->get('?page=dt_launcher&tab=app&action=down/{id}', [AppSettingsController::class, 'down']);
+			$r->get( '?page=dt_home&tab=app', [ AppSettingsController::class, 'show_app_tab' ] );
+			$r->get( '?page=dt_home&tab=app&action=create', [ AppSettingsController::class, 'create_app' ] );
+			$r->get( '?page=dt_home&tab=app&action=edit/{id}', [ AppSettingsController::class, 'edit_app' ] );
+			$r->get( '?page=dt_home&tab=app&action=unhide/{id}', [ AppSettingsController::class, 'unhide' ] );
+			$r->get( '?page=dt_home&tab=app&action=hide/{id}', [ AppSettingsController::class, 'hide' ] );
+			$r->get( '?page=dt_home&tab=app&action=up/{id}', [ AppSettingsController::class, 'up' ] );
+			$r->get( '?page=dt_home&tab=app&action=down/{id}', [ AppSettingsController::class, 'down' ] );
 
-            $r->get('?page=dt_launcher&tab=training', [TrainingSettingsController::class, 'show_training_tab']);
-            $r->get('?page=dt_launcher&tab=training&action=create', [
-                TrainingSettingsController::class,
-                'create_training'
-            ]);
-            $r->get('?page=dt_launcher&tab=training&action=edit/{id}', [
-                TrainingSettingsController::class,
-                'edit_training'
-            ]);
-            $r->get('?page=dt_launcher&tab=training&action=up/{id}', [TrainingSettingsController::class, 'up']);
-            $r->get('?page=dt_launcher&tab=training&action=down/{id}', [TrainingSettingsController::class, 'down']);
-            $r->get('?page=dt_launcher&tab=training&action=delete/{id}', [
-                TrainingSettingsController::class,
-                'delete'
-            ]);
+			$r->get( '?page=dt_home&tab=training', [ TrainingSettingsController::class, 'show_training_tab' ] );
+			$r->get( '?page=dt_home&tab=training&action=create', [
+				TrainingSettingsController::class,
+				'create_training'
+			] );
+			$r->get( '?page=dt_home&tab=training&action=edit/{id}', [
+				TrainingSettingsController::class,
+				'edit_training'
+			] );
+			$r->get( '?page=dt_home&tab=training&action=up/{id}', [ TrainingSettingsController::class, 'up' ] );
+			$r->get( '?page=dt_home&tab=training&action=down/{id}', [ TrainingSettingsController::class, 'down' ] );
+			$r->get( '?page=dt_home&tab=training&action=delete/{id}', [
+				TrainingSettingsController::class,
+				'delete'
+			] );
 
-            $r->middleware('nonce:dt_admin_form_nonce', function (Routes $r) {
-                $r->post('?page=dt_launcher', [GeneralSettingsController::class, 'update']);
-                $r->post('?page=dt_launcher&tab=general', [GeneralSettingsController::class, 'update']);
-                $r->post('?page=dt_launcher&tab=app&action=create', [AppSettingsController::class, 'store']);
-                $r->post('?page=dt_launcher&tab=app&action=edit/{id}', [AppSettingsController::class, 'update']);
-                $r->post('?page=dt_launcher&tab=training&action=create', [
-                    TrainingSettingsController::class,
-                    'store'
-                ]);
-                $r->post('?page=dt_launcher&tab=training&action=edit/{id}', [
-                    TrainingSettingsController::class,
-                    'update'
+			$r->middleware( 'nonce:dt_admin_form_nonce', function ( Routes $r ) {
+				$r->post( '?page=dt_home', [ GeneralSettingsController::class, 'update' ] );
+				$r->post( '?page=dt_home&tab=general', [ GeneralSettingsController::class, 'update' ] );
+				$r->post( '?page=dt_home&tab=app&action=create', [ AppSettingsController::class, 'store' ] );
+				$r->post( '?page=dt_home&tab=app&action=edit/{id}', [ AppSettingsController::class, 'update' ] );
+				$r->post( '?page=dt_home&tab=training&action=create', [
+					TrainingSettingsController::class,
+					'store'
+				] );
+				$r->post( '?page=dt_home&tab=training&action=edit/{id}', [
+					TrainingSettingsController::class,
+					'update'
 
-                ]);
-            });
-        });
-    });
-});
+				] );
+			} );
+		} );
+	} );
+} );
