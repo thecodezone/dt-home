@@ -18,6 +18,7 @@
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@disciple.tools/web-components": "^0.5.2",
     "@spectrum-web-components/action-group": "^0.40.5",
+    "@spectrum-web-components/action-menu": "^0.41.0",
     "@spectrum-web-components/button": "^0.40.5",
     "@spectrum-web-components/menu": "^0.40.5",
     "@spectrum-web-components/progress-circle": "^0.40.5",

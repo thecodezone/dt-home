@@ -155,13 +155,13 @@ function redirect( string $url, int $status = 302 ): RedirectResponse {
  */
 function magic_url( $action = '', $key = '' ) {
 	if ( ! $key ) {
-		$key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'home', 'app' ) );
+		$key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'home', 'launcher' ) );
 		if ( ! $key ) {
 			return 'settings';
 		}
 	}
 
-	return DT_Magic_URL::get_link_url( 'home', 'app', $key, $action );
+	return DT_Magic_URL::get_link_url( 'home', 'launcher', $key, $action );
 }
 
 /**

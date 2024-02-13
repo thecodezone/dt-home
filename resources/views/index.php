@@ -23,5 +23,5 @@ $this->layout('layouts/plugin');
         <?php $this->esc_html_e('Visit subpage', 'dt-home'); ?>
     </a>
 
-    <dt-home-footer></dt-home-footer>
+    <home-footer></home-footer>
 </div>

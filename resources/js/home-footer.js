@@ -8,7 +8,7 @@ import "@spectrum-web-components/progress-circle/sp-progress-circle.js";
 import '@spectrum-web-components/action-menu/sp-action-menu.js';
 import { isInstalled , isAndroid} from './helpers.js';
 
-class DtHomeFooter extends LitElement {
+class HomeFooter extends LitElement {
   static get styles() {
     return css`
       .footer-container {
@@ -67,4 +67,4 @@ class DtHomeFooter extends LitElement {
   }
 }
 
-customElements.define('dt-home-footer', DtHomeFooter);
+customElements.define('home-footer', DtHomeFooter);

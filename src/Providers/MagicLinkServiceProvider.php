@@ -2,7 +2,7 @@
 
 namespace DT\Home\Providers;
 
-use DT\Home\MagicLinks\App;
+use DT\Home\MagicLinks\Launcher;
 use DT\Home\MagicLinks\Share;
 use function DT\Home\collect;
 
@@ -11,7 +11,7 @@ class MagicLinkServiceProvider extends ServiceProvider
     protected $container;
 
     protected $magic_links = [
-        'home/app' => App::class,
+        'home/launcher' => Launcher::class,
         'home/share' => Share::class,
     ];
 

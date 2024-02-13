@@ -39,8 +39,8 @@ $r->condition( 'plugin', function ( Routes $r ) {
 		$r->post( '/register', [ RegisterController::class, 'register_process' ] );
 	} );
 
-	$r->middleware( [ 'magic:home/app', 'check_share' ], function ( Routes $r ) {
-		$r->group( 'home/app/{key}', function ( Routes $r ) {
+	$r->middleware( [ 'magic:home/launcher', 'check_share' ], function ( Routes $r ) {
+		$r->group( 'home/launcher/{key}', function ( Routes $r ) {
 			$r->get( '', [ HomeController::class, 'show' ] );
 			$r->get( '/hidden-apps', [ HomeController::class, 'show_hidden_apps' ] );
 			$r->get( '/subpage', [ SubpageController::class, 'show' ] );

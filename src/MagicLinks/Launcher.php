@@ -14,7 +14,7 @@ use const DT\Home\Kucrut\Vite\VITE_CLIENT_SCRIPT_HANDLE;
  *
  * Represents the Starter Magic App for handling magic links.
  */
-class App extends DT_Magic_Url_Base {
+class Launcher extends DT_Magic_Url_Base {
 
 	/**
 	 * Initializes the value of the page title.
@@ -50,7 +50,7 @@ class App extends DT_Magic_Url_Base {
 	 *
 	 * @var string $type The value of the type.
 	 */
-	public $type = 'app';
+	public $type = 'launcher';
 
 
 	/**
