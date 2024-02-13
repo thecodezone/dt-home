@@ -1,11 +1,11 @@
 <?php
 
-namespace DT\Launcher\Controllers\Admin;
+namespace DT\Home\Controllers\Admin;
 
-use DT\Launcher\Illuminate\Http\RedirectResponse;
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Illuminate\Http\Response;
-use function DT\Launcher\view;
+use DT\Home\Illuminate\Http\RedirectResponse;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Illuminate\Http\Response;
+use function DT\Home\view;
 
 class GeneralSettingsController {
 	/**
@@ -14,7 +14,7 @@ class GeneralSettingsController {
 	public function show( Request $request, Response $response ) {
 		$tab                   = "general";
 		$link                  = 'admin.php?page=dt_home&tab=';
-		$page_title            = "Launcher Settings";
+		$page_title            = "Home Settings";
 		$dt_home_require_login = get_option( 'dt_home_require_login', true );
 
 		return view( "settings/general", compact( 'tab', 'link', 'page_title', 'dt_home_require_login' ) );

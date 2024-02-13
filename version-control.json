@@ -1,5 +1,5 @@
 {
-  "name": "DT App Launcher",
+  "name": "DT Home",
   "version": "0.1",
   "last_updated": "2023-12",
   "author": "CodeZone",
@@ -23,7 +23,7 @@
   },
   "icon": "https://raw.githubusercontent.com/thecodezone/dt-home/master/resources/img/icon.png",
   "sections": {
-    "description": "A modern disciple.tools plugin starter template.",
+    "description": "An app home screen for disciple.tools. Part of the DT Toolbox.",
     "installation": "(Required) You must have Disciple.Tools Theme installed before using this plugin. Once Disciple.Tools is installed, you can use the normal Plugin system to install the plugin.",
     "changelog": ""
   }

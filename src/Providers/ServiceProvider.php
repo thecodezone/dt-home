@@ -1,8 +1,8 @@
 <?php
 
-namespace DT\Launcher\Providers;
+namespace DT\Home\Providers;
 
-use DT\Launcher\Illuminate\Container\Container;
+use DT\Home\Illuminate\Container\Container;
 
 /**
  * Class ServiceProvider

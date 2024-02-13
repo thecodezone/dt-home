@@ -1,11 +1,11 @@
 <?php
 
-namespace DT\Launcher\Controllers\Admin;
+namespace DT\Home\Controllers\Admin;
 
-use DT\Launcher\Illuminate\Http\RedirectResponse;
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Illuminate\Http\Response;
-use function DT\Launcher\view;
+use DT\Home\Illuminate\Http\RedirectResponse;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Illuminate\Http\Response;
+use function DT\Home\view;
 
 class AppSettingsController {
 
@@ -16,7 +16,7 @@ class AppSettingsController {
 
 		$tab        = "app";
 		$link       = 'admin.php?page=dt_home&tab=';
-		$page_title = "Launcher Settings";
+		$page_title = "Home Settings";
 
 		$data = $this->get_all_apps_data();
 
@@ -39,7 +39,7 @@ class AppSettingsController {
 	public function create_app( Request $request, Response $response ) {
 		$tab        = "app";
 		$link       = 'admin.php?page=dt_home&tab=';
-		$page_title = "Launcher Settings";
+		$page_title = "Home Settings";
 
 		return view( "settings/create", compact( 'tab', 'link', 'page_title' ) );
 	}
@@ -267,7 +267,7 @@ class AppSettingsController {
 
 			$tab        = "app";
 			$link       = 'admin.php?page=dt_home&tab=';
-			$page_title = "Launcher Settings";
+			$page_title = "Home Settings";
 
 			if ( $existing_data ) {
 				// Load the edit form view and pass the existing data

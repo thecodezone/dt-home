@@ -1,6 +1,6 @@
 <?php
 
-namespace DT\Launcher\PostTypes;
+namespace DT\Home\PostTypes;
 
 use Disciple_Tools_Post_Type_Template;
 use DT_Mapbox_API;

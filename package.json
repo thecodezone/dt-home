@@ -1,7 +1,7 @@
 {
   "name": "dt_home",
   "version": "1.0.0",
-  "description": "A modern disciple.tools plugin starter template.",
+  "description": "An app home screen for disciple.tools. Part of the DT Toolbox.",
   "main": "vite.config.js",
   "type": "module",
   "scripts": {

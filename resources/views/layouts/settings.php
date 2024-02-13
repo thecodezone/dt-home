@@ -1,5 +1,5 @@
 <div class="wrap">
-    <h2><?php $this->esc_html_e( 'App Launcher', 'dt_home' ) ?></h2>
+    <h2><?php $this->esc_html_e( 'Home', 'dt_home' ) ?></h2>
 
     <h2 class="nav-tab-wrapper">
         <a href="admin.php?page=dt_home&tab=general"

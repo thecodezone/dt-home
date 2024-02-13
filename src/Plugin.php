@@ -1,9 +1,9 @@
 <?php
 
-namespace DT\launcher;
+namespace DT\Home;
 
-use DT\Launcher\Illuminate\Container\Container;
-use DT\Launcher\Providers\PluginServiceProvider;
+use DT\Home\Illuminate\Container\Container;
+use DT\Home\Providers\PluginServiceProvider;
 
 /**
  * This is the entry-object for the plugin.
@@ -20,7 +20,7 @@ class Plugin {
 	 * The route for the plugin's home page
 	 * @var string
 	 */
-	const HOME_ROUTE = 'launcher';
+	const HOME_ROUTE = 'home';
 
 	/**
 	 * The instance of the plugin
@@ -114,7 +114,7 @@ class Plugin {
 	public function dt_plugins(): array {
 		$plugin_data = get_file_data( __FILE__, [
 			'Version'     => '0.0',
-			'Plugin Name' => 'DT Launcher',
+			'Plugin Name' => 'DT Home',
 		], false );
 
 		$plugins['dt-home'] = [

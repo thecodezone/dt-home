@@ -1,8 +1,8 @@
 <?php
 
-namespace DT\Launcher\Conditions;
+namespace DT\Home\Conditions;
 
-use DT\Launcher\CodeZone\Router\Conditions\Condition;
+use DT\Home\CodeZone\Router\Conditions\Condition;
 
 class Frontend implements Condition {
 

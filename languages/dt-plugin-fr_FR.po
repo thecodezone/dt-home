@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Disciple Tools - DT App Launcher\n"
+"Project-Id-Version: Disciple Tools - DT Home\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/disciple-tools-"
 "plugin-starter-template\n"
 "POT-Creation-Date: 2022-10-27T10:12:56+00:00\n"
@@ -190,7 +190,7 @@ msgid "All"
 msgstr ""
 
 #: tile/custom-tile.php:32
-msgid "DT App Launcher"
+msgid "DT Home"
 msgstr ""
 
 #: tile/custom-tile.php:33

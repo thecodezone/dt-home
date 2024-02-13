@@ -1,10 +1,10 @@
 <?php
 
-namespace DT\Launcher\Services;
+namespace DT\Home\Services;
 
-use function DT\Launcher\Kucrut\Vite\enqueue_asset;
-use function DT\Launcher\plugin_path;
-use function DT\Launcher\view;
+use function DT\Home\Kucrut\Vite\enqueue_asset;
+use function DT\Home\plugin_path;
+use function DT\Home\view;
 
 class Template {
 

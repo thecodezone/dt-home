@@ -12,25 +12,25 @@
  * @see https://github.com/thecodezone/wp-router
  */
 
-use DT\Launcher\CodeZone\Router\FastRoute\Routes;
-use DT\Launcher\Controllers\Admin\AppSettingsController;
-use DT\Launcher\Controllers\Admin\GeneralSettingsController;
-use DT\Launcher\Controllers\Admin\TrainingSettingsController;
-use DT\Launcher\Controllers\LoginController;
-use DT\Launcher\Controllers\MagicLink\HomeController;
-use DT\Launcher\Controllers\MagicLink\ShareController;
-use DT\Launcher\Controllers\MagicLink\SubpageController;
-use DT\Launcher\Controllers\MagicLink\TrainingController;
-use DT\Launcher\Controllers\RedirectController;
-use DT\Launcher\Controllers\RegisterController;
-use DT\Launcher\Controllers\UserController;
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Symfony\Component\HttpFoundation\Response;
+use DT\Home\CodeZone\Router\FastRoute\Routes;
+use DT\Home\Controllers\Admin\AppSettingsController;
+use DT\Home\Controllers\Admin\GeneralSettingsController;
+use DT\Home\Controllers\Admin\TrainingSettingsController;
+use DT\Home\Controllers\LoginController;
+use DT\Home\Controllers\MagicLink\HomeController;
+use DT\Home\Controllers\MagicLink\ShareController;
+use DT\Home\Controllers\MagicLink\SubpageController;
+use DT\Home\Controllers\MagicLink\TrainingController;
+use DT\Home\Controllers\RedirectController;
+use DT\Home\Controllers\RegisterController;
+use DT\Home\Controllers\UserController;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Symfony\Component\HttpFoundation\Response;
 
 $r->condition( 'plugin', function ( Routes $r ) {
-	$r->get( 'launcher', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
+	$r->get( 'home', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
 
-	$r->group( 'launcher', function ( Routes $r ) {
+	$r->group( 'home', function ( Routes $r ) {
 		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
 		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
 		$r->get( '/login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
@@ -39,8 +39,8 @@ $r->condition( 'plugin', function ( Routes $r ) {
 		$r->post( '/register', [ RegisterController::class, 'register_process' ] );
 	} );
 
-	$r->middleware( [ 'magic:launcher/app', 'check_share' ], function ( Routes $r ) {
-		$r->group( 'launcher/app/{key}', function ( Routes $r ) {
+	$r->middleware( [ 'magic:home/app', 'check_share' ], function ( Routes $r ) {
+		$r->group( 'home/app/{key}', function ( Routes $r ) {
 			$r->get( '', [ HomeController::class, 'show' ] );
 			$r->get( '/hidden-apps', [ HomeController::class, 'show_hidden_apps' ] );
 			$r->get( '/subpage', [ SubpageController::class, 'show' ] );
@@ -53,8 +53,8 @@ $r->condition( 'plugin', function ( Routes $r ) {
 		} );
 	} );
 
-	$r->middleware( 'magic:launcher/share', function ( Routes $r ) {
-		$r->group( 'launcher/share/{key}', function ( Routes $r ) {
+	$r->middleware( 'magic:home/share', function ( Routes $r ) {
+		$r->group( 'home/share/{key}', function ( Routes $r ) {
 			$r->get( '', [ ShareController::class, 'show' ] );
 		} );
 	} );

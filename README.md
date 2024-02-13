@@ -30,7 +30,7 @@ already well-versed in Laravel and Symfony frameworks.
 1. WordPress code style requirements. ```phpcs.xml```
 1. PHP Code Sniffer support (composer) @use ```/vendor/bin/phpcs``` and ```/vendor/bin/phpcbf```
 1. GitHub Actions Continuous Integration ```.githbub/workflows/ci.yml```
-1. Disciple.Tools Theme presence check. ```\DT\Launcher\plugin()->is_dt_theme(); ```
+1. Disciple.Tools Theme presence check. ```\DT\Home\plugin()->is_dt_theme(); ```
 1. Remote upgrade system for ongoing updates outside the Wordpress Directory.
 1. Multilingual support. ```/languages``` & ```default.pot```
 1. [Composer](https://getcomposer.org/) support. ```composer.json```
@@ -102,9 +102,9 @@ the plugin is first loaded. The `boot()` method is called after the theme have b
 Register new service providers in `/src/Providers/PluginServiceProvider.php`.
 
 ```php
-namespace DT\Launcher\Providers;
+namespace DT\Home\Providers;
 
-use DT\Launcher\Plugin;
+use DT\Home\Plugin;
 
 class ExampleServiceProvider extends ServiceProvider
 {
@@ -174,9 +174,9 @@ on [defining routes](https://github.com/nikic/FastRoute#defining-routes). To map
 symbol after the controller class name followed by the method name.
 
 ```php
-    use DT\Launcher\Controllers\HelloController;
+    use DT\Home\Controllers\HelloController;
 
-    $r->get( 'dt/launcher/hello', HelloController::class . '@show' );
+    $r->get( 'dt/Home/hello', HelloController::class . '@show' );
 ```
 
 ##### Rest Routes
@@ -216,7 +216,7 @@ Routes are mapped to controllers which load basic PHP templates from the `resour
 ##### Loading a view inside of the plugin template
 
 ```php
-    use DT\Launcher\view;
+    use DT\Home\view;
     
     \template( 'hello', [
         'name' => 'World',
@@ -226,7 +226,7 @@ Routes are mapped to controllers which load basic PHP templates from the `resour
 ##### Loading a without the plugin template
 
 ```php
-    use DT\Launcher\view;
+    use DT\Home\view;
     
     \view( 'hello', [
         'name' => 'World',

@@ -1,11 +1,11 @@
 <?php
 
-namespace DT\Launcher\Controllers;
+namespace DT\Home\Controllers;
 
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Illuminate\Http\Response;
-use function DT\Launcher\redirect;
-use function DT\Launcher\template;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Illuminate\Http\Response;
+use function DT\Home\redirect;
+use function DT\Home\template;
 
 class RegisterController
 {
@@ -56,7 +56,7 @@ class RegisterController
             return $this->register(['error' => esc_html_e('An unexpected error has occurred.', 'dt-home')]);
         }
 
-        return redirect('/launcher');
+        return redirect('/home');
     }
 
     /**
@@ -64,8 +64,8 @@ class RegisterController
      */
     public function register($params = [])
     {
-        $form_action = '/launcher/register';
-        $login_url = '/launcher/login';
+        $form_action = '/home/register';
+        $login_url = '/home/login';
         $error = $params['error'] ?? '';
         $username = $params['username'] ?? '';
         $email = $params['email'] ?? '';

@@ -1,29 +1,29 @@
 <?php
 
-namespace DT\Launcher\Providers;
+namespace DT\Home\Providers;
 
-use DT\Launcher\CodeZone\Router;
-use DT\Launcher\CodeZone\Router\Middleware\DispatchController;
-use DT\Launcher\CodeZone\Router\Middleware\HandleErrors;
-use DT\Launcher\CodeZone\Router\Middleware\HandleRedirects;
-use DT\Launcher\CodeZone\Router\Middleware\Middleware;
-use DT\Launcher\CodeZone\Router\Middleware\Render;
-use DT\Launcher\CodeZone\Router\Middleware\Route;
-use DT\Launcher\CodeZone\Router\Middleware\Stack;
-use DT\Launcher\CodeZone\Router\Middleware\UserHasCap;
-use DT\Launcher\Middleware\CheckShareCookie;
-use DT\Launcher\Middleware\LoggedIn;
-use DT\Launcher\Middleware\LoggedOut;
-use DT\Launcher\Middleware\MagicLink;
-use DT\Launcher\Middleware\Nonce;
+use DT\Home\CodeZone\Router;
+use DT\Home\CodeZone\Router\Middleware\DispatchController;
+use DT\Home\CodeZone\Router\Middleware\HandleErrors;
+use DT\Home\CodeZone\Router\Middleware\HandleRedirects;
+use DT\Home\CodeZone\Router\Middleware\Middleware;
+use DT\Home\CodeZone\Router\Middleware\Render;
+use DT\Home\CodeZone\Router\Middleware\Route;
+use DT\Home\CodeZone\Router\Middleware\Stack;
+use DT\Home\CodeZone\Router\Middleware\UserHasCap;
+use DT\Home\Middleware\CheckShareCookie;
+use DT\Home\Middleware\LoggedIn;
+use DT\Home\Middleware\LoggedOut;
+use DT\Home\Middleware\MagicLink;
+use DT\Home\Middleware\Nonce;
 use Exception;
-use function DT\Launcher\namespace_string;
+use function DT\Home\namespace_string;
 
 /**
  * Request middleware to be used in the request lifecycle.
  *
  * Class MiddlewareServiceProvider
- * @package DT\Launcher\Providers
+ * @package DT\Home\Providers
  */
 class MiddlewareServiceProvider extends ServiceProvider {
 	protected $middleware = [
@@ -74,7 +74,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
 			switch ( $name ) {
 				case 'magic':
 					$magic_link_name       = $signature;
-					$magic_link_class_name = $this->container->make( 'DT\Launcher\MagicLinks' )->get( $magic_link_name );
+					$magic_link_class_name = $this->container->make( 'DT\Home\MagicLinks' )->get( $magic_link_name );
 					if ( ! $magic_link_class_name ) {
 						throw new Exception( "Magic link not found: $magic_link_name" );
 					}

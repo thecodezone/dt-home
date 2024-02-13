@@ -1,13 +1,13 @@
 <?php
 
-namespace DT\Launcher\Controllers\MagicLink;
+namespace DT\Home\Controllers\MagicLink;
 
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Illuminate\Http\Response;
-use function DT\Launcher\magic_url;
-use function DT\Launcher\redirect;
-use function DT\Launcher\template;
-use function DT\Launcher\view;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Illuminate\Http\Response;
+use function DT\Home\magic_url;
+use function DT\Home\redirect;
+use function DT\Home\template;
+use function DT\Home\view;
 
 class TrainingController
 {

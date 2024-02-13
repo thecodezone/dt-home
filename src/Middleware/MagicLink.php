@@ -1,12 +1,12 @@
 <?php
 
-namespace DT\Launcher\Middleware;
+namespace DT\Home\Middleware;
 
-use DT\Launcher\CodeZone\Router\Middleware\Middleware;
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Symfony\Component\HttpFoundation\Response;
+use DT\Home\CodeZone\Router\Middleware\Middleware;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Symfony\Component\HttpFoundation\Response;
 use DT_Magic_Url_Base;
-use function DT\Launcher\container;
+use function DT\Home\container;
 
 /**
  * Check if the current path is a magic link path.

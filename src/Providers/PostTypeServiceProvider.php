@@ -1,8 +1,8 @@
 <?php
 
-namespace DT\Launcher\Providers;
+namespace DT\Home\Providers;
 
-use DT\Launcher\PostTypes\StarterPostType;
+use DT\Home\PostTypes\StarterPostType;
 
 class PostTypeServiceProvider extends ServiceProvider {
 

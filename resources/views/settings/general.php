@@ -12,7 +12,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                     <input type="checkbox" id="dt_home_require_login"
                            name="dt_home_require_login" <?php checked( $dt_home_require_login ); ?>
                     >
-					<?php esc_html_e( 'Require users to login to access launcher' ); ?>
+					<?php esc_html_e( 'Require users to login to access the home screen?' ); ?>
                 </label>
             </td>
         </tr>

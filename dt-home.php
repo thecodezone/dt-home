@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: DT App Launcher
+ * Plugin Name: DT Home
  * Plugin URI: https://github.com/TheCodeZone/dt_home
- * Description: A modern disciple.tools plugin starter template.
+ * Description: An app home screen for disciple.tools. Part of the DT Toolbox.
  * Text Domain: dt_home
  * Domain Path: /languages
  * Version:  0.1
@@ -18,8 +18,8 @@
  *          https://www.gnu.org/licenses/gpl-2.0.html
  */
 
-use DT\Launcher\Illuminate\Container\Container;
-use DT\Launcher\Plugin;
+use DT\Home\Illuminate\Container\Container;
+use DT\Home\Plugin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly

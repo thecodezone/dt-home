@@ -1,11 +1,11 @@
 <?php
 
-namespace DT\Launcher\Controllers;
+namespace DT\Home\Controllers;
 
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Illuminate\Http\Response;
-use function DT\Launcher\redirect;
-use function DT\Launcher\template;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Illuminate\Http\Response;
+use function DT\Home\redirect;
+use function DT\Home\template;
 
 class LoginController
 {
@@ -42,7 +42,7 @@ class LoginController
 
         wp_set_current_user($user->ID);
 
-        return redirect('/launcher');
+        return redirect('/home');
     }
 
     /**
@@ -50,8 +50,8 @@ class LoginController
      */
     public function login($params = [])
     {
-        $register_url = '/launcher/register';
-        $form_action = '/launcher/login';
+        $register_url = '/home/register';
+        $form_action = '/home/login';
         $username = $params['username'] ?? '';
         $password = $params['password'] ?? '';
         $error = $params['error'] ?? '';
@@ -73,12 +73,12 @@ class LoginController
     public function logout($params = [])
     {
         wp_logout();
-        return redirect('/launcher/login');
+        return redirect('/home/login');
         exit;
     }
 
     public function get_link_url()
     {
-        return get_site_url(null, 'launcher');
+        return get_site_url(null, 'home');
     }
 }

@@ -10,7 +10,7 @@
 
 			<?php if ( $user->has_cap( 'access_disciple_tools' ) ): ?>
 				<?php
-				$magic_url = DT\Launcher\magic_url();
+				$magic_url = DT\Home\magic_url();
 				$training  = $magic_url . '/training';
 				$logout    = $magic_url . '/logout';
 				$menuItems = json_encode( [
