@@ -1,9 +1,9 @@
 <?php
-$this->layout('layouts/settings', compact('tab', 'link', 'page_title'))
+$this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
 
 <form method="post">
-    <?php wp_nonce_field('dt_admin_form', 'dt_admin_form_nonce') ?>
+	<?php wp_nonce_field( 'dt_admin_form', 'dt_admin_form_nonce' ) ?>
 
     <!-- Add a form -->
 </form>
@@ -13,8 +13,8 @@ $this->layout('layouts/settings', compact('tab', 'link', 'page_title'))
         <div class="row">
             <div class="col-md-12">
                     <span style="float:right;">
-                        <a href="admin.php?page=dt_launcher&tab=training&action=create" class="button float-right"><i
-                                class="fa fa-plus"></i> Add Training</a>
+                        <a href="admin.php?page=dt_home&tab=training&action=create" class="button float-right"><i
+                                    class="fa fa-plus"></i> Add Training</a>
                     </span>
 
                 <br><br>
@@ -29,23 +29,25 @@ $this->layout('layouts/settings', compact('tab', 'link', 'page_title'))
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($data as $training) : ?>
+					<?php foreach ( $data as $training ) : ?>
                         <tr>
                             <td style="border: 1px solid #ddd;"><?php echo esc_html($training['name']); ?></td>
                             <td style="border: 1px solid #ddd;"><?php echo stripslashes($training['embed_video']); ?></td>
                             <td style="border: 1px solid #ddd;">
-                                <?php echo esc_html($training['anchor']); ?>
+								<?php echo esc_html( $training['anchor'] ); ?>
                             </td>
 
                             <td style="border: 1px solid #ddd;">
-                                <a href="admin.php?page=dt_launcher&tab=training&action=up/<?php echo esc_attr($training['id']); ?>">Up</a>| &nbsp;
-                                <a href="admin.php?page=dt_launcher&tab=training&action=edit/<?php echo esc_attr($training['id']); ?>">Edit</a>|&nbsp;
-                                <a href="#" onclick="confirmDelete(<?php echo esc_attr($training['id']); ?>)">Delete</a>|&nbsp;
-                                <a href="admin.php?page=dt_launcher&tab=training&action=down/<?php echo esc_attr($training['id']); ?>">Down</a>
+                                <a href="admin.php?page=dt_home&tab=training&action=up/<?php echo esc_attr( $training['id'] ); ?>">Up</a>|
+                                &nbsp;
+                                <a href="admin.php?page=dt_home&tab=training&action=edit/<?php echo esc_attr( $training['id'] ); ?>">Edit</a>|&nbsp;
+                                <a href="#"
+                                   onclick="confirmDelete(<?php echo esc_attr( $training['id'] ); ?>)">Delete</a>|&nbsp;
+                                <a href="admin.php?page=dt_home&tab=training&action=down/<?php echo esc_attr( $training['id'] ); ?>">Down</a>
                             </td>
 
                         </tr>
-                    <?php endforeach; ?>
+					<?php endforeach; ?>
                     </tbody>
                 </table>
 
@@ -58,12 +60,12 @@ $this->layout('layouts/settings', compact('tab', 'link', 'page_title'))
         var confirmation = confirm("Are you sure you want to delete this entry?");
         if (confirmation) {
             // If the user confirms, redirect to the delete URL
-            window.location.href = "admin.php?page=dt_launcher&tab=training&action=delete/" + trainingId;
+            window.location.href = "admin.php?page=dt_home&tab=training&action=delete/" + trainingId;
         }
         // If the user cancels, do nothing
     }
 </script>
-<?php $this->start('right') ?>
+<?php $this->start( 'right' ) ?>
 
 <!-- Add some content to the right side -->
 

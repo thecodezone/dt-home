@@ -44,7 +44,7 @@ $this->layout('layouts/auth');
                 <dt-button context="success"
                            type="submit"
                            class="button--large button--block">
-                    <?php esc_html_e('Register', 'dt-launcher') ?>
+                    <?php esc_html_e('Register', 'dt-home') ?>
                 </dt-button>
             </form>
         </div>
@@ -52,7 +52,7 @@ $this->layout('layouts/auth');
     <div class="login__footer">
         <dt-button context="link"
                    href="<?php echo esc_url($login_url); ?>">
-            <?php esc_html_e('Back to Login', 'dt-launcher'); ?>
+            <?php esc_html_e('Back to Login', 'dt-home'); ?>
         </dt-button>
     </div>
 </div>

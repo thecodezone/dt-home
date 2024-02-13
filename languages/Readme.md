@@ -2,4 +2,4 @@
 {translation-domain}-{localisation}.po
 
 ex:
-dt-launcher-fr_FR.po
+dt_home-fr_FR.po

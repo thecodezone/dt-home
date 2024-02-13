@@ -1,11 +1,11 @@
 {
-  "name": "dt/launcher",
-  "description": "A modern disciple.tools plugin starter template.",
+  "name": "dt/home",
+  "description": "An app home screen for disciple.tools. Part of the DT Toolbox.",
   "type": "project",
   "license": "GNU",
   "autoload": {
     "psr-4": {
-      "DT\\Launcher\\": "src/"
+      "DT\\Home\\": "src/"
     },
     "files": [
       "src/helpers.php"
@@ -34,7 +34,7 @@
   },
   "extra": {
     "wpify-scoper": {
-      "prefix": "DT\\Launcher",
+      "prefix": "DT\\Home",
       "folder": "vendor-scoped",
       "globals": [
         "wordpress"

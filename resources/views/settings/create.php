@@ -57,7 +57,7 @@ if ( is_dir( $svgDirPath ) ) {
         cursor: pointer;
     }
 </style>
-<form action="admin.php?page=dt_launcher&tab=app&action=create" method="post" enctype="multipart/form-data">
+<form action="admin.php?page=dt_home&tab=app&action=create" method="post" enctype="multipart/form-data">
 	<?php wp_nonce_field( 'dt_admin_form', 'dt_admin_form_nonce' ) ?>
 
     <table class="widefat striped" id="ml_email_main_col_config">
@@ -119,7 +119,7 @@ if ( is_dir( $svgDirPath ) ) {
     <br>
     <span id="ml_email_main_col_update_msg" style="font-weight: bold; color: red;"></span>
     <span style="float:right;">
-        <a href="admin.php?page=dt_launcher&tab=app"
+        <a href="admin.php?page=dt_home&tab=app"
            class="button float-right"><?php esc_html_e( 'Cancel', 'disciple_tools' ) ?></a>
         <button type="submit" id="ml_email_main_col_update_but"
                 class="button float-right"><?php esc_html_e( 'Submit', 'disciple_tools' ) ?></button>

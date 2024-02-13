@@ -1,11 +1,11 @@
 <?php
 
-namespace DT\Launcher\Controllers\MagicLink;
+namespace DT\Home\Controllers\MagicLink;
 
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Illuminate\Http\Response;
-use function DT\Launcher\magic_url;
-use function DT\Launcher\template;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Illuminate\Http\Response;
+use function DT\Home\magic_url;
+use function DT\Home\template;
 
 
 class HomeController
@@ -15,7 +15,7 @@ class HomeController
         $user = wp_get_current_user();
         $subpage_url = magic_url('subpage', $key);
 
-        $apps_array = get_option('dt_launcher_apps', []);
+        $apps_array = get_option('dt_home_apps', []);
         $data = json_encode($apps_array);
         $app_url = magic_url('', $key);
         $magic_link = magic_url();
@@ -35,7 +35,7 @@ class HomeController
         $subpage_url = magic_url('subpage', $key);
         $magic_link = magic_url();
 
-        $apps_array = get_option('dt_launcher_apps', []);
+        $apps_array = get_option('dt_home_apps', []);
         $data = json_encode($apps_array);
         $app_url = magic_url('', $key);
 
@@ -66,7 +66,7 @@ class HomeController
         // Assuming $data contains 'id' and 'is_hidden'
         $appId = $data['id'];
 
-        $apps_array = get_option('dt_launcher_apps', []);
+        $apps_array = get_option('dt_home_apps', []);
 
         // Find the app with the specified ID and update its 'is_hidden' status
         foreach ($apps_array as $key => $app) {
@@ -76,7 +76,7 @@ class HomeController
             }
         }
         // Save the updated array back to the option
-        update_option('dt_launcher_apps', $apps_array);
+        update_option('dt_home_apps', $apps_array);
 
         $responseData = ['message' => 'App visibility updated'];
 
@@ -92,7 +92,7 @@ class HomeController
         // Assuming $data contains 'id' and 'is_hidden'
         $appId = $data['id'];
 
-        $apps_array = get_option('dt_launcher_apps', []);
+        $apps_array = get_option('dt_home_apps', []);
 
         // Find the app with the specified ID and update its 'is_hidden' status
         foreach ($apps_array as $key => $app) {
@@ -102,7 +102,7 @@ class HomeController
             }
         }
         // Save the updated array back to the option
-        update_option('dt_launcher_apps', $apps_array);
+        update_option('dt_home_apps', $apps_array);
 
         $responseData = ['message' => 'App visibility updated'];
     
@@ -120,7 +120,7 @@ class HomeController
             $data[$key]['sort'] = $key + 1;
         }
         // Save the updated app order back to the database or storage
-        update_option('dt_launcher_apps', $data);
+        update_option('dt_home_apps', $data);
 
         $responseData = ['message' => 'App order updated'];
 

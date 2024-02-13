@@ -1,8 +1,8 @@
 <?php
 
-namespace DT\Launcher\Providers;
+namespace DT\Home\Providers;
 
-use DT\Launcher\PostTypes\StarterPostType;
+use DT\Home\PostTypes\StarterPostType;
 
 class PostTypeServiceProvider extends ServiceProvider {
 
@@ -39,12 +39,12 @@ class PostTypeServiceProvider extends ServiceProvider {
 	 */
 	public function dt_post_type_modules(): array {
 		$modules['starter_base'] = [
-			'name'          => __( 'Starter', 'dt-launcher' ),
+			'name'          => __( 'Starter', 'dt_home' ),
 			'enabled'       => true,
 			'locked'        => true,
 			'prerequisites' => [ 'contacts_base' ],
 			'post_type'     => 'starter_post_type',
-			'description'   => __( 'Default starter functionality', 'dt-launcher' )
+			'description'   => __( 'Default starter functionality', 'dt_home' )
 		];
 
 		return $modules;

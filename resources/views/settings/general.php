@@ -2,17 +2,17 @@
 $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
 
-<form method="post" action="admin.php?page=dt_launcher&tab=general">
+<form method="post" action="admin.php?page=dt_home&tab=general">
 	<?php wp_nonce_field( 'dt_admin_form', 'dt_admin_form_nonce' ); ?>
     <div class="error-message" style="display:none;"></div>
     <table>
         <tr>
             <td>
                 <label for="require_user">
-                    <input type="checkbox" id="dt_launcher_require_login"
-                           name="dt_launcher_require_login" <?php checked( $dt_launcher_require_login ); ?>
+                    <input type="checkbox" id="dt_home_require_login"
+                           name="dt_home_require_login" <?php checked( $dt_home_require_login ); ?>
                     >
-					<?php esc_html_e( 'Require users to login to access launcher' ); ?>
+					<?php esc_html_e( 'Require users to login to access the home screen?' ); ?>
                 </label>
             </td>
         </tr>

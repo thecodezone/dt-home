@@ -2,13 +2,13 @@
 
 namespace Tests;
 
-use DT\Launcher\CodeZone\Router\Middleware\HandleErrors;
-use DT\Launcher\CodeZone\Router\Middleware\HandleRedirects;
-use DT\Launcher\CodeZone\Router\Middleware\Render;
-use DT\Launcher\CodeZone\Router\Middleware\Stack;
-use DT\Launcher\Illuminate\Http\Request;
+use DT\Home\CodeZone\Router\Middleware\HandleErrors;
+use DT\Home\CodeZone\Router\Middleware\HandleRedirects;
+use DT\Home\CodeZone\Router\Middleware\Render;
+use DT\Home\CodeZone\Router\Middleware\Stack;
+use DT\Home\Illuminate\Http\Request;
 use WP_UnitTestCase;
-use function DT\Launcher\namespace_string;
+use function DT\Home\namespace_string;
 
 abstract class TestCase extends WP_UnitTestCase {
 	public function setUp(): void {

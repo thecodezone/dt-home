@@ -1,9 +1,9 @@
 <?php
 
-namespace DT\Launcher\Providers;
+namespace DT\Home\Providers;
 
-use DT\Launcher\CodeZone\Router\Middleware\Stack;
-use function DT\Launcher\namespace_string;
+use DT\Home\CodeZone\Router\Middleware\Stack;
+use function DT\Home\namespace_string;
 
 class AdminServiceProvider extends ServiceProvider {
 	/**
@@ -21,10 +21,10 @@ class AdminServiceProvider extends ServiceProvider {
 	 */
 	public function register_menu(): void {
 		add_submenu_page( 'dt_extensions',
-			__( 'App Launcher', 'dt_launcher' ),
-			__( 'App Launcher', 'dt_launcher' ),
+			__( 'Home', 'dt_home' ),
+			__( 'Home', 'dt_home' ),
 			'manage_dt',
-			'dt_launcher',
+			'dt_home',
 			[ $this, 'register_router' ]
 		);
 	}

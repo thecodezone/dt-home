@@ -1,12 +1,12 @@
 <?php
 
-namespace DT\Launcher;
+namespace DT\Home;
 
-use DT\Launcher\Illuminate\Http\RedirectResponse;
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Illuminate\Support\Str;
-use DT\Launcher\League\Plates\Engine;
-use DT\Launcher\Services\Template;
+use DT\Home\Illuminate\Http\RedirectResponse;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Illuminate\Support\Str;
+use DT\Home\League\Plates\Engine;
+use DT\Home\Services\Template;
 use DT_Magic_URL;
 
 /**
@@ -155,21 +155,21 @@ function redirect( string $url, int $status = 302 ): RedirectResponse {
  */
 function magic_url( $action = '', $key = '' ) {
 	if ( ! $key ) {
-		$key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'launcher', 'app' ) );
+		$key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'home', 'launcher' ) );
 		if ( ! $key ) {
 			return 'settings';
 		}
 	}
 
-	return DT_Magic_URL::get_link_url( 'launcher', 'app', $key, $action );
+	return DT_Magic_URL::get_link_url( 'home', 'launcher', $key, $action );
 }
 
 /**
- * Concatenates the given string to the namespace of the Router class.
+ * Concatenates the given string to the namespace of Plugin class.
  *
  * @param string $string The string to be concatenated to the namespace.
  *
- * @return string The result of concatenating the given string to the namespace of the Router class.
+ * @return string The result of concatenating the given string to the namespace of the Plugin class.
  */
 function namespace_string( string $string ): string {
 	return Plugin::class . '\\' . $string;

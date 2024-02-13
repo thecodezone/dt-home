@@ -1,12 +1,12 @@
 <?php
 
-namespace DT\Launcher\Providers;
+namespace DT\Home\Providers;
 
-use DT\Launcher\Illuminate\Filesystem\Filesystem;
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Illuminate\Translation\FileLoader;
-use DT\Launcher\Illuminate\Translation\Translator;
-use DT\Launcher\Illuminate\Validation\Factory;
+use DT\Home\Illuminate\Filesystem\Filesystem;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Illuminate\Translation\FileLoader;
+use DT\Home\Illuminate\Translation\Translator;
+use DT\Home\Illuminate\Validation\Factory;
 
 class PluginServiceProvider extends ServiceProvider {
 	/**

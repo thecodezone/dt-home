@@ -1,18 +1,18 @@
 <?php
 
-namespace DT\Launcher\Providers;
+namespace DT\Home\Providers;
 
-use DT\Launcher\MagicLinks\App;
-use DT\Launcher\MagicLinks\Share;
-use function DT\Launcher\collect;
+use DT\Home\MagicLinks\Launcher;
+use DT\Home\MagicLinks\Share;
+use function DT\Home\collect;
 
 class MagicLinkServiceProvider extends ServiceProvider
 {
     protected $container;
 
     protected $magic_links = [
-        'launcher/app' => App::class,
-        'launcher/share' => Share::class,
+        'home/launcher' => Launcher::class,
+        'home/share' => Share::class,
     ];
 
     /**
@@ -21,7 +21,7 @@ class MagicLinkServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->container->bind('DT\Launcher\MagicLinks', function () {
+        $this->container->bind('DT\Home\MagicLinks', function () {
             return collect($this->magic_links);
         });
     }
@@ -31,7 +31,7 @@ class MagicLinkServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->container->make('DT\Launcher\MagicLinks')
+        $this->container->make('DT\Home\MagicLinks')
             ->each(function ($magic_link) {
                 $this->container->singleton($magic_link);
                 $this->container->make($magic_link);
