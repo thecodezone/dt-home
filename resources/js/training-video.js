@@ -1,7 +1,22 @@
-import { LitElement, html } from 'lit';
+import {LitElement, html, css} from 'lit';
 import { property } from 'lit/decorators.js';
 
 class VideoList extends LitElement {
+
+  static get styles() {
+    return css`
+      video-container {
+        max-width: 640px; /* Set the maximum width of the video */
+        margin: auto; /* Center the video in its container */
+      }
+      iframe {
+        width: 100%; /* Make the iframe responsive */
+        height: auto; /* Maintain aspect ratio */
+        border: none; /* Remove default border */
+      }
+    `;
+  }
+
   @property({ type: Array })
   trainingData = [];
 
