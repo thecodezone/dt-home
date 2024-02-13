@@ -1,5 +1,5 @@
 <header>
-    <h1><?php $this->esc_html_e('Plugin', 'dt_launcher'); ?></h1>
+    <h1><?php $this->esc_html_e(' ', 'dt_launcher'); ?></h1>
 </header>
 
 <div class="container">
