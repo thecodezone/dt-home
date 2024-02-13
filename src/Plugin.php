@@ -117,7 +117,7 @@ class Plugin {
 			'Plugin Name' => 'DT Launcher',
 		], false );
 
-		$plugins['dt-launcher'] = [
+		$plugins['dt-home'] = [
 			'plugin_url' => trailingslashit( plugin_dir_url( __FILE__ ) ),
 			'version'    => $plugin_data['Version'] ?? null,
 			'name'       => $plugin_data['Plugin Name'] ?? null,

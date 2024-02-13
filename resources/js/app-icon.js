@@ -67,7 +67,7 @@ class AppIcon extends LitElement {
   }
 }
 
-customElements.define('dt-launcher-app-icon', AppIcon);
+customElements.define('dt-home-app-icon', AppIcon);
 
 
 

@@ -37,7 +37,7 @@ class LoginController
         wp_set_auth_cookie($user->ID);
 
         if (!$user) {
-            return $this->login(['error' => esc_html_e('An unexpected error has occurred.', 'dt-launcher')]);
+            return $this->login(['error' => esc_html_e('An unexpected error has occurred.', 'dt_home')]);
         }
 
         wp_set_current_user($user->ID);
@@ -55,7 +55,7 @@ class LoginController
         $username = $params['username'] ?? '';
         $password = $params['password'] ?? '';
         $error = $params['error'] ?? '';
-        $logo_path = get_site_url() . '/wp-content/plugins/dt-launcher/resources/img/logo-color.png';
+        $logo_path = get_site_url() . '/wp-content/plugins/dt-home/resources/img/logo-color.png';
         $reset_url = wp_lostpassword_url($this->get_link_url());
 
         return template('auth/login', [

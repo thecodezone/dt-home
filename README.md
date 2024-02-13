@@ -1,4 +1,4 @@
-![Build Status](https://github.com/thecodezone/dt-launcher/actions/workflows/ci.yml/badge.svg?branch=master)
+![Build Status](https://github.com/thecodezone/dt-home/actions/workflows/ci.yml/badge.svg?branch=master)
 
 # Disciple.Tools - Plugin
 
@@ -7,7 +7,7 @@ __Kick start your Disciple.Tools plugin project with this template!__
 This plugin is a modern opinionated extension starter template inspired by Laravel.
 
 > **Tip:** You can safely delete this README.md file and replace it with your own. You can always view this readme
-> at [github.com/thecodezone/dt-launcher](https://github.com/thecodezone/dt-launcher).
+> at [github.com/thecodezone/dt-home](https://github.com/thecodezone/dt-home).
 
 ## Purpose
 
@@ -21,7 +21,7 @@ We strive to make Disciple.Tools plugin development not only accessible but also
 already well-versed in Laravel and Symfony frameworks.
 
 > **Are you a WordPress developer?** You may feel more at home using
-> the [Disciple Tools Starter Template](https://github.com/thecodezone/dt-launcher/).
+> the [Disciple Tools Starter Template](https://github.com/thecodezone/dt-home/).
 
 ## Included
 
@@ -51,8 +51,8 @@ already well-versed in Laravel and Symfony frameworks.
 1. Sample magic link.
 
 > **Tip:** This starter plugin does not attempt to provide every component provided by
-> the [Disciple Tools Starter Template](https://github.com/thecodezone/dt-launcher/). See
-> the [Disciple Tools Starter Template](https://github.com/thecodezone/dt-launcher/) for
+> the [Disciple Tools Starter Template](https://github.com/thecodezone/dt-home/). See
+> the [Disciple Tools Starter Template](https://github.com/thecodezone/dt-home/) for
 > implementation examples of charts, tiles and other components.
 
 ### Getting Started
@@ -89,7 +89,7 @@ are used to provide multilingual support.
 Hard-coded strings should be wrapped in the `__()` function. For example:
 
 ```php
-__( 'Hello World!', 'dt-launcher' );
+__( 'Hello World!', 'dt-home' );
 ```
 
 #### Service Providers
@@ -322,11 +322,11 @@ vendor/bin/phpunit
 ## Contribution
 
 Contributions welcome. You can report issues and bugs in the
-[Issues](https://github.com/thecodezone/dt-launcher/issues) section of the repo. You can
+[Issues](https://github.com/thecodezone/dt-home/issues) section of the repo. You can
 present ideas
-in the [Discussions](https://github.com/thecodezone/dt-launcher/discussions) section of the
+in the [Discussions](https://github.com/thecodezone/dt-home/discussions) section of the
 repo. And
 code contributions are welcome using
-the [Pull Request](https://github.com/thecodezone/dt-launcher/pulls)
+the [Pull Request](https://github.com/thecodezone/dt-home/pulls)
 system for git. For a more details on contribution see the
-[contribution guidelines](https://github.com/thecodezone/dt-launcher/blob/master/CONTRIBUTING.md).
+[contribution guidelines](https://github.com/thecodezone/dt-home/blob/master/CONTRIBUTING.md).

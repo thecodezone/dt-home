@@ -53,7 +53,7 @@ class RegisterController
 
 
         if (!$user) {
-            return $this->register(['error' => esc_html_e('An unexpected error has occurred.', 'dt-launcher')]);
+            return $this->register(['error' => esc_html_e('An unexpected error has occurred.', 'dt-home')]);
         }
 
         return redirect('/launcher');
@@ -70,7 +70,7 @@ class RegisterController
         $username = $params['username'] ?? '';
         $email = $params['email'] ?? '';
         $password = $params['password'] ?? '';
-        $logo_path = get_site_url() . '/wp-content/plugins/dt-launcher/resources/img/logo-color.png';
+        $logo_path = get_site_url() . '/wp-content/plugins/dt-home/resources/img/logo-color.png';
 
         return template('auth/register', [
 

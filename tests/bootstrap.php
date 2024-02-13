@@ -16,7 +16,7 @@ if ( ! file_exists( $_tests_dir . '/includes/functions.php' ) ) {
 
 // Give access to tests_add_filter() function.
 require_once $_tests_dir . '/includes/functions.php';
-require_once $_core_dir . '/wp-content/plugins/dt-launcher/vendor/autoload.php';
+require_once $_core_dir . '/wp-content/plugins/dt-home/vendor/autoload.php';
 
 
 /**

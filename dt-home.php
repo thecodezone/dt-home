@@ -3,7 +3,7 @@
  * Plugin Name: DT App Launcher
  * Plugin URI: https://github.com/TheCodeZone/dt_home
  * Description: A modern disciple.tools plugin starter template.
- * Text Domain: dt-launcher
+ * Text Domain: dt_home
  * Domain Path: /languages
  * Version:  0.1
  * Author URI: https://github.com/TheCodeZone

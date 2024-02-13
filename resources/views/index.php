@@ -7,10 +7,10 @@ $this->layout('layouts/plugin');
         <dt-copy-text value="<?php echo esc_url($magic_link); ?>"></dt-copy-text>
     </div>
 
-    <dt-launcher-app-grid id="appGrid" app-data='<?php echo htmlspecialchars($data); ?>'
+    <dt-home-app-grid id="appGrid" app-data='<?php echo htmlspecialchars($data); ?>'
                           app-url='<?php echo esc_url($app_url); ?>'>
         <!-- Add more app icons as needed -->
-    </dt-launcher-app-grid>
+    </dt-home-app-grid>
     <div>
         <?php echo $this->section('content') ?>
     </div>
@@ -20,8 +20,8 @@ $this->layout('layouts/plugin');
     </b>
 
     <a href="<?php echo esc_url($subpage_url); ?>">
-        <?php $this->esc_html_e('Visit subpage', 'dt-launcher'); ?>
+        <?php $this->esc_html_e('Visit subpage', 'dt-home'); ?>
     </a>
 
-    <dt-launcher-footer></dt-launcher-footer>
+    <dt-home-footer></dt-home-footer>
 </div>

@@ -253,7 +253,7 @@ class AppGrid extends LitElement {
               ? html`<span id="remove-icon-${app.id}" class="remove-icon"
                            @click="${(e) => this.handleRemove(e, index)}">HIDE APP</span>`
               : ''}
-            <dt-launcher-app-icon class=" app-icon" name="${app.name}" icon="${app.icon}"></dt-launcher-app-icon>
+            <dt-home-app-icon class=" app-icon" name="${app.name}" icon="${app.icon}"></dt-home-app-icon>
           </div>` : '')}
       </div>
     `;
@@ -261,4 +261,4 @@ class AppGrid extends LitElement {
 
 }
 
-customElements.define('dt-launcher-app-grid', AppGrid);
+customElements.define('dt-home-app-grid', AppGrid);

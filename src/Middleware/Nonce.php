@@ -17,7 +17,7 @@ class Nonce implements Middleware {
 		$nonce = $request->header( 'X-WP-Nonce' ) || $request->input( '_wpnonce' );
 
 		if ( empty( $nonce ) ) {
-			$response->setContent( __( 'Could not verify request.', 'dt-launcher' ) );
+			$response->setContent( __( 'Could not verify request.', 'dt_home' ) );
 
 			return $response->setStatusCode( 403 );
 		}

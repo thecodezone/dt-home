@@ -67,4 +67,4 @@ class DtLauncherFooter extends LitElement {
   }
 }
 
-customElements.define('dt-launcher-footer', DtLauncherFooter);
+customElements.define('dt-home-footer', DtLauncherFooter);
