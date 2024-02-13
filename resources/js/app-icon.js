@@ -25,6 +25,7 @@ class AppIcon extends LitElement {
       margin-bottom: 8px;
       cursor: pointer;
       transition: transform 0.3s ease;
+      pointer-events: none;
     }
 
     .app-icon:hover {
