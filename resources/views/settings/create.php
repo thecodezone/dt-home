@@ -81,7 +81,7 @@ if ( is_dir( $svgDirPath ) ) {
                 <select style="min-width: 100%;" name="type" id="type" required onchange="toggleURLField()">
                     <option value="">Please select</option>
                     <option value="Web View">Web View</option>
-                    <option value="Custom">Custom</option>
+                    <!--<option value="Custom">Custom</option>-->
                 </select>
             </td>
         </tr>
