@@ -13,7 +13,7 @@ class PluginTest extends TestCase {
 		activate_plugin( 'dt-plugin/dt-plugin.php' );
 
 		$this->assertContains(
-			'dt-launcher/dt-launcher.php',
+			'dt-home/dt-home.php',
 			get_option( 'active_plugins' )
 		);
 	}

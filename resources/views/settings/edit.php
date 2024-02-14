@@ -59,7 +59,8 @@ if ( is_dir( $svgDirPath ) ) {
     }
 </style>
 
-<form action="admin.php?page=dt_launcher&tab=app&action=edit/<?php echo esc_attr( $existing_data['id'] ); ?>" method="post" enctype="multipart/form-data">
+<form action="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr( $existing_data['id'] ); ?>" method="post"
+      enctype="multipart/form-data">
 	<?php wp_nonce_field( 'dt_admin_form', 'dt_admin_form_nonce' ) ?>
 
     <table class="widefat striped" id="ml_email_main_col_config">
@@ -127,7 +128,7 @@ if ( is_dir( $svgDirPath ) ) {
             <td style="vertical-align: middle;">Sort [&#63;]</td>
             <td colspan="3">
                 <input style="min-width: 100%;" type="number" name="sort" id="sort" class="form-control"
-                       value="<?php /*echo esc_attr( $existing_data['sort'] ); */?>">
+                       value="<?php /*echo esc_attr( $existing_data['sort'] ); */ ?>">
             </td>
         </tr>-->
         <tr>
@@ -143,7 +144,7 @@ if ( is_dir( $svgDirPath ) ) {
     <br>
     <span style="float:right;">
         <input type="hidden" name="edit_id" value="<?php echo esc_attr( $existing_data['id'] ); ?>">
-        <a href="admin.php?page=dt_launcher&tab=app"
+        <a href="admin.php?page=dt_home&tab=app"
            class="button float-right"><?php esc_html_e( 'Cancel', 'disciple_tools' ) ?></a>
         <button type="submit" name="submit" id="submit"
                 class="button float-right"><?php esc_html_e( 'Update', 'disciple_tools' ) ?></button>

@@ -1,9 +1,8 @@
 # Copyright (C) 2022 
-# This file is distributed under the same license as the Disciple.Tools - DT App Launcher plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Disciple.Tools - DT App Launcher 0.1\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dt-launcher\n"
+"Project-Id-Version: Disciple.Tools - DT Home 0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dt-home\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,7 +11,7 @@ msgstr ""
 "POT-Creation-Date: 2022-10-27T10:12:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
-"X-Domain: dt-launcher\n"
+"X-Domain: dt_home\n"
 
 #: charts/one-page-chart-template.php:68
 msgid "Sample API Call"
@@ -184,7 +183,7 @@ msgid "All"
 msgstr ""
 
 #: tile/custom-tile.php:32
-msgid "DT App Launcher"
+msgid "DT Home"
 msgstr ""
 
 #: tile/custom-tile.php:33

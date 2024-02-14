@@ -1,20 +1,20 @@
 <?php
 
-namespace DT\Launcher\Controllers;
+namespace DT\Home\Controllers;
 
 
 use Disciple_Tools_Users;
-use DT\Launcher\Illuminate\Http\Request;
-use DT\Launcher\Illuminate\Http\Response;
+use DT\Home\Illuminate\Http\Request;
+use DT\Home\Illuminate\Http\Response;
 use DT_Magic_URL;
-use function DT\Launcher\magic_url;
-use function DT\Launcher\redirect;
+use function DT\Home\magic_url;
+use function DT\Home\redirect;
 
 class RedirectController
 {
 
     /**
-     * Redirects to the URL for the launcher app. This uses the
+     * Redirects to the URL for the home app. This uses the
      * auth middleware, so the user will be redirected to
      * the login page if they are not logged in.
      *
@@ -26,8 +26,8 @@ class RedirectController
 
         global $wpdb;
 
-        $preference_key = 'dt-launcher-app';
-        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key('launcher', 'app');
+        $preference_key = 'dt-home-app';
+        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key('home', 'launcher');
 
         if (!$this->is_activated()) {
             delete_user_meta(get_current_user_id(), $meta_key);
@@ -43,8 +43,8 @@ class RedirectController
     public function is_activated()
     {
         global $wpdb;
-        $preference_key = 'dt-launcher-app';
-        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key('launcher', 'app');
+        $preference_key = 'dt-home-app';
+        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key('home', 'launcher');
         $public = get_user_meta(get_current_user_id(), $meta_key, true);
         $secret = get_user_option($preference_key);
 

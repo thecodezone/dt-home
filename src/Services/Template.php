@@ -1,10 +1,10 @@
 <?php
 
-namespace DT\Launcher\Services;
+namespace DT\Home\Services;
 
-use function DT\Launcher\Kucrut\Vite\enqueue_asset;
-use function DT\Launcher\plugin_path;
-use function DT\Launcher\view;
+use function DT\Home\Kucrut\Vite\enqueue_asset;
+use function DT\Home\plugin_path;
+use function DT\Home\view;
 
 class Template {
 
@@ -35,7 +35,7 @@ class Template {
 			plugin_path( '/dist' ),
 			'resources/js/plugin.js',
 			[
-				'handle'    => 'dt_launcher',
+				'handle'    => 'dt_home',
 				'css-media' => 'all', // Optional.
 				'css-only'  => false, // Optional. Set to true to only load style assets in production mode.
 				'in-footer' => false, // Optional. Defaults to false.

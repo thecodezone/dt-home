@@ -9,5 +9,5 @@ $this->layout( 'layouts/plugin' );
 </div>
 
 <a href="<?php echo $this->e( $home_url ); ?>">
-	<?php $this->esc_html_e( 'Visit home', 'dt-launcher' ); ?>
+	<?php $this->esc_html_e( 'Visit home', 'dt-home' ); ?>
 </a>

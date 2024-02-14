@@ -22,13 +22,13 @@ $this->layout('layouts/auth');
                 <?php endif; ?>
 
                 <dt-text name="username"
-                         placeholder="<?php esc_attr_e('Username or Email Address', 'dt-launcher'); ?>"
+                         placeholder="<?php esc_attr_e('Username or Email Address', 'dt-home'); ?>"
                          value="<?php echo esc_attr($username); ?>"
                          required
                          tabindex="1"
                 ></dt-text>
                 <dt-text name="password"
-                         placeholder="<?php esc_attr_e('Password', 'dt-launcher'); ?>"
+                         placeholder="<?php esc_attr_e('Password', 'dt-home'); ?>"
                          value="<?php echo esc_attr($password); ?>"
                          type="password"
                          tabindex="2"
@@ -38,7 +38,7 @@ $this->layout('layouts/auth');
                     <dt-button context="success"
                                tabindex="3"
                                type="submit">
-                        <?php esc_html_e('Login', 'dt-launcher') ?>
+                        <?php esc_html_e('Login', 'dt-home') ?>
                     </dt-button>
 
                     <dt-button context="link"

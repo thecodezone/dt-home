@@ -1,12 +1,12 @@
 <?php
 
-namespace DT\Launcher\Providers;
+namespace DT\Home\Providers;
 
-use DT\Launcher\CodeZone\Router;
-use DT\Launcher\CodeZone\Router\Conditions\HasCap;
-use DT\Launcher\Conditions\Backend;
-use DT\Launcher\Conditions\Frontend;
-use DT\Launcher\Conditions\Plugin;
+use DT\Home\CodeZone\Router;
+use DT\Home\CodeZone\Router\Conditions\HasCap;
+use DT\Home\Conditions\Backend;
+use DT\Home\Conditions\Frontend;
+use DT\Home\Conditions\Plugin;
 
 class ConditionsServiceProvider extends ServiceProvider {
 	protected $conditions = [

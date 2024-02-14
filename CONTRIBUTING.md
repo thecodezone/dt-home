@@ -5,7 +5,7 @@ code that will be used in or with D.T.
 
 D.T is already being used in multiple languages. Please help us make D.T translable by taking full advantage of
 Wordpress’ translatable strings. Any string that will be read by the user must be marked as translatable. Ex:
-`<label class="section-header"><?php esc_html_e( 'Other', 'dt-launcher' )?></label>`
+`<label class="section-header"><?php esc_html_e( 'Other', 'dt_home' )?></label>`
 
 Make sure you look for these in PHP, HTML and JavaScript code.
 
@@ -23,12 +23,12 @@ If you are working on a plugin based off our starter plugin run `./includes/admi
 You might need to run `composer install` first.
 
 Note: rules for PHPCS are located in the `phpcs.xml` file. We sometimes update the rule list as PHPCS updates. We’ll
-update the [starter plugin](https://github.com/thecodezone/dt-launcher) `phpcs.xml`, you might want to look there to get
+update the [starter plugin](https://github.com/thecodezone/dt-home) `phpcs.xml`, you might want to look there to get
 the latest version.
 
 ### GitHub and Commits
 
-For new plugins copy our [starter plugin](https://github.com/thecodezone/dt-launcher).
+For new plugins copy our [starter plugin](https://github.com/thecodezone/dt-home).
 
 To commit to the theme or an existing plugin start by creating a fork of the repository. When you are ready, create a
 pull request into our repo.

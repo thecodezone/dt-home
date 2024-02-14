@@ -1,9 +1,9 @@
 <?php
 
-namespace DT\Launcher\Services\Plates;
+namespace DT\Home\Services\Plates;
 
-use DT\Launcher\League\Plates\Engine;
-use DT\Launcher\League\Plates\Extension\ExtensionInterface;
+use DT\Home\League\Plates\Engine;
+use DT\Home\League\Plates\Extension\ExtensionInterface;
 
 class Escape implements ExtensionInterface {
 

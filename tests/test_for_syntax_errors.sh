@@ -3,7 +3,7 @@
 cd "$(dirname "${BASH_SOURCE[0]}")/../"
 
 if [ "$(php -r 'echo version_compare( phpversion(), "7.0", ">=" ) ? 1 : 0;')" != 1 ] ; then
-    php -l ../dt-launcher.php
+    php -l ../dt-home.php
     exit
 fi
 

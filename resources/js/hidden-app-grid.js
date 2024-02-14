@@ -201,7 +201,7 @@ class HiddenAppGrid extends LitElement {
               ? html`<span id="remove-icon-${app.id}" class="remove-icon"
                            @click="${(e) => this.handleRemove(e, index)}">UNHIDE APP</span>`
               : ''}
-            <dt-launcher-app-icon name="${app.name}" icon="${app.icon}"></dt-launcher-app-icon>
+            <dt-home-app-icon name="${app.name}" icon="${app.icon}"></dt-home-app-icon>
           </div>` : '')}
       </div>
     `;
@@ -209,4 +209,4 @@ class HiddenAppGrid extends LitElement {
 
 }
 
-customElements.define('dt-launcher-hidden-app-menu', HiddenAppGrid);
+customElements.define('dt-home-hidden-app-menu', HiddenAppGrid);
