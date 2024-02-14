@@ -25,11 +25,11 @@ class CheckShareCookie implements Middleware {
 	 */
 	public function handle( Request $request, Response $response, callable $next ) {
 
-		$cookie = $request->cookies->get( 'dt_home_share' );
+		$leader_id = $request->cookies->get( 'dt_home_share' );
 
-		if ( $cookie ) {
+		if ( $leader_id ) {
 			try {
-				$this->add_session_leader( $request );
+				$this->add_session_leader( $leader_id );
 			} catch ( \Exception $e ) {
 				// If the cookie is invalid, remove it.
 				$request->cookies->remove( 'dt_home_share' );
@@ -44,9 +44,7 @@ class CheckShareCookie implements Middleware {
 	 *
 	 * @return void
 	 */
-	private function add_session_leader( Request $request ) {
-		$leader_id = $request->cookies->get( 'dt_home_share' );
-
+	public function add_session_leader( $leader_id ) {
 		if ( ! $leader_id ) {
 			return;
 		}
