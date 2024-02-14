@@ -6,13 +6,24 @@ use DT\Home\Illuminate\Http\Request;
 use DT\Home\Illuminate\Http\Response;
 use function DT\Home\redirect;
 use function DT\Home\template;
+use function DT\Home\plugin_path;
 
+/**
+ * Class LoginController
+ *
+ * This class handles user login and authentication.
+ */
 class LoginController {
 
 	/**
-	 * Process the login form
+	 * Processes the login request.
+	 *
+	 * @param Request $request The request object.
+	 * @param Response $response The response object.
+	 *
+	 * @return Response The response object.
 	 */
-	public function login_process( Request $request, Response $response ) {
+	public function process( Request $request, Response $response ) {
 		global $errors;
 
 		$username = $request->input( 'username' ?? '' );
@@ -44,7 +55,17 @@ class LoginController {
 	}
 
 	/**
-	 * Show the login template
+	 * Renders the login template with the provided parameters.
+	 *
+	 * @param array $params {
+	 *     An array of parameters.
+	 *
+	 * @type string $username The username input value. Default empty string.
+	 * @type string $password The password input value. Default empty string.
+	 * @type string $error The error message to display. Default empty string.
+	 * }
+	 *
+	 * @return Response The response object.
 	 */
 	public function login( $params = [] ) {
 		$register_url = '/home/register';
@@ -52,7 +73,7 @@ class LoginController {
 		$username     = $params['username'] ?? '';
 		$password     = $params['password'] ?? '';
 		$error        = $params['error'] ?? '';
-		$logo_path    = get_site_url() . '/wp-content/plugins/dt-home/resources/img/logo-color.png';
+		$logo_path    = plugin_path( '/wp-content/plugins/dt-home/resources/img/logo-color.png' );
 		$reset_url    = wp_lostpassword_url( $this->get_link_url() );
 
 		return template( 'auth/login', [
@@ -66,10 +87,13 @@ class LoginController {
 		] );
 	}
 
-	public function get_link_url() {
-		return get_site_url( null, 'home' );
-	}
-
+	/**
+	 * Logs the user out and redirects them to the login page.
+	 *
+	 * @param array $params Additional parameters (optional).
+	 *
+	 * @return Response The response object.
+	 */
 	public function logout( $params = [] ) {
 		wp_logout();
 

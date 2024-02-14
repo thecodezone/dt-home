@@ -1,4 +1,8 @@
 import "@disciple.tools/web-components";
+
+/**
+ * Import Spectrum Web Components
+ */
 import '@spectrum-web-components/menu/sp-menu.js';
 import '@spectrum-web-components/menu/sp-menu-group.js';
 import '@spectrum-web-components/menu/sp-menu-item.js';
@@ -12,16 +16,25 @@ import '@spectrum-web-components/button/sp-clear-button.js';
 import '@spectrum-web-components/button/sp-close-button.js';
 import "@spectrum-web-components/progress-circle/sp-progress-circle.js";
 
-import { loaded } from "./helpers.js";
-
-import "../css/plugin.css";
+/**
+ * Imports
+ */
+import {loaded} from "./helpers.js";
 
 import "./components/app-grid.js";
-import  "./components/hidden-app-grid.js";
+import "./components/hidden-app-grid.js";
 import "./components/home-footer.js";
 import "./components/menu.js";
 import "./components/training-video.js"
 
+/**
+ * CSS
+ */
+import "../css/plugin.css";
+
+/**
+ * Bootstrap the application
+ */
 loaded(() => {
     document.body.classList.add("dom-loaded");
 });

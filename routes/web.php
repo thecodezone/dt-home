@@ -34,9 +34,9 @@ $r->condition( 'plugin', function ( Routes $r ) {
 		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
 		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
 		$r->get( '/login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
-		$r->post( '/login', [ LoginController::class, 'login_process', [ 'middleware' => 'guest' ] ] );
+		$r->post( '/login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
 		$r->get( '/register', [ RegisterController::class, 'register' ] );
-		$r->post( '/register', [ RegisterController::class, 'register_process' ] );
+		$r->post( '/register', [ RegisterController::class, 'process' ] );
 	} );
 
 	$r->middleware( [ 'magic:home/launcher', 'check_share' ], function ( Routes $r ) {
