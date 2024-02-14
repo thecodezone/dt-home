@@ -25,12 +25,16 @@ class CheckShareCookie implements Middleware {
 		}
 		$leader_id = sanitize_text_field( wp_unslash( (string) $_COOKIE['dt_home_share'] ) ) ?? null;
 
-		dd( $leader_id );
 		if ( ! $leader_id ) {
 			return;
 		}
 
-		$contact        = \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+		$contact = \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+
+		if ( $leader_id === $contact ) {
+			return;
+		}
+
 		$contact_record = \DT_Posts::get_post( 'contacts', $contact, true, false );
 		$leader         = \DT_Posts::get_post( 'contacts', $leader_id, true, false );
 
