@@ -5,7 +5,8 @@ import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/button/sp-clear-button.js';
 import '@spectrum-web-components/button/sp-close-button.js';
 import "@spectrum-web-components/progress-circle/sp-progress-circle.js";
-import '@spectrum-web-components/action-menu/sp-action-menu.js';
+import "@spectrum-web-components/action-menu/sp-action-menu.js";
+
 import { isInstalled , isAndroid} from './helpers.js';
 
 class HomeFooter extends LitElement {
@@ -67,4 +68,4 @@ class HomeFooter extends LitElement {
   }
 }
 
-customElements.define('home-footer', DtHomeFooter);
+customElements.define('home-footer', HomeFooter);

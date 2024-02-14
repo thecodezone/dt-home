@@ -28,9 +28,9 @@ class CheckShareCookie implements Middleware {
             return;
         }
 
-        $contact        = Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
-        $contact_record = DT_Posts::get_post( 'contacts', $contact, true, false );
-        $leader         = DT_Posts::get_post( 'contacts', $leader_id, true, false );
+        $contact        = \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
+        $contact_record = \DT_Posts::get_post( 'contacts', $contact, true, false );
+        $leader         = \DT_Posts::get_post( 'contacts', $leader_id, true, false );
 
         if ( ! count( $contact_record['coached_by'] ) ) {
             $fields = [
@@ -43,7 +43,7 @@ class CheckShareCookie implements Middleware {
                 'assigned_to' => (string) $leader['corresponds_to_user']
             ];
 
-            DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
+            //\DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
         }
 
         if ( isset( $_COOKIE['dt_home_share'] ) ) {

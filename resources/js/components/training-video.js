@@ -21,6 +21,7 @@ class VideoList extends LitElement {
   trainingData = [];
 
   connectedCallback() {
+    debugger
     super.connectedCallback();
     const data = this.getAttribute('training-data');
     if (data) {
