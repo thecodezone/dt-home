@@ -1,8 +1,4 @@
 <div class="cloak">
-    <header>
-        <h1><?php $this->esc_html_e( 'Plugin', 'dt_home' ); ?></h1>
-    </header>
-
     <div class="container">
         <dt-tile>
             <div class="section__inner">
