@@ -48,11 +48,7 @@ class HomeFooter extends LitElement {
     }
     return html`
       <div class="footer-container">
-        ${!isInstalled() ? html`
-          <a href="${currentUrl}/${trainingUrl}" variant="cta">
-            <sp-button class="footer-button" variant="cta">${translate('installAppLabel')}</sp-button>
-          </a>
-        ` : ''}
+
 
           <sp-action-menu>
             <span class="footer-button" slot="label-only">${translate('hiddenAppLabel')}</span>
