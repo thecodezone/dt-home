@@ -23,10 +23,10 @@
     }
   ],
   "require": {
-    "ext-json": "*"
+    "ext-json": "*",
+    "wpify/scoper": "^3.0"
   },
   "require-dev": {
-    "wpify/scoper": "^3.0",
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
     "yoast/phpunit-polyfills": "^2.0",
     "wp-coding-standards/wpcs": "^3.0",
