@@ -9,8 +9,22 @@ use DT\Home\CodeZone\Router\Middleware\Stack;
 use DT\Home\Illuminate\Http\Request;
 use WP_UnitTestCase;
 use function DT\Home\namespace_string;
+use function DT\Home\container;
+use Faker;
 
 abstract class TestCase extends WP_UnitTestCase {
+	/**
+	 * The Faker instance.
+	 *
+	 * @var Faker\Generator
+	 */
+	protected Faker\Generator $faker;
+
+	public function __construct( ?string $name = null, array $data = [], $data_nme = '' ) {
+		$this->faker = \Faker\Factory::create();
+		parent::__construct( $name, $data, $data_nme );
+	}
+
 	public function setUp(): void {
 		global $wpdb;
 		$wpdb->query( 'START TRANSACTION' );
@@ -32,7 +46,7 @@ abstract class TestCase extends WP_UnitTestCase {
 	 *
 	 * @return mixed The response returned from the GET request.
 	 */
-	public function get( $uri, $parameters, array $headers = [] ) {
+	public function get( $uri, $parameters = [], array $headers = [] ) {
 		return $this->request( 'GET', $uri, $parameters, $headers );
 	}
 

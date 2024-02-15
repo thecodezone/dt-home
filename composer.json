@@ -30,6 +30,7 @@
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
     "yoast/phpunit-polyfills": "^2.0",
     "wp-coding-standards/wpcs": "^3.0",
+    "fakerphp/faker": "*",
     "phpunit/phpunit": "^9"
   },
   "extra": {

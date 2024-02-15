@@ -10,7 +10,7 @@ class PluginTest extends TestCase {
 	 * @test
 	 */
 	public function can_install() {
-		activate_plugin( 'dt-plugin/dt-plugin.php' );
+		activate_plugin( 'dt-home/dt-home.php' );
 
 		$this->assertContains(
 			'dt-home/dt-home.php',
@@ -22,9 +22,8 @@ class PluginTest extends TestCase {
 	 * @test
 	 */
 	public function example_http_test() {
-		$response = $this->get( 'dt/plugin/api/hello' );
+		$response = $this->get( '/home' );
 
-		$this->assertEquals( 200, $response->getStatusCode() );
-		$this->assertStringContainsString( 'Hello World!', $response->getContent() );
+		$this->assertEquals( 302, $response->getStatusCode() );
 	}
 }

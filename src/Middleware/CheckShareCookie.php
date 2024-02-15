@@ -29,10 +29,9 @@ class CheckShareCookie implements Middleware {
 
 		if ( $leader_id ) {
 			try {
-				$this->add_session_leader( $leader_id );
+				$this->add_leader( $leader_id );
 			} catch ( \Exception $e ) {
-				// If the cookie is invalid, remove it.
-				$request->cookies->remove( 'dt_home_share' );
+				$this->remove_cookie();
 			}
 		}
 
@@ -40,11 +39,13 @@ class CheckShareCookie implements Middleware {
 	}
 
 	/**
-	 * Add session leader if cookie is set.
+	 * Add a leader to a contact's coached_by field and update assigned_to field.
+	 *
+	 * @param int $leader_id The ID of the leader to be added.
 	 *
 	 * @return void
 	 */
-	public function add_session_leader( $leader_id ) {
+	public function add_leader( $leader_id ) {
 		if ( ! $leader_id ) {
 			return;
 		}
@@ -59,9 +60,7 @@ class CheckShareCookie implements Middleware {
 		$leader         = \DT_Posts::get_post( 'contacts', $leader_id, true, false );
 
 		if ( ! $contact_record || ! $leader ) {
-			unset( $_COOKIE['dt_home_share'] );
-
-			return;
+			$this->remove_cookie();
 		}
 
 		if ( ! count( $contact_record['coached_by'] ) ) {
@@ -78,6 +77,15 @@ class CheckShareCookie implements Middleware {
 			\DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
 		}
 
+		$this->remove_cookie();
+	}
+
+	/**
+	 * Removes the 'dt_home_share' cookie if it exists.
+	 *
+	 * @return void
+	 */
+	public function remove_cookie() {
 		if ( isset( $_COOKIE['dt_home_share'] ) ) {
 			unset( $_COOKIE['dt_home_share'] );
 			setcookie( 'dt_home_share', '', time() - 3600, '/' );

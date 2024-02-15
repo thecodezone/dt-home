@@ -146,6 +146,7 @@ class Launcher extends DT_Magic_Url_Base {
 		}
 
 		// load if valid url
+		add_filter( 'user_has_cap', [ $this, 'user_has_cap' ], 100, 3 );
 		add_filter( 'dt_magic_url_base_allowed_css', [ $this, 'dt_magic_url_base_allowed_css' ], 10, 1 );
 		add_filter( 'dt_magic_url_base_allowed_js', [ $this, 'dt_magic_url_base_allowed_js' ], 10, 1 );
 	}
@@ -217,5 +218,22 @@ class Launcher extends DT_Magic_Url_Base {
 		];
 
 		return $apps_list;
+	}
+
+	/**
+	 * Make sure the user can do everything we need them to do during this request.
+	 *
+	 * @param array $allcaps Existing capabilities for the user
+	 * @param string $caps Capabilities provided by map_meta_cap()
+	 * @param array $args Arguments for current_user_can()
+	 *
+	 * @return array
+	 * @see WP_User::has_cap() in wp-includes/capabilities.php
+	 */
+	public function user_has_cap( $allcaps, $caps, $args ) {
+		$allcaps['view_any_contacts'] = true;
+		$allcaps['access_contacts']   = true;
+
+		return $allcaps;
 	}
 }
