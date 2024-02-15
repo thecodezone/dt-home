@@ -16,7 +16,7 @@ class UserController
      * @param Request $request The request object.
      * @param Response $response The response object.
      */
-    public function current(Request $request, Response $response)
+    public function current( Request $request, Response $response )
     {
 
         return template('user', [
@@ -31,13 +31,12 @@ class UserController
      * @param Response $response The response object.
      * @param int $id Mapped from the ID route parameter.
      */
-    public function show(Request $request, Response $response, $id)
+    public function show( Request $request, Response $response, $id )
     {
-        $user = get_user_by('id', $id);
+        $user = get_user_by( 'id', $id );
 
         return template('user', [
             'user' => $user
         ]);
     }
-
 }

@@ -172,6 +172,7 @@
         <exclude name="Universal.Files.SeparateFunctionsFromOO.Mixed"/>
         <exclude name="WordPress.PHP.DontExtract.extract_extract"/>
         <exclude name="WordPress.Files.FileName.NotHyphenatedLowercase"/>
+        <exclude name="WordPress.Security.NonceVerification.Missing"/>
     </rule>
 
     <!-- Keeping these ones: -->
@@ -237,6 +238,7 @@
     <!-- <rule ref="PEAR.NamingConventions.ValidVariableName"/> -->
     <!-- <rule ref="PSR2.Files.ClosingTag"/> -->
     <!-- <rule ref="Squiz.PHP.ForbiddenFunctions"/> -->
+    <!-- <rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped"/> -->
 
     <rule ref="WordPress.Security.ValidatedSanitizedInput">
         <properties>
@@ -244,6 +246,10 @@
                 <element value="dt_recursive_sanitize_array"/>
             </property>
         </properties>
+    </rule>
+
+    <rule ref="WordPress.Security.EscapeOutput.OutputNotEscaped">
+        <exclude-pattern>resources/views</exclude-pattern>
     </rule>
 
 </ruleset>

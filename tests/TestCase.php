@@ -8,9 +8,9 @@ use DT\Home\CodeZone\Router\Middleware\Render;
 use DT\Home\CodeZone\Router\Middleware\Stack;
 use DT\Home\Illuminate\Http\Request;
 use WP_UnitTestCase;
+use Faker;
 use function DT\Home\namespace_string;
 use function DT\Home\container;
-use Faker;
 
 abstract class TestCase extends WP_UnitTestCase {
 	/**

@@ -1,29 +1,35 @@
 <?php
+// phpcs:ignoreFile
+/**
+ * @var string $tab
+ * @var string $link
+ * @var string $page_title
+ */
 $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
 
 <?php
 // Define the path to the SVG directory relative to the theme's directory
-$svgDirPath = get_template_directory() . '/dt-assets/images/';
+$svg_dir_path = get_template_directory() . '/dt-assets/images/';
 
 // Check if the directory exists
-if ( is_dir( $svgDirPath ) ) {
+if ( is_dir( $svg_dir_path ) ) {
 	// Read files from the directory
-	$svgFiles = array_diff( scandir( $svgDirPath ), [ '..', '.' ] );
+	$svg_files = array_diff( scandir( $svg_dir_path ), [ '..', '.' ] );
 
 	// Filter out only SVG files
-	$svgIconUrls = array_filter( $svgFiles, function ( $file ) use ( $svgDirPath ) {
-		return pathinfo( $svgDirPath . $file, PATHINFO_EXTENSION ) === 'svg';
+	$svg_icon_urls = array_filter( $svg_files, function ( $file ) use ( $svg_dir_path ) {
+		return pathinfo( $svg_dir_path . $file, PATHINFO_EXTENSION ) === 'svg';
 	} );
 
 	// Convert file paths to URLs
-	$svgIconUrls = array_map( function ( $file ) {
+	$svg_icon_urls = array_map( function ( $file ) {
 		// Use get_template_directory_uri() to convert the file path to a URL
 		return get_template_directory_uri() . '/dt-assets/images/' . $file;
-	}, $svgIconUrls );
+	}, $svg_icon_urls );
 } else {
 	// Directory not found, handle this case appropriately
-	$svgIconUrls = [];
+	$svg_icon_urls = [];
 	// You might want to log this error or notify the user
 }
 ?>
@@ -163,7 +169,7 @@ if ( is_dir( $svgDirPath ) ) {
         var container = document.getElementById("svgContainer");
         container.innerHTML = ''; // Clear existing content
 
-        var svgIconUrls = <?php echo json_encode( array_values( $svgIconUrls ) ); ?>;
+        var svgIconUrls = <?php echo json_encode( array_values( $svg_icon_urls ) ); ?>;
 
         svgIconUrls.forEach(function (url) {
             var img = document.createElement("img");

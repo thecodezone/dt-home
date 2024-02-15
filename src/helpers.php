@@ -10,9 +10,9 @@ use DT\Home\Services\Template;
 use DT_Magic_URL;
 
 /**
- * Returns the singleton instance of the Plugin class.
+ * Retrieves the instance of the Plugin class.
  *
- * @return Plugin The singleton instance of the Plugin class.
+ * @return Plugin The instance of the Plugin class.
  */
 function plugin(): Plugin {
 	return Plugin::$instance;
@@ -150,12 +150,13 @@ function redirect( string $url, int $status = 302 ): RedirectResponse {
 
 
 /**
- * Get the magic URL using the given subpage and key.
+ * Generates a magic URL using the DT_Magic_URL class.
  *
- * @param string $subpage (Optional) The subpage to append to the magic URL.
- * @param string $key (Optional) The key to use for generating the magic URL. If not provided, it will be fetched from the user's option.
+ * @param string $action Optional. The action to be performed by the magic URL. If not specified, an empty string is used.
+ * @param string $key Optional. The key used for the magic URL. If not specified, the key is retrieved from the user's options.
  *
- * @return string The complete magic URL with the subpage appended.
+ * @return string The generated magic URL.
+ *               If the key is not specified and could not be retrieved from the user's options, 'settings' is returned.
  */
 function magic_url( $action = '', $key = '' ) {
 	if ( ! $key ) {

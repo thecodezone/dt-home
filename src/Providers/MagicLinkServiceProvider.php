@@ -22,7 +22,7 @@ class MagicLinkServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->container->bind('DT\Home\MagicLinks', function () {
-            return collect($this->magic_links);
+            return collect( $this->magic_links );
         });
     }
 
@@ -31,10 +31,10 @@ class MagicLinkServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->container->make('DT\Home\MagicLinks')
-            ->each(function ($magic_link) {
-                $this->container->singleton($magic_link);
-                $this->container->make($magic_link);
+        $this->container->make( 'DT\Home\MagicLinks' )
+            ->each(function ( $magic_link ) {
+                $this->container->singleton( $magic_link );
+                $this->container->make( $magic_link );
             });
     }
 }

@@ -11,12 +11,12 @@ use function DT\Home\view;
 
 class TrainingController
 {
-    public function show(Request $request, Response $response, $key)
+    public function show( Request $request, Response $response, $key )
     {
 
         $training_data = $this->get_all_trainings_data();
-        $data = json_encode($training_data);
-        $training_data_json_escaped = htmlspecialchars($data);
+        $data = json_encode( $training_data );
+        $training_data_json_escaped = htmlspecialchars( $data );
 
         return template( 'training', compact(
             'data',
@@ -28,23 +28,23 @@ class TrainingController
     protected function get_all_trainings_data()
     {
         // Get the apps array from the option
-        $trainings_array = get_option('dt_home_trainings', []);
+        $trainings_array = get_option( 'dt_home_trainings', [] );
 
         // Sort the array based on the 'sort' key
-        usort($trainings_array, function ($a, $b) {
+        usort($trainings_array, function ( $a, $b ) {
             return $a['sort'] - $b['sort'];
         });
 
         return $trainings_array;
     }
 
-    public function data(Request $request, Response $response, $key)
+    public function data( Request $request, Response $response, $key )
     {
         $user = wp_get_current_user();
         $data = [
             'user_login' => $user->user_login,
         ];
-        $response->setContent($data);
+        $response->setContent( $data );
 
         return $response;
     }
