@@ -89,7 +89,7 @@ are used to provide multilingual support.
 Hard-coded strings should be wrapped in the `__()` function. For example:
 
 ```php
-__( 'Hello World!', 'dt-home' );
+__( 'Hello World!', 'dt_home' );
 ```
 
 #### Service Providers
