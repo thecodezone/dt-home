@@ -85,6 +85,10 @@ function views_path( string $path = '' ): string {
 	return plugin_path( 'resources/views/' . $path );
 }
 
+function plugin_url( string $path = '' ): string {
+	return trim( Str::remove( '/src', plugin_dir_url( __FILE__ ) ), '/' ) . '/' . ltrim( $path, '/' );
+}
+
 /**
  * Renders a view using the provided view engine.
  *

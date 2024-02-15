@@ -6,7 +6,7 @@ use DT\Home\Illuminate\Http\Request;
 use DT\Home\Illuminate\Http\Response;
 use function DT\Home\redirect;
 use function DT\Home\template;
-use function DT\Home\plugin_path;
+use function DT\Home\plugin_url;
 
 /**
  * Class LoginController
@@ -73,8 +73,8 @@ class LoginController {
 		$username     = $params['username'] ?? '';
 		$password     = $params['password'] ?? '';
 		$error        = $params['error'] ?? '';
-		$logo_path    = plugin_path( '/wp-content/plugins/dt-home/resources/img/logo-color.png' );
-		$reset_url    = wp_lostpassword_url( $this->get_link_url() );
+		$logo_path    = plugin_url( 'resources/img/logo-color.png' );
+		$reset_url    = wp_lostpassword_url( plugin_url() );
 
 		return template( 'auth/login', [
 			'register_url' => $register_url,
