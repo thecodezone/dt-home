@@ -52,7 +52,9 @@ class CheckShareCookie implements Middleware {
 
 		$contact = \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() );
 
-		if ( $leader_id === $contact ) {
+		if ( $leader_id == $contact ) {
+			$this->remove_cookie();
+
 			return;
 		}
 
@@ -73,6 +75,7 @@ class CheckShareCookie implements Middleware {
 				],
 				'assigned_to' => (string) $leader['corresponds_to_user']
 			];
+
 
 			\DT_Posts::update_post( 'contacts', $contact, $fields, true, false );
 		}
