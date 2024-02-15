@@ -21,7 +21,7 @@ jobs:
           npm run build
           composer install --no-interaction --no-dev
           mkdir dt-home
-          rsync -av ---exclude={.git,.github,.idea,.phpunit.cache,node_modules,tests,.editorconfig,.gitignore.phpunit.result.cache,babel.config.json,CODE_OF_CONDUCT.md,CONTRIBUTING.md,package.json,package-lock.json,phpcs.xml,phpunit.xml.dist,README.md,vite.config.js} . dt-home
+          rsync -av --exclude={.git,.github,.idea,.phpunit.cache,node_modules,tests,.editorconfig,.gitignore.phpunit.result.cache,babel.config.json,CODE_OF_CONDUCT.md,CONTRIBUTING.md,package.json,package-lock.json,phpcs.xml,phpunit.xml.dist,README.md,vite.config.js} . dt-home
           cp -r dt-home.php dist languages resources routes src vendor vendor-scoped composer.json composer.lock composer.scoped.json composer.scoped.lock LICENSE package.json package-lock.json version-control.json SECURITY.md dt-home/
           zip -r dt-home.zip dt-home
       - name: Create Release

@@ -1,4 +1,4 @@
-name: translation-workflow
+name: Translate
 run-name: Regenerating pot file
 
 on:
