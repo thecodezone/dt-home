@@ -65,7 +65,7 @@ class ShareCookieTest extends TestCase {
 		$leader         = wp_create_user( $this->faker->userName, $this->faker->password, $this->faker->email );
 		$leader_contact = \Disciple_Tools_Users::get_contact_for_user( $leader );
 
-		// fun the middleware
+		// run the middleware
 		$middleware = container()->make( CheckShareCookie::class );
 		$middleware->add_leader( $leader_contact );
 
