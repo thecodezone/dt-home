@@ -3,7 +3,9 @@
 namespace DT\Home\Providers;
 
 use DT\Home\CodeZone\Router\Middleware\Stack;
+use function DT\Home\Kucrut\Vite\enqueue_asset;
 use function DT\Home\namespace_string;
+use function DT\Home\plugin_path;
 
 class AdminServiceProvider extends ServiceProvider {
 	/**
@@ -20,14 +22,46 @@ class AdminServiceProvider extends ServiceProvider {
 	 * @return void
 	 */
 	public function register_menu(): void {
-		add_submenu_page( 'dt_extensions',
-			__( 'Home', 'dt_home' ),
-			__( 'Home', 'dt_home' ),
+		$menu = add_submenu_page( 'dt_extensions',
+			__( 'Home Screen', 'dt_home' ),
+			__( 'Home Screen', 'dt_home' ),
 			'manage_dt',
 			'dt_home',
 			[ $this, 'register_router' ]
 		);
+
+		add_filter( namespace_string( 'settings_tabs' ), function ( $menu ) {
+			$menu[] = [
+				'label' => __( 'General', 'dt_home' ),
+				'tab'   => 'general'
+			];
+			$menu[] = [
+				'label' => __( 'Apps', 'dt_home' ),
+				'tab'   => 'app'
+			];
+			$menu[] = [
+				'label' => __( 'Training Videos', 'dt_home' ),
+				'tab'   => 'training'
+			];
+
+			return $menu;
+		}, 10, 1 );
+
+		add_action( 'load-' . $menu, [ $this, 'load' ] );
 	}
+
+	/**
+	 * Loads the necessary scripts and styles for the admin area.
+	 *
+	 * This method adds an action hook to enqueue the necessary JavaScript when on the admin area.
+	 * The JavaScript files are enqueued using the `admin_enqueue_scripts` action hook.
+	 *
+	 * @return void
+	 */
+	public function load(): void {
+		add_action( 'admin_enqueue_scripts', [ $this, 'admin_enqueue_scripts' ] );
+	}
+
 
 	/**
 	 * Register the admin router using the middleware stack via filter.
@@ -37,6 +71,24 @@ class AdminServiceProvider extends ServiceProvider {
 	public function register_router(): void {
 		apply_filters( namespace_string( 'middleware' ), $this->container->make( Stack::class ) )
 			->run();
+	}
+
+	/**
+	 * Enqueue the admin scripts and styles
+	 *
+	 * @return void
+	 */
+	public function admin_enqueue_scripts(): void {
+		enqueue_asset(
+			plugin_path( '/dist' ),
+			'resources/js/admin.js',
+			[
+				'handle'    => 'bible-plugin-admin',
+				'css-media' => 'all', // Optional.
+				'css-only'  => false, // Optional. Set to true to only load style assets in production mode.
+				'in-footer' => false, // Optional. Defaults to false.
+			]
+		);
 	}
 
 	/**
