@@ -1,61 +1,145 @@
-// Import LitElement base class and html helper function
 import {LitElement, html, css} from 'lit';
-import {isInstalled, isAndroid} from '../helpers.js';
 import {property} from 'lit/decorators.js';
 
 class HomeFooter extends LitElement {
-    @property({type: Object})
-    translations = {
-        hiddenAppsLabel: 'Hidden apps',
-    };
+  static properties = {
+    appUrl: {type: String}
+  };
+  @property({type: Object})
+  translations = {
+    hiddenAppsLabel: 'Hidden apps',
+  };
+  @property({type: Array})
+  appData = []; // Declare appData as a property
 
-    static get styles() {
-        return css`
-            .footer-container {
-                padding: 5px;
-                box-sizing: border-box;
-                display: flex;
-                justify-content: center;
-            }
+  static get styles() {
+    return css`
+      .footer-container {
+        padding: 5px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+      }
 
-            .footer-button {
-                display: inline-block;
-                margin: 0px;
-                padding: 4px 56px;
-                font-size: 15px;
-                border: 2px solid rgb(0, 123, 255);
-                background-color: rgb(255, 255, 255);
-                color: rgb(0, 123, 255);
-                text-decoration: none;
-                border-radius: 2px;
-                transition: background-color 0.3s ease 0s, color 0.3s ease 0s;
-                white-space: nowrap;
-            }
+      .footer-button {
+        display: inline-block;
+        margin: 0px;
+        padding: 4px 56px;
+        font-size: 15px;
+        border: 2px solid rgb(248, 243, 243);
+        background-color: rgb(255, 255, 255);
+        color: rgb(0, 123, 255);
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease 0s, color 0.3s ease 0s;
+        white-space: nowrap;
+      }
 
-            .footer-button:hover {
-                background-color: #007bff;
-                color: #ffffff;
-                cursor: pointer;
-            }
-        `;
+      .footer-button:hover {
+        background-color: #f6f0f0;
+        color: #ffffff;
+        cursor: pointer;
+      }
+
+      :host {
+        padding-left: 10px;
+        // --mod-menu-item-bottom-edge-to-text: left;
+        //--mod-menu-item-top-edge-to-text:
+        //--mod-menu-item-label-inline-edge-to-content:
+      }
+
+      .footer-button span {
+        text-decoration: none !important;
+        color: #222 !important;
+      }
+
+      :host {
+        font-weight: 100;
+        --mod-popover-border-color: rgb(66, 64, 64);
+        --mod-popover-corner-radius: 5px;
+      }
+    `;
+  }
+
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.loadAppData();
+  }
+
+  loadAppData() {
+    const jsonData = this.getAttribute('hidden-data');
+    this.appUrl = this.getAttribute('app-url-unhide');
+    if (jsonData) {
+      this.appData = JSON.parse(jsonData);
     }
+  }
 
-    render() {
-        const currentUrl = window.location.href; // Gets the current URL
-
-        return html`
-            <div class="footer-container">
-
-                <sp-action-menu>
-                    <sp-menu-item class="footer-button">
-                        <a href="${currentUrl}/hidden-apps" variant="cta">
-                            ${this.translations.hiddenAppsLabel}
-                        </a>
-                    </sp-menu-item>
-                </sp-action-menu>
-            </div>
-        `;
+  handleRemove(e, appid) {
+    e.stopPropagation();
+    const appIndex = this.appData.findIndex(app => app.id === appid);
+    if (appIndex === -1) {
+      console.error('App not found');
+      return;
     }
+    const appId = this.appData[appIndex].id;
+    this.postAppDataToServer(appId);
+    this.requestUpdate();
+  }
+
+  postAppDataToServer(appId) {
+
+    const url = this.appUrl + "/un-hide-app";
+    const appToHide = this.appData.find(app => app.id === appId);
+
+    if (!appToHide) {
+      console.error('App not found');
+      return;
+    }
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(appToHide),
+    })
+
+      .then(response => {
+        if (response.ok) {
+          window.location.reload();
+        } else {
+          // Handle error
+        }
+      })
+
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  renderAppItems() {
+    // Filter appData to only include items where is_hidden is '1'
+    const hiddenApps = this.appData.filter(app => app.is_hidden == '1');
+    const currentUrl = window.location.href;
+
+    // Map the filtered data to HTML elements
+    return hiddenApps.map(app => html`
+      <sp-menu-item class="footer-button">
+        <span id="app-grid__remove-icon-${app.id}" class="app-grid__remove-icon"
+              @click="${(e) => this.handleRemove(e, app.id)}">${app.name}</span>
+      </sp-menu-item>
+    `);
+  }
+
+  render() {
+    return html`
+      <div class="footer-container">
+        <sp-action-menu>
+          ${this.renderAppItems()}
+        </sp-action-menu>
+      </div>
+    `;
+  }
 }
 
 customElements.define('dt-home-footer', HomeFooter);
