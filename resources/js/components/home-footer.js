@@ -41,13 +41,6 @@ class HomeFooter extends LitElement {
         cursor: pointer;
       }
 
-      :host {
-        padding-left: 10px;
-        // --mod-menu-item-bottom-edge-to-text: left;
-        //--mod-menu-item-top-edge-to-text:
-        //--mod-menu-item-label-inline-edge-to-content:
-      }
-
       .footer-button span {
         text-decoration: none !important;
         color: #222 !important;
