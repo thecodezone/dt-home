@@ -53,10 +53,31 @@ class HomeFooter extends LitElement {
         color: #222 !important;
       }
 
+      sp-action-menu {
+        margin-left: auto;
+        font-size: 18px;
+        border-radius: 10px;
+        --mod-actionbutton-padding: 10px 20px;
+      }
+
       :host {
+        --mod-actionbutton-border-radius: 7px;
         font-weight: 100;
+        color: #3F729B;
+        --mod-actionbutton-background-color-default: #3F729B;
+        --mod-actionbutton-content-color-default: #ffff !important;
+        --mod-actionbutton-height: 40px;
+        --mod-actionbutton-edge-to-text: 20px;
         --mod-popover-border-color: rgb(66, 64, 64);
         --mod-popover-corner-radius: 5px;
+      }
+
+      @media (hover: hover) {
+        :host(:hover) {
+          --mod-actionbutton-background-color-hover: #3F729B;
+          --mod-actionbutton-content-color-hover: #ffff;
+          --mod-popover-border-color: rgb(66, 64, 64);
+        }
       }
     `;
   }
@@ -134,7 +155,7 @@ class HomeFooter extends LitElement {
   render() {
     return html`
       <div class="footer-container">
-        <sp-action-menu>
+        <sp-action-menu><span slot="label">&nbsp;  ${this.translations.hiddenAppsLabel}</span>
           ${this.renderAppItems()}
         </sp-action-menu>
       </div>
