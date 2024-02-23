@@ -14,35 +14,7 @@ echo 'window.svgIconUrls = ' . json_encode($svg_icon_urls) . ';';
 echo '</script>';
 /*echo '<script src="../wp-content/plugins/dt-home/resources/js/components/app-setting.js"></script>';*/
 ?>
-<style>
-    /* Custom styles */
-    .popup {
-        display: none;
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        padding: 20px;
-        background-color: #fff;
-        border: 1px solid #ccc;
-        z-index: 1000;
-        width: 60%; /* Adjust as per your requirement */
-        height: 70%; /* Adjust as per your requirement */
-        overflow-y: auto; /* Enables vertical scrolling */
-    }
 
-    .svg-container {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .svg-icon {
-        width: 50px;
-        height: 50px;
-        margin: 5px;
-        cursor: pointer;
-    }
-</style>
 <form action="admin.php?page=dt_home&tab=app&action=create" method="post" enctype="multipart/form-data">
     <?php wp_nonce_field('dt_admin_form', 'dt_admin_form_nonce') ?>
 

@@ -27,7 +27,7 @@ function loadSVGIcons() {
   });
 }
 
-function filterIcons() {
+window.filterIcons = function () {
   var input, filter, container, img, i, txtValue;
   input = document.getElementById("searchInput");
   filter = input.value.toUpperCase();
