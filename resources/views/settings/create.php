@@ -5,12 +5,12 @@
  * @var string $link
  * @var string $page_title
  */
-$this->layout('layouts/settings', compact('tab', 'link', 'page_title', 'svgIconUrls'));
+$this->layout('layouts/settings', compact('tab', 'link', 'page_title', 'svg_icon_urls'));
 ?>
 <?php
 // Pass the PHP data to JavaScript
 echo '<script type="text/javascript">';
-echo 'window.svgIconUrls = ' . json_encode($svgIconUrls) . ';';
+echo 'window.svgIconUrls = ' . json_encode($svg_icon_urls) . ';';
 echo '</script>';
 /*echo '<script src="../wp-content/plugins/dt-home/resources/js/components/app-setting.js"></script>';*/
 ?>

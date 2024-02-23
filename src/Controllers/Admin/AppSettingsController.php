@@ -45,10 +45,10 @@ class AppSettingsController
         $tab = "app";
         $link = 'admin.php?page=dt_home&tab=';
         $page_title = "Home Settings";
-        $svgService = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
-        $svgIconUrls = $svgService->getSVGIconURLs();
+        $svg_service = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
+        $svg_icon_urls = $svg_service->get_s_v_g_icon_u_r_ls();
 
-        return view( "settings/create", compact( 'tab', 'link', 'page_title', 'svgIconUrls' ) );
+        return view( "settings/create", compact( 'tab', 'link', 'page_title', 'svg_icon_urls' ) );
     }
 
     public function store( Request $request, Response $response )
@@ -274,8 +274,8 @@ class AppSettingsController
     public function edit_app( $id )
     {
         $edit_id = isset( $id ) ? intval( $id ) : 0;
-        $svgService = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
-        $svgIconUrls = $svgService->getSVGIconURLs();
+        $svg_service = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
+        $svg_icon_urls = $svg_service->get_s_v_g_icon_u_r_ls();
 
         if ( $edit_id ) {
             // Retrieve the existing data based on $edit_id
@@ -287,7 +287,7 @@ class AppSettingsController
 
             if ( $existing_data ) {
                 // Load the edit form view and pass the existing data
-                return view( "settings/edit", compact( 'existing_data', 'link', 'tab', 'page_title', 'svgIconUrls' ) );
+                return view( "settings/edit", compact( 'existing_data', 'link', 'tab', 'page_title', 'svg_icon_urls' ) );
             }
         }
     }
