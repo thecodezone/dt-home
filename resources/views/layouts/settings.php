@@ -1,21 +1,23 @@
+<?php
+/**
+ * @var string $tab
+ */
+
+use function DT\Home\namespace_string;
+
+$nav = apply_filters( namespace_string( 'settings_tabs' ), [] );
+?>
+
 <div class="wrap">
-    <h2><?php $this->esc_html_e( 'Home', 'dt_home' ) ?></h2>
+    <h2><?php $this->esc_html_e( 'Home Screen', 'dt_home' ) ?></h2>
 
     <h2 class="nav-tab-wrapper">
-        <a href="admin.php?page=dt_home&tab=general"
-           class="nav-tab <?php echo $this->esc_html( ( $tab == 'general' || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
-			<?php $this->esc_html_e( 'General', 'dt_home' ) ?>
-        </a>
-
-        <a href="admin.php?page=dt_home&tab=app"
-           class="nav-tab <?php echo $this->esc_html( ( $tab == 'app' || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
-			<?php $this->esc_html_e( 'Apps', 'dt_home' ) ?>
-        </a>
-
-        <a href="admin.php?page=dt_home&tab=training"
-           class="nav-tab <?php echo $this->esc_html( ( $tab == 'training' || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
-			<?php $this->esc_html_e( 'Training Videos', 'dt_home' ) ?>
-        </a>
+		<?php foreach ( $nav as $index => $item ): ?>
+            <a href="admin.php?page=dt_home&tab=<?php echo $this->e( $item['tab'] ) ?>"
+               class="nav-tab <?php echo $this->esc_html( ( $tab == $item['tab'] || ! isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
+				<?php echo $this->e( $item['label'] ) ?>
+            </a>
+		<?php endforeach; ?>
     </h2>
 
     <div class="wrap">
