@@ -5,34 +5,14 @@
  * @var string $link
  * @var string $page_title
  */
-$this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
+$this->layout('layouts/settings', compact('tab', 'link', 'page_title', 'svgIconUrls'));
 ?>
 
 <?php
-// Define the path to the SVG directory relative to the theme's directory
-$svg_dir_path = get_template_directory() . '/dt-assets/images/';
-
-// Check if the directory exists
-if ( is_dir( $svg_dir_path ) ) {
-	// Read files from the directory
-	$svg_files = array_diff( scandir( $svg_dir_path ), [ '..', '.' ] );
-
-	// Filter out only SVG files
-	$svg_icon_urls = array_filter( $svg_files, function ( $file ) use ( $svg_dir_path ) {
-		return pathinfo( $svg_dir_path . $file, PATHINFO_EXTENSION ) === 'svg';
-	} );
-
-	// Convert file paths to URLs
-	$svg_icon_urls = array_map( function ( $file ) {
-		// Use get_template_directory_uri() to convert the file path to a URL
-		return get_template_directory_uri() . '/dt-assets/images/' . $file;
-	}, $svg_icon_urls );
-} else {
-	// Directory not found, handle this case appropriately
-	$svg_icon_urls = [];
-	// You might want to log this error or notify the user
-}
-
+// Pass the PHP data to JavaScript
+echo '<script type="text/javascript">';
+echo 'window.svgIconUrls = ' . json_encode($svgIconUrls) . ';';
+echo '</script>';
 ?>
 
 <style>
@@ -65,9 +45,9 @@ if ( is_dir( $svg_dir_path ) ) {
     }
 </style>
 
-<form action="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr( $existing_data['id'] ); ?>" method="post"
+<form action="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr($existing_data['id']); ?>" method="post"
       enctype="multipart/form-data">
-	<?php wp_nonce_field( 'dt_admin_form', 'dt_admin_form_nonce' ) ?>
+    <?php wp_nonce_field('dt_admin_form', 'dt_admin_form_nonce') ?>
 
     <table class="widefat striped" id="ml_email_main_col_config">
         <thead>
@@ -83,53 +63,53 @@ if ( is_dir( $svg_dir_path ) ) {
             <td style="vertical-align: middle;">Name [&#63;]</td>
             <td colspan="3">
                 <input style="min-width: 100%;" type="text" name="name" id="name" class="form-control"
-                       value="<?php echo esc_attr( $existing_data['name'] ); ?>" required>
+                       value="<?php echo esc_attr($existing_data['name']); ?>" required>
             </td>
         </tr>
         <tr>
             <td style="vertical-align: middle;">Type [&#63;]</td>
             <td colspan="3">
                 <select style="min-width: 100%;" id="type" required onchange="toggleURLField()" disabled>
-                    <option value="" <?php echo empty( $existing_data['type'] ) ? 'selected' : ''; ?>>Please select
+                    <option value="" <?php echo empty($existing_data['type']) ? 'selected' : ''; ?>>Please select
                     </option>
-                    <option value="Web View" <?php echo ( $existing_data['type'] === 'Web View' ) ? 'selected' : ''; ?>>
+                    <option value="Web View" <?php echo ($existing_data['type'] === 'Web View') ? 'selected' : ''; ?>>
                         Web View
                     </option>
-                    <option value="Custom" <?php echo ( $existing_data['type'] === 'Custom' ) ? 'selected' : ''; ?>>
+                    <option value="Custom" <?php echo ($existing_data['type'] === 'Custom') ? 'selected' : ''; ?>>
                         Custom
                     </option>
                 </select>
                 <input style="min-width: 100%;" type="hidden" name="type"
-                       value="<?php echo esc_attr( $existing_data['type'] ); ?>"/>
+                       value="<?php echo esc_attr($existing_data['type']); ?>"/>
             </td>
         </tr>
         <tr>
             <td style="vertical-align: middle;">Icon (File Upload)</td>
             <td style="vertical-align: middle;">
-				<?php if ( ! empty( $existing_data['icon'] ) ) : ?>
-                    <img src="<?php echo esc_url( $existing_data['icon'] ); ?>" alt="Icon"
+                <?php if (!empty($existing_data['icon'])) : ?>
+                    <img src="<?php echo esc_url($existing_data['icon']); ?>" alt="Icon"
                          style="max-width: 50px; max-height: 50px;">
-				<?php endif; ?>
+                <?php endif; ?>
             </td>
             <td style="vertical-align: middle;">
                 <input style="min-width: 100%;" type="text" id="icon" name="icon"
-                       value="<?php echo esc_url( isset( $existing_data['icon'] ) ? $existing_data['icon'] : '' ); ?>"/>
+                       value="<?php echo esc_url(isset($existing_data['icon']) ? $existing_data['icon'] : ''); ?>"/>
             </td>
             <td style="vertical-align: middle;">
                 <a href="#" class="button change-icon-button" onclick="showPopup(); loadSVGIcons();">
-					<?php esc_html_e( 'Change Icon', 'disciple_tools' ); ?>
+                    <?php esc_html_e('Change Icon', 'disciple_tools'); ?>
                 </a>
             </td>
         </tr>
-		<?php if ( $existing_data['type'] === 'Web View' ) { ?>
+        <?php if ($existing_data['type'] === 'Web View') { ?>
             <tr>
                 <td style="vertical-align: middle;">URL [&#63;]</td>
                 <td colspan="3">
                     <input style="min-width: 100%;" type="text" name="url" id="url" class="form-control"
-                           value="<?php echo esc_url( isset( $existing_data['url'] ) ? $existing_data['url'] : '' ); ?>">
+                           value="<?php echo esc_url(isset($existing_data['url']) ? $existing_data['url'] : ''); ?>">
                 </td>
             </tr>
-		<?php } ?>
+        <?php } ?>
         <!--<tr>
             <td style="vertical-align: middle;">Sort [&#63;]</td>
             <td colspan="3">
@@ -141,7 +121,7 @@ if ( is_dir( $svg_dir_path ) ) {
             <td style="vertical-align: middle;">Is Hidden [&#63;]</td>
             <td colspan="3">
                 <input type="checkbox" name="is_hidden" id="is_hidden"
-                       value="1" <?php checked( $existing_data['is_hidden'], 1 ); ?>>
+                       value="1" <?php checked($existing_data['is_hidden'], 1); ?>>
             </td>
         </tr>
         </tbody>
@@ -149,11 +129,11 @@ if ( is_dir( $svg_dir_path ) ) {
 
     <br>
     <span style="float:right;">
-        <input type="hidden" name="edit_id" value="<?php echo esc_attr( $existing_data['id'] ); ?>">
+        <input type="hidden" name="edit_id" value="<?php echo esc_attr($existing_data['id']); ?>">
         <a href="admin.php?page=dt_home&tab=app"
-           class="button float-right"><?php esc_html_e( 'Cancel', 'disciple_tools' ) ?></a>
+           class="button float-right"><?php esc_html_e('Cancel', 'disciple_tools') ?></a>
         <button type="submit" name="submit" id="submit"
-                class="button float-right"><?php esc_html_e( 'Update', 'disciple_tools' ) ?></button>
+                class="button float-right"><?php esc_html_e('Update', 'disciple_tools') ?></button>
     </span>
 </form>
 
@@ -167,69 +147,10 @@ if ( is_dir( $svg_dir_path ) ) {
     <button class="btn btn-secondary" onclick="hidePopup()">Close</button>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-U7I5ERqjFqH7CO/SeEe/AJSRJ53oW5sPAsMJWMxXpqpYkyZ3Z0ZEwU5pdA9F6VhN"
-        crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgydN1uhFjXM+2lkfOExlqAtFaJ3Rl8cgxgAIf5PpKeVQgb9cVCobmQMj2O"
-        crossorigin="anonymous"></script>
 
-<script>
-    // Function to show the popup
-    function showPopup() {
-        document.getElementById("popup").style.display = "block";
-        loadSVGIcons(); // Load icons when the popup is shown
-    }
-
-    // Function to hide the popup
-    function hidePopup() {
-        document.getElementById("popup").style.display = "none";
-    }
-
-    // Function to load SVG icons into the popup
-    function loadSVGIcons() {
-        var container = document.getElementById("svgContainer");
-        container.innerHTML = ''; // Clear existing content
-
-        var svgIconUrls = <?php echo json_encode( array_values( $svg_icon_urls ) ); ?>;
-
-        svgIconUrls.forEach(function (url) {
-            var img = document.createElement("img");
-            img.src = url;
-            img.classList.add("svg-icon");
-            img.onclick = function () {
-                // Set the icon URL in the text field and close the popup
-                document.getElementById("icon").value = url;
-                hidePopup();
-            };
-            container.appendChild(img);
-        });
-    }
-
-    function filterIcons() {
-        var input, filter, container, img, i, txtValue;
-        input = document.getElementById("searchInput");
-        filter = input.value.toUpperCase();
-        container = document.getElementById("svgContainer");
-        img = container.getElementsByTagName("img");
-
-        // Loop through all icons and hide those that don't match the search query
-        for (i = 0; i < img.length; i++) {
-            txtValue = img[i].src || img[i].alt;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                img[i].style.display = "";
-            } else {
-                img[i].style.display = "none";
-            }
-        }
-    }
-</script>
 <?php //phpcs:ignoreEnd ?>
 
-<?php $this->start( 'right' ) ?>
+<?php $this->start('right') ?>
 
 <!-- Add some content to the right side -->
 
