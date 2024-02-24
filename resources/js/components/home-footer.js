@@ -1,12 +1,18 @@
-// Import LitElement base class and html helper function
-import {css, html, LitElement} from 'lit';
+import {LitElement, html, css} from 'lit';
 import {property} from 'lit/decorators.js';
+import '@spectrum-web-components/action-menu/sp-action-menu.js';
+
 
 class HomeFooter extends LitElement {
+  static properties = {
+    appUrl: {type: String}
+  };
   @property({type: Object})
   translations = {
     hiddenAppsLabel: 'Hidden apps',
   };
+  @property({type: Array})
+  appData = []; // Declare appData as a property
 
   static get styles() {
     return css`
@@ -22,19 +28,24 @@ class HomeFooter extends LitElement {
         margin: 0px;
         padding: 4px 56px;
         font-size: 15px;
-        border: 2px solid rgb(0, 123, 255);
+        border: 2px solid rgb(248, 243, 243);
         background-color: rgb(255, 255, 255);
         color: rgb(0, 123, 255);
         text-decoration: none;
-        border-radius: 2px;
+        border-radius: 5px;
         transition: background-color 0.3s ease 0s, color 0.3s ease 0s;
         white-space: nowrap;
       }
 
       .footer-button:hover {
-        background-color: #007bff;
+        background-color: #f6f0f0;
         color: #ffffff;
         cursor: pointer;
+      }
+
+      .footer-button span {
+        text-decoration: none !important;
+        color: #222 !important;
       }
 
       sp-action-menu {
@@ -52,7 +63,7 @@ class HomeFooter extends LitElement {
         --mod-actionbutton-content-color-default: #ffff !important;
         --mod-actionbutton-height: 40px;
         --mod-actionbutton-edge-to-text: 20px;
-        --mod-popover-border-color: #f8f6f6;
+        --mod-popover-border-color: rgb(66, 64, 64);
         --mod-popover-corner-radius: 5px;
       }
 
@@ -60,24 +71,104 @@ class HomeFooter extends LitElement {
         :host(:hover) {
           --mod-actionbutton-background-color-hover: #3F729B;
           --mod-actionbutton-content-color-hover: #ffff;
-          --mod-popover-border-color: #f8f6f6;
+          --mod-popover-border-color: rgb(66, 64, 64);
         }
       }
     `;
   }
 
-  render() {
-    const currentUrl = window.location.href; // Gets the current URL
 
+  connectedCallback() {
+    super.connectedCallback();
+    this.loadAppData();
+  }
+
+  loadAppData() {
+    const jsonData = this.getAttribute('hidden-data');
+    this.appUrl = this.getAttribute('app-url-unhide');
+    if (jsonData) {
+      this.appData = JSON.parse(jsonData);
+    }
+  }
+
+  handleRemove(e, appid) {
+    e.stopPropagation();
+    const appIndex = this.appData.findIndex(app => app.id === appid);
+    if (appIndex === -1) {
+      console.error('App not found');
+      return;
+    }
+    const appId = this.appData[appIndex].id;
+    this.postAppDataToServer(appId);
+    this.requestUpdate();
+  }
+
+  postAppDataToServer(appId) {
+
+    const url = this.appUrl + "/un-hide-app";
+    const appToHide = this.appData.find(app => app.id === appId);
+
+    if (!appToHide) {
+      console.error('App not found');
+      return;
+    }
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(appToHide),
+    })
+
+      .then(response => {
+        if (response.ok) {
+          window.location.reload();
+        } else {
+          // Handle error
+        }
+      })
+
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }
+
+  handleAppClick(e, appid) {
+    e.stopPropagation();
+    const appIndex = this.appData.findIndex(app => app.id === appid);
+    if (appIndex === -1) {
+      console.error('App not found');
+      return;
+    }
+    const appId = this.appData[appIndex].id;
+    this.postAppDataToServer(appId);
+    this.requestUpdate();
+  }
+
+  renderAppItems() {
+    // Filter appData to only include items where is_hidden is true
+    const hiddenApps = this.appData.filter(app => app.is_hidden === 1);
+
+    // Check if the hiddenApps array is empty and return a message if so
+    if (hiddenApps.length === 0) {
+      return html`<p>No hidden apps available.</p>`;
+    }
+
+    // Map the filtered data to HTML elements if hidden apps are present
+    return hiddenApps.map(app => html`
+      <sp-menu-item class="footer-button">
+      <span id="app-grid__remove-icon-${app.id}" class="app-grid__remove-icon"
+            @click="${(e) => this.handleAppClick(e, app.id)}">${app.name}</span>
+      </sp-menu-item>
+    `);
+  }
+
+
+  render() {
     return html`
       <div class="footer-container">
-
         <sp-action-menu><span slot="label">&nbsp;  ${this.translations.hiddenAppsLabel}</span>
-          <sp-menu-item class="footer-button">
-            <a href="${currentUrl}/hidden-apps" variant="cta">
-              ${this.translations.hiddenAppsLabel}
-            </a>
-          </sp-menu-item>
+          ${this.renderAppItems()}
         </sp-action-menu>
       </div>
     `;

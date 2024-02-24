@@ -16,10 +16,10 @@ class HomeController
         $subpage_url = magic_url( 'subpage', $key );
 
         $apps_array = get_option( 'dt_home_apps', [] );
-        $hidden_apps_array = get_option( 'dt_home_apps', [] );
 
         $data = json_encode( $apps_array );
-        $hidden_data = json_encode( $hidden_apps_array );
+        $hidden_data = json_encode( $apps_array );
+
         $app_url = magic_url( '', $key );
         $magic_link = magic_url();
 
@@ -41,6 +41,7 @@ class HomeController
 
         $apps_array = get_option( 'dt_home_apps', [] );
         $data = json_encode( $apps_array );
+
         $app_url = magic_url( '', $key );
 
         return template('hidden-apps', compact(
@@ -112,6 +113,32 @@ class HomeController
         }
     }
 
+
+    public function update_unhide_app( Request $request, Response $response, $key )
+    {
+        $data = $request->json()->all();
+
+        // Assuming $data contains 'id' and 'is_hidden'
+        $app_id = $data['id'];
+
+        $apps_array = get_option( 'dt_home_apps', [] );
+
+        // Find the app with the specified ID and update its 'is_hidden' status
+        foreach ( $apps_array as $key => $app ) {
+            if ( isset( $app['id'] ) && $app['id'] == $app_id ) {
+                $apps_array[$key]['is_hidden'] = 0; // Set 'is_hidden' to 1 (hide)
+                break; // Exit the loop once the app is found and updated
+            }
+        }
+        // Save the updated array back to the option
+        update_option( 'dt_home_apps', $apps_array );
+
+        $response_data = [ 'message' => 'App visibility updated' ];
+
+        $response->setContent( json_encode( $response_data ) );
+
+        return $response;
+    }
 
     public function update_app_order( Request $request, Response $response, $key ): Response
     {

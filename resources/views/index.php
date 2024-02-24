@@ -19,10 +19,10 @@ $this->layout( 'layouts/plugin' );
         <!-- Add more app icons as needed -->
     </dt-home-app-grid>
     <div>
-		<?php echo $this->section( 'content' ) ?>
+        <?php echo $this->section( 'content' ) ?>
     </div>
 
-    <dt-home-footer translations='<?php echo wp_json_encode( [
-		"hiddenAppsLabel" => __( "Hidden apps", 'dt_home' ),
-	] ) ?>'></dt-home-footer>
+    <dt-home-footer id="hiddenApps" hidden-data='<?php echo esc_attr( htmlspecialchars( $data ) ); ?>'
+                    app-url-unhide='<?php echo esc_url( $app_url ); ?>'>
+    </dt-home-footer>
 </div>
