@@ -77,7 +77,25 @@ class HomeFooter extends LitElement {
     `;
   }
 
-
+  /**
+   * Lifecycle callback that is invoked when the element is inserted into the DOM.
+   * This method extends the standard connectedCallback functionality of web components.
+   * Upon being added to the DOM, it performs essential initialization tasks for the component.
+   *
+   * The method first calls `super.connectedCallback()` to ensure that any connectedCallback
+   * logic defined in the superclass is executed. Following this, it invokes `this.loadAppData()`,
+   * a component-specific method presumably responsible for loading necessary data for the application
+   * or component. This can include fetching data from an API, setting up initial state, or performing
+   * any other initialization tasks required for the component to function correctly.
+   *
+   * This function is an essential part of the web component lifecycle and is automatically
+   * called by the browser when the element is added to the document's DOM.
+   *
+   * @memberof YourComponentName  // Replace with the actual component name
+   * @function connectedCallback
+   * @extends HTMLElement
+   * @returns {void}
+   */
   connectedCallback() {
     super.connectedCallback();
     this.loadAppData();
