@@ -31,3 +31,56 @@ dt-button.button--block {
     display: block;
     width: 100%;
 }
+
+.button-info {
+    border: none;
+    width: 16px;
+    height: 16px;
+}
+
+.sp-tooltip-help {
+    width: 71px;
+    height: 20px;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 12px;
+    line-height: 20px;
+}
+
+
+sp-icon-help {
+    color: #4CAF50;
+}
+
+.sp-tooltip {
+    position: relative;
+}
+
+sp-tooltip.spl-text {
+    background-color: #e8e6e6;
+    color: #4caf50 !important;
+    padding: 5px 10px !important;
+    font-weight: normal;
+    line-height: 20px;
+    border-radius: 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    position: static;
+    top: 50%;
+    right: 100%;
+    cursor: pointer;
+
+}
+
+
+.learn-more-text {
+    color: #4caf50 !important;
+    font-weight: 100;
+    display: flex;
+    width: 110px;
+    cursor: pointer;
+}
+
+
+
+
