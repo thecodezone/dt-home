@@ -6,17 +6,17 @@
  * @var string $subpage_url
  * @var WP_User $user
  */
-$this->layout('layouts/web-view');
+$this->layout( 'layouts/web-view' );
 ?>
 
 <div>
 
     <?php
-    if (isset($desired_app) && isset($desired_app['url'])) {
+    if ( isset( $desired_app ) && isset( $desired_app['url'] ) ) {
         $url = $desired_app['url'];
         ?>
 
-        <iframe src="<?php echo htmlspecialchars($url); ?>" width="400" height="600" frameborder="0"></iframe>
+        <iframe src="<?php echo htmlspecialchars( $url ); ?>" width="400" height="600" frameborder="0"></iframe>
         <?php
     } else {
         echo "URL not found or the desired app is not set.";
@@ -25,6 +25,6 @@ $this->layout('layouts/web-view');
 
 
     <div>
-        <?php echo $this->section('content') ?>
+        <?php echo $this->section( 'content' ) ?>
     </div>
 </div>
