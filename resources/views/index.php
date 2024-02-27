@@ -24,7 +24,7 @@ $this->layout( 'layouts/plugin' );
             <?php
             $text = "Copy this link and share it with people you are coaching.";
             $escaped_text = esc_attr( $text ); // If you need to ensure the text is safe for HTML attributes
-            $newtext = wordwrap( $escaped_text, 35, "<br />\n" );
+            $newtext = wordwrap( $escaped_text, 40, "<br />\n" );
             echo $newtext;
             ?>
         </sp-tooltip>
