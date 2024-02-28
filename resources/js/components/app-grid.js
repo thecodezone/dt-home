@@ -229,14 +229,22 @@ class AppGrid extends LitElement {
       this.clickTimer = setTimeout(() => {
         // Your single click logic here
         const selectedApp = this.appData[index];
-        if (selectedApp && selectedApp.url) {
-          window.location.href = selectedApp.url;
+        if (selectedApp && selectedApp.id) {
+          // Assuming the slug can be derived from the URL or another property
+          const slug = this.deriveSlugFromUrl(selectedApp.id);
+          window.location.href = `/home/app/${slug}`;
         }
         this.showRemoveIconIndex = null;
         this.requestUpdate();
         this.clickTimer = null;
       }, this.clickDelay);
     }
+  }
+
+  deriveSlugFromUrl(url) {
+    // Implement logic to derive slug from the URL
+    // This is a placeholder, actual implementation depends on your URL structure
+    return url.split('/').pop(); // Example: gets the last part of the URL
   }
 
   /**
@@ -294,12 +302,9 @@ class AppGrid extends LitElement {
       },
       body: JSON.stringify(appToHide),
     })
-      .then(response => {
-        if (response.ok) {
-          window.location.reload();
-        } else {
-          // Handle error
-        }
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
       })
       .catch((error) => {
         console.error('Error:', error);

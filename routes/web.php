@@ -37,6 +37,7 @@ $r->condition('plugin', function ( Routes $r ) {
         $r->post( '/login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
         $r->get( '/register', [ RegisterController::class, 'register' ] );
         $r->post( '/register', [ RegisterController::class, 'process' ] );
+        $r->get( '/app/{slug}', [ HomeController::class, 'open_app' ] );
     });
 
     $r->middleware([ 'magic:home/launcher', 'check_share' ], function ( Routes $r ) {
