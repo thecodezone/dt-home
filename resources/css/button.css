@@ -57,19 +57,30 @@ sp-icon-help {
 }
 
 sp-tooltip.spl-text {
-    background-color: #e8e6e6;
-    color: #4caf50 !important;
-    padding: 5px 10px !important;
+    background-color: #cbc9c994;
+    color: #4caf50;
+    padding: 5px 10px;
     font-weight: normal;
     line-height: 20px;
     border-radius: 4px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: inline-block;
-    position: static;
-    top: 50%;
-    right: 100%;
+    position: relative;
     cursor: pointer;
     font-size: 12px;
+
+}
+
+sp-tooltip.spl-text:after {
+    content: " ";
+    position: absolute;
+    top: 50%;
+    left: -5px;
+    margin-top: revert;
+    margin-left: 5px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent rgba(203, 201, 201, 0.58) transparent transparent;
+    transform: translateX(-100%) translateY(-50%);
 }
 
 
@@ -79,8 +90,5 @@ sp-tooltip.spl-text {
     display: flex;
     width: 110px;
     cursor: pointer;
+    font-style: italic;
 }
-
-
-
-
