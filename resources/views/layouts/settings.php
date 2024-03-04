@@ -26,8 +26,7 @@ $nav = apply_filters( namespace_string( 'settings_tabs' ), [] );
 
 <div class="wrap">
     <div id="poststuff">
-
-
+        
         <div id="post-body" class="metabox-holder columns-2">
             <div id="post-body-content">
 
