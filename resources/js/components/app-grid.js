@@ -117,7 +117,8 @@ class AppGrid extends LitElement {
     super.connectedCallback();
     this.loadAppData();
     this.initSortable();
-
+    this.boundHandleDocumentClick = this.handleDocumentClick.bind(this);
+    document.addEventListener('click', this.boundHandleDocumentClick);
   }
 
   /**
@@ -149,7 +150,7 @@ class AppGrid extends LitElement {
     appGrids.forEach((appGrid) => {
       const sortableInstance = new Sortable(appGrid, {
         group: 'shared',
-        animation: 150,
+        animation: 500,
         draggable: '.app-grid__item', // Specify draggable items
         onEnd: (evt) => this.updateOrder(evt)
 
@@ -277,6 +278,16 @@ class AppGrid extends LitElement {
     this.selectedIndex = -1;
     this.showRemoveIconIndex = null; // Reset the index after removal
     this.requestUpdate(); // Request an update to re-render the component
+  }
+
+  handleDocumentClick(event) {
+    // Check if the click is outside the context menu
+    const removeIcon = this.shadowRoot.querySelector('.app-grid__remove-icon');
+    if (removeIcon && !removeIcon.contains(event.target)) {
+      this.showRemoveIconIndex = null;
+      this.isDragging = false;
+      this.requestUpdate();
+    }
   }
 
 

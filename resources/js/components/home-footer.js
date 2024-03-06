@@ -1,7 +1,6 @@
-import {LitElement, html, css} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {property} from 'lit/decorators.js';
 import '@spectrum-web-components/action-menu/sp-action-menu.js';
-
 
 class HomeFooter extends LitElement {
   static properties = {
@@ -28,7 +27,7 @@ class HomeFooter extends LitElement {
         margin: 0px;
         padding: 5px 130px 11px 10px;
         font-size: 15px;
-        border: 2px solid rgb(248, 243, 243);
+        border: 2px solid rgb(0, 123, 255);
         background-color: rgb(255, 255, 255);
         color: rgb(0, 123, 255);
         text-decoration: none;
@@ -39,7 +38,7 @@ class HomeFooter extends LitElement {
       }
 
       .footer-button:hover {
-        background-color: #f6f0f0;
+        background-color: #007bff;
         color: #ffffff;
         cursor: pointer;
       }
@@ -86,25 +85,6 @@ class HomeFooter extends LitElement {
     `;
   }
 
-  /**
-   * Lifecycle callback that is invoked when the element is inserted into the DOM.
-   * This method extends the standard connectedCallback functionality of web components.
-   * Upon being added to the DOM, it performs essential initialization tasks for the component.
-   *
-   * The method first calls `super.connectedCallback()` to ensure that any connectedCallback
-   * logic defined in the superclass is executed. Following this, it invokes `this.loadAppData()`,
-   * a component-specific method presumably responsible for loading necessary data for the application
-   * or component. This can include fetching data from an API, setting up initial state, or performing
-   * any other initialization tasks required for the component to function correctly.
-   *
-   * This function is an essential part of the web component lifecycle and is automatically
-   * called by the browser when the element is added to the document's DOM.
-   *
-   * @memberof YourComponentName  // Replace with the actual component name
-   * @function connectedCallback
-   * @extends HTMLElement
-   * @returns {void}
-   */
   connectedCallback() {
     super.connectedCallback();
     this.loadAppData();
@@ -116,18 +96,6 @@ class HomeFooter extends LitElement {
     if (jsonData) {
       this.appData = JSON.parse(jsonData);
     }
-  }
-
-  handleRemove(e, appid) {
-    e.stopPropagation();
-    const appIndex = this.appData.findIndex(app => app.id === appid);
-    if (appIndex === -1) {
-      console.error('App not found');
-      return;
-    }
-    const appId = this.appData[appIndex].id;
-    this.postAppDataToServer(appId);
-    this.requestUpdate();
   }
 
   postAppDataToServer(appId) {

@@ -24,7 +24,7 @@ html {
     --shadow-1: 0 4px 4px rgb(0 0 0 / 25%);
 
 
-    --alert-color: #cc4b37;
+    --alert-color: #E94F54;
     --caution-color: #f2c962;
     --success-color: #4caf50;
     --inactive-color: #808080;
@@ -55,17 +55,17 @@ html {
 
     --dt-text-color: var(--dt-form-text-color);
     --dt-text-color-inverse: var(--dt-form-text-color-inverse);
-    --dt-text-background-color: #F2F2F2;
+    --dt-text-background-color: #E5E5E5;
     --dt-text-border-color: var(--dt-form-border-color);
     --dt-text-disabled-background-color: var(--dt-form-disabled-background-color);
     --dt-text-border-radius: 4px;
     --td-text-box-shadow: none;
 
-    --dt-text-placeholder-color: #AEAEAE;
+    --dt-text-placeholder-color: hsla(0, 0%, 50%, 1);
     --dt-text-placeholder-font-size: 12px;
     --dt-text-placeholder-font-weight: 200;
     --dt-text-placeholder-letter-spacing: 0.1em;
-    --dt-text-placeholder-transform: uppercase;
+    --dt-text-placeholder-transform: capitalize;
 
     --dt-textarea-border-color: var(--dt-form-border-color);
     --dt-textarea-background-color: var(--dt-form-background-color);
