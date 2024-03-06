@@ -1,0 +1,5 @@
+dt-alert {
+    margin-bottom: 1rem;
+    --dt-alert-border-radius: 5px;
+    --dt-alert-font-weight: 200;
+}

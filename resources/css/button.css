@@ -38,16 +38,28 @@ dt-button.button--block {
     height: 16px;
 }
 
+.sp-tooltip-help {
+    width: 71px;
+    height: 20px;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 12px;
+    line-height: 20px;
+}
+
 
 sp-icon-help {
     color: #4CAF50;
 }
 
+.sp-tooltip {
+    position: relative;
+}
 
 sp-tooltip.spl-text {
     background-color: #707070FF;
     color: #ffffff;
-    padding: 5px 10px;
+    padding: 5px 10px !important;
     font-weight: normal;
     line-height: 20px;
     border-radius: 4px;
@@ -60,6 +72,7 @@ sp-tooltip.spl-text {
     font-size: 12px;
 }
 
+
 .learn-more-text {
     color: #4caf50;
     font-weight: 100;
@@ -68,3 +81,7 @@ sp-tooltip.spl-text {
     cursor: pointer;
     font-style: italic;
 }
+
+
+
+
