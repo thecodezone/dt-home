@@ -15,6 +15,10 @@ import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/button/sp-clear-button.js';
 import '@spectrum-web-components/button/sp-close-button.js';
 import "@spectrum-web-components/progress-circle/sp-progress-circle.js";
+import '@spectrum-web-components/action-menu/sp-action-menu.js';
+import '@spectrum-web-components/tooltip/sp-tooltip.js';
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-help.js';
+import '@spectrum-web-components/overlay/sync/overlay-trigger.js';
 
 /**
  * Imports
@@ -36,5 +40,5 @@ import "../css/plugin.css";
  * Bootstrap the application
  */
 loaded(() => {
-    document.body.classList.add("dom-loaded");
+  document.body.classList.add("dom-loaded");
 });

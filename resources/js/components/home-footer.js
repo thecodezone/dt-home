@@ -1,5 +1,6 @@
-import {LitElement, html, css} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {property} from 'lit/decorators.js';
+import '@spectrum-web-components/action-menu/sp-action-menu.js';
 
 class HomeFooter extends LitElement {
   static properties = {
@@ -26,7 +27,7 @@ class HomeFooter extends LitElement {
         margin: 0px;
         padding: 4px 56px;
         font-size: 15px;
-        border: 2px solid rgb(248, 243, 243);
+        border: 2px solid rgb(0, 123, 255);
         background-color: rgb(255, 255, 255);
         color: rgb(0, 123, 255);
         text-decoration: none;
@@ -36,7 +37,7 @@ class HomeFooter extends LitElement {
       }
 
       .footer-button:hover {
-        background-color: #f6f0f0;
+        background-color: #007bff;
         color: #ffffff;
         cursor: pointer;
       }
@@ -75,7 +76,6 @@ class HomeFooter extends LitElement {
     `;
   }
 
-
   connectedCallback() {
     super.connectedCallback();
     this.loadAppData();
@@ -87,18 +87,6 @@ class HomeFooter extends LitElement {
     if (jsonData) {
       this.appData = JSON.parse(jsonData);
     }
-  }
-
-  handleRemove(e, appid) {
-    e.stopPropagation();
-    const appIndex = this.appData.findIndex(app => app.id === appid);
-    if (appIndex === -1) {
-      console.error('App not found');
-      return;
-    }
-    const appId = this.appData[appIndex].id;
-    this.postAppDataToServer(appId);
-    this.requestUpdate();
   }
 
   postAppDataToServer(appId) {
@@ -131,19 +119,36 @@ class HomeFooter extends LitElement {
       });
   }
 
-  renderAppItems() {
-    // Filter appData to only include items where is_hidden is '1'
-    const hiddenApps = this.appData.filter(app => app.is_hidden == '1');
-    const currentUrl = window.location.href;
+  handleAppClick(e, appid) {
+    e.stopPropagation();
+    const appIndex = this.appData.findIndex(app => app.id === appid);
+    if (appIndex === -1) {
+      console.error('App not found');
+      return;
+    }
+    const appId = this.appData[appIndex].id;
+    this.postAppDataToServer(appId);
+    this.requestUpdate();
+  }
 
-    // Map the filtered data to HTML elements
+  renderAppItems() {
+    // Filter appData to only include items where is_hidden is true
+    const hiddenApps = this.appData.filter(app => app.is_hidden === 1);
+
+    // Check if the hiddenApps array is empty and return a message if so
+    if (hiddenApps.length === 0) {
+      return html`<p>No hidden apps available.</p>`;
+    }
+
+    // Map the filtered data to HTML elements if hidden apps are present
     return hiddenApps.map(app => html`
       <sp-menu-item class="footer-button">
-        <span id="app-grid__remove-icon-${app.id}" class="app-grid__remove-icon"
-              @click="${(e) => this.handleRemove(e, app.id)}">${app.name}</span>
+      <span id="app-grid__remove-icon-${app.id}" class="app-grid__remove-icon"
+            @click="${(e) => this.handleAppClick(e, app.id)}">${app.name}</span>
       </sp-menu-item>
     `);
   }
+
 
   render() {
     return html`
