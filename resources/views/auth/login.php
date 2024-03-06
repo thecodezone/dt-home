@@ -1,35 +1,35 @@
 <?php
-$this->layout( 'layouts/auth' );
+$this->layout('layouts/auth');
 ?>
 
 <div class="container login">
-    <dt-tile>
+    <dt-tile class="login__background">
         <div class="section__inner">
             <div class="logo">
                 <img
-                        src="<?php echo esc_url( $logo_path ) ?>"
-                        alt="Disciple.Tools"
-                        class="logo__image">
+                    src="<?php echo esc_url($logo_path) ?>"
+                    alt="Disciple.Tools"
+                    class="logo__image">
             </div>
-            <form action="<?php echo esc_attr( $form_action ) ?>"
+            <form action="<?php echo esc_attr($form_action) ?>"
                   method="POST">
 
-				<?php if ( ! empty( $error ) ) : ?>
+                <?php if (!empty($error)) : ?>
                     <dt-alert context="alert"
                               dismissable>
-						<?php echo esc_html( strip_tags( $error ) ) ?>
+                        <?php echo esc_html(strip_tags($error)) ?>
                     </dt-alert>
-				<?php endif; ?>
+                <?php endif; ?>
 
                 <dt-text name="username"
-                         placeholder="<?php esc_attr_e( 'Username or Email Address', 'dt_home' ); ?>"
-                         value="<?php echo esc_attr( $username ); ?>"
+                         placeholder="<?php esc_attr_e('Username or Email Address', 'dt_home'); ?>"
+                         value="<?php echo esc_attr($username); ?>"
                          required
                          tabindex="1"
                 ></dt-text>
                 <dt-text name="password"
-                         placeholder="<?php esc_attr_e( 'Password', 'dt_home' ); ?>"
-                         value="<?php echo esc_attr( $password ); ?>"
+                         placeholder="<?php esc_attr_e('Password', 'dt_home'); ?>"
+                         value="<?php echo esc_attr($password); ?>"
                          type="password"
                          tabindex="2"
                          required></dt-text>
@@ -38,14 +38,14 @@ $this->layout( 'layouts/auth' );
                     <dt-button context="success"
                                tabindex="3"
                                type="submit">
-						<?php esc_html_e( 'Login', 'dt_home' ) ?>
+                        <?php esc_html_e('Login', 'dt_home') ?>
                     </dt-button>
 
                     <dt-button context="link"
-                               href="<?php echo esc_url( $register_url ); ?>"
+                               href="<?php echo esc_url($register_url); ?>"
                                tabindex="`4"
-                               title="<?php esc_attr_e( 'Create Account', 'disciple-tools-autolink' ); ?>">
-						<?php esc_html_e( 'Create Account', 'disciple-tools-autolink' ) ?>
+                               title="<?php esc_attr_e('Create Account', 'disciple-tools-autolink'); ?>">
+                        <?php esc_html_e('Create Account', 'disciple-tools-autolink') ?>
                         <dt-chevron-right></dt-chevron-right>
                     </dt-button>
                 </div>
@@ -54,8 +54,8 @@ $this->layout( 'layouts/auth' );
     </dt-tile>
     <div class="login__footer">
         <dt-button context="link"
-                   href="<?php echo esc_url( $reset_url ); ?>">
-			<?php esc_html_e( 'Forgot Password?', 'disciple-tools-autolink' ); ?>
+                   href="<?php echo esc_url($reset_url); ?>">
+            <?php esc_html_e('Forgot Password?', 'disciple-tools-autolink'); ?>
         </dt-button>
     </div>
 

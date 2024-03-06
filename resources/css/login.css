@@ -18,3 +18,7 @@
     width: 100%;
     max-width: 200px;
 }
+
+.login__background {
+    --dt-tile-background-color: hsla(0, 0%, 100%, 1);
+}
