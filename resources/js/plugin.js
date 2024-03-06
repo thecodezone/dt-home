@@ -16,6 +16,9 @@ import '@spectrum-web-components/button/sp-clear-button.js';
 import '@spectrum-web-components/button/sp-close-button.js';
 import "@spectrum-web-components/progress-circle/sp-progress-circle.js";
 import '@spectrum-web-components/action-menu/sp-action-menu.js';
+import '@spectrum-web-components/tooltip/sp-tooltip.js';
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-help.js';
+import '@spectrum-web-components/overlay/sync/overlay-trigger.js';
 
 /**
  * Imports
