@@ -2,7 +2,7 @@
 
 
 html {
-    background: #e2e2e2;
+    background: #ffffff;
     color-scheme: light;
 
     --primary-color: #2C5364;
@@ -16,8 +16,8 @@ html {
     --text-color: #0a0a0a;
     --text-color-inverse: #fefefe;
     --surface-0: #e2e2e2;
-    --surface-1: #ffffff;
-    --surface-2: #f5f5f5;
+    --surface-1: hsla(0, 0%, 90%, 1);
+    --surface-2: #c2bfbf;
     --border-color: #ffffff;
 
     --shadow-0: 0px 0px 10px 3px rgba(0, 0, 0, 0.04), 0px 40px 40px -40px rgba(0, 0, 0, 0.2);
@@ -55,7 +55,7 @@ html {
 
     --dt-text-color: var(--dt-form-text-color);
     --dt-text-color-inverse: var(--dt-form-text-color-inverse);
-    --dt-text-background-color: #F9F9F9;
+    --dt-text-background-color: #F2F2F2;
     --dt-text-border-color: var(--dt-form-border-color);
     --dt-text-disabled-background-color: var(--dt-form-disabled-background-color);
     --dt-text-border-radius: 4px;
@@ -63,7 +63,7 @@ html {
 
     --dt-text-placeholder-color: #AEAEAE;
     --dt-text-placeholder-font-size: 12px;
-    --dt-text-placeholder-font-weight: 700;
+    --dt-text-placeholder-font-weight: 200;
     --dt-text-placeholder-letter-spacing: 0.1em;
     --dt-text-placeholder-transform: uppercase;
 
@@ -82,20 +82,20 @@ html {
     --dt-tile-font-family: var(--font-family);
     --dt-tile-font-size: 14px;;
     --dt-tile-font-weight: 700;
-    --dt-tile-background-color: var(--surface-1);
+    --dt-tile-background-color: hsla(0, 0%, 90%, 1);
     --dt-tile-border-color: var(--surface-1);
-    --dt-tile-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 20px 20px -20px rgba(0, 0, 0, 0.2);
+    /*--dt-tile-box-shadow: 0px 4px 6px -2px rgba(16, 24, 40, 0.03), 0px 12px 16px -4px rgba(16, 24, 40, 0.08);*/
     --dt-tile-header-color: var(--primary-color);
     --dt-tile-header-margin: 20px 0;
     --dt-tile-header-justify-content: center;
     --dt-tile-header-font-weight: 700;
     --dt-tile-margin: 1rem 0;
-    --dt-tile-border-top: 4px solid var(--primary-color);
+    /*--dt-tile-border-top: 4px solid var(--primary-color);*/
     --dt-tile-border-bottom: 0 solid #DADADA;
     --dt-tile-border-right: 0 solid #DADADA;
     --dt-tile-border-left: 0 solid #DADADA;
 
-    --dt-tile-border-radius: 1rem;
+    --dt-tile-border-radius: 0.1rem;
 
     --dt-alert-text-color-light: #fff;
     --dt-alert-text-color-dark: #000;
@@ -127,4 +127,3 @@ html {
     --dt-modal-button-opener-color: inherit;
     --dt-modal-button-opener-background: transparent;
 }
-

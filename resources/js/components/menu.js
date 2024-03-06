@@ -1,4 +1,5 @@
 import {css, html, LitElement} from 'lit';
+
 class MenuComponent extends LitElement {
   static properties = {
     isOpen: {type: Boolean},
@@ -19,10 +20,11 @@ class MenuComponent extends LitElement {
     }
 
     sp-icon-triple-gripper {
-      border: 2px solid #1658a9;
-      border-radius: 50%;
-      padding: 5px;
-      display: inline-block;
+      // border: 2px solid #1658a9;
+      //border-radius: 50%;
+      //padding: 5px;
+      //display: inline-block;
+      color: hsla(198, 45%, 28%, 1);
     }
 
     sp-popover {
@@ -67,19 +69,20 @@ class MenuComponent extends LitElement {
       text-align: left;
     }
 
-
     .toggle-button {
-      background-color: #f0f0f0;
-      border-radius: 19px;
+      //background-color: #f0f0f0;
+      //border-radius: 19px;
       display: flex;
+      margin-top: 10px;
     }
 
-    .toggle-button.active {
-      background-color: #0782eb;
-      border-radius: 19px;
-      display: flex;
-    }
+    /*sp-icon-triple-gripper::part(icon) {
+      background-color: #07eb12;
+    }*/
 
+    :host(:hover) sp-icon-triple-gripper {
+      color: #326A82;
+    }
 
     .right-aligned-menu a {
       text-decoration: none !important;
@@ -109,10 +112,10 @@ class MenuComponent extends LitElement {
       <sp-button
         id="trigger"
         placement="right"
-        class="menu-button inline-element toggle-button ${this.isOpen ? 'active' : ''}"
+        class="menu-button inline-element menu-icon1 toggle-button ${this.isOpen ? 'active' : ''}"
         @click="${this.togglePopover}"
       >
-        <sp-icon-triple-gripper slot="icon"></sp-icon-triple-gripper>
+        <sp-icon-triple-gripper class="menu-icon" slot="icon"></sp-icon-triple-gripper>
       </sp-button>
 
       ${this.isOpen ? html`
