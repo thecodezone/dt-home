@@ -13,13 +13,14 @@ dt-text[type] {
     font-weight: inherit;
     height: initial;
     line-height: inherit;
-    margin: initial;
+
     padding: initial;
     -webkit-transition: none;
     transition: none;
     width: initial;
     border: none !important;
     display: block;
+    margin-top: 22px;
 }
 
 dt-input.question__input {
@@ -42,3 +43,10 @@ dt-copy-text {
     --dt-form-padding: 0.53rem 2rem 0.53rem 0.53rem;
     display: flex;
 }
+
+:root {
+    --dt-text-border-radius: aliceblue;
+    --dt-text-border-color: #d9d1d1;
+}
+
+
