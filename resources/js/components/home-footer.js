@@ -25,7 +25,7 @@ class HomeFooter extends LitElement {
       .footer-button {
         display: inline-block;
         margin: 0px;
-        padding: 4px 56px;
+        padding: 5px 130px 11px 10px;
         font-size: 15px;
         border: 2px solid rgb(0, 123, 255);
         background-color: rgb(255, 255, 255);
@@ -34,6 +34,7 @@ class HomeFooter extends LitElement {
         border-radius: 5px;
         transition: background-color 0.3s ease 0s, color 0.3s ease 0s;
         white-space: nowrap;
+        --mod-popover-border-width: 1px solid #444 !important;
       }
 
       .footer-button:hover {
@@ -47,12 +48,18 @@ class HomeFooter extends LitElement {
         color: #222 !important;
       }
 
+      .no-data {
+        font-size: 14px;
+        padding: 4px;
+      }
+
       sp-action-menu {
         margin-left: auto;
         font-size: 18px;
         border-radius: 10px;
         --mod-actionbutton-padding: 10px 20px;
       }
+
 
       :host {
         --mod-actionbutton-border-radius: 7px;
@@ -64,6 +71,8 @@ class HomeFooter extends LitElement {
         --mod-actionbutton-edge-to-text: 20px;
         --mod-popover-border-color: rgb(66, 64, 64);
         --mod-popover-corner-radius: 5px;
+        --mod-popover-border-width: 1px;
+        --spectrum-spacing-100: 20px;
       }
 
       @media (hover: hover) {
@@ -137,7 +146,7 @@ class HomeFooter extends LitElement {
 
     // Check if the hiddenApps array is empty and return a message if so
     if (hiddenApps.length === 0) {
-      return html`<p>No hidden apps available.</p>`;
+      return html`<p class="no-data">No hidden apps available.</p>`;
     }
 
     // Map the filtered data to HTML elements if hidden apps are present
