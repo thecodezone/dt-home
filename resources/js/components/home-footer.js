@@ -1,7 +1,6 @@
-import {LitElement, html, css} from 'lit';
+import {css, html, LitElement} from 'lit';
 import {property} from 'lit/decorators.js';
 import '@spectrum-web-components/action-menu/sp-action-menu.js';
-
 
 class HomeFooter extends LitElement {
   static properties = {
@@ -28,7 +27,7 @@ class HomeFooter extends LitElement {
         margin: 0px;
         padding: 4px 56px;
         font-size: 15px;
-        border: 2px solid rgb(248, 243, 243);
+        border: 2px solid rgb(0, 123, 255);
         background-color: rgb(255, 255, 255);
         color: rgb(0, 123, 255);
         text-decoration: none;
@@ -38,7 +37,7 @@ class HomeFooter extends LitElement {
       }
 
       .footer-button:hover {
-        background-color: #f6f0f0;
+        background-color: #007bff;
         color: #ffffff;
         cursor: pointer;
       }
@@ -77,7 +76,6 @@ class HomeFooter extends LitElement {
     `;
   }
 
-
   connectedCallback() {
     super.connectedCallback();
     this.loadAppData();
@@ -89,18 +87,6 @@ class HomeFooter extends LitElement {
     if (jsonData) {
       this.appData = JSON.parse(jsonData);
     }
-  }
-
-  handleRemove(e, appid) {
-    e.stopPropagation();
-    const appIndex = this.appData.findIndex(app => app.id === appid);
-    if (appIndex === -1) {
-      console.error('App not found');
-      return;
-    }
-    const appId = this.appData[appIndex].id;
-    this.postAppDataToServer(appId);
-    this.requestUpdate();
   }
 
   postAppDataToServer(appId) {

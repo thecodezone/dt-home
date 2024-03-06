@@ -16,7 +16,7 @@ html {
     --text-color: #0a0a0a;
     --text-color-inverse: #fefefe;
     --surface-0: #e2e2e2;
-    --surface-1: #ffffff;
+    --surface-1: #c25252;
     --surface-2: #f5f5f5;
     --border-color: #ffffff;
 
@@ -82,7 +82,7 @@ html {
     --dt-tile-font-family: var(--font-family);
     --dt-tile-font-size: 14px;;
     --dt-tile-font-weight: 700;
-    --dt-tile-background-color: var(--surface-1);
+    --dt-tile-background-color: hsla(0, 0%, 90%, 1);
     --dt-tile-border-color: var(--surface-1);
     --dt-tile-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1), 0px 20px 20px -20px rgba(0, 0, 0, 0.2);
     --dt-tile-header-color: var(--primary-color);

@@ -57,8 +57,8 @@ sp-icon-help {
 }
 
 sp-tooltip.spl-text {
-    background-color: #e8e6e6;
-    color: #4caf50 !important;
+    background-color: #707070FF;
+    color: #ffffff;
     padding: 5px 10px !important;
     font-weight: normal;
     line-height: 20px;
@@ -74,11 +74,12 @@ sp-tooltip.spl-text {
 
 
 .learn-more-text {
-    color: #4caf50 !important;
+    color: #4caf50;
     font-weight: 100;
-    display: flex;
+    display: table-row;
     width: 110px;
     cursor: pointer;
+    font-style: italic;
 }
 
 

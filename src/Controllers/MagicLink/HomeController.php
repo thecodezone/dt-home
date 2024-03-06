@@ -19,6 +19,7 @@ class HomeController
 
         $data = json_encode( $apps_array );
         $hidden_data = json_encode( $apps_array );
+
         $app_url = magic_url( '', $key );
         $magic_link = magic_url();
 
@@ -32,7 +33,6 @@ class HomeController
         ));
     }
 
-
     public function show_hidden_apps( Request $request, Response $response, $key )
     {
         $user = wp_get_current_user();
@@ -42,7 +42,6 @@ class HomeController
         $apps_array = get_option( 'dt_home_apps', [] );
         $data = json_encode( $apps_array );
 
-
         $app_url = magic_url( '', $key );
 
         return template('hidden-apps', compact(
@@ -50,7 +49,7 @@ class HomeController
             'subpage_url',
             'data',
             'app_url',
-            'magic_link',
+            'magic_link'
         ));
     }
 
@@ -90,6 +89,30 @@ class HomeController
 
         return $response;
     }
+
+    public function update_un_hide_app( Request $request, Response $response )
+    {
+        $data = json_decode( $request->getContent(), true ); // Get the JSON payload and decode it
+        $app_id = $data['id'] ?? null; // Use the null coalescing operator to set a default
+
+        if ( $app_id !== null ) {
+            $apps_array = get_option( 'dt_home_apps', [] );
+
+            foreach ( $apps_array as $key => $app ) {
+                if ( isset( $app['id'] ) && $app['id'] == $app_id ) {
+                    $apps_array[$key]['is_hidden'] = '0'; // Corrected: Set 'is_hidden' to 0 (unhide)
+                    break;
+                }
+            }
+
+            update_option( 'dt_home_apps', $apps_array );
+
+            return response()->json( [ 'message' => 'App visibility updated' ], 200 );
+        } else {
+            return response()->json( [ 'error' => 'Invalid app ID' ], 400 );
+        }
+    }
+
 
     public function update_unhide_app( Request $request, Response $response, $key )
     {
@@ -135,5 +158,20 @@ class HomeController
         $response->setContent( json_encode( $response_data ) );
 
         return $response;
+    }
+
+    public function open_app( $slug )
+    {
+        $apps_array = get_option( 'dt_home_apps', [] );
+        $desired_app = null;
+
+        foreach ( $apps_array as $app ) {
+            if ( ( is_array( $app ) && $app['id'] == $slug ) || ( is_object( $app ) && $app->id == $slug ) ) {
+                $desired_app = $app;
+                break;
+            }
+        }
+
+        return template( 'web-view', compact( 'desired_app' ) );
     }
 }

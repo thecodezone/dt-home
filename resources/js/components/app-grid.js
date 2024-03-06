@@ -117,7 +117,8 @@ class AppGrid extends LitElement {
     super.connectedCallback();
     this.loadAppData();
     this.initSortable();
-
+    this.boundHandleDocumentClick = this.handleDocumentClick.bind(this);
+    document.addEventListener('click', this.boundHandleDocumentClick);
   }
 
   /**
@@ -149,7 +150,7 @@ class AppGrid extends LitElement {
     appGrids.forEach((appGrid) => {
       const sortableInstance = new Sortable(appGrid, {
         group: 'shared',
-        animation: 150,
+        animation: 500,
         draggable: '.app-grid__item', // Specify draggable items
         onEnd: (evt) => this.updateOrder(evt)
 
@@ -229,14 +230,22 @@ class AppGrid extends LitElement {
       this.clickTimer = setTimeout(() => {
         // Your single click logic here
         const selectedApp = this.appData[index];
-        if (selectedApp && selectedApp.url) {
-          window.location.href = selectedApp.url;
+        if (selectedApp && selectedApp.id) {
+          // Assuming the slug can be derived from the URL or another property
+          const slug = this.deriveSlugFromUrl(selectedApp.id);
+          window.location.href = `/home/app/${slug}`;
         }
         this.showRemoveIconIndex = null;
         this.requestUpdate();
         this.clickTimer = null;
       }, this.clickDelay);
     }
+  }
+
+  deriveSlugFromUrl(url) {
+    // Implement logic to derive slug from the URL
+    // This is a placeholder, actual implementation depends on your URL structure
+    return url.split('/').pop(); // Example: gets the last part of the URL
   }
 
   /**
@@ -271,6 +280,16 @@ class AppGrid extends LitElement {
     this.requestUpdate(); // Request an update to re-render the component
   }
 
+  handleDocumentClick(event) {
+    // Check if the click is outside the context menu
+    const removeIcon = this.shadowRoot.querySelector('.app-grid__remove-icon');
+    if (removeIcon && !removeIcon.contains(event.target)) {
+      this.showRemoveIconIndex = null;
+      this.isDragging = false;
+      this.requestUpdate();
+    }
+  }
+
 
   /**
    * Sends the app data to the server to update the hidden apps list.
@@ -294,12 +313,9 @@ class AppGrid extends LitElement {
       },
       body: JSON.stringify(appToHide),
     })
-      .then(response => {
-        if (response.ok) {
-          window.location.reload();
-        } else {
-          // Handle error
-        }
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
       })
       .catch((error) => {
         console.error('Error:', error);
