@@ -42,6 +42,6 @@ $this->layout( 'layouts/plugin' );
                     translations='<?php echo wp_json_encode( [ "hiddenAppsLabel" => __( "Hidden apps", 'dt_home' ) ] ) ?>'
                     hidden-data='<?php echo esc_attr( htmlspecialchars( $data ) ); ?>'
                     app-url-unhide='<?php echo esc_url( $app_url ); ?>'>
-    </dt-home-footer>>
+    </dt-home-footer>
 
 <?php $this->stop() ?>

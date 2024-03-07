@@ -75,8 +75,6 @@ html {
     --dt-label-font-size: 14px;
     --dt-label-font-weight: 700;
     --dt-label-color: var(--dt-form-text-color);
-    --dt-label-tooltip-color: var(--gray-0);
-    --dt-label-tooltip-background: var(--surface-2);
     --dt-spinner-color-1: var(--gray-1);
     --dt-spinner-color-2: var(--black);
     --dt-tile-font-family: var(--font-family);
