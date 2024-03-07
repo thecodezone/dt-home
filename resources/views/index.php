@@ -8,9 +8,7 @@
  */
 $this->layout( 'layouts/plugin' );
 ?>
-
-<div>
-    <<div>
+    <div>
         <dt-copy-text value="<?php echo esc_url( $magic_link ); ?>"></dt-copy-text>
     </div>
     <overlay-trigger placement="right">
@@ -22,9 +20,9 @@ $this->layout( 'layouts/plugin' );
         <sp-tooltip slot="hover-content" open placement="right" class="spl-text">
             <!-- Dynamic content goes here -->
 			<?php
-			$text = "Copy this link and share it with people you are coaching.";
+			$text         = "Copy this link and share it with people you are coaching.";
 			$escaped_text = esc_attr( $text ); // If you need to ensure the text is safe for HTML attributes
-			$newtext = wordwrap( $escaped_text, 40, "<br />\n" );
+			$newtext      = wordwrap( $escaped_text, 40, "<br />\n" );
 			echo $newtext;
 			?>
         </sp-tooltip>
@@ -35,12 +33,15 @@ $this->layout( 'layouts/plugin' );
         <!-- Add more app icons as needed -->
     </dt-home-app-grid>
     <div>
-        <?php echo $this->section( 'content' ) ?>
+		<?php echo $this->section( 'content' ) ?>
     </div>
+
+<?php $this->start( 'footer' ) ?>
 
     <dt-home-footer id="hiddenApps"
                     translations='<?php echo wp_json_encode( [ "hiddenAppsLabel" => __( "Hidden apps", 'dt_home' ) ] ) ?>'
                     hidden-data='<?php echo esc_attr( htmlspecialchars( $data ) ); ?>'
                     app-url-unhide='<?php echo esc_url( $app_url ); ?>'>
-    </dt-home-footer>
-</div>
+    </dt-home-footer>>
+
+<?php $this->stop() ?>

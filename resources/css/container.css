@@ -2,7 +2,7 @@
 .container,
 .container--wide {
     width: 100%;
-    margin: 36px auto;
+    margin: 0 auto;
 }
 
 .container {

@@ -14,6 +14,30 @@ body blockquote {
     font-family: var(--font-family);
 }
 
+html,
+body {
+    background-color: #E5E5E5;
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    min-height: 100%;
+}
+
+.plugin {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.plugin__main {
+    padding: 25px 0;
+}
+
+.plugin__footer {
+    padding: 25px;
+}
+
 .cloak {
     visibility: hidden;
 }
