@@ -45,7 +45,7 @@ sp-icon-help {
 .learn-more-text {
     color: #4caf50;
     font-weight: 100;
-    display: table-row;
+    display: flex;
     width: 110px;
     cursor: pointer;
     font-style: italic;
