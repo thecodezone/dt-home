@@ -313,10 +313,14 @@ class AppGrid extends LitElement {
       },
       body: JSON.stringify(appToHide),
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
+      .then(response => {
+        if (response.ok) {
+          window.location.reload();
+        } else {
+          // Handle error
+        }
       })
+
       .catch((error) => {
         console.error('Error:', error);
       });
