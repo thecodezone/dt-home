@@ -16,6 +16,7 @@ use DT\Home\CodeZone\Router\FastRoute\Routes;
 use DT\Home\Controllers\Admin\AppSettingsController;
 use DT\Home\Controllers\Admin\GeneralSettingsController;
 use DT\Home\Controllers\Admin\TrainingSettingsController;
+use DT\Home\Controllers\AppController;
 use DT\Home\Controllers\LoginController;
 use DT\Home\Controllers\MagicLink\HomeController;
 use DT\Home\Controllers\MagicLink\ShareController;
@@ -37,7 +38,7 @@ $r->condition( 'plugin', function ( Routes $r ) {
 		$r->post( '/login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
 		$r->get( '/register', [ RegisterController::class, 'register' ] );
 		$r->post( '/register', [ RegisterController::class, 'process' ] );
-		$r->get( '/app/{slug}', [ HomeController::class, 'open_app' ] );
+		$r->get( '/app/{id}', [ AppController::class, 'show' ] );
 	} );
 
 	$r->middleware( [ 'magic:home/launcher', 'check_share' ], function ( Routes $r ) {
