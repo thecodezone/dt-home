@@ -31,8 +31,8 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                     <tbody>
                     <?php foreach ( $data as $app ) : ?>
                         <tr>
-                            <td style="border: 1px solid #ddd;"><?php echo esc_html_e( $app['name'] ); ?></td>
-                            <td style="border: 1px solid #ddd;"><?php echo esc_html_e( $app['type'] ); ?></td>
+                            <td style="border: 1px solid #ddd;"><?php echo esc_html( $app['name'] ); ?></td>
+                            <td style="border: 1px solid #ddd;"><?php echo esc_html( $app['type'] ); ?></td>
                             <td style="border: 1px solid #ddd;">
                                 <?php if ( !empty( $app['icon'] ) ) : ?>
                                     <img src="<?php echo esc_url( $app['icon'] ); ?>" alt="Icon"

@@ -31,7 +31,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                     <tbody>
                     <?php foreach ( $data as $training ) : ?>
                         <tr>
-                            <td style="border: 1px solid #ddd;"><?php echo esc_html_e( $training['name'] ); ?></td>
+                            <td style="border: 1px solid #ddd;"><?php echo esc_html( $training['name'] ); ?></td>
                             <td style="border: 1px solid #ddd;"><?php echo stripslashes( $training['embed_video'] ); ?></td>
                             <td style="border: 1px solid #ddd;">
                                 <?php echo esc_html( $training['anchor'] ); ?>
