@@ -22,7 +22,7 @@ class AppController
      *
      * @param Request $request The request object.
      * @param Response $response The response object.
-     * @param int $id The ID of the application to display.
+     * @param int $slug The ID of the application to display.
      *
      * @return Response The response object containing the rendered application details.
      */
