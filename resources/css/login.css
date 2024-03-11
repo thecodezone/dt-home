@@ -2,6 +2,38 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-radius: 5px;
+}
+
+sp-button.login__button {
+    padding: 8px 13px 8px 13px;
+    border-radius: 6px;
+    font-size: 12px;
+    background-color: #4CAF50;
+    align-items: center;
+    text-transform: uppercase;
+    font-family: Poppins, Helvetica, sans-serif;
+    --spectrum-button-border-color-default: gray;
+    --system-spectrum-button-accent-border-color-hover: gray;
+    --system-spectrum-button-accent-border-color-down: gray;
+    --mod-button-border-width: 1px;
+}
+
+sp-button.create__link {
+    padding: 8px 13px 8px 13px;
+    border-radius: 6px;
+    font-size: 12px;
+    background-color: #ffffff;
+    text-transform: uppercase;
+    font-family: Poppins, Helvetica, sans-serif;
+    --system-spectrum-button-accent-content-color-default: #000000;
+    --system-spectrum-button-accent-content-color-hover: #000000;
+    --spectrum-button-border-color-default: gray;
+    --system-spectrum-button-accent-border-color-hover: gray;
+    --mod-button-border-width: 1px;
+    --system-spectrum-button-accent-content-color-down: #000000;
+    --system-spectrum-button-accent-border-color-down: gray;
+
 }
 
 .login__footer {
