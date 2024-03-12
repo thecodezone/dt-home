@@ -47,7 +47,9 @@ class AppGrid extends LitElement {
       font-size: 14px;
       z-index: 1;
       background-color: #f16d71;
+      border: 1px solid #7e1919;
     }
+
 
     .app-grid__icon {
       width: 100%;
