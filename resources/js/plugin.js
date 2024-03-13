@@ -24,6 +24,7 @@ import '@spectrum-web-components/action-menu/sp-action-menu.js';
 import '@spectrum-web-components/tooltip/sp-tooltip.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-help.js';
 import '@spectrum-web-components/overlay/sync/overlay-trigger.js';
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-view-grid.js';
 
 /**
  * Imports
@@ -35,6 +36,8 @@ import "./components/hidden-app-grid.js";
 import "./components/home-footer.js";
 import "./components/menu.js";
 import "./components/training-video.js"
+import "./components/form-submit.js"
+
 
 /**
  * CSS
@@ -45,5 +48,5 @@ import "../css/plugin.css";
  * Bootstrap the application
  */
 loaded(() => {
-    document.body.classList.add("dom-loaded");
+  document.body.classList.add("dom-loaded");
 });

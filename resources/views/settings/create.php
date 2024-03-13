@@ -21,30 +21,30 @@ echo '</script>';
     <table class="widefat striped" id="ml_email_main_col_config">
         <thead>
         <tr>
-            <th>Apps</th>
+            <th><?php esc_html_e('Apps') ?></th>
             <th></th>
             <th></th>
         </tr>
         </thead>
-        <tbody>action
+        <tbody>
         <tr>
-            <td style="vertical-align: middle;">Name [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Name') ?> [&#63;]</td>
             <td colspan="2">
                 <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name" required/>
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;">Type [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Type') ?> [&#63;]</td>
             <td colspan="2">
                 <select style="min-width: 100%;" name="type" id="type" required onchange="toggleURLField()">
-                    <option value="">Please select</option>
-                    <option value="Web View">Web View</option>
+                    <option value=""><?php esc_html_e('Please select') ?></option>
+                    <option value="Web View"><?php esc_html_e('Web View') ?></option>
                     <!--<option value="Custom">Custom</option>-->
                 </select>
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;">Icon (File Upload)</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?></td>
             <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="icon" name="icon"
                                                        required/></td>
             <td style="vertical-align: middle;">
@@ -54,23 +54,24 @@ echo '</script>';
             </td>
         </tr>
         <tr id="urlFieldRow">
-            <td style="vertical-align: middle;">URL [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('URL') ?> [&#63;]</td>
             <td colspan="2">
                 <input style="min-width: 100%;" type="text" name="url" id="url"/>
             </td>
         </tr>
-        <!--<tr>
-            <td style="vertical-align: middle;">Sort [&#63;]</td>
-            <td colspan="2">
-                <input style="min-width: 100%;" type="number" name="sort" id="sort" required/>
-            </td>
-        </tr>-->
         <tr>
-            <td style="vertical-align: middle;">Is Hidden [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> [&#63;]</td>
+            <td colspan="2">
+                <input style="min-width: 100%;" type="text" name="slug" id="slug" required/>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle;"><?php esc_html_e('Is Hidden') ?> [&#63;]</td>
             <td colspan="2">
                 <input type="checkbox" name="is_hidden" id="is_hidden" value="1">
             </td>
         </tr>
+
         </tbody>
     </table>
 
@@ -91,7 +92,7 @@ echo '</script>';
         <!-- SVG icons will be dynamically inserted here -->
     </div>
     <br>
-    <button class="btn btn-secondary" onclick="hidePopup()">Close</button>
+    <button class="btn btn-secondary" onclick="hidePopup()"><?php esc_html_e('Close') ?></button>
 </div>
 
 <?php $this->start('right') ?>
