@@ -117,8 +117,9 @@ class MenuComponent extends LitElement {
         <sp-overlay open trigger="trigger@click" placement="bottom" style="position: relative">
           <sp-popover .open="${this.isOpen}">
             <sp-dialog>
-              <h4 slot="heading" class="menu-title">Go to disciple.tools</h4>
               <sp-menu class="right-aligned-menu">
+                <a href="/"><h4 slot="heading" class="menu-title">Go to
+                  disciple.tools</h4></a>
                 ${this.menuItems.map(item => html`
                   <a href="${item.href}">
                     <sp-menu-item>${item.label}</sp-menu-item>

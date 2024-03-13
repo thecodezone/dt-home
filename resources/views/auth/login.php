@@ -34,12 +34,7 @@ $this->layout( 'layouts/auth' );
                          tabindex="2"
                          required></dt-text>
 
-                <div class="login__buttons">
-                    <!--                    <dt-button context="success"-->
-                    <!--                               tabindex="3"-->
-                    <!--                               type="submit">-->
-                    <!--                        --><?php //esc_html_e( 'Login', 'dt_home' ) ?>
-                    <!--                    </dt-button>-->
+
                     <sp-button class="login__button"
                                tabindex="3"
                                type="submit">   <?php esc_html_e( 'Login', 'dt_home' ) ?>
@@ -62,5 +57,4 @@ $this->layout( 'layouts/auth' );
             <?php esc_html_e( 'Forgot Password?', 'disciple-tools-autolink' ); ?>
         </dt-button>
     </div>
-
 
