@@ -24,6 +24,7 @@ import '@spectrum-web-components/action-menu/sp-action-menu.js';
 import '@spectrum-web-components/tooltip/sp-tooltip.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-help.js';
 import '@spectrum-web-components/overlay/sync/overlay-trigger.js';
+import "./components/form-submit.js"
 
 /**
  * Imports
@@ -45,5 +46,5 @@ import "../css/plugin.css";
  * Bootstrap the application
  */
 loaded(() => {
-    document.body.classList.add("dom-loaded");
+  document.body.classList.add("dom-loaded");
 });
