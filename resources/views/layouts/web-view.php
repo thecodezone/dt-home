@@ -1,12 +1,12 @@
 <div class="cloak">
     <div class="container">
-        <dt-tile>
+        <div>
             <div class="section__inner">
                 <?php $user = wp_get_current_user();
                 ?>
-                <?php echo $this->section( 'content' ) ?>
+                <?php echo $this->section('content') ?>
             </div>
-        </dt-tile>
+        </div>
     </div>
 </div>
 
