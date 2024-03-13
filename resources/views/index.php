@@ -8,7 +8,7 @@
  */
 $this->layout( 'layouts/plugin' );
 ?>
-<div id="responsivev-design">
+<div class="copy-text">
     <dt-copy-text value="<?php echo esc_url( $magic_link ); ?>"></dt-copy-text>
 </div>
 
