@@ -8,14 +8,15 @@
  */
 $this->layout( 'layouts/plugin' );
 ?>
-<div>
+<div class="copy-text">
     <dt-copy-text value="<?php echo esc_url( $magic_link ); ?>"></dt-copy-text>
 </div>
+
 <overlay-trigger placement="right">
-    <sp-button slot="trigger" class="learn-more-text">
+    <div slot="trigger" class="learn-more-text">
         <sp-icon-help></sp-icon-help> &nbsp;
         <?php esc_attr_e( 'learn more', 'dt_home' ); ?>
-    </sp-button>
+    </div>
 
     <sp-tooltip slot="hover-content" open placement="right" class="spl-text">
         <!-- Dynamic content goes here -->

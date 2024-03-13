@@ -1,7 +1,6 @@
 import {css, html, LitElement} from 'lit';
 import Sortable from 'sortablejs';
 import "./app-icon.js";
-import '@spectrum-web-components/icons-workflow/icons/sp-icon-close.js';
 
 /**
  * Represents a grid of application icons.
@@ -9,10 +8,10 @@ import '@spectrum-web-components/icons-workflow/icons/sp-icon-close.js';
  * @extends LitElement
  */
 class AppGrid extends LitElement {
-  static properties = {
-    appData: {type: Array},
-    selectedIndex: {type: Number},
-    appUrl: {type: String}
+    static properties = {
+        appData: {type: Array},
+        selectedIndex: {type: Number},
+        appUrl: {type: String}
 
   };
 
@@ -49,7 +48,6 @@ class AppGrid extends LitElement {
       background-color: #f16d71;
       border: 1px solid #7e1919;
     }
-
 
     .app-grid__icon {
       width: 100%;
@@ -231,8 +229,8 @@ class AppGrid extends LitElement {
       this.clickTimer = setTimeout(() => {
         // Your single click logic here
         const selectedApp = this.appData[index];
-        if (selectedApp && selectedApp.id) {
-          window.location.href = `/home/app/${selectedApp.id}`;
+        if (selectedApp && selectedApp.slug) {
+          window.location.href = `/home/app/${selectedApp.slug}`;
         }
         this.showRemoveIconIndex = null;
         this.requestUpdate();

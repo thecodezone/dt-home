@@ -22,7 +22,7 @@ echo '</script>';
     <table class="widefat striped" id="ml_email_main_col_config">
         <thead>
         <tr>
-            <th>Apps</th>
+            <th><?php esc_html_e('Apps') ?></th>
             <th></th>
             <th></th>
             <th></th>
@@ -30,23 +30,24 @@ echo '</script>';
         </thead>
         <tbody>
         <tr>
-            <td style="vertical-align: middle;">Name [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Name') ?> [&#63;]</td>
             <td colspan="3">
                 <input style="min-width: 100%;" type="text" name="name" id="name" class="form-control"
                        value="<?php echo esc_attr($existing_data['name']); ?>" required>
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;">Type [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Type') ?> [&#63;]</td>
             <td colspan="3">
                 <select style="min-width: 100%;" id="type" required onchange="toggleURLField()" disabled>
-                    <option value="" <?php echo empty($existing_data['type']) ? 'selected' : ''; ?>>Please select
+                    <option
+                        value="" <?php echo empty($existing_data['type']) ? 'selected' : ''; ?>><?php esc_html_e('Please select') ?>
                     </option>
                     <option value="Web View" <?php echo ($existing_data['type'] === 'Web View') ? 'selected' : ''; ?>>
-                        Web View
+                        <?php esc_html_e('Web View') ?>
                     </option>
                     <option value="Custom" <?php echo ($existing_data['type'] === 'Custom') ? 'selected' : ''; ?>>
-                        Custom
+                        <?php esc_html_e('Custom') ?>
                     </option>
                 </select>
                 <input style="min-width: 100%;" type="hidden" name="type"
@@ -54,7 +55,7 @@ echo '</script>';
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;">Icon (File Upload)</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?></td>
             <td style="vertical-align: middle;">
                 <?php if (!empty($existing_data['icon'])) : ?>
                     <img src="<?php echo esc_url($existing_data['icon']); ?>" alt="Icon"
@@ -73,22 +74,23 @@ echo '</script>';
         </tr>
         <?php if ($existing_data['type'] === 'Web View') { ?>
             <tr>
-                <td style="vertical-align: middle;">URL [&#63;]</td>
+                <td style="vertical-align: middle;"><?php esc_html_e('URL') ?> [&#63;]</td>
                 <td colspan="3">
                     <input style="min-width: 100%;" type="text" name="url" id="url" class="form-control"
                            value="<?php echo esc_url(isset($existing_data['url']) ? $existing_data['url'] : ''); ?>">
                 </td>
             </tr>
         <?php } ?>
-        <!--<tr>
-            <td style="vertical-align: middle;">Sort [&#63;]</td>
-            <td colspan="3">
-                <input style="min-width: 100%;" type="number" name="sort" id="sort" class="form-control"
-                       value="<?php /*echo esc_attr( $existing_data['sort'] ); */ ?>">
-            </td>
-        </tr>-->
         <tr>
-            <td style="vertical-align: middle;">Is Hidden [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> [&#63;]</td>
+            <td colspan="2">
+                <input style="min-width: 100%;" type="text" name="slug" id="slug"
+                       value="<?php echo esc_attr(isset($existing_data['slug']) ? $existing_data['slug'] : ''); ?>"
+                       required/>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle;"><?php esc_html_e('Is Hidden') ?> [&#63;]</td>
             <td colspan="3">
                 <input type="checkbox" name="is_hidden" id="is_hidden"
                        value="1" <?php checked($existing_data['is_hidden'], 1); ?>>
@@ -114,7 +116,7 @@ echo '</script>';
         <!-- SVG icons will be dynamically inserted here -->
     </div>
     <br>
-    <button class="btn btn-secondary" onclick="hidePopup()">Close</button>
+    <button class="btn btn-secondary" onclick="hidePopup()"><?php esc_html_e('Close') ?></button>
 </div>
 
 

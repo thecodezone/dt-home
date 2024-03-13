@@ -34,20 +34,19 @@ $this->layout( 'layouts/auth' );
                          tabindex="2"
                          required></dt-text>
 
-                <div class="login__buttons">
-                    <dt-button context="success"
-                               tabindex="3"
-                               type="submit">
-                        <?php esc_html_e( 'Login', 'dt_home' ) ?>
-                    </dt-button>
 
-                    <dt-button context="link"
+                    <sp-button class="login__button"
+                               tabindex="3"
+                               type="submit">   <?php esc_html_e( 'Login', 'dt_home' ) ?>
+                    </sp-button>
+
+                    <sp-button context="link" class="create__link"
                                href="<?php echo esc_url( $register_url ); ?>"
                                tabindex="`4"
                                title="<?php esc_attr_e( 'Create Account', 'disciple-tools-autolink' ); ?>">
                         <?php esc_html_e( 'Create Account', 'disciple-tools-autolink' ) ?>
                         <dt-chevron-right></dt-chevron-right>
-                    </dt-button>
+                    </sp-button>
                 </div>
             </form>
         </div>
@@ -58,5 +57,4 @@ $this->layout( 'layouts/auth' );
             <?php esc_html_e( 'Forgot Password?', 'disciple-tools-autolink' ); ?>
         </dt-button>
     </div>
-
 

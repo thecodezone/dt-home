@@ -10,8 +10,13 @@ class MenuComponent extends LitElement {
       float: inline-end;
     }
 
-    sp-button {
+    sp-button.toggle-button {
       cursor: pointer;
+      --system-spectrum-button-accent-background-color-default: #e8e7e7;
+      --system-spectrum-button-accent-background-color-hover: #e8e7e7;
+      --system-spectrum-button-accent-background-color-down: #e8e7e7;
+      --system-spectrum-button-accent-background-color-focus: #e8e7e7;
+      --spectrum-focus-indicator-color: #e8e7e7;
     }
 
     .inline-element {
@@ -20,11 +25,8 @@ class MenuComponent extends LitElement {
     }
 
     sp-icon-triple-gripper {
-      // border: 2px solid #1658a9;
-      //border-radius: 50%;
-      //padding: 5px;
-      //display: inline-block;
       color: hsla(198, 45%, 28%, 1);
+      --spectrum-icon-size: 25px;
     }
 
     sp-popover {
@@ -70,15 +72,9 @@ class MenuComponent extends LitElement {
     }
 
     .toggle-button {
-      //background-color: #f0f0f0;
-      //border-radius: 19px;
       display: flex;
-      margin-top: 10px;
     }
 
-    /*sp-icon-triple-gripper::part(icon) {
-      background-color: #07eb12;
-    }*/
 
     :host(:hover) sp-icon-triple-gripper {
       color: #326A82;
@@ -100,7 +96,6 @@ class MenuComponent extends LitElement {
     super();
     this.isOpen = false;
     this.menuItems = [];
-
   }
 
   togglePopover() {
@@ -112,7 +107,7 @@ class MenuComponent extends LitElement {
       <sp-button
         id="trigger"
         placement="right"
-        class="menu-button inline-element menu-icon1 toggle-button ${this.isOpen ? 'active' : ''}"
+        class="menu-button inline-element menu-icon toggle-button ${this.isOpen ? 'active' : ''}"
         @click="${this.togglePopover}"
       >
         <sp-icon-triple-gripper class="menu-icon" slot="icon"></sp-icon-triple-gripper>
@@ -122,8 +117,9 @@ class MenuComponent extends LitElement {
         <sp-overlay open trigger="trigger@click" placement="bottom" style="position: relative">
           <sp-popover .open="${this.isOpen}">
             <sp-dialog>
-              <h4 slot="heading" class="menu-title">Go to disciple.tools</h4>
               <sp-menu class="right-aligned-menu">
+                <a href="/"><h4 slot="heading" class="menu-title">Go to
+                  disciple.tools</h4></a>
                 ${this.menuItems.map(item => html`
                   <a href="${item.href}">
                     <sp-menu-item>${item.label}</sp-menu-item>
