@@ -58,6 +58,7 @@ class AppSettingsController
         $type = $request->input( 'type' );
         $icon = $request->input( 'icon' );
         $url = $request->input( 'url' );
+        $slug = $request->input( 'slug' );
         $sort = $request->input( 'sort' );
         $is_hidden = $request->input( 'is_hidden' );
 
@@ -68,6 +69,7 @@ class AppSettingsController
             'icon' => $icon,
             'url' => $url,
             'sort' => $sort,
+            'slug' => $slug,
             'is_hidden' => $is_hidden,
         ];
 
@@ -237,6 +239,7 @@ class AppSettingsController
             $icon_url = $request->input( 'icon' );
             $url = $request->input( 'url' );
             $sort = $request->input( 'sort' );
+            $slug = $request->input( 'slug' );
             $is_hidden = $request->input( 'is_hidden' );
 
             // Get the ID of the item being edited
@@ -254,6 +257,7 @@ class AppSettingsController
                         'type' => $type,
                         'icon' => $icon_url,
                         'url' => $url,
+                        'slug' => $slug,
                         'sort' => $sort,
                         'is_hidden' => $is_hidden,
                     ];
