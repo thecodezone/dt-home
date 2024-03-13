@@ -36,6 +36,8 @@ $this->layout( 'layouts/auth' );
 
                 <div class="login__buttons">
                     <dt-button context="success"
+                               name="submit"
+                               value="login"
                                tabindex="3"
                                type="submit">
                         <?php esc_html_e( 'Login', 'dt_home' ) ?>
@@ -58,5 +60,4 @@ $this->layout( 'layouts/auth' );
             <?php esc_html_e( 'Forgot Password?', 'disciple-tools-autolink' ); ?>
         </dt-button>
     </div>
-
 

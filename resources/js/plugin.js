@@ -36,6 +36,8 @@ import "./components/hidden-app-grid.js";
 import "./components/home-footer.js";
 import "./components/menu.js";
 import "./components/training-video.js"
+import "./components/form-submit.js"
+
 
 /**
  * CSS
@@ -46,5 +48,5 @@ import "../css/plugin.css";
  * Bootstrap the application
  */
 loaded(() => {
-    document.body.classList.add("dom-loaded");
+  document.body.classList.add("dom-loaded");
 });
