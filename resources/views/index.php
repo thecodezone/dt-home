@@ -8,9 +8,10 @@
  */
 $this->layout( 'layouts/plugin' );
 ?>
-<div>
+<div id="responsivev-design">
     <dt-copy-text value="<?php echo esc_url( $magic_link ); ?>"></dt-copy-text>
 </div>
+
 <overlay-trigger placement="right">
     <sp-button slot="trigger" class="learn-more-text">
         <sp-icon-help></sp-icon-help> &nbsp;
