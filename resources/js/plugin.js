@@ -26,6 +26,7 @@ import '@spectrum-web-components/tooltip/sp-tooltip.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-help.js';
 import '@spectrum-web-components/overlay/sync/overlay-trigger.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-view-grid.js';
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-close.js';
 
 /**
  * Imports
@@ -49,5 +50,5 @@ import "../css/plugin.css";
  * Bootstrap the application
  */
 loaded(() => {
-  document.body.classList.add("dom-loaded");
+    document.body.classList.add("dom-loaded");
 });

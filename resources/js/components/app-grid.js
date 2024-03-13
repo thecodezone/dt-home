@@ -8,10 +8,10 @@ import "./app-icon.js";
  * @extends LitElement
  */
 class AppGrid extends LitElement {
-  static properties = {
-    appData: {type: Array},
-    selectedIndex: {type: Number},
-    appUrl: {type: String}
+    static properties = {
+        appData: {type: Array},
+        selectedIndex: {type: Number},
+        appUrl: {type: String}
 
   };
 
@@ -36,22 +36,17 @@ class AppGrid extends LitElement {
 
     .app-grid__remove-icon {
       position: absolute;
-      top: -20px;
-      right: 17px;
-      background-color: rgb(207 207 215);
-      color: #050202;
-      padding: 2px 5px;
+      top: -7px;
+      right: -10px;
+      background-color: rgb(255, 255, 255);
+      color: #fcfbfb;
+      padding: 5px 5px 0px 5px;
       cursor: pointer;
-      border-radius: 5%;
-      font-size: 14;
+      border-radius: 53%;
+      font-size: 14px;
       z-index: 1;
-      font-weight: 100;
-
-    }
-
-    .app-grid__remove-icon::before {
-      content: '✖';
-      margin-right: 4px;
+      background-color: #f16d71;
+      border: 1px solid #7e1919;
     }
 
     .app-grid__icon {
@@ -62,29 +57,33 @@ class AppGrid extends LitElement {
     @media (min-width: 230px) and (max-width: 950px) {
       .app-grid__remove-icon {
         position: absolute;
-        top: -20px;
-        right: 0;
-        background-color: rgb(207 207 215);
-        color: #050202;
-        padding: 2px 5px;
+        top: -7px;
+        right: -10px;
+        background-color: rgb(255, 255, 255);
+        color: #fcfbfb;
+        padding: 5px 5px 0px 5px;
         cursor: pointer;
-        border-radius: 5%;
-        font-size: smaller;
-        z-index: 1; // ensures it's above the app icon
+        border-radius: 53%;
+        font-size: 14px;
+        z-index: 1;
+        background-color: #f16d71;
       }
     }
 
     @media (min-width: 750px) and (max-width: 950px) {
+
       .app-grid__remove-icon {
         position: absolute;
-        top: -20px;
-        right: 17px;
-        background-color: rgb(207 207 215);
-        color: #050202;
-        padding: 2px 5px;
+        top: -7px;
+        right: -10px;
+        background-color: rgb(255, 255, 255);
+        color: #fcfbfb;
+        padding: 5px 5px 0px 5px;
         cursor: pointer;
-        border-radius: 5%;
-        font-size: smaller;
+        border-radius: 53%;
+        font-size: 14px;
+        z-index: 1;
+        background-color: #f16d71;
       }
     }
   `;
@@ -340,7 +339,7 @@ class AppGrid extends LitElement {
           >
             ${this.showRemoveIconIndex === index
               ? html`<span id="app-grid__remove-icon-${app.id}" class="app-grid__remove-icon"
-                           @click="${(e) => this.handleRemove(e, index)}">HIDE APP</span>`
+                           @click="${(e) => this.handleRemove(e, index)}"><sp-icon-close></sp-icon-close></span>`
               : ''}
             <dt-home-app-icon class="app-grid__icon"
                               name="${app.name}"
