@@ -46,10 +46,15 @@ sp-icon-help {
     color: #4caf50;
     font-weight: 100;
     display: flex;
-    width: 110px;
+    width: 105px;
     cursor: pointer;
     font-style: italic;
+    background-color: unset;
+    font-family: Poppins, Helvetica, sans-serif;
 }
+
+
+
 
 
 

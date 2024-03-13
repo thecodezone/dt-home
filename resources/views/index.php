@@ -13,10 +13,10 @@ $this->layout( 'layouts/plugin' );
 </div>
 
 <overlay-trigger placement="right">
-    <sp-button slot="trigger" class="learn-more-text">
+    <div slot="trigger" class="learn-more-text">
         <sp-icon-help></sp-icon-help> &nbsp;
         <?php esc_attr_e( 'learn more', 'dt_home' ); ?>
-    </sp-button>
+    </div>
 
     <sp-tooltip slot="hover-content" open placement="right" class="spl-text">
         <!-- Dynamic content goes here -->

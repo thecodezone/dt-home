@@ -41,7 +41,7 @@ dt-multi-select {
 
 dt-copy-text {
     --dt-form-padding: 0.53rem 2rem 0.53rem 0.53rem;
-    display: flex;
+    display: flow-root;
 }
 
 :root {

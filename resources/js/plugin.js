@@ -20,6 +20,7 @@ import '@spectrum-web-components/action-menu/sp-action-menu.js';
 import '@spectrum-web-components/tooltip/sp-tooltip.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-help.js';
 import '@spectrum-web-components/overlay/sync/overlay-trigger.js';
+import '@spectrum-web-components/button/sp-button.js';
 import '@spectrum-web-components/action-menu/sp-action-menu.js';
 import '@spectrum-web-components/tooltip/sp-tooltip.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-help.js';
