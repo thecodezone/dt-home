@@ -1,24 +1,26 @@
 import {LitElement, html, css} from 'lit';
-import { property } from 'lit/decorators.js';
+import {property} from 'lit/decorators.js';
 
 class VideoList extends LitElement {
 
+  @property({type: Array})
+  trainingData = [];
+
   static get styles() {
     return css`
-      video-container {
-        max-width: 640px; /* Set the maximum width of the video */
-        margin: auto; /* Center the video in its container */
+      .video-container {
+        max-width: 640px;
+        margin: auto;
       }
+
       iframe {
-        width: 100%; /* Make the iframe responsive */
-        height: auto; /* Maintain aspect ratio */
-        border: none; /* Remove default border */
+        width: 100%;
+        //height: 0.5;
+        padding-bottom: 6.25%; /* 16:9 aspect ratio */
+        /* Add any other styles you want here */
       }
     `;
   }
-
-  @property({ type: Array })
-  trainingData = [];
 
   connectedCallback() {
     debugger
@@ -42,17 +44,17 @@ class VideoList extends LitElement {
 
   render() {
     return html`
-    <div>
-      ${this.trainingData.map(training => html`
-        <div id=${training.anchor}>
-          ${training.name}<br>
-          ${this.renderIframe(training.embed_video)}
+      <div>
+        ${this.trainingData.map(training => html`
+          <div id=${training.anchor}>
+            ${training.name}<br>
+            ${this.renderIframe(training.embed_video)}
 
-          <br>
-        </div>
-      `)}
-    </div>
-  `;
+            <br>
+          </div>
+        `)}
+      </div>
+    `;
   }
 
   renderIframe(embedCode) {
