@@ -15,7 +15,12 @@ class HomeController
         $user = wp_get_current_user();
         $subpage_url = magic_url( 'subpage', $key );
 
-        $apps_array = get_option( 'dt_home_apps', [] );
+        $apps_array = get_user_option( 'dt_home_apps', get_current_user_id() );
+
+        // Fallback to default option if user option is not set
+        if ( $apps_array === false ) {
+            $apps_array = get_option( 'dt_home_apps' );
+        }
 
         $data = json_encode( $apps_array );
         $hidden_data = json_encode( $apps_array );
@@ -39,7 +44,12 @@ class HomeController
         $subpage_url = magic_url( 'subpage', $key );
         $magic_link = magic_url();
 
-        $apps_array = get_option( 'dt_home_apps', [] );
+        $apps_array = get_user_option( 'dt_home_apps', [] );
+
+        // Fallback to default option if user option is not set
+        if ( !$apps_array ) {
+            $apps_array = get_option( 'dt_home_apps', [] );
+        }
         $data = json_encode( $apps_array );
 
         $app_url = magic_url( '', $key );
@@ -71,7 +81,12 @@ class HomeController
         // Assuming $data contains 'id' and 'is_hidden'
         $app_id = $data['id'];
 
-        $apps_array = get_option( 'dt_home_apps', [] );
+        $apps_array = get_user_option( 'dt_home_apps', get_current_user_id() );
+
+        // Fallback to default option if user option is not set
+        if ( $apps_array === false ) {
+            $apps_array = get_option( 'dt_home_apps' );
+        }
 
         // Find the app with the specified ID and update its 'is_hidden' status
         foreach ( $apps_array as $key => $app ) {
@@ -81,36 +96,14 @@ class HomeController
             }
         }
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+
+        update_user_option( get_current_user_id(), 'dt_home_apps', $apps_array );
 
         $response_data = [ 'message' => 'App visibility updated' ];
 
         $response->setContent( json_encode( $response_data ) );
 
         return $response;
-    }
-
-    public function update_un_hide_app( Request $request, Response $response )
-    {
-        $data = json_decode( $request->getContent(), true ); // Get the JSON payload and decode it
-        $app_id = $data['id'] ?? null; // Use the null coalescing operator to set a default
-
-        if ( $app_id !== null ) {
-            $apps_array = get_option( 'dt_home_apps', [] );
-
-            foreach ( $apps_array as $key => $app ) {
-                if ( isset( $app['id'] ) && $app['id'] == $app_id ) {
-                    $apps_array[$key]['is_hidden'] = '0'; // Corrected: Set 'is_hidden' to 0 (unhide)
-                    break;
-                }
-            }
-
-            update_option( 'dt_home_apps', $apps_array );
-
-            return response()->json( [ 'message' => 'App visibility updated' ], 200 );
-        } else {
-            return response()->json( [ 'error' => 'Invalid app ID' ], 400 );
-        }
     }
 
 
@@ -121,7 +114,12 @@ class HomeController
         // Assuming $data contains 'id' and 'is_hidden'
         $app_id = $data['id'];
 
-        $apps_array = get_option( 'dt_home_apps', [] );
+        $apps_array = get_user_option( 'dt_home_apps', get_current_user_id() );
+
+        // Fallback to default option if user option is not set
+        if ( $apps_array === false ) {
+            $apps_array = get_option( 'dt_home_apps' );
+        }
 
         // Find the app with the specified ID and update its 'is_hidden' status
         foreach ( $apps_array as $key => $app ) {
@@ -131,7 +129,7 @@ class HomeController
             }
         }
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        update_user_option( get_current_user_id(), 'dt_home_apps', $apps_array );
 
         $response_data = [ 'message' => 'App visibility updated' ];
 
@@ -149,7 +147,7 @@ class HomeController
             $data[$key]['sort'] = $key + 1;
         }
         // Save the updated app order back to the database or storage
-        update_option( 'dt_home_apps', $data );
+        update_user_option( get_current_user_id(), 'dt_home_apps', $data );
 
         $response_data = [ 'message' => 'App order updated' ];
 
@@ -163,6 +161,7 @@ class HomeController
     public function open_app( $slug )
     {
         $apps_array = get_option( 'dt_home_apps', [] );
+
         $desired_app = null;
 
         foreach ( $apps_array as $app ) {
