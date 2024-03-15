@@ -10,6 +10,15 @@ class MenuComponent extends LitElement {
       float: inline-end;
     }
 
+    .menu-item:hover {
+      background-color: transparent !important;
+
+    }
+
+    .menu-item:hover {
+      color: rgb(7, 130, 235) !important;
+    }
+
     sp-button.toggle-button {
       cursor: pointer;
       --system-spectrum-button-accent-background-color-default: #e8e7e7;
@@ -75,6 +84,9 @@ class MenuComponent extends LitElement {
       display: flex;
     }
 
+    sp-menu-item:hover {
+      color: transparent !important;
+    }
 
     :host(:hover) sp-icon-triple-gripper {
       color: #326A82;
@@ -87,9 +99,16 @@ class MenuComponent extends LitElement {
 
     .right-aligned-menu a:hover {
       text-decoration: none !important;
-      color: #0782eb !important;
+      color: rgb(7, 130, 235) !important;
     }
 
+    .menu-title:hover {
+      --spectrum-menu-item-label-content-color-hover: rgb(7, 130, 235);
+    }
+
+    .menu-item {
+      --spectrum-menu-item-label-content-color-hover: rgb(7, 130, 235);
+    }
   `;
 
   constructor() {
@@ -97,6 +116,7 @@ class MenuComponent extends LitElement {
     this.isOpen = false;
     this.menuItems = [];
   }
+
 
   togglePopover() {
     this.isOpen = !this.isOpen;
@@ -121,8 +141,8 @@ class MenuComponent extends LitElement {
                 <a href="/"><h4 slot="heading" class="menu-title">Go to
                   disciple.tools</h4></a>
                 ${this.menuItems.map(item => html`
-                  <a href="${item.href}">
-                    <sp-menu-item>${item.label}</sp-menu-item>
+                  <a href="${item.href}" class="menu-set">
+                    <sp-menu-item class="menu-item">${item.label}</sp-menu-item>
                   </a>`)}
               </sp-menu>
             </sp-dialog>
