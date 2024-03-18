@@ -12,11 +12,6 @@ class MenuComponent extends LitElement {
 
     .menu-item:hover {
       background-color: transparent !important;
-
-    }
-
-    .menu-item:hover {
-      color: rgb(7, 130, 235) !important;
     }
 
     sp-button.toggle-button {
@@ -138,8 +133,11 @@ class MenuComponent extends LitElement {
           <sp-popover .open="${this.isOpen}">
             <sp-dialog>
               <sp-menu class="right-aligned-menu">
-                <a href="/"><h4 slot="heading" class="menu-title">Go to
-                  disciple.tools</h4></a>
+                <a href="/">
+                  <sp-menu-item class="menu-item">Go to
+                    disciple.tools
+                  </sp-menu-item>
+                </a>
                 ${this.menuItems.map(item => html`
                   <a href="${item.href}" class="menu-set">
                     <sp-menu-item class="menu-item">${item.label}</sp-menu-item>
