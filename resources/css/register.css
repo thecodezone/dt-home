@@ -14,10 +14,6 @@
     max-width: 200px;
 }
 
-.register__background {
-    --dt-tile-background-color: hsla(0, 0%, 100%, 1);
-}
-
 sp-button.register__button {
     padding: 8px 13px 8px 13px;
     border-radius: 6px;
