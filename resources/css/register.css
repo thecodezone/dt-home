@@ -13,3 +13,18 @@
     width: 100%;
     max-width: 200px;
 }
+
+sp-button.register__button {
+    padding: 8px 13px 8px 13px;
+    border-radius: 6px;
+    font-size: 15px;
+    background-color: #4CAF50;
+    align-items: center;
+    text-transform: capitalize;
+    font-weight: 400;
+    font-family: Poppins, Helvetica, sans-serif;
+    --spectrum-button-border-color-default: gray;
+    --system-spectrum-button-accent-border-color-hover: gray;
+    --system-spectrum-button-accent-border-color-down: gray;
+    --mod-button-border-width: 1px;
+}
