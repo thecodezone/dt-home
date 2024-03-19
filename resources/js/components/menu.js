@@ -17,6 +17,8 @@ class MenuComponent extends LitElement {
       --system-spectrum-button-accent-background-color-down: #e8e7e7;
       --system-spectrum-button-accent-background-color-focus: #e8e7e7;
       --spectrum-focus-indicator-color: #e8e7e7;
+      --spectrum-component-pill-edge-to-text-100: 0px;
+      --spectrum-button-minimum-width-multiplier: 0px;
     }
 
     .inline-element {

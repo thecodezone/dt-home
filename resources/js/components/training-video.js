@@ -14,16 +14,16 @@ class VideoList extends LitElement {
       }
 
       iframe {
-        width: 100%;
-        //height: 0.5;
-        padding-bottom: 6.25%; /* 16:9 aspect ratio */
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9;
+        //padding-bottom: 6.25%; /* 16:9 aspect ratio */
         /* Add any other styles you want here */
       }
     `;
   }
 
   connectedCallback() {
-    debugger
     super.connectedCallback();
     const data = this.getAttribute('training-data');
     if (data) {
@@ -47,9 +47,9 @@ class VideoList extends LitElement {
       <div>
         ${this.trainingData.map(training => html`
           <div id=${training.anchor}>
-            ${training.name}<br>
+            ${training.name}&nbsp;
             ${this.renderIframe(training.embed_video)}
-
+            <br>
             <br>
           </div>
         `)}
