@@ -9,3 +9,4 @@ $this->layout( 'layouts/plugin' );
     <video-list training-data='<?php echo htmlspecialchars( $data ); ?>'></video-list>
 
 </div>
+
