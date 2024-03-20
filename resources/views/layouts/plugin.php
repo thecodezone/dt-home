@@ -24,7 +24,7 @@
 
                 // Adding additional menu item based on user capability
                 if ( $user->has_cap( 'access_disciple_tools' ) ) {
-                    $menu_items[] = [ 'label' => __( 'disciple.tools', 'dt_home' ), 'href' => $dashboard ];
+                    $menu_items[] = [ 'label' => __( 'Disciple.Tools', 'dt_home' ), 'href' => $dashboard ];
                 }
                 $menu_items_json = json_encode( $menu_items );
 
