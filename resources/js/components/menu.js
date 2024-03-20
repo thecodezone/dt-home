@@ -16,15 +16,15 @@ class MenuComponent extends LitElement {
 
     sp-button.toggle-button {
       cursor: pointer;
-      --system-spectrum-button-accent-background-color-default: #ffffff70;
-      --system-spectrum-button-accent-background-color-hover: #ffffff70;
-      --system-spectrum-button-accent-background-color-down: #ffffff70;
-      --system-spectrum-button-accent-background-color-focus: #ffffff70;
+      --system-spectrum-button-accent-background-color-default: #e8e7e7;
+      --system-spectrum-button-accent-background-color-hover: #e8e7e7;
+      --system-spectrum-button-accent-background-color-down: #e8e7e7;
+      --system-spectrum-button-accent-background-color-focus: #e8e7e7;
       --spectrum-focus-indicator-color: #e8e7e7;
       --spectrum-component-pill-edge-to-text-100: 0px;
       --spectrum-button-minimum-width-multiplier: 0px;
-      --spectrum-border-width-200: 15px;
-      --spectrum-button-edge-to-text: 0px;
+      /* --spectrum-border-width-200: 15px;
+       --spectrum-button-edge-to-text: 0px;*/
     }
 
     .inline-element {

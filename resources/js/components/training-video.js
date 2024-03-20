@@ -11,7 +11,7 @@ class VideoList extends LitElement {
 
 
       iframe {
-        width: 110% !important;
+        width: 100% !important;
         height: auto !important;
         aspect-ratio: 16 / 9;
         //padding-bottom: 6.25%; /* 16:9 aspect ratio */
