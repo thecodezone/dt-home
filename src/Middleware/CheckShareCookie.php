@@ -25,6 +25,10 @@ class CheckShareCookie implements Middleware {
 	 */
 	public function handle( Request $request, Response $response, callable $next ) {
 
+		if ( ! is_user_logged_in() ) {
+			return $next( $request, $response );
+		}
+
 		$leader_id = $request->cookies->get( 'dt_home_share' );
 
 		if ( $leader_id ) {
@@ -69,7 +73,7 @@ class CheckShareCookie implements Middleware {
 			$fields = [
 				"coached_by"  => [
 					"values"       => [
-						[ "value" => $leader_id ],
+						[ "value" => (string) $leader_id ],
 					],
 					"force_values" => false
 				],

@@ -25,8 +25,7 @@ class RouterServiceProvider extends ServiceProvider {
 	}
 
 	/**
-	 * Do any setup needed before the theme is ready.
-	 * DT is not yet registered.
+	 * DT is ready. Do any setup needed after the theme is ready.
 	 */
 	public function boot(): void {
 		if ( is_admin() ) {
