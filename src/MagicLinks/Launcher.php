@@ -150,8 +150,7 @@ class Launcher extends DT_Magic_Url_Base {
 		add_filter( 'dt_magic_url_base_allowed_css', [ $this, 'dt_magic_url_base_allowed_css' ], 10, 1 );
 		add_filter( 'dt_magic_url_base_allowed_js', [ $this, 'dt_magic_url_base_allowed_js' ], 10, 1 );
 
-		add_filter( 'dt_allow_non_login_access', function () {
-			// allows non-logged in visit
+		add_filter( 'dt_allow_non_login_access', function () use ( $url ) {
 			return false;
 		}, 100, 1 );
 	}

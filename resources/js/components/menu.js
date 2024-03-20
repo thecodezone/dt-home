@@ -137,11 +137,6 @@ class MenuComponent extends LitElement {
           <sp-popover .open="${this.isOpen}">
             <sp-dialog>
               <sp-menu class="right-aligned-menu">
-                <a href="/">
-                  <sp-menu-item class="menu-item">Go to
-                    disciple.tools
-                  </sp-menu-item>
-                </a>
                 ${this.menuItems.map(item => html`
                   <a href="${item.href}" class="menu-set">
                     <sp-menu-item class="menu-item">${item.label}</sp-menu-item>
