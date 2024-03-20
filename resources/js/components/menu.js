@@ -23,6 +23,8 @@ class MenuComponent extends LitElement {
       --spectrum-focus-indicator-color: #e8e7e7;
       --spectrum-component-pill-edge-to-text-100: 0px;
       --spectrum-button-minimum-width-multiplier: 0px;
+      /* --spectrum-border-width-200: 15px;
+       --spectrum-button-edge-to-text: 0px;*/
     }
 
     .inline-element {

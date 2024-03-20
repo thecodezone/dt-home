@@ -8,10 +8,7 @@ class VideoList extends LitElement {
 
   static get styles() {
     return css`
-      .video-container {
-        max-width: 640px;
-        margin: auto;
-      }
+
 
       iframe {
         width: 100% !important;
