@@ -18,8 +18,8 @@ class MenuComponent extends LitElement {
       cursor: pointer;
       --system-spectrum-button-accent-background-color-default: #ffffff70;
       --system-spectrum-button-accent-background-color-hover: #ffffff70;
-      --system-spectrum-button-accent-background-color-down: #e8e7e7;
-      --system-spectrum-button-accent-background-color-focus: #e8e7e7;
+      --system-spectrum-button-accent-background-color-down: #ffffff70;
+      --system-spectrum-button-accent-background-color-focus: #ffffff70;
       --spectrum-focus-indicator-color: #e8e7e7;
       --spectrum-component-pill-edge-to-text-100: 0px;
       --spectrum-button-minimum-width-multiplier: 0px;
