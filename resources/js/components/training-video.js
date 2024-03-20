@@ -8,13 +8,10 @@ class VideoList extends LitElement {
 
   static get styles() {
     return css`
-      .video-container {
-        max-width: 640px;
-        margin: auto;
-      }
+
 
       iframe {
-        width: 100% !important;
+        width: 110% !important;
         height: auto !important;
         aspect-ratio: 16 / 9;
         //padding-bottom: 6.25%; /* 16:9 aspect ratio */
