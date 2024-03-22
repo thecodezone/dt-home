@@ -104,12 +104,17 @@ class AppGrid extends LitElement {
    * Handles the drop event by reordering the apps.
    * @param {DragEvent} event - The drop event.
    */
+  
   drop(event) {
     event.preventDefault();
     const fromIndex = event.dataTransfer.getData("text/plain");
     const toIndex = event.target.dataset.index;
     this.reorderApps(fromIndex, toIndex);
+
+    // Call handleDocumentClick to ensure immediate removal of context menu icon
+    this.handleDocumentClick(event);
   }
+
 
   /**
    * Reorders apps based on drag and drop.
