@@ -9,7 +9,6 @@ class VideoList extends LitElement {
   static get styles() {
     return css`
 
-
       iframe {
         width: 100% !important;
         height: auto !important;
@@ -20,6 +19,12 @@ class VideoList extends LitElement {
     `;
   }
 
+  /**
+   * Parses the training data attribute and sets it to the trainingData property.
+   *
+   * @memberof VideoList
+   * @returns {void}
+   */
   connectedCallback() {
     super.connectedCallback();
     const data = this.getAttribute('training-data');
@@ -33,6 +38,13 @@ class VideoList extends LitElement {
     }
   }
 
+  /**
+   * Handles the click event on a video, updating the URL hash.
+   *
+   * @memberof VideoList
+   * @param {Object} training - The training object clicked.
+   * @returns {void}
+   */
   handleVideoClick(training) {
     // Concatenate 'training' before the anchor value
     history.pushState({}, '', `training#${training.anchor}`);
@@ -54,6 +66,13 @@ class VideoList extends LitElement {
     `;
   }
 
+  /**
+   * Renders an iframe element from the embed code.
+   *
+   * @memberof VideoList
+   * @param {string} embedCode - The embed code for the video.
+   * @returns {TemplateResult} The rendered iframe element.
+   */
   renderIframe(embedCode) {
     // Use JavaScript's String replace method to remove backslashes
     embedCode = embedCode.replace(/\\+/g, '');

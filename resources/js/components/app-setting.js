@@ -57,6 +57,14 @@ window.filterIcons = function () {
   }
 }
 
+/**
+ * Toggles the visibility of the URL field based on the selected type.
+ *
+ * @function
+ * @name toggleURLField
+ * @returns {void}
+ */
+
 function toggleURLField() {
   var typeSelect = document.getElementById("type");
   var urlFieldRow = document.getElementById("urlFieldRow");
