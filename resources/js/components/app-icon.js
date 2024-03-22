@@ -1,11 +1,18 @@
 import {css, html, LitElement} from 'lit';
+import {customElement, property} from "lit-element";
 
 /**
  * Represents an application icon component.
  *
  * @extends LitElement
  */
+@customElement('dt-home-app-icon')
 class AppIcon extends LitElement {
+
+    @property({type: String}) name = '';
+    @property({type: String}) icon = '';
+    @property({type: Boolean}) isVisible = true;
+
     static properties = {
         name: {type: String},
         icon: {type: String},
@@ -92,8 +99,6 @@ class AppIcon extends LitElement {
         ` : html``;
     }
 }
-
-customElements.define('dt-home-app-icon', AppIcon);
 
 
 

@@ -29,16 +29,13 @@ import '@spectrum-web-components/icons-workflow/icons/sp-icon-view-grid.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-close.js';
 
 /**
- * Imports
+ * Web Components
  */
-import {loaded} from "./helpers.js";
-
 import "./components/app-grid.js";
 import "./components/home-footer.js";
 import "./components/menu.js";
-import "./components/training-video.js"
-import "./components/form-submit.js"
-
+import "./components/training-video.js";
+import "./components/home-screen-icon.js";
 
 /**
  * CSS
@@ -46,8 +43,18 @@ import "./components/form-submit.js"
 import "../css/plugin.css";
 
 /**
+ * Imports
+ */
+import {loaded} from "./helpers.js";
+import submitFormOnEnter from "./dom-hooks/submit-form-on-enter.js";
+import handleDomLoaded from "./dom-hooks/handle-dom-loaded.js";
+import decloak from "./dom-hooks/decloak.js";
+
+/**
  * Bootstrap the application
  */
-loaded(() => {
-  document.body.classList.add("dom-loaded");
+loaded((document) => {
+    document.querySelectorAll(".cloak").forEach(decloak);
+    document.querySelectorAll('body').forEach(handleDomLoaded);
+    document.querySelectorAll('form').forEach(submitFormOnEnter);
 });

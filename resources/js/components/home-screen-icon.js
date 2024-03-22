@@ -1,16 +1,17 @@
 import {css, html, LitElement} from 'lit';
+import {customElement} from "lit-element";
+import {property} from "lit/decorators.js";
 
 /**
  * Represents an application icon component.
  *
  * @extends LitElement
  */
+@customElement('dt-home-app-icon')
 class AppIcon extends LitElement {
-    static properties = {
-        name: {type: String},
-        icon: {type: String},
-        isVisible: {type: Boolean}
-    };
+    @property({type: String}) name = '';
+    @property({type: String}) icon = '';
+    @property({type: Boolean}) isVisible = true;
 
     /**
      * CSS styles for the app icon.
@@ -57,24 +58,6 @@ class AppIcon extends LitElement {
         }
     `;
 
-    /**
-     * Creates a new instance of the constructor.
-     *
-     * @constructor
-     * @classdesc This constructor initializes a new object with the following properties:
-     *      - name: A string representing the name of the object.
-     *      - icon: A string representing the icon of the object.
-     *      - isVisible: A boolean indicating the visibility of the object.
-     *
-     * @returns {void} This constructor does not return a value.
-     */
-    constructor() {
-        super();
-        this.name = '';
-        this.icon = '';
-        this.isVisible = true;
-    }
-
 
     /**
      * Renders the app icon.
@@ -92,8 +75,5 @@ class AppIcon extends LitElement {
         ` : html``;
     }
 }
-
-customElements.define('dt-home-app-icon', AppIcon);
-
 
 
