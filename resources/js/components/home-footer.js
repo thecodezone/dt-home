@@ -103,6 +103,12 @@ class HomeFooter extends LitElement {
     this.loadAppData();
   }
 
+  /**
+   * Loads application data from the attributes and parses it into the appData property.
+   *
+   * @memberof HomeFooter
+   * @returns {void}
+   */
   loadAppData() {
     const jsonData = this.getAttribute('hidden-data');
     this.appUrl = this.getAttribute('app-url-unhide');
@@ -111,6 +117,13 @@ class HomeFooter extends LitElement {
     }
   }
 
+  /**
+   * Posts the selected app data to the server for un-hiding.
+   *
+   * @memberof HomeFooter
+   * @param {string} appId - The ID of the app to un-hide.
+   * @returns {void}
+   */
   postAppDataToServer(appId) {
 
     const url = this.appUrl + "/un-hide-app";
@@ -141,6 +154,15 @@ class HomeFooter extends LitElement {
       });
   }
 
+  /**
+   * Handles the click event on an app item.
+   * Calls postAppDataToServer and requests an update.
+   *
+   * @memberof HomeFooter
+   * @param {Event} e - The click event object.
+   * @param {string} appId - The ID of the app clicked.
+   * @returns {void}
+   */
   handleAppClick(e, appid) {
     e.stopPropagation();
     const appIndex = this.appData.findIndex(app => app.id === appid);

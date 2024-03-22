@@ -8,305 +8,392 @@ use DT\Home\Illuminate\Http\Response;
 use DT\Home\Services\SVGIconService;
 use function DT\Home\view;
 
-class AppSettingsController {
+class AppSettingsController
+{
 
-	/**
-	 * Show the general settings app tab
-	 */
-	public function show_app_tab( Request $request, Response $response ) {
+    /**
+     * Show the general settings app tab.
+     *
+     * @param Request $request
+     * @param Response $response
+     *
+     * @return mixed
+     */
+    public function show_app_tab( Request $request, Response $response )
+    {
 
-		$tab        = "app";
-		$link       = 'admin.php?page=dt_home&tab=';
-		$page_title = "Home Settings";
+        $tab = "app";
+        $link = 'admin.php?page=dt_home&tab=';
+        $page_title = "Home Settings";
 
-		$data = $this->get_all_apps_data();
+        $data = $this->get_all_apps_data();
 
-		return view( "settings/app", compact( 'tab', 'link', 'page_title', 'data' ) );
-	}
+        return view( "settings/app", compact( 'tab', 'link', 'page_title', 'data' ) );
+    }
 
-	protected function get_all_apps_data() {
-		// Get the apps array from the option
-		$apps_array = get_option( 'dt_home_apps', [] );
+    /**
+     * Get all apps data from the options and ensure default values.
+     *
+     * @return array
+     */
+    protected function get_all_apps_data()
+    {
+        // Get the apps array from the option
+        $apps_array = get_option( 'dt_home_apps', [] );
 
-		// Sort the array based on the 'sort' key
-		usort( $apps_array, function ( $a, $b ) {
-			return $a['sort'] - $b['sort'];
-		} );
+        // Sort the array based on the 'sort' key
+        usort($apps_array, function ( $a, $b ) {
+            return $a['sort'] - $b['sort'];
+        });
 
-		$apps_array = array_map( function ( $app ) {
-			return array_merge( [
-				'name'      => '',
-				'type'      => 'webview',
-				'icon'      => '',
-				'url'       => '',
-				'sort'      => 0,
-				'slug'      => '',
-				'is_hidden' => false,
-			], $app );
-		}, $apps_array );
-
-
-		return $apps_array;
-	}
+        $apps_array = array_map(function ( $app ) {
+            return array_merge([
+                'name' => '',
+                'type' => 'webview',
+                'icon' => '',
+                'url' => '',
+                'sort' => 0,
+                'slug' => '',
+                'is_hidden' => false,
+            ], $app);
+        }, $apps_array);
 
 
-	public function create_app( Request $request, Response $response ) {
-		$tab           = "app";
-		$link          = 'admin.php?page=dt_home&tab=';
-		$page_title    = "Home Settings";
-		$svg_service   = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
-		$svg_icon_urls = $svg_service->get_svg_icon_urls();
+        return $apps_array;
+    }
 
-		return view( "settings/create", compact( 'tab', 'link', 'page_title', 'svg_icon_urls' ) );
-	}
+    /**
+     * Show the form to create a new app.
+     *
+     * @param Request $request
+     * @param Response $response
+     *
+     * @return mixed
+     */
+    public function create_app( Request $request, Response $response )
+    {
+        $tab = "app";
+        $link = 'admin.php?page=dt_home&tab=';
+        $page_title = "Home Settings";
+        $svg_service = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
+        $svg_icon_urls = $svg_service->get_svg_icon_urls();
 
-	public function store( Request $request, Response $response ) {
-		// Retrieve form data
-		$name      = $request->input( 'name' );
-		$type      = $request->input( 'type' );
-		$icon      = $request->input( 'icon' );
-		$url       = $request->input( 'url' );
-		$slug      = $request->input( 'slug' );
-		$sort      = $request->input( 'sort' );
-		$is_hidden = $request->input( 'is_hidden' );
+        return view( "settings/create", compact( 'tab', 'link', 'page_title', 'svg_icon_urls' ) );
+    }
 
-		// Prepare the data to be stored
-		$app_data = [
-			'name'      => $name,
-			'type'      => $type,
-			'icon'      => $icon,
-			'url'       => $url,
-			'sort'      => $sort,
-			'slug'      => $slug,
-			'is_hidden' => $is_hidden,
-		];
+    /**
+     * Store a new app.
+     *
+     * @param Request $request
+     * @param Response $response
+     *
+     * @return RedirectResponse
+     */
+    public function store( Request $request, Response $response )
+    {
+        // Retrieve form data
+        $name = $request->input( 'name' );
+        $type = $request->input( 'type' );
+        $icon = $request->input( 'icon' );
+        $url = $request->input( 'url' );
+        $slug = $request->input( 'slug' );
+        $sort = $request->input( 'sort' );
+        $is_hidden = $request->input( 'is_hidden' );
 
-		// Get the existing apps array
-		$apps_array = get_option( 'dt_home_apps', [] ); // Default to an empty array if the option does not exist
+        // Prepare the data to be stored
+        $app_data = [
+            'name' => $name,
+            'type' => $type,
+            'icon' => $icon,
+            'url' => $url,
+            'sort' => $sort,
+            'slug' => $slug,
+            'is_hidden' => $is_hidden,
+        ];
 
-		// Generate a unique ID for the new app
-		$next_id = 1;
-		foreach ( $apps_array as $app ) {
-			if ( isset( $app['id'] ) && $app['id'] >= $next_id ) {
-				$next_id = $app['id'] + 1;
-			}
-		}
+        // Get the existing apps array
+        $apps_array = get_option( 'dt_home_apps', [] ); // Default to an empty array if the option does not exist
 
-		$app_data['id'] = $next_id; // Add the ID to the new app data
+        // Generate a unique ID for the new app
+        $next_id = 1;
+        foreach ( $apps_array as $app ) {
+            if ( isset( $app['id'] ) && $app['id'] >= $next_id ) {
+                $next_id = $app['id'] + 1;
+            }
+        }
 
-		// Append new app data to the array
-		$apps_array[] = $app_data;
+        $app_data['id'] = $next_id; // Add the ID to the new app data
 
-		// Save the updated array back to the option
-		update_option( 'dt_home_apps', $apps_array );
+        // Append new app data to the array
+        $apps_array[] = $app_data;
 
-		$response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
+        // Save the updated array back to the option
+        update_option( 'dt_home_apps', $apps_array );
 
-		return $response;
-	}
+        $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
 
-	public function unhide( $id ) {
-		// Retrieve the existing array of apps
-		$apps_array = get_option( 'dt_home_apps', [] );
+        return $response;
+    }
 
-		// Find the app with the specified ID and update its 'is_hidden' status
-		foreach ( $apps_array as $key => $app ) {
-			if ( isset( $app['id'] ) && $app['id'] == $id ) {
-				$apps_array[ $key ]['is_hidden'] = 0; // Set 'is_hidden' to 0 (unhide)
-				break; // Exit the loop once the app is found and updated
-			}
-		}
+    /**
+     * Unhide an app by ID.
+     *
+     * @param int $id
+     *
+     * @return RedirectResponse
+     */
+    public function unhide( $id )
+    {
+        // Retrieve the existing array of apps
+        $apps_array = get_option( 'dt_home_apps', [] );
 
-		// Save the updated array back to the option
-		update_option( 'dt_home_apps', $apps_array );
+        // Find the app with the specified ID and update its 'is_hidden' status
+        foreach ( $apps_array as $key => $app ) {
+            if ( isset( $app['id'] ) && $app['id'] == $id ) {
+                $apps_array[$key]['is_hidden'] = 0; // Set 'is_hidden' to 0 (unhide)
+                break; // Exit the loop once the app is found and updated
+            }
+        }
 
-		// Redirect to the page with a success message
-		$response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
+        // Save the updated array back to the option
+        update_option( 'dt_home_apps', $apps_array );
 
-		return $response;
-	}
+        // Redirect to the page with a success message
+        $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
 
-	public function hide( $id ) {
-		// Retrieve the existing array of apps
-		$apps_array = get_option( 'dt_home_apps', [] );
+        return $response;
+    }
 
-		// Find the app with the specified ID and update its 'is_hidden' status
-		foreach ( $apps_array as $key => $app ) {
-			if ( isset( $app['id'] ) && $app['id'] == $id ) {
-				$apps_array[ $key ]['is_hidden'] = 1; // Set 'is_hidden' to 1 (hide)
-				break; // Exit the loop once the app is found and updated
-			}
-		}
+    /**
+     * Hide an app by ID.
+     *
+     * @param int $id
+     *
+     * @return RedirectResponse
+     */
+    public function hide( $id )
+    {
+        // Retrieve the existing array of apps
+        $apps_array = get_option( 'dt_home_apps', [] );
 
-		// Save the updated array back to the option
-		update_option( 'dt_home_apps', $apps_array );
+        // Find the app with the specified ID and update its 'is_hidden' status
+        foreach ( $apps_array as $key => $app ) {
+            if ( isset( $app['id'] ) && $app['id'] == $id ) {
+                $apps_array[$key]['is_hidden'] = 1; // Set 'is_hidden' to 1 (hide)
+                break; // Exit the loop once the app is found and updated
+            }
+        }
 
-		// Redirect to the page with a success message
-		$response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
+        // Save the updated array back to the option
+        update_option( 'dt_home_apps', $apps_array );
 
-		return $response;
-	}
+        // Redirect to the page with a success message
+        $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
 
-	public function up( $id ) {
-		// Retrieve the existing array of apps
-		$apps_array = get_option( 'dt_home_apps', [] );
+        return $response;
+    }
 
-		// Find the index of the app and its current sort value
-		$current_index = null;
-		$current_sort  = null;
-		foreach ( $apps_array as $key => $app ) {
-			if ( $app['id'] == $id ) {
-				$current_index = $key;
-				$current_sort  = $app['sort'];
-				break;
-			}
-		}
+    /**
+     * Move an app up in the list by ID.
+     *
+     * @param int $id
+     *
+     * @return RedirectResponse
+     */
+    public function up( $id )
+    {
+        // Retrieve the existing array of apps
+        $apps_array = get_option( 'dt_home_apps', [] );
 
-		// Only proceed if the app was found and it's not already at the top
-		if ( $current_index !== null && $current_sort > 1 ) {
-			// Adjust the sort values
-			foreach ( $apps_array as $key => &$app ) {
-				if ( $app['sort'] == $current_sort - 1 ) {
-					// Increment the sort value of the app that's currently one position above
-					$app['sort']++;
-				}
-			}
-			// Decrement the sort value of the current app
-			$apps_array[ $current_index ]['sort']--;
+        // Find the index of the app and its current sort value
+        $current_index = null;
+        $current_sort = null;
+        foreach ( $apps_array as $key => $app ) {
+            if ( $app['id'] == $id ) {
+                $current_index = $key;
+                $current_sort = $app['sort'];
+                break;
+            }
+        }
 
-			// Re-sort the array
-			usort( $apps_array, function ( $a, $b ) {
-				return $a['sort'] - $b['sort'];
-			} );
+        // Only proceed if the app was found and it's not already at the top
+        if ( $current_index !== null && $current_sort > 1 ) {
+            // Adjust the sort values
+            foreach ( $apps_array as $key => &$app ) {
+                if ( $app['sort'] == $current_sort - 1 ) {
+                    // Increment the sort value of the app that's currently one position above
+                    $app['sort']++;
+                }
+            }
+            // Decrement the sort value of the current app
+            $apps_array[$current_index]['sort']--;
 
-			// Save the updated array back to the option
-			update_option( 'dt_home_apps', $apps_array );
-		}
+            // Re-sort the array
+            usort($apps_array, function ( $a, $b ) {
+                return $a['sort'] - $b['sort'];
+            });
 
-		// Redirect to the page with a success message
-		$response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
+            // Save the updated array back to the option
+            update_option( 'dt_home_apps', $apps_array );
+        }
 
-		return $response;
-	}
+        // Redirect to the page with a success message
+        $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
 
-	public function down( $id ) {
-		// Retrieve the existing array of apps
-		$apps_array = get_option( 'dt_home_apps', [] );
+        return $response;
+    }
 
-		// Find the index of the app and its current sort value
-		$current_index = null;
-		$current_sort  = null;
-		foreach ( $apps_array as $key => $app ) {
-			if ( $app['id'] == $id ) {
-				$current_index = $key;
-				$current_sort  = $app['sort'];
-				break;
-			}
-		}
+    /**
+     * Move an app down in the list by ID.
+     *
+     * @param int $id
+     *
+     * @return RedirectResponse
+     */
+    public function down( $id )
+    {
+        // Retrieve the existing array of apps
+        $apps_array = get_option( 'dt_home_apps', [] );
 
-		// Determine the maximum sort value
-		$max_sort = count( $apps_array );
+        // Find the index of the app and its current sort value
+        $current_index = null;
+        $current_sort = null;
+        foreach ( $apps_array as $key => $app ) {
+            if ( $app['id'] == $id ) {
+                $current_index = $key;
+                $current_sort = $app['sort'];
+                break;
+            }
+        }
 
-		// Only proceed if the app was found and it's not already at the bottom
-		if ( $current_index !== null && $current_sort < $max_sort ) {
-			// Adjust the sort values
-			foreach ( $apps_array as $key => &$app ) {
-				if ( $app['sort'] == $current_sort + 1 ) {
-					// Decrement the sort value of the app that's currently one position below
-					$app['sort']--;
-				}
-			}
-			// Increment the sort value of the current app
-			$apps_array[ $current_index ]['sort']++;
+        // Determine the maximum sort value
+        $max_sort = count( $apps_array );
 
-			// Re-sort the array
-			usort( $apps_array, function ( $a, $b ) {
-				return $a['sort'] - $b['sort'];
-			} );
+        // Only proceed if the app was found and it's not already at the bottom
+        if ( $current_index !== null && $current_sort < $max_sort ) {
+            // Adjust the sort values
+            foreach ( $apps_array as $key => &$app ) {
+                if ( $app['sort'] == $current_sort + 1 ) {
+                    // Decrement the sort value of the app that's currently one position below
+                    $app['sort']--;
+                }
+            }
+            // Increment the sort value of the current app
+            $apps_array[$current_index]['sort']++;
 
-			// Save the updated array back to the option
-			update_option( 'dt_home_apps', $apps_array );
-		}
+            // Re-sort the array
+            usort($apps_array, function ( $a, $b ) {
+                return $a['sort'] - $b['sort'];
+            });
 
-		// Redirect to the page with a success message
-		$response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
+            // Save the updated array back to the option
+            update_option( 'dt_home_apps', $apps_array );
+        }
 
-		return $response;
-	}
+        // Redirect to the page with a success message
+        $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
 
-	public function update( Request $request, Response $response ) {
-		if ( isset( $_POST['submit'] ) ) {
+        return $response;
+    }
 
-			$name      = $request->input( 'name' );
-			$type      = $request->input( 'type' );
-			$icon_url  = $request->input( 'icon' );
-			$url       = $request->input( 'url' );
-			$sort      = $request->input( 'sort' );
-			$slug      = $request->input( 'slug' );
-			$is_hidden = $request->input( 'is_hidden' );
+    /**
+     * Update an existing app.
+     *
+     * @param Request $request
+     * @param Response $response
+     *
+     * @return RedirectResponse
+     */
+    public function update( Request $request, Response $response )
+    {
+        if ( isset( $_POST['submit'] ) ) {
 
-			// Get the ID of the item being edited
-			$edit_id = $request->input( 'edit_id' );
+            $name = $request->input( 'name' );
+            $type = $request->input( 'type' );
+            $icon_url = $request->input( 'icon' );
+            $url = $request->input( 'url' );
+            $sort = $request->input( 'sort' );
+            $slug = $request->input( 'slug' );
+            $is_hidden = $request->input( 'is_hidden' );
 
-			// Retrieve the existing array of apps
-			$apps_array = get_option( 'dt_home_apps', [] );
+            // Get the ID of the item being edited
+            $edit_id = $request->input( 'edit_id' );
 
-			// Find and update the app in the array
-			foreach ( $apps_array as $key => $app ) {
-				if ( $app['id'] == $edit_id ) {
-					$apps_array[ $key ] = [
-						'id'        => $edit_id, // Keep the ID unchanged
-						'name'      => $name,
-						'type'      => $type,
-						'icon'      => $icon_url,
-						'url'       => $url,
-						'slug'      => $slug,
-						'sort'      => $sort,
-						'is_hidden' => $is_hidden,
-					];
-					break; // Stop the loop once the app is found and updated
-				}
-			}
+            // Retrieve the existing array of apps
+            $apps_array = get_option( 'dt_home_apps', [] );
 
-			// Save the updated array back to the option
-			update_option( 'dt_home_apps', $apps_array );
+            // Find and update the app in the array
+            foreach ( $apps_array as $key => $app ) {
+                if ( $app['id'] == $edit_id ) {
+                    $apps_array[$key] = [
+                        'id' => $edit_id, // Keep the ID unchanged
+                        'name' => $name,
+                        'type' => $type,
+                        'icon' => $icon_url,
+                        'url' => $url,
+                        'slug' => $slug,
+                        'sort' => $sort,
+                        'is_hidden' => $is_hidden,
+                    ];
+                    break; // Stop the loop once the app is found and updated
+                }
+            }
 
-			// Redirect to the page with a success message
-			$response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
+            // Save the updated array back to the option
+            update_option( 'dt_home_apps', $apps_array );
 
-			return $response;
-		}
-	}
+            // Redirect to the page with a success message
+            $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
 
-	public function edit_app( $id ) {
-		$edit_id       = isset( $id ) ? intval( $id ) : 0;
-		$svg_service   = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
-		$svg_icon_urls = $svg_service->get_svg_icon_urls();
+            return $response;
+        }
+    }
 
-		if ( $edit_id ) {
-			// Retrieve the existing data based on $edit_id
-			$existing_data = $this->get_data_by_id( $edit_id );
+    /**
+     * Show the form to edit an existing app by ID.
+     *
+     * @param int $id
+     *
+     * @return mixed
+     */
+    public function edit_app( $id )
+    {
+        $edit_id = isset( $id ) ? intval( $id ) : 0;
+        $svg_service = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
+        $svg_icon_urls = $svg_service->get_svg_icon_urls();
 
-			$tab        = "app";
-			$link       = 'admin.php?page=dt_home&tab=';
-			$page_title = "Home Settings";
+        if ( $edit_id ) {
+            // Retrieve the existing data based on $edit_id
+            $existing_data = $this->get_data_by_id( $edit_id );
 
-			if ( $existing_data ) {
-				// Load the edit form view and pass the existing data
-				return view( "settings/edit", compact( 'existing_data', 'link', 'tab', 'page_title', 'svg_icon_urls' ) );
-			}
-		}
-	}
+            $tab = "app";
+            $link = 'admin.php?page=dt_home&tab=';
+            $page_title = "Home Settings";
 
-	protected function get_data_by_id( $id ) {
-		$apps_array = get_option( 'dt_home_apps', [] );
+            if ( $existing_data ) {
+                // Load the edit form view and pass the existing data
+                return view( "settings/edit", compact( 'existing_data', 'link', 'tab', 'page_title', 'svg_icon_urls' ) );
+            }
+        }
+    }
 
-		foreach ( $apps_array as $app ) {
-			if ( isset( $app['id'] ) && $app['id'] == $id ) {
-				return $app;
-			}
-		}
+    /**
+     * Get app data by ID.
+     *
+     * @param int $id
+     *
+     * @return mixed
+     */``
+    protected function get_data_by_id( $id )
+    {
+        $apps_array = get_option( 'dt_home_apps', [] );
 
-		return null; // Return null if no app is found with the given ID
-	}
+        foreach ( $apps_array as $app ) {
+            if ( isset( $app['id'] ) && $app['id'] == $id ) {
+                return $app;
+            }
+        }
+
+        return null; // Return null if no app is found with the given ID
+    }
 }
