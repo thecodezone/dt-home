@@ -1,43 +1,3 @@
-.login__buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 5px;
-}
-
-sp-button.login__button {
-    padding: 8px 13px 8px 13px;
-    border-radius: 6px;
-    font-size: 15px;
-    background-color: #4CAF50;
-    align-items: center;
-    text-transform: capitalize;
-    font-weight: 400;
-    font-family: Poppins, Helvetica, sans-serif;
-    --spectrum-button-border-color-default: gray;
-    --system-spectrum-button-accent-border-color-hover: gray;
-    --system-spectrum-button-accent-border-color-down: gray;
-    --mod-button-border-width: 1px;
-}
-
-sp-button.create__link {
-    padding: 8px 13px 8px 13px;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: 400;
-    background-color: #ffffff;
-    text-transform: capitalize;
-    font-family: Poppins, Helvetica, sans-serif;
-    --system-spectrum-button-accent-content-color-default: #000000;
-    --system-spectrum-button-accent-content-color-hover: #000000;
-    --spectrum-button-border-color-default: gray;
-    --system-spectrum-button-accent-border-color-hover: gray;
-    --mod-button-border-width: 1px;
-    --system-spectrum-button-accent-content-color-down: #000000;
-    --system-spectrum-button-accent-border-color-down: gray;
-
-}
-
 .login__footer {
     display: flex;
     justify-content: center;
@@ -46,6 +6,10 @@ sp-button.create__link {
 .login .logo {
     display: flex;
     justify-content: center;
+}
+
+.login sp-textfield {
+    width: 100%;
 }
 
 .login .logo__image {
