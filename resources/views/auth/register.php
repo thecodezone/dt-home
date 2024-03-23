@@ -1,4 +1,13 @@
 <?php
+/**
+ * @var string $logo_path
+ * @var string $form_action
+ * @var string $error
+ * @var string $username
+ * @var string $email
+ * @var string $password
+ * @var string $login_url
+ */
 $this->layout( 'layouts/auth' );
 ?>
 <div class="container register">
@@ -6,21 +15,21 @@ $this->layout( 'layouts/auth' );
         <div class="section__inner">
             <div class="logo">
                 <img
-                    src="<?php echo esc_url( $logo_path ) ?>"
-                    alt="Disciple.Tools"
-                    class="logo__image">
+                        src="<?php echo esc_url( $logo_path ) ?>"
+                        alt="Disciple.Tools"
+                        class="logo__image">
             </div>
 
             <form action="<?php echo esc_attr( $form_action ) ?>"
                   method="POST">
-                <?php wp_nonce_field( 'dt_autolink_register' ); ?>
+				<?php wp_nonce_field( 'dt_autolink_register' ); ?>
 
-                <?php if ( !empty( $error ) ) : ?>
+				<?php if ( ! empty( $error ) ) : ?>
                     <dt-alert context="alert"
                               dismissable>
-                        <?php echo esc_html( $error ) ?>
+						<?php echo esc_html( $error ) ?>
                     </dt-alert>
-                <?php endif; ?>
+				<?php endif; ?>
 
                 <dt-text name="username"
                          placeholder="<?php esc_attr_e( 'Username', 'disciple-tools-autolink' ); ?>"
@@ -43,16 +52,19 @@ $this->layout( 'layouts/auth' );
 
                 <sp-button class="register__button"
                            tabindex="3"
+                           treatment="fill"
                            type="submit">
-                    <?php esc_html_e( 'Register', 'dt_home' ) ?>
+					<?php esc_html_e( 'Register', 'dt_home' ) ?>
                 </sp-button>
             </form>
         </div>
     </dt-tile>
     <div class="login__footer">
-        <dt-button context="link"
-                   href="<?php echo esc_url( $login_url ); ?>">
-            <?php esc_html_e( 'Back to Login', 'dt_home' ); ?>
-        </dt-button>
+        <sp-button href="<?php echo esc_url( $login_url ); ?>"
+                   variant="secondary"
+                   treatment="link"
+        >
+			<?php esc_html_e( 'Back to Login', 'dt_home' ); ?>
+        </sp-button>
     </div>
 </div>
