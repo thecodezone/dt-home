@@ -1,153 +1,146 @@
 import {css, html, LitElement} from 'lit';
+import {customElement} from "lit-element";
+import {property} from "lit/decorators.js";
 
-class MenuComponent extends LitElement {
-  static properties = {
-    isOpen: {type: Boolean},
-    menuItems: {type: Array}
-  };
-  static styles = css`
-    .menu-button {
-      float: inline-end;
-    }
+@customElement('dt-home-menu')
+class Menu extends LitElement {
+    @property({type: Boolean}) isOpen = false;
+    @property({type: Array}) menuItems = [];
 
-    .menu-item:hover {
-      background-color: transparent !important;
-    }
+    static styles = css`
+        .menu-button {
+            float: inline-end;
+        }
 
-    sp-button.toggle-button {
-      cursor: pointer;
-      --system-spectrum-button-accent-background-color-default: #e8e7e7;
-      --system-spectrum-button-accent-background-color-hover: #e8e7e7;
-      --system-spectrum-button-accent-background-color-down: #e8e7e7;
-      --system-spectrum-button-accent-background-color-focus: #e8e7e7;
-      --spectrum-focus-indicator-color: #e8e7e7;
-      --spectrum-component-pill-edge-to-text-100: 0px;
-      --spectrum-button-minimum-width-multiplier: 0px;
-      /* --spectrum-border-width-200: 15px;
-       --spectrum-button-edge-to-text: 0px;*/
-    }
+        .menu-item:hover {
+            background-color: transparent !important;
+        }
 
-    .inline-element {
-      display: inline-block;
-      vertical-align: top;
-    }
+        sp-button.toggle-button {
+            cursor: pointer;
+            --system-spectrum-button-accent-background-color-default: #e8e7e7;
+            --system-spectrum-button-accent-background-color-hover: #e8e7e7;
+            --system-spectrum-button-accent-background-color-down: #e8e7e7;
+            --system-spectrum-button-accent-background-color-focus: #e8e7e7;
+            --spectrum-focus-indicator-color: #e8e7e7;
+            --spectrum-component-pill-edge-to-text-100: 0px;
+            --spectrum-button-minimum-width-multiplier: 0px;
+            /* --spectrum-border-width-200: 15px;
+             --spectrum-button-edge-to-text: 0px;*/
+        }
 
-    sp-icon-triple-gripper {
-      color: hsla(198, 45%, 28%, 1);
-      --spectrum-icon-size: 25px;
-    }
+        .inline-element {
+            display: inline-block;
+            vertical-align: top;
+        }
 
-    sp-popover {
-      background-color: #ffff;
-      min-width: 240%;
-      margin-left: -202%;
-      border: 2px solid #7a76767d;
-      padding: 10px;
-    }
+        sp-icon-triple-gripper {
+            color: hsla(198, 45%, 28%, 1);
+            --spectrum-icon-size: 25px;
+        }
 
-    .right-aligned-menu sp-menu-item {
-      padding: 5px 0px;
-      font-weight: 100;
-    }
+        sp-popover {
+            background-color: #ffff;
+            min-width: 240%;
+            margin-left: -202%;
+            border: 2px solid #7a76767d;
+            padding: 10px;
+        }
 
-    .menu-title {
-      font-weight: 100;
-      margin: 3px 0px;
-    }
+        .right-aligned-menu sp-menu-item {
+            padding: 5px 0px;
+            font-weight: 100;
+        }
 
-    @media (min-width: 230px) and (max-width: 950px) {
-      sp-popover {
-        background-color: #ffff;
-        min-width: 175%;
-        margin-left: -94%;
-        border: 2px solid #7a76767d;
-        padding: 10px;
-      }
-    }
+        .menu-title {
+            font-weight: 100;
+            margin: 3px 0px;
+        }
 
-    @media (min-width: 750px) and (max-width: 950px) {
-      sp-popover {
-        background-color: #ffff;
-        min-width: 175%;
-        margin-left: -152%;
-        border: 2px solid #7a76767d;
-        padding: 10px;
-      }
-    }
+        @media (min-width: 230px) and (max-width: 950px) {
+            sp-popover {
+                background-color: #ffff;
+                min-width: 175%;
+                margin-left: -94%;
+                border: 2px solid #7a76767d;
+                padding: 10px;
+            }
+        }
 
-    .right-aligned-menu {
-      text-align: left;
-    }
+        @media (min-width: 750px) and (max-width: 950px) {
+            sp-popover {
+                background-color: #ffff;
+                min-width: 175%;
+                margin-left: -152%;
+                border: 2px solid #7a76767d;
+                padding: 10px;
+            }
+        }
 
-    .toggle-button {
-      display: flex;
-    }
+        .right-aligned-menu {
+            text-align: left;
+        }
 
-    sp-menu-item:hover {
-      color: transparent !important;
-    }
+        .toggle-button {
+            display: flex;
+        }
 
-    :host(:hover) sp-icon-triple-gripper {
-      color: #326A82;
-    }
+        sp-menu-item:hover {
+            color: transparent !important;
+        }
 
-    .right-aligned-menu a {
-      text-decoration: none !important;
-      color: #222 !important;
-    }
+        :host(:hover) sp-icon-triple-gripper {
+            color: #326A82;
+        }
 
-    .right-aligned-menu a:hover {
-      text-decoration: none !important;
-      color: rgb(7, 130, 235) !important;
-    }
+        .right-aligned-menu a {
+            text-decoration: none !important;
+            color: #222 !important;
+        }
 
-    .menu-title:hover {
-      --spectrum-menu-item-label-content-color-hover: rgb(7, 130, 235);
-    }
+        .right-aligned-menu a:hover {
+            text-decoration: none !important;
+            color: rgb(7, 130, 235) !important;
+        }
 
-    .menu-item {
-      --spectrum-menu-item-label-content-color-hover: rgb(7, 130, 235);
-    }
-  `;
+        .menu-title:hover {
+            --spectrum-menu-item-label-content-color-hover: rgb(7, 130, 235);
+        }
 
-  constructor() {
-    super();
-    this.isOpen = false;
-    this.menuItems = [];
-  }
-
-
-  togglePopover() {
-    this.isOpen = !this.isOpen;
-  }
-
-  render() {
-    return html`
-      <sp-button
-        id="trigger"
-        placement="right"
-        class="menu-button inline-element menu-icon toggle-button ${this.isOpen ? 'active' : ''}"
-        @click="${this.togglePopover}"
-      >
-        <sp-icon-triple-gripper class="menu-icon" slot="icon"></sp-icon-triple-gripper>
-      </sp-button>
-
-      ${this.isOpen ? html`
-        <sp-overlay open trigger="trigger@click" placement="bottom" style="position: relative">
-          <sp-popover .open="${this.isOpen}">
-            <sp-dialog>
-              <sp-menu class="right-aligned-menu">
-                ${this.menuItems.map(item => html`
-                  <a href="${item.href}" class="menu-set">
-                    <sp-menu-item class="menu-item">${item.label}</sp-menu-item>
-                  </a>`)}
-              </sp-menu>
-            </sp-dialog>
-          </sp-popover>
-        </sp-overlay>
-      ` : ''}
+        .menu-item {
+            --spectrum-menu-item-label-content-color-hover: rgb(7, 130, 235);
+        }
     `;
-  }
-}
 
-customElements.define('menu-component', MenuComponent);
+    togglePopover() {
+        this.isOpen = !this.isOpen;
+    }
+
+    render() {
+        return html`
+            <sp-button
+                    id="trigger"
+                    placement="right"
+                    class="menu-button inline-element menu-icon toggle-button ${this.isOpen ? 'active' : ''}"
+                    @click="${this.togglePopover}"
+            >
+                <sp-icon-triple-gripper class="menu-icon" slot="icon"></sp-icon-triple-gripper>
+            </sp-button>
+
+            ${this.isOpen ? html`
+                <sp-overlay open trigger="trigger@click" placement="bottom" style="position: relative">
+                    <sp-popover .open="${this.isOpen}">
+                        <sp-dialog>
+                            <sp-menu class="right-aligned-menu">
+                                ${this.menuItems.map(item => html`
+                                    <a href="${item.href}" class="menu-set">
+                                        <sp-menu-item class="menu-item">${item.label}</sp-menu-item>
+                                    </a>`)}
+                            </sp-menu>
+                        </sp-dialog>
+                    </sp-popover>
+                </sp-overlay>
+            ` : ''}
+        `;
+    }
+}

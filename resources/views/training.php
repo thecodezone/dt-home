@@ -6,7 +6,7 @@ $this->layout( 'layouts/plugin' );
 <dt-tile>
 
 
-    <video-list training-data='<?php echo htmlspecialchars( $data ); ?>'></video-list>
+    <dt-home-video-list training-data='<?php echo htmlspecialchars( $data ); ?>'></dt-home-video-list>
 
 </dt-tile>
 

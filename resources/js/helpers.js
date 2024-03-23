@@ -26,11 +26,11 @@ export const isAndroid = function () {
  */
 export const loaded = function (callback) {
     if (document.readyState === 'complete') {
-        callback();
+        callback(document);
     } else {
         document.onreadystatechange = function () {
             if (document.readyState === "complete") {
-                callback();
+                callback(document);
             }
         }
     }
