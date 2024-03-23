@@ -20,7 +20,6 @@ $menu_items_json = wp_json_encode( $menu_items );
 ?>
 
 <sp-theme
-        theme="spectrum"
         color="light"
         scale="medium"
 >
