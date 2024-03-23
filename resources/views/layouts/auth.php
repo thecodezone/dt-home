@@ -1,6 +1,5 @@
-<sp-theme
-        theme="spectrum"
-        color="light"
+<sp-theme scale="medium"
+          color="light"
 >
     <div class="plugin cloak">
         <div class="plugin__main">
