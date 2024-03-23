@@ -1,4 +1,7 @@
 <?php
+/**
+ * @var string $home_url
+ */
 $this->layout( 'layouts/plugin' );
 ?>
 

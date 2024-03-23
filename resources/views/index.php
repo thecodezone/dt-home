@@ -15,17 +15,17 @@ $this->layout( 'layouts/plugin' );
 <overlay-trigger placement="right">
     <div slot="trigger" class="learn-more-text">
         <sp-icon-help></sp-icon-help> &nbsp;
-        <?php esc_attr_e( 'learn more', 'dt_home' ); ?>
+		<?php esc_attr_e( 'learn more', 'dt_home' ); ?>
     </div>
 
     <sp-tooltip slot="hover-content" open placement="right" class="spl-text">
         <!-- Dynamic content goes here -->
-        <?php
-        $text = "Copy this link and share it with people you are coaching.";
-        $escaped_text = esc_attr( $text ); // If you need to ensure the text is safe for HTML attributes
-        $newtext = wordwrap( $escaped_text, 40, "<br />\n" );
-        echo $newtext;
-        ?>
+		<?php
+		$text         = "Copy this link and share it with people you are coaching.";
+		$escaped_text = esc_attr( $text ); // If you need to ensure the text is safe for HTML attributes
+		$new_text     = wordwrap( $escaped_text, 40, "<br />\n" );
+		echo $new_text;
+		?>
     </sp-tooltip>
 </overlay-trigger>
 
@@ -34,7 +34,7 @@ $this->layout( 'layouts/plugin' );
     <!-- Add more app icons as needed -->
 </dt-home-app-grid>
 <div>
-    <?php echo $this->section( 'content' ) ?>
+	<?php echo $this->section( 'content' ) ?>
 </div>
 
 <?php $this->start( 'footer' ) ?>

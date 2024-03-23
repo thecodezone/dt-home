@@ -1,5 +1,14 @@
 <?php
 $this->layout( 'layouts/auth' );
+/**
+ * @var string $logo_path
+ * @var string $form_action
+ * @var string $error
+ * @var string $username
+ * @var string $password
+ * @var string $register_url
+ * @var string $reset_url
+ */
 ?>
 
 <div class="container login">

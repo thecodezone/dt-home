@@ -1,4 +1,11 @@
 <?php
+/**
+ * @var string $magic_link
+ * @var string $data
+ * @var string $app_url
+ * @var string $subpage_url
+ * @var WP_User $user
+ */
 $this->layout( 'layouts/plugin' );
 ?>
 
