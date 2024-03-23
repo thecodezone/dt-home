@@ -32,8 +32,6 @@ $r->condition( 'plugin', function ( Routes $r ) {
 	$r->get( 'home', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
 
 	$r->group( 'home', function ( Routes $r ) {
-		$r->get( '/users/{id}', [ UserController::class, 'show', [ 'middleware' => [ 'auth', 'can:list_users' ] ] ] );
-		$r->get( '/me', [ UserController::class, 'current', [ 'middleware' => 'auth' ] ] );
 		$r->get( '/login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
 		$r->post( '/login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
 		$r->get( '/register', [ RegisterController::class, 'register' ] );
