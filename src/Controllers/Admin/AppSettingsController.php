@@ -383,7 +383,7 @@ class AppSettingsController
      * @param int $id
      *
      * @return mixed
-     */``
+     */
     protected function get_data_by_id( $id )
     {
         $apps_array = get_option( 'dt_home_apps', [] );
