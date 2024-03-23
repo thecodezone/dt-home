@@ -20,7 +20,6 @@ dt-text[type] {
     width: initial;
     border: none !important;
     display: block;
-    margin-top: 22px;
 }
 
 dt-input.question__input {
