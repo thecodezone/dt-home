@@ -1,0 +1,462 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dt-home\n"
+"POT-Creation-Date: 2024-03-23 15:21-0500\n"
+"PO-Revision-Date: 2024-03-23 15:23-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: hi_IN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Poedit-Basepath: .\n"
+
+#: resources/views/auth/login.php:34
+#, fuzzy
+msgid "Username or Email Address"
+msgstr "उपयोगकर्ता नाम या ईमेल पता"
+
+#: resources/views/auth/login.php:40 resources/views/auth/register.php:43
+msgid "Password"
+msgstr "पासवर्ड"
+
+#: resources/views/auth/login.php:49
+msgid "Login"
+msgstr "लॉगिन"
+
+#: resources/views/auth/login.php:55 resources/views/auth/login.php:56
+msgid "Create Account"
+msgstr "खाता बनाएँ"
+
+#: resources/views/auth/login.php:68
+msgid "Forgot Password?"
+msgstr "पासवर्ड भूल गए?"
+
+#: resources/views/auth/register.php:35
+msgid "Username"
+msgstr "उपयोगकर्ता नाम"
+
+#: resources/views/auth/register.php:39
+msgid "Email"
+msgstr "ईमेल"
+
+#: resources/views/auth/register.php:48
+msgid "Confirm Password"
+msgstr "पासवर्ड पुनः दर्ज करें"
+
+#: resources/views/auth/register.php:57
+msgid "Register"
+msgstr "रजिस्टर"
+
+#: resources/views/auth/register.php:67
+#, fuzzy
+msgid "Back to Login"
+msgstr "लॉगिन पर वापस जाएं"
+
+#: resources/views/hidden-apps.php:30
+#, fuzzy
+msgid "Visit subpage"
+msgstr "उपपृष्ठ पर जाएं"
+
+#: resources/views/index.php:18
+#, fuzzy
+msgid "learn more"
+msgstr "और जानो"
+
+#: resources/views/index.php:43
+#, fuzzy
+msgid "Hidden Apps"
+msgstr "छिपे हुए ऐप्स"
+
+#: resources/views/layouts/plugin.php:11 resources/views/settings/create.php:24
+#: resources/views/settings/edit.php:25
+#: src/Providers/AdminServiceProvider.php:43
+#, fuzzy
+msgid "Apps"
+msgstr "ऐप्स"
+
+#: resources/views/layouts/plugin.php:12 resources/views/training.php:8
+#, fuzzy
+msgid "Training"
+msgstr "प्रशिक्षण"
+
+#: resources/views/layouts/plugin.php:13
+msgid "Log Out"
+msgstr "लॉग आउट"
+
+#: resources/views/layouts/plugin.php:17
+#, fuzzy
+msgid "Disciple.Tools"
+msgstr "शिष्य.उपकरण"
+
+#: resources/views/layouts/settings.php:12
+#: src/Providers/AdminServiceProvider.php:30
+#: src/Providers/AdminServiceProvider.php:31
+#, fuzzy
+msgid "Home Screen"
+msgstr "होम स्क्रीन"
+
+#: resources/views/layouts/settings.php:15
+#, fuzzy
+msgid "Part of the DT Toolbox"
+msgstr "डीटी टूलबॉक्स का हिस्सा"
+
+#: resources/views/settings/app.php:17
+#, fuzzy
+msgid "Add App"
+msgstr "ऐप जोड़ें"
+
+#: resources/views/settings/app.php:25 resources/views/settings/create.php:31
+#: resources/views/settings/edit.php:33
+#: resources/views/settings/training.php:25
+msgid "Name"
+msgstr "नाम"
+
+#: resources/views/settings/app.php:26 resources/views/settings/create.php:37
+#: resources/views/settings/edit.php:40
+msgid "Type"
+msgstr "टाइप"
+
+#: resources/views/settings/app.php:27
+#, fuzzy
+msgid "Icon"
+msgstr "मूर्ति"
+
+#: resources/views/settings/app.php:28 resources/views/settings/create.php:63
+#: resources/views/settings/edit.php:85
+#, fuzzy
+msgid "Slug"
+msgstr "अलसाना"
+
+#: resources/views/settings/app.php:29 resources/views/settings/training.php:28
+msgid "Action"
+msgstr "कार्य"
+
+#: resources/views/settings/app.php:46 resources/views/settings/training.php:41
+#, fuzzy
+msgid "Up"
+msgstr "ऊपर"
+
+#: resources/views/settings/app.php:49
+#, fuzzy
+msgid "Unhide"
+msgstr "सामने लाएँ"
+
+#: resources/views/settings/app.php:51
+msgid "Hide"
+msgstr "छिपाना"
+
+#: resources/views/settings/app.php:53 resources/views/settings/training.php:42
+msgid "Edit"
+msgstr "संपादित करें"
+
+#: resources/views/settings/app.php:55 resources/views/settings/training.php:45
+#, fuzzy
+msgid "Down"
+msgstr "नीचे"
+
+#: resources/views/settings/create.php:40 resources/views/settings/edit.php:44
+msgid "Please select"
+msgstr "कृपया चुनें"
+
+#: resources/views/settings/create.php:41 resources/views/settings/edit.php:47
+#, fuzzy
+msgid "Web View"
+msgstr "वेब दृश्य"
+
+#: resources/views/settings/create.php:47 resources/views/settings/edit.php:58
+#, fuzzy
+msgid "Icon (File Upload)"
+msgstr "आइकन (फ़ाइल अपलोड)"
+
+#: resources/views/settings/create.php:52 resources/views/settings/edit.php:71
+#, fuzzy
+msgid "Change Icon"
+msgstr "आइकन बदलें"
+
+#: resources/views/settings/create.php:57 resources/views/settings/edit.php:77
+msgid "URL"
+msgstr "URL"
+
+#: resources/views/settings/create.php:69 resources/views/settings/edit.php:93
+#, fuzzy
+msgid "Is Hidden"
+msgstr "छिपा हुआ है"
+
+#: resources/views/settings/create.php:82 resources/views/settings/edit.php:106
+#: resources/views/settings/training/create.php:50
+#: resources/views/settings/training/edit.php:55
+msgid "Cancel"
+msgstr "कैंसिल करें"
+
+#: resources/views/settings/create.php:84
+#: resources/views/settings/training/create.php:52
+msgid "Submit"
+msgstr "जमा करें"
+
+#: resources/views/settings/create.php:95 resources/views/settings/edit.php:119
+msgid "Close"
+msgstr "बंद"
+
+#: resources/views/settings/edit.php:50
+msgid "Custom"
+msgstr "रुचि अनुसरणीय"
+
+#: resources/views/settings/edit.php:108
+#: resources/views/settings/general.php:35
+#: resources/views/settings/training/edit.php:57
+msgid "Update"
+msgstr "अपडेट करें"
+
+#: resources/views/settings/general.php:15
+#, fuzzy
+msgid "Require users to login to access the home screen?"
+msgstr "होम स्क्रीन तक पहुंचने के लिए उपयोगकर्ताओं को लॉगिन करने की आवश्यकता है?"
+
+#: resources/views/settings/training.php:17
+#, fuzzy
+msgid "Add Training"
+msgstr "प्रशिक्षण जोड़ें"
+
+#: resources/views/settings/training.php:26
+#, fuzzy
+msgid "Embed Code"
+msgstr "एम्बेड कोड"
+
+#: resources/views/settings/training.php:27
+#, fuzzy
+msgid "Anchor"
+msgstr "लंगर"
+
+#: resources/views/settings/training.php:44
+msgid "Delete"
+msgstr "हटाएं"
+
+#: resources/views/subpage.php:15
+#, fuzzy
+msgid "Visit home"
+msgstr "घर का दौरा करें"
+
+#: src/Controllers/LoginController.php:49
+#: src/Controllers/RegisterController.php:55
+#, fuzzy
+msgid "An unexpected error has occurred."
+msgstr "कोई अनपेक्षित त्रुटि उत्पन्न हुई."
+
+#: src/Middleware/Nonce.php:20
+#, fuzzy
+msgid "Could not verify request."
+msgstr "अनुरोध सत्यापित नहीं किया जा सका."
+
+#: src/PostTypes/StarterPostType.php:106
+#, fuzzy
+msgid "Assigned to me"
+msgstr "मुझे सौंपा गया"
+
+#: src/PostTypes/StarterPostType.php:114 src/PostTypes/StarterPostType.php:158
+msgid "All"
+msgstr "सभी"
+
+#: src/PostTypes/StarterPostType.php:150
+#, fuzzy
+msgid "All By Status"
+msgstr "सभी स्थिति के अनुसार"
+
+#: src/PostTypes/StarterPostType.php:257 src/PostTypes/StarterPostType.php:273
+#: src/Providers/PostTypeServiceProvider.php:42
+#, fuzzy
+msgid "Starter"
+msgstr "स्टार्टर"
+
+#: src/PostTypes/StarterPostType.php:258 src/PostTypes/StarterPostType.php:274
+#, fuzzy
+msgid "Starters"
+msgstr "शुरुआत"
+
+#: src/PostTypes/StarterPostType.php:289
+#, fuzzy
+msgid "My Starter Role"
+msgstr "मेरी स्टार्टर भूमिका"
+
+#: src/PostTypes/StarterPostType.php:327
+msgid "Status"
+msgstr "ऑर्डर स्थिति"
+
+#: src/PostTypes/StarterPostType.php:328
+#, fuzzy
+msgid "Set the current status."
+msgstr "वर्तमान स्थिति सेट करें।"
+
+#: src/PostTypes/StarterPostType.php:332
+msgid "Inactive"
+msgstr "Inaktiv"
+
+#: src/PostTypes/StarterPostType.php:333
+#, fuzzy
+msgid "No longer active."
+msgstr "अब सक्रिय नहीं है।"
+
+#: src/PostTypes/StarterPostType.php:337
+msgid "Active"
+msgstr "सक्रिय"
+
+#: src/PostTypes/StarterPostType.php:338
+#, fuzzy
+msgid "Is active."
+msgstr "सक्रिय है।"
+
+#: src/PostTypes/StarterPostType.php:348
+#, fuzzy
+msgid "Assigned To"
+msgstr "को सौंपा गया"
+
+#: src/PostTypes/StarterPostType.php:349
+#, fuzzy
+msgid "Select the main person who is responsible for reporting on this record."
+msgstr "उस मुख्य व्यक्ति का चयन करें जो इस रिकॉर्ड पर रिपोर्टिंग के लिए ज़िम्मेदार है."
+
+#: src/PostTypes/StarterPostType.php:362
+msgid "Start Date"
+msgstr "प्रारंभ दिनांक"
+
+#: src/PostTypes/StarterPostType.php:370
+msgid "End Date"
+msgstr "अंतिम दिनांक"
+
+#: src/PostTypes/StarterPostType.php:378
+#, fuzzy
+msgid "Multi-Select"
+msgstr "बहु-चयन"
+
+#: src/PostTypes/StarterPostType.php:379
+#, fuzzy
+msgid "Multi Select Field"
+msgstr "बहु चयन फ़ील्ड"
+
+#: src/PostTypes/StarterPostType.php:383
+#, fuzzy
+msgid "Item 1"
+msgstr "आइटम 1"
+
+#: src/PostTypes/StarterPostType.php:384
+#, fuzzy
+msgid "Item 1."
+msgstr "आइटम 1."
+
+#: src/PostTypes/StarterPostType.php:387
+#, fuzzy
+msgid "Item 2"
+msgstr "आइटम 2"
+
+#: src/PostTypes/StarterPostType.php:388
+#, fuzzy
+msgid "Item 2."
+msgstr "आइटम 2."
+
+#: src/PostTypes/StarterPostType.php:391
+#, fuzzy
+msgid "Item 3"
+msgstr "आइटम 3"
+
+#: src/PostTypes/StarterPostType.php:392
+#, fuzzy
+msgid "Item 3."
+msgstr "आइटम 3."
+
+#: src/PostTypes/StarterPostType.php:408 src/PostTypes/StarterPostType.php:417
+msgid "Locations"
+msgstr "स्थान"
+
+#: src/PostTypes/StarterPostType.php:409
+#, fuzzy
+msgid "The general location where this contact is located."
+msgstr "वह सामान्य स्थान, जहाँ यह संपर्क स्थित है."
+
+#: src/PostTypes/StarterPostType.php:419
+#, fuzzy
+msgid "The general location where this record is located."
+msgstr "वह सामान्य स्थान, जहाँ यह रिकॉर्ड स्थित है."
+
+#: src/PostTypes/StarterPostType.php:427
+#, fuzzy
+msgid "Address"
+msgstr "पता"
+
+#: src/PostTypes/StarterPostType.php:451
+#, fuzzy
+msgid "Parents"
+msgstr "माता-पिता"
+
+#: src/PostTypes/StarterPostType.php:462
+#, fuzzy
+msgid "Peers"
+msgstr "साथियों"
+
+#: src/PostTypes/StarterPostType.php:473
+#, fuzzy
+msgid "Children"
+msgstr "बच्चे"
+
+#: src/PostTypes/StarterPostType.php:490
+#, fuzzy
+msgid "People Groups"
+msgstr "लोग समूह"
+
+#: src/PostTypes/StarterPostType.php:491
+#, fuzzy
+msgid "The people groups connected to this record."
+msgstr "इस रिकॉर्ड से जुड़े लोग समूह."
+
+#: src/PostTypes/StarterPostType.php:501
+msgid "Contacts"
+msgstr "संपर्क"
+
+#: src/PostTypes/StarterPostType.php:561
+#, fuzzy
+msgid "Connections"
+msgstr "कनेक्शन"
+
+#: src/PostTypes/StarterPostType.php:562
+msgid "Other"
+msgstr "अन्य"
+
+#: src/PostTypes/StarterPostType.php:583
+#, fuzzy
+msgid "Custom Section Contact"
+msgstr "कस्टम अनुभाग संपर्क"
+
+#: src/Providers/AdminServiceProvider.php:39
+msgid "General"
+msgstr "सामान्य"
+
+#: src/Providers/AdminServiceProvider.php:47
+#, fuzzy
+msgid "Training Videos"
+msgstr "प्रशिक्षण वीडियो"
+
+#: src/Providers/PostTypeServiceProvider.php:47
+#, fuzzy
+msgid "Default starter functionality"
+msgstr "डिफ़ॉल्ट स्टार्टर कार्यक्षमता"
+
+#. Plugin Name of the plugin/theme
+#, fuzzy
+msgid "DT Home"
+msgstr "डीटी होम"
+
+#. Plugin URI of the plugin/theme
+#, fuzzy
+msgid "https://github.com/TheCodeZone/dt_home"
+msgstr "https://github.com/TheCodeZone/dt_home"
+
+#. Description of the plugin/theme
+#, fuzzy
+msgid "An app home screen for disciple.tools. Part of the DT Toolbox."
+msgstr "disciple.tools के लिए एक ऐप होम स्क्रीन। डीटी टूलबॉक्स का हिस्सा।"
+
+#. Author URI of the plugin/theme
+#, fuzzy
+msgid "https://github.com/TheCodeZone"
+msgstr "https://github.com/TheCodeZone"

@@ -1,0 +1,512 @@
+# Copyright (C) 2022 
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: DT Home 0.1\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dt-home\n"
+"POT-Creation-Date: 2024-03-23 15:23-0500\n"
+"PO-Revision-Date: 2024-03-23 15:25-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: bn_IN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.2\n"
+"X-Domain: dt_home\n"
+"X-Poedit-Mapping: php=gettext:PHP\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: dt-home.php\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.min.js\n"
+"X-Poedit-SearchPathExcluded-1: node_modules\n"
+"X-Poedit-SearchPathExcluded-2: vendor\n"
+"X-Poedit-SearchPathExcluded-3: tmp-528879b2b4/source/vendor\n"
+"X-Poedit-SearchPathExcluded-4: tmp-528879b2b4/destination/vendor\n"
+"X-Poedit-SearchPathExcluded-5: resources/js\n"
+"X-Poedit-SearchPathExcluded-6: dist\n"
+"X-Poedit-SearchPathExcluded-7: vendor-scoped\n"
+"X-Poedit-SearchPathExcluded-8: includes\n"
+"X-Poedit-SearchPathExcluded-9: bible-plugin.php\n"
+
+#: resources/views/auth/login.php:34
+#, fuzzy
+msgid "Username or Email Address"
+msgstr "ব্যবহারকারীর নাম বা ইমেল ঠিকানা"
+
+#: resources/views/auth/login.php:40 resources/views/auth/register.php:43
+#, fuzzy
+msgid "Password"
+msgstr "পাসওয়ার্ড"
+
+#: resources/views/auth/login.php:49
+#, fuzzy
+msgid "Login"
+msgstr "লগইন"
+
+#: resources/views/auth/login.php:55 resources/views/auth/login.php:56
+#, fuzzy
+msgid "Create Account"
+msgstr "অ্যাকাউন্ট তৈরি করুন"
+
+#: resources/views/auth/login.php:68
+#, fuzzy
+msgid "Forgot Password?"
+msgstr "পাসওয়ার্ড ভুলে গেছেন?"
+
+#: resources/views/auth/register.php:35
+#, fuzzy
+msgid "Username"
+msgstr "ব্যবহারকারীর নাম"
+
+#: resources/views/auth/register.php:39
+#, fuzzy
+msgid "Email"
+msgstr "ইমেল"
+
+#: resources/views/auth/register.php:48
+#, fuzzy
+msgid "Confirm Password"
+msgstr "পাসওয়ার্ড নিশ্চিত করুন"
+
+#: resources/views/auth/register.php:57
+#, fuzzy
+msgid "Register"
+msgstr "নিবন্ধন"
+
+#: resources/views/auth/register.php:67
+#, fuzzy
+msgid "Back to Login"
+msgstr "লগইন এ ফিরে যান"
+
+#: resources/views/hidden-apps.php:30
+#, fuzzy
+msgid "Visit subpage"
+msgstr "উপপাতা দেখুন"
+
+#: resources/views/index.php:18
+#, fuzzy
+msgid "learn more"
+msgstr "আরও শেখো"
+
+#: resources/views/index.php:43
+#, fuzzy
+msgid "Hidden Apps"
+msgstr "লুকানো অ্যাপস"
+
+#: resources/views/layouts/plugin.php:11 resources/views/settings/create.php:24
+#: resources/views/settings/edit.php:25
+#: src/Providers/AdminServiceProvider.php:43
+#, fuzzy
+msgid "Apps"
+msgstr "অ্যাপস"
+
+#: resources/views/layouts/plugin.php:12 resources/views/training.php:8
+#, fuzzy
+msgid "Training"
+msgstr "প্রশিক্ষণ"
+
+#: resources/views/layouts/plugin.php:13
+#, fuzzy
+msgid "Log Out"
+msgstr "লগ আউট করুন"
+
+#: resources/views/layouts/plugin.php:17
+#, fuzzy
+msgid "Disciple.Tools"
+msgstr "শিষ্য.সরঞ্জাম"
+
+#: resources/views/layouts/settings.php:12
+#: src/Providers/AdminServiceProvider.php:30
+#: src/Providers/AdminServiceProvider.php:31
+#, fuzzy
+msgid "Home Screen"
+msgstr "হোম স্ক্রিন"
+
+#: resources/views/layouts/settings.php:15
+#, fuzzy
+msgid "Part of the DT Toolbox"
+msgstr "ডিটি টুলবক্সের অংশ"
+
+#: resources/views/settings/app.php:17
+#, fuzzy
+msgid "Add App"
+msgstr "অ্যাপ যোগ করুন"
+
+#: resources/views/settings/app.php:25 resources/views/settings/create.php:31
+#: resources/views/settings/edit.php:33
+#: resources/views/settings/training.php:25
+#, fuzzy
+msgid "Name"
+msgstr "নাম"
+
+#: resources/views/settings/app.php:26 resources/views/settings/create.php:37
+#: resources/views/settings/edit.php:40
+#, fuzzy
+msgid "Type"
+msgstr "টাইপ"
+
+#: resources/views/settings/app.php:27
+#, fuzzy
+msgid "Icon"
+msgstr "আইকন"
+
+#: resources/views/settings/app.php:28 resources/views/settings/create.php:63
+#: resources/views/settings/edit.php:85
+#, fuzzy
+msgid "Slug"
+msgstr "স্লাগ"
+
+#: resources/views/settings/app.php:29 resources/views/settings/training.php:28
+#, fuzzy
+msgid "Action"
+msgstr "ক্রিয়া"
+
+#: resources/views/settings/app.php:46 resources/views/settings/training.php:41
+#, fuzzy
+msgid "Up"
+msgstr "আপ"
+
+#: resources/views/settings/app.php:49
+#, fuzzy
+msgid "Unhide"
+msgstr "লুকিয়ে রাখুন"
+
+#: resources/views/settings/app.php:51
+#, fuzzy
+msgid "Hide"
+msgstr "লুকান"
+
+#: resources/views/settings/app.php:53 resources/views/settings/training.php:42
+#, fuzzy
+msgid "Edit"
+msgstr "সম্পাদনা"
+
+#: resources/views/settings/app.php:55 resources/views/settings/training.php:45
+#, fuzzy
+msgid "Down"
+msgstr "ডাউন"
+
+#: resources/views/settings/create.php:40 resources/views/settings/edit.php:44
+#, fuzzy
+msgid "Please select"
+msgstr "দয়া করে নির্বাচন করুন"
+
+#: resources/views/settings/create.php:41 resources/views/settings/edit.php:47
+#, fuzzy
+msgid "Web View"
+msgstr "ওয়েব ভিউ"
+
+#: resources/views/settings/create.php:47 resources/views/settings/edit.php:58
+#, fuzzy
+msgid "Icon (File Upload)"
+msgstr "আইকন (ফাইল আপলোড)"
+
+#: resources/views/settings/create.php:52 resources/views/settings/edit.php:71
+#, fuzzy
+msgid "Change Icon"
+msgstr "আইকন পরিবর্তন করুন"
+
+#: resources/views/settings/create.php:57 resources/views/settings/edit.php:77
+#, fuzzy
+msgid "URL"
+msgstr "ইউআরএল"
+
+#: resources/views/settings/create.php:69 resources/views/settings/edit.php:93
+#, fuzzy
+msgid "Is Hidden"
+msgstr "লুকানো আছে"
+
+#: resources/views/settings/create.php:82 resources/views/settings/edit.php:106
+#: resources/views/settings/training/create.php:50
+#: resources/views/settings/training/edit.php:55
+#, fuzzy
+msgid "Cancel"
+msgstr "বাতিল"
+
+#: resources/views/settings/create.php:84
+#: resources/views/settings/training/create.php:52
+#, fuzzy
+msgid "Submit"
+msgstr "জমা"
+
+#: resources/views/settings/create.php:95 resources/views/settings/edit.php:119
+#, fuzzy
+msgid "Close"
+msgstr "বন্ধ"
+
+#: resources/views/settings/edit.php:50
+#, fuzzy
+msgid "Custom"
+msgstr "কাস্টম"
+
+#: resources/views/settings/edit.php:108
+#: resources/views/settings/general.php:35
+#: resources/views/settings/training/edit.php:57
+#, fuzzy
+msgid "Update"
+msgstr "আধুনিকীকরণ"
+
+#: resources/views/settings/general.php:15
+#, fuzzy
+msgid "Require users to login to access the home screen?"
+msgstr "হোম স্ক্রিন অ্যাক্সেস করতে ব্যবহারকারীদের লগইন করতে হবে?"
+
+#: resources/views/settings/training.php:17
+#, fuzzy
+msgid "Add Training"
+msgstr "প্রশিক্ষণ যোগ করুন"
+
+#: resources/views/settings/training.php:26
+#, fuzzy
+msgid "Embed Code"
+msgstr "কোড এম্বেড করুন"
+
+#: resources/views/settings/training.php:27
+#, fuzzy
+msgid "Anchor"
+msgstr "নোঙ্গর"
+
+#: resources/views/settings/training.php:44
+#, fuzzy
+msgid "Delete"
+msgstr "বিলোপ"
+
+#: resources/views/subpage.php:15
+#, fuzzy
+msgid "Visit home"
+msgstr "বাড়িতে যান"
+
+#: src/Controllers/LoginController.php:49
+#: src/Controllers/RegisterController.php:55
+#, fuzzy
+msgid "An unexpected error has occurred."
+msgstr "একটি অপ্রত্যাশিত ত্রুটি সংঘটিত হয়েছে।"
+
+#: src/Middleware/Nonce.php:20
+#, fuzzy
+msgid "Could not verify request."
+msgstr "অনুরোধ যাচাই করা যায়নি।"
+
+#: src/PostTypes/StarterPostType.php:106
+#, fuzzy
+msgid "Assigned to me"
+msgstr "আমাকে অর্পণ করা হয়েছে"
+
+#: src/PostTypes/StarterPostType.php:114 src/PostTypes/StarterPostType.php:158
+#, fuzzy
+msgid "All"
+msgstr "সকল"
+
+#: src/PostTypes/StarterPostType.php:150
+#, fuzzy
+msgid "All By Status"
+msgstr "সব স্ট্যাটাস অনুযায়ী"
+
+#: src/PostTypes/StarterPostType.php:257 src/PostTypes/StarterPostType.php:273
+#: src/Providers/PostTypeServiceProvider.php:42
+#, fuzzy
+msgid "Starter"
+msgstr "স্টার্টার"
+
+#: src/PostTypes/StarterPostType.php:258 src/PostTypes/StarterPostType.php:274
+#, fuzzy
+msgid "Starters"
+msgstr "প্রারম্ভিক"
+
+#: src/PostTypes/StarterPostType.php:289
+#, fuzzy
+msgid "My Starter Role"
+msgstr "আমার স্টার্টার রোল"
+
+#: src/PostTypes/StarterPostType.php:327
+#, fuzzy
+msgid "Status"
+msgstr "স্থিতি"
+
+#: src/PostTypes/StarterPostType.php:328
+#, fuzzy
+msgid "Set the current status."
+msgstr "বর্তমান স্থিতি সেট করুন।"
+
+#: src/PostTypes/StarterPostType.php:332
+#, fuzzy
+msgid "Inactive"
+msgstr "নিষ্ক্রিয়"
+
+#: src/PostTypes/StarterPostType.php:333
+#, fuzzy
+msgid "No longer active."
+msgstr "এখন আর সক্রিয় নেই।"
+
+#: src/PostTypes/StarterPostType.php:337
+#, fuzzy
+msgid "Active"
+msgstr "সক্রিয়"
+
+#: src/PostTypes/StarterPostType.php:338
+#, fuzzy
+msgid "Is active."
+msgstr "সক্রিয় আছে।"
+
+#: src/PostTypes/StarterPostType.php:348
+#, fuzzy
+msgid "Assigned To"
+msgstr "অর্পণ করা হয়েছে"
+
+#: src/PostTypes/StarterPostType.php:349
+#, fuzzy
+msgid "Select the main person who is responsible for reporting on this record."
+msgstr "এই রেকর্ডে প্রতিবেদন করার জন্য দায়বদ্ধ প্রধান ব্যক্তিকে নির্বাচন করুন।"
+
+#: src/PostTypes/StarterPostType.php:362
+#, fuzzy
+msgid "Start Date"
+msgstr "শুরুর তারিখ"
+
+#: src/PostTypes/StarterPostType.php:370
+#, fuzzy
+msgid "End Date"
+msgstr "সমাপ্তির তারিখ"
+
+#: src/PostTypes/StarterPostType.php:378
+#, fuzzy
+msgid "Multi-Select"
+msgstr "মাল্টি-সিলেক্ট করুন"
+
+#: src/PostTypes/StarterPostType.php:379
+#, fuzzy
+msgid "Multi Select Field"
+msgstr "মাল্টি সিলেক্ট ফিল্ড"
+
+#: src/PostTypes/StarterPostType.php:383
+#, fuzzy
+msgid "Item 1"
+msgstr "আইটেম 1"
+
+#: src/PostTypes/StarterPostType.php:384
+#, fuzzy
+msgid "Item 1."
+msgstr "আইটেম 1."
+
+#: src/PostTypes/StarterPostType.php:387
+#, fuzzy
+msgid "Item 2"
+msgstr "আইটেম 2"
+
+#: src/PostTypes/StarterPostType.php:388
+#, fuzzy
+msgid "Item 2."
+msgstr "আইটেম 2."
+
+#: src/PostTypes/StarterPostType.php:391
+#, fuzzy
+msgid "Item 3"
+msgstr "আইটেম 3"
+
+#: src/PostTypes/StarterPostType.php:392
+#, fuzzy
+msgid "Item 3."
+msgstr "আইটেম 3."
+
+#: src/PostTypes/StarterPostType.php:408 src/PostTypes/StarterPostType.php:417
+#, fuzzy
+msgid "Locations"
+msgstr "অবস্থান"
+
+#: src/PostTypes/StarterPostType.php:409
+#, fuzzy
+msgid "The general location where this contact is located."
+msgstr "সাধারণ অবস্থান যেখানে এই পরিচিতিটি অবস্থিত।"
+
+#: src/PostTypes/StarterPostType.php:419
+#, fuzzy
+msgid "The general location where this record is located."
+msgstr "সাধারণ অবস্থান যেখানে এই রেকর্ডটি অবস্থিত।"
+
+#: src/PostTypes/StarterPostType.php:427
+#, fuzzy
+msgid "Address"
+msgstr "ঠিকানা"
+
+#: src/PostTypes/StarterPostType.php:451
+#, fuzzy
+msgid "Parents"
+msgstr "বাবা-মা"
+
+#: src/PostTypes/StarterPostType.php:462
+#, fuzzy
+msgid "Peers"
+msgstr "সহকর্মী"
+
+#: src/PostTypes/StarterPostType.php:473
+#, fuzzy
+msgid "Children"
+msgstr "ছেলেমেয়েদের"
+
+#: src/PostTypes/StarterPostType.php:490
+#, fuzzy
+msgid "People Groups"
+msgstr "পিপল গ্রুপ"
+
+#: src/PostTypes/StarterPostType.php:491
+#, fuzzy
+msgid "The people groups connected to this record."
+msgstr "এই রেকর্ডের সঙ্গে যুক্ত ব্যক্তি গোষ্ঠী।"
+
+#: src/PostTypes/StarterPostType.php:501
+#, fuzzy
+msgid "Contacts"
+msgstr "যোগাযোগ"
+
+#: src/PostTypes/StarterPostType.php:561
+#, fuzzy
+msgid "Connections"
+msgstr "কানেকশন"
+
+#: src/PostTypes/StarterPostType.php:562
+#, fuzzy
+msgid "Other"
+msgstr "অন্যান্য"
+
+#: src/PostTypes/StarterPostType.php:583
+#, fuzzy
+msgid "Custom Section Contact"
+msgstr "কাস্টম বিভাগ যোগাযোগ"
+
+#: src/Providers/AdminServiceProvider.php:39
+#, fuzzy
+msgid "General"
+msgstr "সাধারণ"
+
+#: src/Providers/AdminServiceProvider.php:47
+#, fuzzy
+msgid "Training Videos"
+msgstr "প্রশিক্ষণ ভিডিও"
+
+#: src/Providers/PostTypeServiceProvider.php:47
+#, fuzzy
+msgid "Default starter functionality"
+msgstr "ডিফল্ট স্টার্টার কার্যকারিতা"
+
+#. Plugin Name of the plugin/theme
+#, fuzzy
+msgid "DT Home"
+msgstr "ডিটি হোম"
+
+#. Plugin URI of the plugin/theme
+#, fuzzy
+msgid "https://github.com/TheCodeZone/dt_home"
+msgstr "https://github.com/TheCodeZone/dt_home"
+
+#. Description of the plugin/theme
+#, fuzzy
+msgid "An app home screen for disciple.tools. Part of the DT Toolbox."
+msgstr "শিষ্য.সরঞ্জামগুলির জন্য একটি অ্যাপ্লিকেশন হোম স্ক্রিন। ডিটি টুলবক্সের অংশ।"
+
+#. Author URI of the plugin/theme
+#, fuzzy
+msgid "https://github.com/TheCodeZone"
+msgstr "https://github.com/TheCodeZone"
