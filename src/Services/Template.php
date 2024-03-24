@@ -2,6 +2,7 @@
 
 namespace DT\Home\Services;
 
+use function DT\Home\namespace_string;
 use function DT\Home\Kucrut\Vite\enqueue_asset;
 use function DT\Home\plugin_path;
 use function DT\Home\view;
@@ -19,15 +20,27 @@ class Template {
 	 * Reset asset queue
 	 * @return void
 	 */
-	public function reset_asset_queue() {
+	/**
+	 * Reset asset queue
+	 * @return void
+	 */
+	private function filter_asset_queue() {
 		global $wp_scripts;
 		global $wp_styles;
 
+		$whitelist = apply_filters( namespace_string( 'allowed_scripts' ), [] );
 		foreach ( $wp_scripts->registered as $script ) {
+			if ( in_array( $script->handle, $whitelist ) ) {
+				continue;
+			}
 			wp_dequeue_script( $script->handle );
 		}
 
+		$whitelist = apply_filters( namespace_string( 'allowed_styles' ), [] );
 		foreach ( $wp_styles->registered as $style ) {
+			if ( in_array( $script->handle, $whitelist ) ) {
+				continue;
+			}
 			wp_dequeue_style( $style->handle );
 		}
 	}
@@ -47,7 +60,7 @@ class Template {
 	 * @return void
 	 */
 	public function wp_enqueue_scripts(): void {
-		$this->reset_asset_queue();
+		$this->filter_asset_queue();
 
 		enqueue_asset(
 			plugin_path( '/dist' ),
