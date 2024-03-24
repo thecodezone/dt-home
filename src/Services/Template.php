@@ -7,13 +7,29 @@ use function DT\Home\plugin_path;
 use function DT\Home\view;
 
 class Template {
-
 	/**
 	 * Allow access to blank template
 	 * @return bool
 	 */
 	public function blank_access(): bool {
 		return true;
+	}
+
+	/**
+	 * Reset asset queue
+	 * @return void
+	 */
+	public function reset_asset_queue() {
+		global $wp_scripts;
+		global $wp_styles;
+
+		foreach ( $wp_scripts->registered as $script ) {
+			wp_dequeue_script( $script->handle );
+		}
+
+		foreach ( $wp_styles->registered as $style ) {
+			wp_dequeue_style( $style->handle );
+		}
 	}
 
 	/**
@@ -31,7 +47,8 @@ class Template {
 	 * @return void
 	 */
 	public function wp_enqueue_scripts(): void {
-		wp_dequeue_style( 'site-css' );
+		$this->reset_asset_queue();
+
 		enqueue_asset(
 			plugin_path( '/dist' ),
 			'resources/js/plugin.js',
