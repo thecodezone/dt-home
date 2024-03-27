@@ -15,7 +15,7 @@ class HomeController
         $user = wp_get_current_user();
         $subpage_url = magic_url('subpage', $key);
 
-        $apps_array = get_option('dt_home_apps', []);
+        $apps_array = get_user_option('dt_home_apps', wp_get_current_user());
         //dd($apps_array);
         // Fallback to default option if user option is not set
         if ($apps_array === false) {
