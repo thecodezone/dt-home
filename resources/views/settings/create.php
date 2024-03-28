@@ -95,6 +95,7 @@ echo '</script>';
     <button class="btn btn-secondary" onclick="hidePopup()"><?php esc_html_e('Close') ?></button>
 </div>
 
+
 <?php $this->start('right') ?>
 
 <!-- Add some content to the right side -->
