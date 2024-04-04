@@ -22,15 +22,11 @@ import '@spectrum-web-components/action-menu/sp-action-menu.js';
 import '@spectrum-web-components/tooltip/sp-tooltip.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-help.js';
 import '@spectrum-web-components/overlay/sync/overlay-trigger.js';
-import '@spectrum-web-components/action-menu/sp-action-menu.js';
-import '@spectrum-web-components/tooltip/sp-tooltip.js';
-import '@spectrum-web-components/icons-workflow/icons/sp-icon-help.js';
-import '@spectrum-web-components/overlay/sync/overlay-trigger.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-view-grid.js';
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-close.js';
 import '@spectrum-web-components/field-group/sp-field-group.js';
 import '@spectrum-web-components/textfield/sp-textfield.js';
-
+import '@spectrum-web-components/dialog/sp-dialog-base.js';
 /**
  * Web Components
  */
@@ -57,7 +53,7 @@ import submitFormOnEnter from "./dom-hooks/submit-form-on-enter.js";
  * Bootstrap the application
  */
 loaded((document) => {
-    document.querySelectorAll("form").forEach(submitFormOnEnter);
-    document.querySelectorAll(".cloak").forEach(decloak);
-    document.querySelectorAll('body').forEach(handleDomLoaded);
+  document.querySelectorAll("form").forEach(submitFormOnEnter);
+  document.querySelectorAll(".cloak").forEach(decloak);
+  document.querySelectorAll('body').forEach(handleDomLoaded);
 });
