@@ -21,19 +21,12 @@ class RouterServiceProvider extends ServiceProvider {
 		] );
 
 		add_filter( Router\namespace_string( "routes" ), [ $this, 'include_route_file' ], 1 );
-		add_action( Router\namespace_string( "render" ), [ $this, 'render_response' ], 10, 2 );
 	}
 
 	/**
 	 * DT is ready. Do any setup needed after the theme is ready.
 	 */
 	public function boot(): void {
-		if ( is_admin() ) {
-			return;
-		}
-
-		apply_filters( namespace_string( 'middleware' ), $this->container->make( Stack::class ) )
-			->run();
 	}
 
 	/**
@@ -48,15 +41,5 @@ class RouterServiceProvider extends ServiceProvider {
 		include routes_path( 'web.php' );
 
 		return $r;
-	}
-
-	public function render_response( Response $response ) {
-		if ( apply_filters( 'dt_blank_access', false ) ) {
-			add_action( 'dt_blank_body', function () use ( $response ) {
-				echo $response->getContent();
-			} );
-		} else {
-			$response->send();
-		}
 	}
 }

@@ -211,3 +211,7 @@ function magic_url( $root, $type, $id ): string {
 		$app["type"]
 	);
 }
+
+function namespace_string( string $string ) {
+	return Plugin::class . '\\' . $string;
+}

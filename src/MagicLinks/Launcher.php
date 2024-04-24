@@ -19,24 +19,5 @@ class Launcher extends MagicLink {
 
 
 	public function boot() {
-		add_filter( 'user_has_cap', [ $this, 'user_has_cap' ], 100, 3 );
-	}
-
-
-	/**
-	 * Make sure the user can do everything we need them to do during this request.
-	 *
-	 * @param array $allcaps Existing capabilities for the user
-	 * @param string $caps Capabilities provided by map_meta_cap()
-	 * @param array $args Arguments for current_user_can()
-	 *
-	 * @return array
-	 * @see WP_User::has_cap() in wp-includes/capabilities.php
-	 */
-	public function user_has_cap( $allcaps, $caps, $args ) {
-		$allcaps['view_any_contacts'] = true;
-		$allcaps['access_contacts']   = true;
-
-		return $allcaps;
 	}
 }

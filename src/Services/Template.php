@@ -2,118 +2,95 @@
 
 namespace DT\Home\Services;
 
-use function DT\Home\namespace_string;
-use function DT\Home\Kucrut\Vite\enqueue_asset;
-use function DT\Home\plugin_path;
+use DT\Home\CodeZone\Router;
+use DT\Home\Illuminate\Http\Response;
 use function DT\Home\view;
 
+/**
+ * Class Template
+ *
+ * This class represents a template for rendering views.
+ */
 class Template {
 	/**
-	 * Allow access to blank template
-	 * @return bool
+	 * Class constructor
+	 *
+	 * @param Assets $assets The Assets object to be injected
+	 */
+	public function __construct( private Assets $assets ) {}
+
+	/**
+	 * Check if blank access is allowed
+	 *
+	 * @return bool True if blank access is allowed, false otherwise
 	 */
 	public function blank_access(): bool {
 		return true;
 	}
 
-	/**
-	 * Reset asset queue
-	 * @return void
-	 */
-	/**
-	 * Reset asset queue
-	 * @return void
-	 */
-	private function filter_asset_queue() {
-		global $wp_scripts;
-		global $wp_styles;
 
-		$whitelist = apply_filters( namespace_string( 'allowed_scripts' ), [] );
-		foreach ( $wp_scripts->registered as $script ) {
-			if ( in_array( $script->handle, $whitelist ) ) {
-				continue;
-			}
-			wp_dequeue_script( $script->handle );
-		}
-
-		$whitelist = apply_filters( namespace_string( 'allowed_styles' ), [] );
-		foreach ( $wp_styles->registered as $style ) {
-			if ( in_array( $script->handle, $whitelist ) ) {
-				continue;
-			}
-			wp_dequeue_style( $style->handle );
-		}
-	}
-
-	/**
-	 * Start with a blank template
-	 * @return void
-	 */
-	public function template_redirect(): void {
-		$path = get_theme_file_path( 'template-blank.php' );
-		include $path;
-		die();
-	}
-
-	/**
-	 * Enqueue CSS and JS assets
-	 * @return void
-	 */
-	public function wp_enqueue_scripts(): void {
-		$this->filter_asset_queue();
-
-		enqueue_asset(
-			plugin_path( '/dist' ),
-			'resources/js/plugin.js',
-			[
-				'handle'    => 'dt_home',
-				'css-media' => 'all', // Optional.
-				'css-only'  => false, // Optional. Set to true to only load style assets in production mode.
-				'in-footer' => false, // Optional. Defaults to false.
-			]
-		);
-	}
-
-
-	/**
+	/*
 	 * Render the header
+	 * @return void
+	 */
+	/**
+	 * Output the HTML head section
+	 *
 	 * @return void
 	 */
 	public function header() {
 		wp_head();
 	}
 
-	public function cloak_visibility() {
-		?>
-        <style>
-            .cloak {
-                visibility: hidden;
-            }
-        </style>
-		<?php
-	}
-
 	/**
-	 * Render the template
+	 * Render the specified template with the given data.
 	 *
-	 * @param $template
-	 * @param $data
+	 * This method executes various actions and filters before rendering the template.
+	 * It adds an action for the 'render' namespace, adds a filter for 'dt_blank_access',
+	 * and adds actions for 'dt_blank_head' and 'dt_blank_footer'. It also enqueues the assets.
 	 *
-	 * @return mixed
+	 * @param string $template The template file to render.
+	 * @param array $data The data to pass to the template.
+	 *
+	 * @return string The rendered template.
 	 */
 	public function render( $template, $data ) {
-		add_action( 'template_redirect', [ $this, 'template_redirect' ] );
-		add_filter( 'dt_blank_access', [ $this, 'blank_access' ] );
-		add_action( 'dt_blank_head', [ $this, 'header' ] );
-		add_action( 'dt_blank_footer', [ $this, 'footer' ] );
-		add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 1000 );
-		add_action( 'wp_head', [ $this, 'cloak_visibility' ] );
+		add_action( Router\namespace_string( 'render' ), [ $this, 'render_response' ], 10, 2 );
+		add_filter( 'dt_blank_access', [ $this, 'blank_access' ], 11 );
+		add_action( 'dt_blank_head', [ $this, 'header' ], 11 );
+		add_action( 'dt_blank_footer', [ $this, 'footer' ], 11 );
+		$this->assets->enqueue();
 
 		return view()->render( $template, $data );
 	}
 
 	/**
-	 * Render the footer
+	 * Render the specified response.
+	 *
+	 * This method handles rendering the response object by either echoing its content
+	 * or sending it directly, depending on the value of the 'dt_blank_access' filter.
+	 * If the filter returns true, the response content is echoed within a 'dt_blank_body'
+	 * action. Otherwise, the response is sent directly.
+	 *
+	 * @param Response $response The response object to render.
+	 */
+	public function render_response( Response $response ) {
+		if ( apply_filters( 'dt_blank_access', false ) ) {
+			add_action( 'dt_blank_body', function () use ( $response ) {
+				// phpcs:ignore
+				echo $response->getContent();
+			}, 11 );
+		} else {
+			$response->send();
+		}
+	}
+
+	/**
+	 * Adds the WordPress footer to the rendered template.
+	 *
+	 * This method calls the WordPress function `wp_footer()` which adds the necessary code
+	 * for the WordPress footer to be displayed in the rendered template.
+	 *
 	 * @return void
 	 */
 	public function footer() {
