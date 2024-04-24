@@ -21,6 +21,7 @@ class RouterServiceProvider extends ServiceProvider {
 		] );
 
 		add_filter( Router\namespace_string( "routes" ), [ $this, 'include_route_file' ], 1 );
+		add_action( Router\namespace_string( "render" ), [ $this, 'render_response' ], 10, 2 );
 	}
 
 	/**
