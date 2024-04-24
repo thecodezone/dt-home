@@ -22,6 +22,11 @@
       "email": "craig@codezone.io"
     }
   ],
+  "scripts": {
+    "pre-install-cmd": [
+      "./setup-scoper.sh"
+    ]
+  },
   "require": {
     "ext-json": "*"
   },
