@@ -23,23 +23,15 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@master
         with:
-          php-version: "7.4"
+          php-version: "8.1"
 
       - name: Setup WP-CLI
         uses: godaddy-wordpress/setup-wp-cli@1
 
-      #######################
-      ### MAKE EDITS HERE ###
-      #######################
-      # edit .pot location
-      # remove/edit --subtract option
-      # add any files or folders for excluding if necessary with --exclude options
-      #######################
       - name: Generate new pot file
         run: >
           wp i18n make-pot . languages/default.pot  --skip-audit --subtract="languages/terms_to_exclude.pot"
-          --exclude="admin"
-      #######################
+          --exclude="documentation,languages,tests
 
       - name: Check diff output
         run: git diff | wc -l
