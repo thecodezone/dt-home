@@ -173,10 +173,13 @@ class AppGrid extends LitElement {
      * @param {object} app - The app object.
      */
     handleRemove(event, index, {id}) {
+        event.stopPropagation()
+        event.preventDefault()
         this.postAppDataToServer(id);
         this.appData.splice(index, 1);
         this.selectedIndex = -1;
         this.showRemoveIconId = null;
+        return false;
     }
 
     /**

@@ -193,23 +193,15 @@ function magic_app( $root, $type ): array|bool {
  *
  * @return string The generated magic URL.
  */
-function magic_url( $root, $type, $id ): string {
-	$app = magic_app( $root, $type );
-	if ( ! $app ) {
-		return "";
-	}
-	$record = \DT_Posts::get_post( $app["post_type"], $id, true, false );
-	if ( ! isset( $record[ $app["meta_key"] ] ) ) {
-		$key = dt_create_unique_key();
-		update_post_meta( get_the_ID(), $app["meta_key"], $key );
+function magic_url( $action = "", $key = "" ): string {
+	if ( ! $key ) {
+		$key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'home', 'launcher' ) );
+		if ( ! $key ) {
+			return 'settings';
+		}
 	}
 
-	return DT_Magic_URL::get_link_url_for_post(
-		$app["post_type"],
-		$id,
-		$app["root"],
-		$app["type"]
-	);
+	return DT_Magic_URL::get_link_url( 'home', 'launcher', $key, $action );
 }
 
 function namespace_string( string $string ) {

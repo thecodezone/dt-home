@@ -2,6 +2,7 @@
 
 namespace DT\Home\MagicLinks;
 
+use DT\Home\Illuminate\Support\Str;
 use DT_Magic_Url_Base;
 
 abstract class MagicLink extends DT_Magic_Url_Base {
@@ -42,7 +43,8 @@ abstract class MagicLink extends DT_Magic_Url_Base {
 			]
 		];
 
-		$this->meta_key = $this->root . '_' . $this->type . '_magic_key';
+		$this->meta_key  = $this->root . '_' . $this->type . '_magic_key';
+		$this->type_actions[ Str::afterLast( trim( \DT\Home\request()->getUri(), '/' ), '/' ) ] = 'Current Route';
 		parent::__construct();
 
 		/**
@@ -80,5 +82,15 @@ abstract class MagicLink extends DT_Magic_Url_Base {
 
 	public function add_endpoints() {
 		// Extend this function to add custom endpoints
+	}
+
+	public function register_url( $template_for_url ) {
+		return $template_for_url;
+	}
+
+	public function print_scripts() {
+	}
+
+	public function print_styles() {
 	}
 }

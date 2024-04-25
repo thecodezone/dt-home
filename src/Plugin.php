@@ -5,7 +5,6 @@ namespace DT\Home;
 use DT\Home\CodeZone\Router\Middleware\Stack;
 use DT\Home\Illuminate\Container\Container;
 use DT\Home\Providers\PluginServiceProvider;
-use function DT\Home\CodeZone\Router\namespace_string;
 
 /**
  * This is the entry-object for the plugin.
@@ -123,7 +122,7 @@ class Plugin {
 	 * @return void
 	 */
 	public function rewrite_rules(): void {
-		add_rewrite_rule( '^' . self::HOME_ROUTE . '/?', 'index.php?dt-plugin=true', 'top' );
+		add_rewrite_rule( '^' . self::HOME_ROUTE . '/?', 'index.php?dt-home=true', 'top' );
 	}
 
 	/**
