@@ -85,8 +85,27 @@ function views_path( string $path = '' ): string {
 	return plugin_path( 'resources/views/' . $path );
 }
 
+/**
+ * Generates the URL for a plugin file.
+ *
+ * @param string $path Optional. The path of the file within the plugin directory.
+ *                     If not specified, returns the URL of the plugin directory itself.
+ *
+ * @return string The URL for the specified plugin file.
+ */
 function plugin_url( string $path = '' ): string {
 	return trim( Str::remove( '/src', plugin_dir_url( __FILE__ ) ), '/' ) . '/' . ltrim( $path, '/' );
+}
+
+/**
+ * Generate the URL for a specific route.
+ *
+ * @param string $path Optional. The path to append to the home route. Defaults to an empty string.
+ *
+ * @return string The generated URL for the specified route.
+ */
+function route_url( string $path = '' ): string {
+	return site_url( Plugin::HOME_ROUTE . '/' . ltrim( $path, '/' ) );
 }
 
 /**
@@ -150,15 +169,31 @@ function redirect( string $url, int $status = 302 ): RedirectResponse {
 
 
 /**
- * Generates a magic URL using the DT_Magic_URL class.
+ * Returns the registered magic apps for a specific root and type.
  *
- * @param string $action Optional. The action to be performed by the magic URL. If not specified, an empty string is used.
- * @param string $key Optional. The key used for the magic URL. If not specified, the key is retrieved from the user's options.
+ * @param string $root The root of the magic apps.
+ * @param string $type The type of the magic app.
+ *
+ * @return array|bool The registered magic apps for the given root and type.
+ *                  Returns an array if found, otherwise returns false.
+ */
+function magic_app( $root, $type ): array|bool {
+	$magic_apps = apply_filters( 'dt_magic_url_register_types', [] );
+	$root_apps  = $magic_apps[ $root ] ?? [];
+
+	return $root_apps[ $type ] ?? false;
+}
+
+/**
+ * Generates a magic URL for a given root, type, and ID.
+ *
+ * @param string $root The root of the magic URL.
+ * @param string $type The type of the magic URL.
+ * @param int $id The ID of the post to generate the magic URL for.
  *
  * @return string The generated magic URL.
- *               If the key is not specified and could not be retrieved from the user's options, 'settings' is returned.
  */
-function magic_url( $action = '', $key = '' ) {
+function magic_url( $action = "", $key = "" ): string {
 	if ( ! $key ) {
 		$key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'home', 'launcher' ) );
 		if ( ! $key ) {
@@ -169,13 +204,6 @@ function magic_url( $action = '', $key = '' ) {
 	return DT_Magic_URL::get_link_url( 'home', 'launcher', $key, $action );
 }
 
-/**
- * Concatenates the given string to the namespace of Plugin class.
- *
- * @param string $string The string to be concatenated to the namespace.
- *
- * @return string The result of concatenating the given string to the namespace of the Plugin class.
- */
-function namespace_string( string $string ): string {
+function namespace_string( string $string ) {
 	return Plugin::class . '\\' . $string;
 }

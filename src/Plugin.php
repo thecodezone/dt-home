@@ -2,6 +2,7 @@
 
 namespace DT\Home;
 
+use DT\Home\CodeZone\Router\Middleware\Stack;
 use DT\Home\Illuminate\Container\Container;
 use DT\Home\Providers\PluginServiceProvider;
 
@@ -61,6 +62,9 @@ class Plugin {
 		$this->provider->register();
 		add_action( 'wp_loaded', [ $this, 'wp_loaded' ], 20 );
 		add_filter( 'dt_plugins', [ $this, 'dt_plugins' ] );
+		add_action( 'init', [ $this, 'rewrite_rules' ] );
+		add_action( 'query_vars', [ $this, 'query_vars' ] );
+		add_action( 'template_redirect', [ $this, 'template_redirect' ], );
 	}
 
 	/**
@@ -106,6 +110,61 @@ class Plugin {
 	protected function is_dt_theme(): bool {
 		return class_exists( 'Disciple_Tools' );
 	}
+
+	/**
+	 * Rewrite rules method.
+	 *
+	 * This method is responsible for adding any custom rewrite rules to the plugin.
+	 * We'll use this method to add a custom rewrite rule for the all routes prefixed
+	 * with the plugin's home route. Subsequent routes will be handled by the plugin's
+	 * router.
+	 *
+	 * @return void
+	 */
+	public function rewrite_rules(): void {
+		add_rewrite_rule( '^' . self::HOME_ROUTE . '/?', 'index.php?dt-home=true', 'top' );
+	}
+
+	/**
+	 * Add query vars
+	 *
+	 * @param array $vars
+	 *
+	 * @return array
+	 */
+	public function query_vars( array $vars ): array {
+		$vars[] = 'dt-home';
+
+		return $vars;
+	}
+
+	/**
+	 * Perform template redirect based on query var 'dt_autolink'.
+	 *
+	 * @return void
+	 */
+	public function template_redirect(): void {
+		if ( ! get_query_var( 'dt-home' ) ) {
+			return;
+		}
+
+		$response = apply_filters( namespace_string( 'middleware' ), $this->container->make( Stack::class ) )
+			->run();
+
+		if ( ! $response ) {
+			wp_die( esc_attr( __( "The page could not be found.", 'dt-home' ) ), 404 );
+		}
+
+		if ( ! $response->isSuccessful() ) {
+			wp_die( esc_attr( $response->statusText() ), esc_attr( $response->getStatusCode() ) );
+		}
+
+		$path = get_theme_file_path( 'template-blank.php' );
+		include $path;
+
+		die();
+	}
+
 
 	/**
 	 * Register the plugin with disciple.tools

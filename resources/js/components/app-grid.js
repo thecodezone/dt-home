@@ -143,10 +143,36 @@ class AppGrid extends LitElement {
         if (selectedApp && selectedApp.slug) {
           window.location.href = `/home/app/${selectedApp.slug}`;
         }
-        this.showRemoveIconId = null;
-        this.requestUpdate();
+    }
+
+    /**
+     * Handles a double click event on an app.
+     * @param event
+     * @param {number} index - The index of the double-clicked app.
+     * @param {object} app - The app object.
+     */
+    handleDoubleClick(event, index, {id}) {
+        clearTimeout(this.clickTimer);
         this.clickTimer = null;
-      }, this.clickDelay);
+        // Your double click logic here
+        this.showRemoveIconId = id;
+        this.requestUpdate();
+    }
+
+    /**
+     * Handles removal of an app.
+     * @param event
+     * @param {number} index - The index of the app to be removed.
+     * @param {object} app - The app object.
+     */
+    handleRemove(event, index, {id}) {
+        event.stopPropagation()
+        event.preventDefault()
+        this.postAppDataToServer(id);
+        this.appData.splice(index, 1);
+        this.selectedIndex = -1;
+        this.showRemoveIconId = null;
+        return false;
     }
   }
 

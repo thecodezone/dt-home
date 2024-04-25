@@ -11,6 +11,7 @@ use DT\Home\CodeZone\Router\Middleware\Render;
 use DT\Home\CodeZone\Router\Middleware\Route;
 use DT\Home\CodeZone\Router\Middleware\Stack;
 use DT\Home\CodeZone\Router\Middleware\UserHasCap;
+use DT\Home\CodeZone\Router\Middleware\SetHeaders;
 use DT\Home\Middleware\CheckShareCookie;
 use DT\Home\Middleware\LoggedIn;
 use DT\Home\Middleware\LoggedOut;
@@ -31,6 +32,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		DispatchController::class,
 		HandleErrors::class,
 		HandleRedirects::class,
+		SetHeaders::class,
 		Render::class,
 	];
 
