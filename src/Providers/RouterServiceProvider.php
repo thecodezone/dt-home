@@ -10,6 +10,7 @@ use DT\Home\Illuminate\Http\Response;
 use function DT\Home\namespace_string;
 use function DT\Home\routes_path;
 
+
 class RouterServiceProvider extends ServiceProvider {
 	/**
 	 * Do any setup needed before the theme is ready.
