@@ -3,6 +3,8 @@
 .container--wide {
     width: 100%;
     margin: 0 auto;
+    padding: 18px;
+    box-sizing: border-box;
 }
 
 .container {

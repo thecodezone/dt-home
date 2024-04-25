@@ -48,10 +48,4 @@ dt-copy-text {
     --dt-text-border-color: #d9d1d1;
 }
 
-@media (min-width: 230px) and (max-width: 950px) {
-    .copy-text, .learn-more-text {
-        margin: 0px 10px !important;
-    }
-}
-
 
