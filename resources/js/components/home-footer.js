@@ -21,7 +21,8 @@ class HomeFooter extends LitElement {
       .footer-container {
         padding: 5px;
         box-sizing: border-box;
-
+        display: flex;
+        margin-left: 171px;
         justify-content: center;
       }
 
