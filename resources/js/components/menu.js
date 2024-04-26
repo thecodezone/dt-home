@@ -7,6 +7,7 @@ class Menu extends LitElement {
   static styles = css`
     .menu-button {
       float: inline-end;
+      margin-right: -25px;
     }
 
     .menu-item:hover {
