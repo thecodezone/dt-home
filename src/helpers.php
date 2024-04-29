@@ -207,3 +207,7 @@ function magic_url( $action = "", $key = "" ): string {
 function namespace_string( string $string ) {
 	return Plugin::class . '\\' . $string;
 }
+
+function breaks_to_html( string $string ) {
+	return str_replace( "\n", '<br>', $string );
+}

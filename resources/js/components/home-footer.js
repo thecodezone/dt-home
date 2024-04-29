@@ -1,4 +1,4 @@
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {property} from 'lit/decorators.js';
 import '@spectrum-web-components/action-menu/sp-action-menu.js';
 import {customElement} from "lit-element";
@@ -99,6 +99,10 @@ class HomeFooter extends LitElement {
         `;
     }
 
+    get hiddenApps() {
+        return this.appData.filter(app => app.is_hidden === 1);
+    }
+
     connectedCallback() {
         super.connectedCallback();
         this.loadAppData();
@@ -178,7 +182,7 @@ class HomeFooter extends LitElement {
 
     renderAppItems() {
         // Filter appData to only include items where is_hidden is true
-        const hiddenApps = this.appData.filter(app => app.is_hidden === 1);
+        const hiddenApps = this.hiddenApps;
 
         // Check if the hiddenApps array is empty and return a message if so
         if (hiddenApps.length === 0) {
@@ -223,10 +227,12 @@ class HomeFooter extends LitElement {
                         </sp-dialog>
                     </sp-dialog-base>
 
-                    <sp-action-button slot="trigger">
-                        <sp-icon-more-small-list-vert slot="icon"></sp-icon-more-small-list-vert>
-                        ${this.translations.hiddenAppsLabel}
-                    </sp-action-button>
+                    ${this.hiddenApps.length ? html`
+                        <sp-action-button slot="trigger">
+                            <sp-icon-more-small-list-vert slot="icon"></sp-icon-more-small-list-vert>
+                            ${this.translations.hiddenAppsLabel}
+                        </sp-action-button>` : nothing
+                    }
                 </overlay-trigger>
 
             </div>

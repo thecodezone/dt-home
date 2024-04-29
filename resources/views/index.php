@@ -8,27 +8,19 @@
  */
 $this->layout( 'layouts/plugin' );
 ?>
+<header id="app-header">
+    <overlay-trigger placement="right">
+        <div slot="trigger">
+            <sp-icon-help></sp-icon-help>
+        </div>
 
-<div class="copy-text">
+        <sp-tooltip slot="hover-content" open placement="right" class="spl-text">
+			<?php echo wordwrap( esc_attr( __( "Copy this link and share it with people you are coaching.", "dt_home" ) ), 40, "<br />\n" ); ?>
+        </sp-tooltip>
+    </overlay-trigger>
+
     <dt-copy-text value="<?php echo esc_url( $magic_link ); ?>"></dt-copy-text>
-</div>
-
-<overlay-trigger placement="right">
-    <div slot="trigger" class="learn-more-text">
-        <sp-icon-help></sp-icon-help> &nbsp;
-        <?php esc_attr_e( 'learn more', 'dt_home' ); ?>
-    </div>
-
-    <sp-tooltip slot="hover-content" open placement="right" class="spl-text">
-        <!-- Dynamic content goes here -->
-        <?php
-            $text = "Copy this link and share it with people you are coaching.";
-            $escaped_text = esc_attr( $text ); // If you need to ensure the text is safe for HTML attributes
-            $new_text = wordwrap( $escaped_text, 40, "<br />\n" );
-            echo $new_text;
-        ?>
-    </sp-tooltip>
-</overlay-trigger>
+</header>
 
 <dt-home-app-grid id="appGrid" app-data='<?php echo esc_attr( htmlspecialchars( $data ) ); ?>'
                   app-url='<?php echo esc_url( $app_url ); ?>'>

@@ -111,17 +111,12 @@ class Menu extends LitElement {
     @property({type: Boolean}) isOpen = false;
     @property({type: Array}) menuItems = [];
 
-    togglePopover() {
-        this.isOpen = !this.isOpen;
-    }
-
     render() {
         return html`
             <sp-button
                     id="trigger"
                     placement="right"
                     class="menu-button inline-element menu-icon toggle-button ${this.isOpen ? 'active' : ''}"
-                    @click="${this.togglePopover}"
             >
                 ${
                         this.isOpen
@@ -133,18 +128,22 @@ class Menu extends LitElement {
 
             </sp-button>
 
-            ${this.isOpen ? html`
-                <sp-overlay open trigger="trigger@click" placement="bottom-end" style="position: relative">
-                    <sp-popover .open="${this.isOpen}" placement="right-end">
-                        <sp-menu class="right-aligned-menu">
-                            ${this.menuItems.map(item => html`
-                                <a href="${item.href}" class="menu-set">
-                                    <sp-menu-item class="menu-item">${item.label}</sp-menu-item>
-                                </a>`)}
-                        </sp-menu>
-                    </sp-popover>
-                </sp-overlay>
-            ` : ''}
+            <sp-overlay
+                    trigger="trigger@click"
+                    placement="bottom-end"
+                    style="position: relative"
+                    @sp-closed="${() => this.isOpen = false}"
+                    @sp-opened="${() => this.isOpen = true}"
+            >
+                <sp-popover placement="right-end">
+                    <sp-menu class="right-aligned-menu">
+                        ${this.menuItems.map(item => html`
+                            <a href="${item.href}" class="menu-set">
+                                <sp-menu-item class="menu-item">${item.label}</sp-menu-item>
+                            </a>`)}
+                    </sp-menu>
+                </sp-popover>
+            </sp-overlay>
         `;
     }
 }
