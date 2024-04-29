@@ -12,6 +12,7 @@ import '@spectrum-web-components/menu/sp-menu-divider.js';
 import '@spectrum-web-components/overlay/sp-overlay.js';
 import '@spectrum-web-components/icon/sp-icon.js';
 import '@spectrum-web-components/icons-ui/icons/sp-icon-triple-gripper.js';
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-more-small-list-vert.js';
 import '@spectrum-web-components/action-group/sp-action-group.js';
 import '@spectrum-web-components/button-group/sp-button-group.js';
 import '@spectrum-web-components/button/sp-button.js';
@@ -53,7 +54,7 @@ import submitFormOnEnter from "./dom-hooks/submit-form-on-enter.js";
  * Bootstrap the application
  */
 loaded((document) => {
-  document.querySelectorAll("form").forEach(submitFormOnEnter);
-  document.querySelectorAll(".cloak").forEach(decloak);
-  document.querySelectorAll('body').forEach(handleDomLoaded);
+    document.querySelectorAll("form").forEach(submitFormOnEnter);
+    document.querySelectorAll(".cloak").forEach(decloak);
+    document.querySelectorAll('body').forEach(handleDomLoaded);
 });
