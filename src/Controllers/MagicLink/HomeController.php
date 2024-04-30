@@ -4,21 +4,18 @@ namespace DT\Home\Controllers\MagicLink;
 
 use DT\Home\Illuminate\Http\Request;
 use DT\Home\Illuminate\Http\Response;
+use DT\Home\Services\Apps;
 use function DT\Home\magic_url;
 use function DT\Home\template;
 
 class HomeController
 {
-    public function show( Request $request, Response $response, $key )
+    public function show( Apps $apps, $key )
     {
         $user = get_current_user_id();
         $subpage_url = magic_url( 'subpage', $key );
 
-        $apps_array = get_user_option( 'dt_home_apps', $user );
-        // Fallback to default option if user option is not set
-        if ( $apps_array === false ) {
-            $apps_array = get_option( 'dt_home_apps' );
-        }
+        $apps_array = $apps->for_user( $user );
 
         $data = json_encode( $apps_array );
         $hidden_data = json_encode( $apps_array );

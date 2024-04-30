@@ -4,6 +4,7 @@ namespace DT\Home\Controllers;
 
 use DT\Home\Illuminate\Http\Request;
 use DT\Home\Illuminate\Http\Response;
+use DT\Home\Services\Apps;
 use function DT\Home\collect;
 use function DT\Home\template;
 
@@ -14,22 +15,19 @@ use function DT\Home\template;
  */
 class AppController
 {
-    /**
-     * Displays the application in an iframe webview
-     *
-     * This method retrieves the application with the provided ID from the "dt_home_apps" option and displays its details.
-     * If the application is not found, a 404 error response is returned.
-     *
-     * @param Request $request The request object.
-     * @param Response $response The response object.
-     * @param int $slug The ID of the application to display.
-     *
-     * @return Response The response object containing the rendered application details.
-     */
-    public function show( Request $request, Response $response, $slug )
+	/**
+	 * This method is responsible for rendering an app.
+	 *
+	 * @param Response $response The HTTP response object.
+	 * @param Apps $apps The instance of the Apps class.
+	 * @param string $slug The slug of the app.
+	 *
+	 * @return Response The HTTP response object.
+	 */
+    public function show( Response $response, Apps $apps, $slug )
     {
         //Fetch the app
-        $app = collect( get_option( 'dt_home_apps', [] ) )->where( 'slug', $slug )->first();
+        $app = $apps->get_by_slug( $slug );
 
         if ( !$app ) {
             return $response->setStatusCode( 404 )->setContent( 'Not Found' );
@@ -37,6 +35,7 @@ class AppController
 
         //Check if there is a custom action to render the app
         $action = has_action( 'dt_home_app_render' );
+
         if ( $action ) {
             do_action( 'dt_home_app_render', $app );
             exit;
