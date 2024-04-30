@@ -140,10 +140,12 @@ sp-theme {
     --spectrum-accent-color-1100: #225E22;
     --spectrum-accent-color-1200: #1A541A;
     --spectrum-accent-color-1300: #134913;
+    --spectrum-component-height-100: 0px;
     --spectrum-accent-background-color-default: var(--spectrum-accent-color-700);
     --spectrum-accent-background-color-hover: var(--spectrum-accent-color-900);
     --spectrum-accent-background-color-down: var(--spectrum-accent-color-1000);
     --spectrum-accent-background-color-key-focus: var(--spectrum-accent-color-900);
     --mod-buttongroup-spacing-horizontal: 10px;
     --mod-button-border-radius: 7px;
+    --spectrum-button-height: var(--spectrum-component-height-100);
 }
