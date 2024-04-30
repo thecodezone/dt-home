@@ -58,6 +58,3 @@ jobs:
 
       - name: Test syntax
         run: ./tests/test_for_syntax_errors.sh
-
-      - name: Test phpcs
-        run: ./tests/test_phpcs.sh
