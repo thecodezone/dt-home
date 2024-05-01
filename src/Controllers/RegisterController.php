@@ -56,7 +56,7 @@ class RegisterController {
 			return $this->register( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'dt_home' ) ] );
 		}
 
-		return redirect( '/home' );
+		return redirect( route_url() );
 	}
 
 	/**

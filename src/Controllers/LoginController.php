@@ -52,7 +52,7 @@ class LoginController {
 
 		wp_set_current_user( $user->ID );
 
-		return redirect( '/home' );
+		return redirect( route_url() );
 	}
 
 	/**
