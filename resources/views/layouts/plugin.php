@@ -3,7 +3,7 @@ $user       = wp_get_current_user();
 $magic_url  = DT\Home\magic_url();
 $training   = $magic_url . '/training';
 $logout     = $magic_url . '/logout';
-$home       = '/home';
+$home       = DT\Home\route_url();
 $dashboard  = '/';
 $menu_items = [];
 

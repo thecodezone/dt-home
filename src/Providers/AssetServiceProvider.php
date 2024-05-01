@@ -22,7 +22,8 @@ class AssetServiceProvider extends ServiceProvider {
 		add_filter( namespace_string( 'javascript_globals' ), function ( $data ) {
 			return array_merge($data, [
 				'nonce'        => wp_create_nonce( 'dt_home' ),
-				'admin_nonce' => wp_create_nonce( 'dt_admin_form_nonce' )
+				'admin_nonce' => wp_create_nonce( 'dt_admin_form_nonce' ),
+				'route_url'    => route_url(),
 			]);
 		});
 	}

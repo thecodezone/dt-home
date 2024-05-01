@@ -11,7 +11,7 @@ class Launcher extends MagicLink {
 
 	public $page_title = 'DT Home';
 	public $page_description = 'DT home screen.';
-	public $root = 'home';
+	public $root = 'dt-home';
 	public $type = 'launcher';
 	public $post_type = 'user';
 	public $show_bulk_send = true;

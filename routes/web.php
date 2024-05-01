@@ -29,9 +29,9 @@ use DT\Home\Illuminate\Http\Request;
 use DT\Home\Symfony\Component\HttpFoundation\Response;
 
 $r->condition( 'plugin', function ( Routes $r ) {
-	$r->get( 'home', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
+	$r->get( 'dt-home', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
 
-	$r->group( 'home', function ( Routes $r ) {
+	$r->group( 'dt-home', function ( Routes $r ) {
 		$r->get( '/login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
 		$r->post( '/login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
 		$r->get( '/register', [ RegisterController::class, 'register' ] );
@@ -40,7 +40,7 @@ $r->condition( 'plugin', function ( Routes $r ) {
 	} );
 
 	$r->middleware( 'magic:home/launcher', function ( Routes $r ) {
-		$r->group( 'home/launcher/{key}', function ( Routes $r ) {
+		$r->group( 'dt-home/launcher/{key}', function ( Routes $r ) {
 			$r->middleware( [ 'auth', 'check_share' ], function ( Routes $r ) {
 				$r->get( '', [ HomeController::class, 'show' ] );
 				$r->get( '/hidden-apps', [ HomeController::class, 'show_hidden_apps' ] );

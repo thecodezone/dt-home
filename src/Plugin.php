@@ -21,7 +21,7 @@ class Plugin {
 	 * The route for the plugin's home page
 	 * @var string
 	 */
-	const HOME_ROUTE = 'home';
+	const HOME_ROUTE = 'dt-home';
 
 	/**
 	 * The instance of the plugin
@@ -62,9 +62,9 @@ class Plugin {
 		$this->provider->register();
 		add_action( 'wp_loaded', [ $this, 'wp_loaded' ], 20 );
 		add_filter( 'dt_plugins', [ $this, 'dt_plugins' ] );
-		add_action( 'init', [ $this, 'rewrite_rules' ] );
-		add_action( 'query_vars', [ $this, 'query_vars' ] );
-		add_action( 'template_redirect', [ $this, 'template_redirect' ], );
+		add_action( 'init', [ $this, 'rewrite_rules' ], 9 );
+		add_action( 'query_vars', [ $this, 'query_vars' ], 9, 1 );
+		add_action( 'template_redirect', [ $this, 'template_redirect' ], 9, 0 );
 	}
 
 	/**

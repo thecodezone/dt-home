@@ -7,6 +7,7 @@ use DT\Home\Illuminate\Http\Response;
 use function DT\Home\plugin_url;
 use function DT\Home\redirect;
 use function DT\Home\template;
+use function DT\Home\route_url;
 
 class RegisterController {
 
@@ -62,8 +63,8 @@ class RegisterController {
 	 * Show the register template
 	 */
 	public function register( $params = [] ) {
-		$form_action = '/home/register';
-		$login_url   = '/home/login';
+		$form_action = route_url( 'register' );
+		$login_url   = route_url( 'login' );
 		$error       = $params['error'] ?? '';
 		$username    = $params['username'] ?? '';
 		$email       = $params['email'] ?? '';

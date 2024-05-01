@@ -5,6 +5,7 @@ namespace DT\Home\Controllers;
 use DT\Home\Illuminate\Http\Request;
 use DT\Home\Illuminate\Http\Response;
 use function DT\Home\redirect;
+use function DT\Home\route_url;
 use function DT\Home\template;
 use function DT\Home\plugin_url;
 
@@ -68,8 +69,8 @@ class LoginController {
 	 * @return Response The response object.
 	 */
 	public function login( $params = [] ) {
-		$register_url = '/home/register';
-		$form_action  = '/home/login';
+		$register_url = route_url( 'register' );
+		$form_action  = route_url( 'login' );
 		$username     = $params['username'] ?? '';
 		$password     = $params['password'] ?? '';
 		$error        = $params['error'] ?? '';
@@ -97,7 +98,6 @@ class LoginController {
 	public function logout( $params = [] ) {
 		wp_logout();
 
-		return redirect( '/home/login' );
-		exit;
+		return redirect( route_url( 'login' ) );
 	}
 }

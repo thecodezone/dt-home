@@ -195,13 +195,13 @@ function magic_app( $root, $type ): array|bool {
  */
 function magic_url( $action = "", $key = "" ): string {
 	if ( ! $key ) {
-		$key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'home', 'launcher' ) );
+		$key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'dt-home', 'launcher' ) );
 		if ( ! $key ) {
 			return 'settings';
 		}
 	}
 
-	return DT_Magic_URL::get_link_url( 'home', 'launcher', $key, $action );
+	return DT_Magic_URL::get_link_url( 'dt-home', 'launcher', $key, $action );
 }
 
 function namespace_string( string $string ) {
