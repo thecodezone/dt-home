@@ -197,7 +197,7 @@ function magic_url( $action = "", $key = "" ): string {
 	if ( ! $key ) {
 		$key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'dt-home', 'launcher' ) );
 		if ( ! $key ) {
-			return 'settings';
+			return '/settings';
 		}
 	}
 
