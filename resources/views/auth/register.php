@@ -22,9 +22,9 @@ $this->layout( 'layouts/auth' );
 
             <form action="<?php echo esc_attr( $form_action ) ?>"
                   method="POST">
-				<?php wp_nonce_field( 'dt_autolink_register' ); ?>
+	            <?php wp_nonce_field( 'dt_home' ) ?>
 
-				<?php if ( ! empty( $error ) ) : ?>
+                <?php if ( ! empty( $error ) ) : ?>
                     <dt-alert context="alert"
                               dismissable>
 						<?php echo esc_html( $error ) ?>

@@ -142,6 +142,7 @@ class HomeFooter extends LitElement {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'X-WP-Nonce': $home.nonce
             },
             body: JSON.stringify(appToHide),
         })

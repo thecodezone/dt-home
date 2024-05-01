@@ -33,9 +33,11 @@ $r->condition( 'plugin', function ( Routes $r ) {
 
 	$r->group( 'dt-home', function ( Routes $r ) {
 		$r->get( '/login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
-		$r->post( '/login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
+		$r->middleware('nonce:dt_home', function ( Routes $r ) {
+			$r->post( '/login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
+			$r->post( '/register', [ RegisterController::class, 'process' ] );
+		});
 		$r->get( '/register', [ RegisterController::class, 'register' ] );
-		$r->post( '/register', [ RegisterController::class, 'process' ] );
 		$r->get( '/app/{slug}', [ AppController::class, 'show' ] );
 	} );
 
@@ -46,9 +48,11 @@ $r->condition( 'plugin', function ( Routes $r ) {
 				$r->get( '/hidden-apps', [ HomeController::class, 'show_hidden_apps' ] );
 				$r->get( '/subpage', [ SubpageController::class, 'show' ] );
 				$r->get( '/training', [ TrainingController::class, 'show' ] );
-				$r->post( '/update-hide-apps', [ HomeController::class, 'update_hide_app' ] );
-				$r->post( '/un-hide-app', [ HomeController::class, 'update_unhide_app' ] );
-				$r->post( '/update-app-order', [ HomeController::class, 'update_app_order' ] );
+				$r->middleware('nonce:dt_home', function ( Routes $r ) {
+					$r->post( '/update-hide-apps', [ HomeController::class, 'update_hide_app' ] );
+					$r->post( '/un-hide-app', [ HomeController::class, 'update_unhide_app' ] );
+					$r->post( '/update-app-order', [ HomeController::class, 'update_app_order' ] );
+				});
 				$r->get( '/logout', [ LoginController::class, 'logout' ] );
 			} );
 
