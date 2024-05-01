@@ -3,7 +3,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
 
 <form method="post" action="admin.php?page=dt_home&tab=general">
-	<?php wp_nonce_field( 'dt_admin_form', 'dt_admin_form_nonce' ); ?>
+	<?php wp_nonce_field( 'dt_admin_form_nonce' ) ?>
     <div class="error-message" style="display:none;"></div>
     <table>
         <tr>
