@@ -64,3 +64,7 @@ export const translate = function (key, language = 'en') {
 export const route_url = function (route) {
     return $home.route_url + route.replace(/^\/+/, '');
 }
+
+export const magic_url = function (route) {
+    return $home.magic_url + route.replace(/^\/+/, '');
+}
