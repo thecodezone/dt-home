@@ -29,6 +29,10 @@ require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/scoper-autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
+register_activation_hook( __FILE__, function () {
+	flush_rewrite_rules();
+} );
+
 $container = new Container();
 $container->singleton( Container::class, function ( $container ) {
 	return $container;
