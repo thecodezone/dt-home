@@ -198,11 +198,23 @@ function get_magic_url( $root, $type, $id ): string {
 	if ( ! $app ) {
 		return "";
 	}
-	$record = DT_Posts::get_post( $app["post_type"], $id, true, false );
-	if ( ! isset( $record[ $app["meta_key"] ] ) ) {
-		$key = dt_create_unique_key();
-		update_post_meta( get_the_ID(), $app["meta_key"], $key );
+	if ( $app['post_type'] === 'user' ) {
+		$meta_name = 'wp_' . $app['meta_key'];
+		$key = get_user_meta( $id, $meta_name, true );
+		if ( ! $key ) {
+			$key = dt_create_unique_key();
+			update_user_meta( $id, $meta_name, $key );
+		}
+
+		return DT_Magic_URL::get_link_url( $root, $type, $key );
+	} else {
+		$record = \DT_Posts::get_post( $app['post_type'], $id, true, false );
+		if ( ! isset( $record[ $app["meta_key"] ] ) ) {
+			$key = dt_create_unique_key();
+			update_post_meta( get_the_ID(), $app["meta_key"], $key );
+		}
 	}
+
 
 	return DT_Magic_URL::get_link_url_for_post(
 		$app["post_type"],
@@ -223,19 +235,36 @@ function get_magic_url( $root, $type, $id ): string {
  */
 function magic_url( $action = "", $key = "" ): string {
 	if ( ! $key ) {
-		$key = get_user_option( DT_Magic_URL::get_public_key_meta_key( 'dt-home', 'launcher' ) );
-		if ( ! $key ) {
-			return '/settings';
+		$url = get_magic_url( "dt-home", "launcher", get_current_user_id() );
+
+		if ( $action ) {
+			return $url . '/' . $action;
 		}
+
+		return $url;
 	}
 
 	return DT_Magic_URL::get_link_url( 'dt-home', 'launcher', $key, $action );
 }
 
+/**
+ * Generates a fully qualified class name by appending the given string to the Plugin class namespace.
+ *
+ * @param string $string The string to append to the Plugin class namespace.
+ *
+ * @return string The fully qualified class name.
+ */
 function namespace_string( string $string ) {
 	return Plugin::class . '\\' . $string;
 }
 
+/**
+ * Converts line breaks to HTML line breaks in a given string.
+ *
+ * @param string $string The string in which line breaks need to be converted.
+ *
+ * @return string The string with line breaks converted to HTML line breaks.
+ */
 function breaks_to_html( string $string ) {
 	return str_replace( "\n", '<br>', $string );
 }
