@@ -12,7 +12,7 @@ class ShareApp extends App {
 		return [
 			"name" => "Gospel Sharing",
 		    "type" => "custom",
-		    "icon" => "https://discipletools.ddev.site/wp-content/themes/disciple-tools-theme/dt-assets/images/cross.svg",
+		    "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/cross.svg",
 		    "sort" => 0,
 		    "slug" => "disciple-tools-share-app",
 		    "is_hidden" => false,

@@ -10,7 +10,7 @@ class Autolink extends App {
 		return [
 			"name" => "Autolink",
 		    "type" => "custom",
-		    "icon" => "https://discipletools.ddev.site/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg",
+		    "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg",
 			'url' => '/autolink',
 		    "sort" => 0,
 		    "slug" => "disciple-tools-autolink",

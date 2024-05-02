@@ -10,7 +10,7 @@ class ThreeThirdsMeetings extends App {
 		return [
 			"name" => "3/3 Meetings",
 		    "type" => "custom",
-		    "icon" => "https://discipletools.ddev.site/wp-content/themes/disciple-tools-theme/dt-assets/images/calendar-clock.svg",
+		    "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/calendar-clock.svg",
 			'url' => '/3/3',
 		    "sort" => 0,
 		    "slug" => "three-thirds-meetings",

@@ -10,7 +10,7 @@ class BiblePlugin extends App {
 		return [
 			"name" => "Bible",
 		    "type" => "custom",
-		    "icon" => "https://discipletools.ddev.site/wp-content/themes/disciple-tools-theme/dt-assets/images/bible.svg",
+		    "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/bible.svg",
 		    "sort" => 0,
 		    "slug" => "the-bible-plugin",
 		    "is_hidden" => false,
