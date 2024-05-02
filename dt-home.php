@@ -25,13 +25,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/scoper-autoload.php';
-require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/autoload.php';
-require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
-
 register_activation_hook( __FILE__, function () {
 	flush_rewrite_rules();
 } );
+
+register_deactivation_hook( __FILE__, function () {
+	flush_rewrite_rules();
+} );
+
+
+require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/scoper-autoload.php';
+require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/autoload.php';
+require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
 $container = new Container();
 $container->singleton( Container::class, function ( $container ) {
