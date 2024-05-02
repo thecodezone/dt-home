@@ -26,11 +26,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 register_activation_hook( __FILE__, function () {
-	flush_rewrite_rules();
+	flush_rewrite_rules( true );
 } );
 
 register_deactivation_hook( __FILE__, function () {
-	flush_rewrite_rules();
+	flush_rewrite_rules( true );
 } );
 
 
