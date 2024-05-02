@@ -13,14 +13,14 @@ class Apps {
 	 */
 	public function all() {
 		// Get the apps array from the option
-		$apps = apply_filters( 'dt_home_apps', get_option( 'dt_home_apps', [] ) );
+		$apps = get_option( 'dt_home_apps', [] );
+		$apps = apply_filters( 'dt_home_apps', $apps );
 
 		// Sort the array based on the 'sort' key
 		usort($apps, function ( $a, $b ) {
 			return ( $a['sort'] ?? 0 ) - ( $b['sort'] ?? 0 );
 		});
 
-		$apps = apply_filters( 'dt_home_apps', $apps );
 		return $this->format( $apps );
 	}
 
@@ -35,7 +35,10 @@ class Apps {
 	 */
 	public function for_user( $user_id ) {
 		$user_apps = get_user_option( 'dt_home_apps', $user_id );
-		$apps = get_option( 'dt_home_apps' );
+		if ( ! $user_apps ) {
+			$user_apps = [];
+		}
+		$apps = get_option( 'dt_home_apps', [] );
 		$apps = apply_filters( 'dt_home_apps', $apps );
 		$apps = $this->format( $apps );
 
