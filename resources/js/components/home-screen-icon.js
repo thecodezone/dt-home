@@ -50,7 +50,7 @@ class AppIcon extends LitElement {
         }
 
         .app-icon__name {
-            font-size: 14px;
+            font-size: 10px;
             color: #333;
             text-align: center;
             word-wrap: break-word;

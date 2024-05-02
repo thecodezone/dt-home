@@ -43,16 +43,16 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                             <td style="border: 1px solid #ddd;"><?php echo esc_attr( $app['slug'] ); ?></td>
 
                             <td style="border: 1px solid #ddd;">
-                                <a href="admin.php?page=dt_home&tab=app&action=up/<?php echo esc_attr( $app['id'] ); ?>"><?php echo esc_html_e( 'Up' ); ?></a>&nbsp;
+                                <a href="admin.php?page=dt_home&tab=app&action=up/<?php echo esc_attr( $app['slug'] ); ?>"><?php echo esc_html_e( 'Up' ); ?></a>&nbsp;
                                 |&nbsp;
                                 <?php if ( $app['is_hidden'] == 1 ) { ?>
-                                    <a href="admin.php?page=dt_home&tab=app&action=unhide/<?php echo esc_attr( $app['id'] ); ?>"><?php echo esc_html_e( 'Unhide' ); ?></a>&nbsp;|&nbsp;
+                                    <a href="admin.php?page=dt_home&tab=app&action=unhide/<?php echo esc_attr( $app['slug'] ); ?>"><?php echo esc_html_e( 'Unhide' ); ?></a>&nbsp;|&nbsp;
                                 <?php } else { ?>
-                                    <a href="admin.php?page=dt_home&tab=app&action=hide/<?php echo esc_attr( $app['id'] ); ?>"><?php echo esc_html_e( 'Hide' ); ?></a>&nbsp;|&nbsp;
+                                    <a href="admin.php?page=dt_home&tab=app&action=hide/<?php echo esc_attr( $app['slug'] ); ?>"><?php echo esc_html_e( 'Hide' ); ?></a>&nbsp;|&nbsp;
                                 <?php } ?>
-                                <a href="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr( $app['id'] ); ?>"><?php echo esc_html_e( 'Edit' ); ?></a>&nbsp;
+                                <a href="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr( $app['slug'] ); ?>"><?php echo esc_html_e( 'Edit' ); ?></a>&nbsp;
                                 |&nbsp;
-                                <a href="admin.php?page=dt_home&tab=app&action=down/<?php echo esc_attr( $app['id'] ); ?>"><?php echo esc_html_e( 'Down' ); ?></a>
+                                <a href="admin.php?page=dt_home&tab=app&action=down/<?php echo esc_attr( $app['slug'] ); ?>"><?php echo esc_html_e( 'Down' ); ?></a>
                             </td>
 
                         </tr>

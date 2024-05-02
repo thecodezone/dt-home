@@ -27,8 +27,14 @@ class AppGrid extends LitElement {
         }
 
         .app-grid__item {
+            transition: transform 0.2s;
             position: relative;
             width: 100%;
+            cursor: pointer;
+        }
+
+        .app-grid__item:hover {
+            transform: scale(1.05);
         }
 
         .app-grid__item--over {
@@ -157,11 +163,11 @@ class AppGrid extends LitElement {
      * @param {number} index - The index of the double-clicked app.
      * @param {object} app - The app object.
      */
-    handleDoubleClick(event, index, {id}) {
+    handleDoubleClick(event, index, {slug}) {
         clearTimeout(this.clickTimer);
         this.clickTimer = null;
         // Your double click logic here
-        this.showRemoveIconId = id;
+        this.showRemoveIconId = slug;
         this.requestUpdate();
     }
 
@@ -171,10 +177,10 @@ class AppGrid extends LitElement {
      * @param {number} index - The index of the app to be removed.
      * @param {object} app - The app object.
      */
-    handleRemove(event, index, {id}) {
+    handleRemove(event, index, {slug}) {
         event.stopPropagation()
         event.preventDefault()
-        this.postAppDataToServer(id);
+        this.postAppDataToServer(slug);
         this.appData.splice(index, 1);
         this.selectedIndex = -1;
         this.showRemoveIconId = null;
@@ -256,9 +262,9 @@ class AppGrid extends LitElement {
      * Posts data of the app to be hidden to the server.
      * @param {string} appId - The ID of the app to be hidden.
      */
-    postAppDataToServer(appId) {
+    postAppDataToServer(slug) {
         const url = this.appUrl + "/update-hide-apps";
-        const appToHide = this.appData.find(app => app.id === appId);
+        const appToHide = this.appData.find(app => app.slug === slug);
 
         if (!appToHide) {
             console.error('App not found');
@@ -290,7 +296,7 @@ class AppGrid extends LitElement {
      * @param {MouseEvent} event - The mouse down event.
      * @param {number} index - The index of the app.
      */
-    handleMouseDown = (event, index, id) => {
+    handleMouseDown = (event, index, slug) => {
         let appGridItem = event.target.closest('.app-grid__item');
         if (!appGridItem) {
             // If the target itself isn't an app grid item, check its parents
@@ -298,7 +304,7 @@ class AppGrid extends LitElement {
         }
         if (appGridItem) {
             this.longPressTimer = setTimeout(() => {
-                this.showContextMenu(id);
+                this.showContextMenu(slug);
                 // Set a flag to indicate that a long press has occurred
                 this.longPressOccured = true;
             }, this.longPressDuration);
@@ -326,10 +332,10 @@ class AppGrid extends LitElement {
      * Shows context menu for the app.
      * @param {number} index - The index of the app.
      */
-    showContextMenu(id) {
+    showContextMenu(slug) {
         // Your logic to show the context menu
         // For example, you can set a property to indicate which index's context menu to show
-        this.showRemoveIconId = id;
+        this.showRemoveIconId = slug;
         this.requestUpdate();
     }
 
@@ -352,7 +358,7 @@ class AppGrid extends LitElement {
                          @dragleave="${(event) => this.handleDragLeave(event, index, app)}"
                          @drop="${(event) => this.handleDrop(event, index, app)}"
                          draggable="true">
-                        ${this.showRemoveIconId === app.id
+                        ${this.showRemoveIconId === app.slug
                                 ? html`<span class="app-grid__remove-icon"
                                              @click="${(event) => this.handleRemove(event, index, app)}"><sp-icon-close></sp-icon-close></span>`
                                 : ''}

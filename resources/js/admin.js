@@ -4,12 +4,12 @@ import "@disciple.tools/web-components";
 
 // myScript.js
 window.showPopup = function () {
-  document.getElementById("popup").style.display = "block";
-  loadSVGIcons(); // Load icons when the popup is shown
+    document.getElementById("popup").style.display = "block";
+    loadSVGIcons(); // Load icons when the popup is shown
 }
 
 window.hidePopup = function () {
-  document.getElementById("popup").style.display = "none";
+    document.getElementById("popup").style.display = "none";
 }
 
 /**
@@ -26,39 +26,39 @@ window.hidePopup = function () {
  * @returns {void}
  */
 function loadSVGIcons() {
-  var container = document.getElementById("svgContainer");
-  container.innerHTML = '';
+    var container = document.getElementById("svgContainer");
+    container.innerHTML = '';
 
-  // The SVG URL data will be passed here from the PHP file
-  var svgIconUrls = window.svgIconUrls || [];
+    // The SVG URL data will be passed here from the PHP file
+    var svgIconUrls = window.svgIconUrls || [];
 
-  svgIconUrls.forEach(function (url) {
-    var img = document.createElement("img");
-    img.src = url;
-    img.classList.add("svg-icon");
-    img.onclick = function () {
-      document.getElementById("icon").value = url;
-      hidePopup();
-    };
-    container.appendChild(img);
-  });
+    svgIconUrls.forEach(function (url) {
+        var img = document.createElement("img");
+        img.src = url;
+        img.classList.add("svg-icon");
+        img.onclick = function () {
+            document.getElementById("icon").value = url;
+            hidePopup();
+        };
+        container.appendChild(img);
+    });
 }
 
 window.filterIcons = function () {
-  var input, filter, container, img, i, txtValue;
-  input = document.getElementById("searchInput");
-  filter = input.value.toUpperCase();
-  container = document.getElementById("svgContainer");
-  img = container.getElementsByTagName("img");
+    var input, filter, container, img, i, txtValue;
+    input = document.getElementById("searchInput");
+    filter = input.value.toUpperCase();
+    container = document.getElementById("svgContainer");
+    img = container.getElementsByTagName("img");
 
-  for (i = 0; i < img.length; i++) {
-    txtValue = img[i].src || img[i].alt;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      img[i].style.display = "";
-    } else {
-      img[i].style.display = "none";
+    for (i = 0; i < img.length; i++) {
+        txtValue = img[i].src || img[i].alt;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            img[i].style.display = "";
+        } else {
+            img[i].style.display = "none";
+        }
     }
-  }
 }
 
 /**
@@ -70,25 +70,27 @@ window.filterIcons = function () {
  */
 
 function toggleURLField() {
-  var typeSelect = document.getElementById("type");
-  var urlFieldRow = document.getElementById("urlFieldRow");
-  if (typeSelect.value === "Custom") {
-    urlFieldRow.style.display = "none";
-  } else {
-    urlFieldRow.style.display = "";
-  }
+    var typeSelect = document.getElementById("type");
+    var urlFieldRow = document.getElementById("urlFieldRow");
+    if (typeSelect.value === "Custom") {
+        urlFieldRow.style.display = "none";
+    } else {
+        urlFieldRow.style.display = "";
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  toggleURLField();
+    toggleURLField();
 });
 
 document.addEventListener('DOMContentLoaded', function () {
-  var nameInput = document.getElementById('name');
-  var slugInput = document.getElementById('slug');
+    var nameInput = document.getElementById('name');
+    var slugInput = document.getElementById('slug');
 
-  nameInput.addEventListener('input', function () {
-    var slug = nameInput.value.toLowerCase().replace(/\s+/g, '_');
-    slugInput.value = slug;
-  });
+    if (!slugInput.value) {
+        nameInput.addEventListener('input', function () {
+            var slug = nameInput.value.toLowerCase().replace(/\s+/g, '_');
+            slugInput.value = slug;
+        });
+    }
 });

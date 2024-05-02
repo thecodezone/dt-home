@@ -15,7 +15,7 @@ echo 'window.svgIconUrls = ' . json_encode($svg_icon_urls) . ';';
 echo '</script>';
 ?>
 
-<form action="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr($existing_data['id']); ?>" method="post"
+<form action="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr($existing_data['slug']); ?>" method="post"
       enctype="multipart/form-data">
 	<?php wp_nonce_field('dt_admin_form_nonce') ?>
 
@@ -85,6 +85,7 @@ echo '</script>';
             <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> [&#63;]</td>
             <td colspan="2">
                 <input style="min-width: 100%;" type="text" name="slug" id="slug"
+                       <?php if ($existing_data['type'] !== 'Web View'): ?>readonly<?php endif; ?>
                        value="<?php echo esc_attr(isset($existing_data['slug']) ? $existing_data['slug'] : ''); ?>"
                        required/>
             </td>
@@ -101,7 +102,6 @@ echo '</script>';
 
     <br>
     <span style="float:right;">
-        <input type="hidden" name="edit_id" value="<?php echo esc_attr($existing_data['id']); ?>">
         <a href="admin.php?page=dt_home&tab=app"
            class="button float-right"><?php esc_html_e('Cancel', 'disciple_tools') ?></a>
         <button type="submit" name="submit" id="submit"

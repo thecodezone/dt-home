@@ -4,7 +4,9 @@ namespace DT\Home\Controllers;
 
 use DT\Home\Illuminate\Http\Request;
 use DT\Home\Illuminate\Http\Response;
+use DT\Home\Services\Apps;
 use function DT\Home\collect;
+use function DT\Home\namespace_string;
 use function DT\Home\template;
 
 /**
@@ -26,10 +28,10 @@ class AppController
      *
      * @return Response The response object containing the rendered application details.
      */
-    public function show( Request $request, Response $response, $slug )
+    public function show( Request $request, Response $response, Apps $apps, $slug )
     {
         //Fetch the app
-        $app = collect( get_option( 'dt_home_apps', [] ) )->where( 'slug', $slug )->first();
+        $app = collect( $apps->all() )->where( 'slug', $slug )->first();
 
         if ( !$app ) {
             return $response->setStatusCode( 404 )->setContent( 'Not Found' );
@@ -38,14 +40,20 @@ class AppController
         //Check if there is a custom action to render the app
         $action = has_action( 'dt_home_app_render' );
         if ( $action ) {
+			add_action(namespace_string( 'filter_asset_queue' ), function ( $queue ) use ( $app ) {
+				//Don't filter assets
+			});
             do_action( 'dt_home_app_render', $app );
             exit;
         }
 
         //Check if the app has a custom template
-        $html = apply_filters( 'dt_home_app_render', "", $app );
+        $html = apply_filters( 'dt_home_app_template', "", $app );
 
         if ( $html ) {
+	        add_action(namespace_string( 'filter_asset_queue' ), function ( $queue ) use ( $app ) {
+		        //Don't filter assets
+	        });
             return $response->setContent( $html );
         }
 

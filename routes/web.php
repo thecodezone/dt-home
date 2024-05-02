@@ -71,24 +71,24 @@ $r->condition( 'backend', function ( Routes $r ) {
 
 			$r->get( '?page=dt_home&tab=app', [ AppSettingsController::class, 'show_app_tab' ] );
 			$r->get( '?page=dt_home&tab=app&action=create', [ AppSettingsController::class, 'create_app' ] );
-			$r->get( '?page=dt_home&tab=app&action=edit/{id}', [ AppSettingsController::class, 'edit_app' ] );
-			$r->get( '?page=dt_home&tab=app&action=unhide/{id}', [ AppSettingsController::class, 'unhide' ] );
-			$r->get( '?page=dt_home&tab=app&action=hide/{id}', [ AppSettingsController::class, 'hide' ] );
-			$r->get( '?page=dt_home&tab=app&action=up/{id}', [ AppSettingsController::class, 'up' ] );
-			$r->get( '?page=dt_home&tab=app&action=down/{id}', [ AppSettingsController::class, 'down' ] );
+			$r->get( '?page=dt_home&tab=app&action=edit/{slug}', [ AppSettingsController::class, 'edit_app' ] );
+			$r->get( '?page=dt_home&tab=app&action=unhide/{slug}', [ AppSettingsController::class, 'unhide' ] );
+			$r->get( '?page=dt_home&tab=app&action=hide/{slug}', [ AppSettingsController::class, 'hide' ] );
+			$r->get( '?page=dt_home&tab=app&action=up/{slug}', [ AppSettingsController::class, 'up' ] );
+			$r->get( '?page=dt_home&tab=app&action=down/{slug}', [ AppSettingsController::class, 'down' ] );
 
 			$r->get( '?page=dt_home&tab=training', [ TrainingSettingsController::class, 'show_training_tab' ] );
 			$r->get( '?page=dt_home&tab=training&action=create', [
 				TrainingSettingsController::class,
 				'create_training'
 			] );
-			$r->get( '?page=dt_home&tab=training&action=edit/{id}', [
+			$r->get( '?page=dt_home&tab=training&action=edit/{slug}', [
 				TrainingSettingsController::class,
 				'edit_training'
 			] );
-			$r->get( '?page=dt_home&tab=training&action=up/{id}', [ TrainingSettingsController::class, 'up' ] );
-			$r->get( '?page=dt_home&tab=training&action=down/{id}', [ TrainingSettingsController::class, 'down' ] );
-			$r->get( '?page=dt_home&tab=training&action=delete/{id}', [
+			$r->get( '?page=dt_home&tab=training&action=up/{slug}', [ TrainingSettingsController::class, 'up' ] );
+			$r->get( '?page=dt_home&tab=training&action=down/{slug}', [ TrainingSettingsController::class, 'down' ] );
+			$r->get( '?page=dt_home&tab=training&action=delete/{slug}', [
 				TrainingSettingsController::class,
 				'delete'
 			] );
@@ -97,7 +97,7 @@ $r->condition( 'backend', function ( Routes $r ) {
 				$r->post( '?page=dt_home', [ GeneralSettingsController::class, 'update' ] );
 				$r->post( '?page=dt_home&tab=general', [ GeneralSettingsController::class, 'update' ] );
 				$r->post( '?page=dt_home&tab=app&action=create', [ AppSettingsController::class, 'store' ] );
-				$r->post( '?page=dt_home&tab=app&action=edit/{id}', [ AppSettingsController::class, 'update' ] );
+				$r->post( '?page=dt_home&tab=app&action=edit/{slug}', [ AppSettingsController::class, 'update' ] );
 				$r->post( '?page=dt_home&tab=training&action=create', [
 					TrainingSettingsController::class,
 					'store'

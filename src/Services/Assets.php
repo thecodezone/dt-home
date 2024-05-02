@@ -42,6 +42,11 @@ class Assets {
 		global $wp_scripts;
 		global $wp_styles;
 
+        if ( has_action( namespace_string( 'filter_asset_queue' ) ) ) {
+            do_action( namespace_string( 'filter_asset_queue' ), $wp_scripts, $wp_styles );
+            return;
+        }
+
 		$whitelist = apply_filters( namespace_string( 'allowed_scripts' ), [] );
 		foreach ( $wp_scripts->registered as $script ) {
 			if ( in_array( $script->handle, $whitelist ) ) {
