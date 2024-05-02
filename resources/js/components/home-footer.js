@@ -126,13 +126,13 @@ class HomeFooter extends LitElement {
      * Posts the selected app data to the server for un-hiding.
      *
      * @memberof HomeFooter
-     * @param {string} appId - The ID of the app to un-hide.
+     * @param {string} appSlug - The ID of the app to un-hide.
      * @returns {void}
      */
-    postAppDataToServer(appId) {
+    postAppDataToServer(appSlug) {
 
         const url = this.appUrl + "/un-hide-app";
-        const appToHide = this.appData.find(app => app.id === appId);
+        const appToHide = this.appData.find(app => app.slug === appSlug);
 
         if (!appToHide) {
             console.error('App not found');
@@ -169,14 +169,14 @@ class HomeFooter extends LitElement {
      * @param {string} appId - The ID of the app clicked.
      * @returns {void}
      */
-    handleAppClick(e, appid) {
+    handleAppClick(e, appSlug) {
         e.stopPropagation();
-        const appIndex = this.appData.findIndex(app => app.id === appid);
+        const appIndex = this.appData.findIndex(app => app.slug === appSlug);
         if (appIndex === -1) {
             console.error('App not found');
             return;
         }
-        const appId = this.appData[appIndex].id;
+        const appId = this.appData[appIndex].slug;
         this.postAppDataToServer(appId);
         this.requestUpdate();
     }
@@ -194,9 +194,9 @@ class HomeFooter extends LitElement {
         // Map the filtered data to HTML elements if hidden apps are present
         return hiddenApps.map(app => html`
             <sp-menu-item class="footer-button"
-                          id="app-grid__remove-icon-${app.id}"
+                          id="app-grid__remove-icon-${app.slug}"
                           class="app-grid__remove-icon"
-                          @click="${(e) => this.handleAppClick(e, app.id)}"
+                          @click="${(e) => this.handleAppClick(e, app.slug)}"
             >
                 ${app.name}
             </sp-menu-item>

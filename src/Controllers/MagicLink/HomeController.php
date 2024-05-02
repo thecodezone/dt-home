@@ -117,13 +117,15 @@ class HomeController
 
         $apps_array = $apps->for_user( get_current_user_id() );
 
+
         // Find the app with the specified ID and update its 'is_hidden' status
         foreach ( $apps_array as $key => $app ) {
             if ( isset( $app['slug'] ) && $app['slug'] == $data['slug'] ) {
-                $apps_array[$key]['is_hidden'] = 0; // Set 'is_hidden' to 1 (hide)
-                break; // Exit the loop once the app is found and updated
+	            $apps_array[$key]['is_hidden'] = 0; // Set 'is_hidden' to 1 (hide)
+	            break; // Exit the loop once the app is found and updated
             }
         }
+
         // Save the updated array back to the option
         update_user_option( get_current_user_id(), 'dt_home_apps', $apps_array );
 
