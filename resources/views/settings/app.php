@@ -52,8 +52,9 @@ $this->layout('layouts/settings', compact('tab', 'link', 'page_title'))
                                 <?php } ?>
                                 <a href="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr($app['slug']); ?>"><?php echo esc_html_e('Edit'); ?></a>&nbsp;
                                 |&nbsp;
-                                <a href="admin.php?page=dt_home&tab=app&action=down/<?php echo esc_attr($app['slug']); ?>"><?php echo esc_html_e('Down'); ?></a>&nbsp;|&nbsp;
+                                <a href="admin.php?page=dt_home&tab=app&action=down/<?php echo esc_attr($app['slug']); ?>"><?php echo esc_html_e('Down'); ?></a>&nbsp;
                                 <?php if ($app['type'] != 'custom') : ?>
+                                    |&nbsp;
                                     <a href="#" onclick="deleteApp('<?php echo esc_attr($app['slug']); ?>')" class="delete-apps">
                                         <?php echo esc_html_e('Delete'); ?>
                                     </a>
