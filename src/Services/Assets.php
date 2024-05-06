@@ -64,18 +64,31 @@ class Assets {
 		}
 	}
 
+    public function vite_scripts(): array {
+	    global $wp_scripts;
+	    $scripts = [];
+	    foreach ( $wp_scripts->registered as $script ) {
+		    if ( $this->is_vite_asset( $script->handle ) ) {
+			    $scripts[] = $script->handle;
+		    }
+	    }
+        return $scripts;
+    }
+
+    public function vite_styles(): array {
+        global $wp_styles;
+        $styles = [];
+        foreach ( $wp_styles->registered as $style ) {
+            if ( $this->is_vite_asset( $style->handle ) ) {
+                $styles[] = $style->handle;
+            }
+        }
+        return $styles;
+    }
+
 	private function whitelist_vite() {
-		global $wp_scripts;
-		global $wp_styles;
-
-		$scripts = [];
-		$styles = [];
-
-		foreach ( $wp_scripts->registered as $script ) {
-			if ( $this->is_vite_asset( $script->handle ) ) {
-				$scripts[] = $script->handle;
-			}
-		}
+		$scripts = $this->vite_scripts();
+		$styles = $this->vite_styles();
 
 		// phpcs:ignore
 		add_filter( namespace_string( 'allowed_scripts' ),
@@ -83,12 +96,6 @@ class Assets {
 				return array_merge( $allowed, $scripts );
 			}
 		);
-
-		foreach ( $wp_styles->registered as $style ) {
-			if ( $this->is_vite_asset( $style->handle ) ) {
-				$styles[] = $style->handle;
-			}
-		}
 
 		add_filter( namespace_string( 'allowed_styles' ),
 			function ( $allowed ) use ( $styles ) {
@@ -107,7 +114,7 @@ class Assets {
 	 *
 	 * @return bool True if the asset handle is allowed, false otherwise.
 	 */
-	private function is_vite_asset( $asset_handle ) {
+	public function is_vite_asset( $asset_handle ) {
 		if ( Str::contains( $asset_handle, [
 			'dt-home',
 			VITE_CLIENT_SCRIPT_HANDLE

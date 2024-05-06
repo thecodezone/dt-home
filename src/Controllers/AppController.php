@@ -51,9 +51,6 @@ class AppController
         $html = apply_filters( 'dt_home_app_template', "", $app );
 
         if ( $html ) {
-	        add_action(namespace_string( 'filter_asset_queue' ), function ( $queue ) use ( $app ) {
-		        //Don't filter assets
-	        });
             return $response->setContent( $html );
         }
 
