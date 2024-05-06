@@ -235,6 +235,10 @@ function get_magic_url( $root, $type, $id ): string {
  */
 function magic_url( $action = "", $key = "" ): string {
 	if ( ! $key ) {
+		if ( ! get_current_user_id() ) {
+			return route_url( 'login' );
+		}
+
 		$url = get_magic_url( "dt-home", "launcher", get_current_user_id() );
 
 		if ( $action ) {

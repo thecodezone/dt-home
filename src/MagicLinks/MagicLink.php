@@ -44,7 +44,8 @@ abstract class MagicLink extends DT_Magic_Url_Base {
 		];
 
 		$this->meta_key  = $this->root . '_' . $this->type . '_magic_key';
-		$this->type_actions[ Str::afterLast( trim( \DT\Home\request()->getUri(), '/' ), '/' ) ] = 'Current Route';
+		//Strip everything  after the 4th slash
+		$this->type_actions[ $this->get_current_action() ] = 'Current Route';
 		parent::__construct();
 
 		/**
@@ -60,6 +61,7 @@ abstract class MagicLink extends DT_Magic_Url_Base {
 		if ( strpos( $url, $this->root . '/' . $this->type ) === false ) {
 			return;
 		}
+
 		/**
 		 * tests magic link parts are registered and have valid elements
 		 */
@@ -78,6 +80,14 @@ abstract class MagicLink extends DT_Magic_Url_Base {
 		}
 
 		return self::$_instance;
+	}
+
+	public function get_current_action() {
+		$current_action = \DT\Home\request()->getUri();
+		$current_action = trim( $current_action, '/' );
+		$urlParts = explode( '/', $current_action );
+		$requiredParts = array_slice( $urlParts, 6, 1 );
+		return implode( '/', $requiredParts );
 	}
 
 	public function add_endpoints() {
