@@ -1,7 +1,7 @@
-import {css, html, LitElement} from 'lit';
-import {customElement} from "lit-element";
-import {property, queryAll} from "lit/decorators.js";
-import {route_url} from "../helpers.js";
+import { css, html, LitElement } from 'lit'
+import { customElement } from 'lit-element'
+import { property, queryAll } from 'lit/decorators.js'
+import { route_url } from '../helpers.js'
 
 /**
  * Custom element representing an application grid.
@@ -9,7 +9,6 @@ import {route_url} from "../helpers.js";
 
 @customElement('dt-home-app-grid')
 class AppGrid extends LitElement {
-
     /**
      * Styles for the AppGrid element.
      * @static
@@ -64,27 +63,27 @@ class AppGrid extends LitElement {
             width: 100%;
             pointer-events: none;
         }
-    `;
-    @property({type: Array}) appData = [];
-    @property({type: Number}) selectedIndex = -1;
-    @property({type: String}) appUrl = '';
-    @queryAll('.app-grid__item') items = [];
-    showRemoveIconId = null;
-    clickTimer = null;
-    clickDelay = 300;
-    longPressTimer = 200;
-    longPressDuration = 500;
+    `
+    @property({ type: Array }) appData = []
+    @property({ type: Number }) selectedIndex = -1
+    @property({ type: String }) appUrl = ''
+    @queryAll('.app-grid__item') items = []
+    showRemoveIconId = null
+    clickTimer = null
+    clickDelay = 300
+    longPressTimer = 200
+    longPressDuration = 500
 
     /**
      * Lifecycle callback when the element is connected to the DOM.
      */
     connectedCallback() {
-        super.connectedCallback();
-        this.loadAppData();
-        document.addEventListener('click', this.handleDocumentClick);
-        document.addEventListener('mousedown', this.handleMouseDown);
-        document.addEventListener('mouseup', this.handleMouseUp);
-        document.addEventListener('mouseleave', this.handleMouseLeave);
+        super.connectedCallback()
+        this.loadAppData()
+        document.addEventListener('click', this.handleDocumentClick)
+        document.addEventListener('mousedown', this.handleMouseDown)
+        document.addEventListener('mouseup', this.handleMouseUp)
+        document.addEventListener('mouseleave', this.handleMouseLeave)
     }
 
     /**
@@ -93,14 +92,14 @@ class AppGrid extends LitElement {
      */
     handleDragOver(event) {
         event.preventDefault()
-        event.target.classList.add('app-grid__item--over');
+        event.target.classList.add('app-grid__item--over')
     }
 
     /**
      * Removes the drag-over class from the app.
      */
     handleDragLeave(event) {
-        event.target.classList.remove('app-grid__item--over');
+        event.target.classList.remove('app-grid__item--over')
     }
 
     /**
@@ -109,15 +108,15 @@ class AppGrid extends LitElement {
      * @param {number} index - The index of the dragged item.
      */
     handleDragStart(event, index) {
-        this.showRemoveIconId = null;
-        event.dataTransfer.setData("text/plain", index);
+        this.showRemoveIconId = null
+        event.dataTransfer.setData('text/plain', index)
     }
 
     handleDragEnd(event) {
-        this.items.forEach(item => {
+        this.items.forEach((item) => {
             item.classList.remove('app-grid__item--over')
             item.classList.remove('app-grid__item--dragging')
-        });
+        })
     }
 
     /**
@@ -126,12 +125,12 @@ class AppGrid extends LitElement {
      */
 
     handleDrop(event) {
-        const fromIndex = event.dataTransfer.getData("text/plain");
-        const toIndex = event.target.dataset.index;
-        this.reorderApps(fromIndex, toIndex);
+        const fromIndex = event.dataTransfer.getData('text/plain')
+        const toIndex = event.target.dataset.index
+        this.reorderApps(fromIndex, toIndex)
 
         // Call handleDocumentClick to ensure immediate removal of context menu icon
-        this.handleDocumentClick(event);
+        this.handleDocumentClick(event)
     }
 
     /**
@@ -143,17 +142,21 @@ class AppGrid extends LitElement {
      * @return {void}
      */
     handleSingleClick(event, index) {
-        if (this.showRemoveIconId === null && this.clickTimer === null && this.longPressTimer === null) {
+        if (
+            this.showRemoveIconId === null &&
+            this.clickTimer === null &&
+            this.longPressTimer === null
+        ) {
             this.clickTimer = setTimeout(() => {
                 // Your single click logic here
-                const selectedApp = this.appData[index];
+                const selectedApp = this.appData[index]
                 if (selectedApp && selectedApp.slug) {
-                    window.location.href = route_url(`/app/${selectedApp.slug}`);
+                    window.location.href = route_url(`/app/${selectedApp.slug}`)
                 }
-                this.showRemoveIconId = null;
-                this.requestUpdate();
-                this.clickTimer = null;
-            }, this.clickDelay);
+                this.showRemoveIconId = null
+                this.requestUpdate()
+                this.clickTimer = null
+            }, this.clickDelay)
         }
     }
 
@@ -163,12 +166,12 @@ class AppGrid extends LitElement {
      * @param {number} index - The index of the double-clicked app.
      * @param {object} app - The app object.
      */
-    handleDoubleClick(event, index, {slug}) {
-        clearTimeout(this.clickTimer);
-        this.clickTimer = null;
+    handleDoubleClick(event, index, { slug }) {
+        clearTimeout(this.clickTimer)
+        this.clickTimer = null
         // Your double click logic here
-        this.showRemoveIconId = slug;
-        this.requestUpdate();
+        this.showRemoveIconId = slug
+        this.requestUpdate()
     }
 
     /**
@@ -177,14 +180,14 @@ class AppGrid extends LitElement {
      * @param {number} index - The index of the app to be removed.
      * @param {object} app - The app object.
      */
-    handleRemove(event, index, {slug}) {
+    handleRemove(event, index, { slug }) {
         event.stopPropagation()
         event.preventDefault()
-        this.postAppDataToServer(slug);
-        this.appData.splice(index, 1);
-        this.selectedIndex = -1;
-        this.showRemoveIconId = null;
-        return false;
+        this.postAppDataToServer(slug)
+        this.appData.splice(index, 1)
+        this.selectedIndex = -1
+        this.showRemoveIconId = null
+        return false
     }
 
     /**
@@ -195,18 +198,19 @@ class AppGrid extends LitElement {
         // Check if a long press has occurred
         if (this.longPressOccured) {
             // Reset the flag
-            this.longPressOccured = false;
-            return;
+            this.longPressOccured = false
+            return
         }
         // Check if the click is outside the context menu
-        const removeIcon = this.shadowRoot.querySelector('.app-grid__remove-icon');
+        const removeIcon = this.shadowRoot.querySelector(
+            '.app-grid__remove-icon'
+        )
         if (removeIcon && !removeIcon.contains(event.target)) {
-            this.showRemoveIconId = null;
-            this.isDragging = false;
-            this.requestUpdate();
+            this.showRemoveIconId = null
+            this.isDragging = false
+            this.requestUpdate()
         }
     }
-
 
     /**
      * Reorders apps based on drag and drop.
@@ -214,33 +218,33 @@ class AppGrid extends LitElement {
      * @param {number} toIndex - The index to which the app is dropped.
      */
     reorderApps(fromIndex, toIndex) {
-        const appsCopy = [...this.appData];
-        const [removedApp] = appsCopy.splice(fromIndex, 1);
-        appsCopy.splice(toIndex, 0, removedApp);
-        this.appData = appsCopy;
-        this.postNewOrderToServer();
+        const appsCopy = [...this.appData]
+        const [removedApp] = appsCopy.splice(fromIndex, 1)
+        appsCopy.splice(toIndex, 0, removedApp)
+        this.appData = appsCopy
+        this.postNewOrderToServer()
     }
 
     /**
      * Posts the new order of apps to the server.
      */
     postNewOrderToServer() {
-        const url = this.appUrl + "/update-app-order"; // Your API endpoint
+        const url = this.appUrl + '/update-app-order' // Your API endpoint
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-WP-Nonce': $home.nonce
+                'X-WP-Nonce': $home.nonce,
             },
             body: JSON.stringify(this.appData),
         })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Order update successful:', data);
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Order update successful:', data)
             })
             .catch((error) => {
-                console.error('Error updating order:', error);
-            });
+                console.error('Error updating order:', error)
+            })
     }
 
     /**
@@ -249,46 +253,45 @@ class AppGrid extends LitElement {
     loadAppData() {
         // Fetch your data from an external source or set it from an attribute
         // For this example, let's assume it's set from a JSON attribute
-        const jsonData = this.getAttribute('app-data');
-        this.appUrl = this.getAttribute('app-url');
+        const jsonData = this.getAttribute('app-data')
+        this.appUrl = this.getAttribute('app-url')
 
         if (jsonData) {
-            this.appData = JSON.parse(jsonData);
+            this.appData = JSON.parse(jsonData)
         }
     }
-
 
     /**
      * Posts data of the app to be hidden to the server.
      * @param {string} appId - The ID of the app to be hidden.
      */
     postAppDataToServer(slug) {
-        const url = this.appUrl + "/update-hide-apps";
-        const appToHide = this.appData.find(app => app.slug === slug);
+        const url = this.appUrl + '/update-hide-apps'
+        const appToHide = this.appData.find((app) => app.slug === slug)
 
         if (!appToHide) {
-            console.error('App not found');
-            return;
+            console.error('App not found')
+            return
         }
 
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-WP-Nonce': $home.nonce
+                'X-WP-Nonce': $home.nonce,
             },
             body: JSON.stringify(appToHide),
         })
-            .then(response => {
+            .then((response) => {
                 if (response.ok) {
-                    window.location.reload();
+                    window.location.reload()
                 } else {
                     // Handle error
                 }
             })
             .catch((error) => {
-                console.error('Error:', error);
-            });
+                console.error('Error:', error)
+            })
     }
 
     /**
@@ -297,17 +300,17 @@ class AppGrid extends LitElement {
      * @param {number} index - The index of the app.
      */
     handleMouseDown = (event, index, slug) => {
-        let appGridItem = event.target.closest('.app-grid__item');
+        let appGridItem = event.target.closest('.app-grid__item')
         if (!appGridItem) {
             // If the target itself isn't an app grid item, check its parents
-            appGridItem = event.target.parentElement.closest('.app-grid__item');
+            appGridItem = event.target.parentElement.closest('.app-grid__item')
         }
         if (appGridItem) {
             this.longPressTimer = setTimeout(() => {
-                this.showContextMenu(slug);
+                this.showContextMenu(slug)
                 // Set a flag to indicate that a long press has occurred
-                this.longPressOccured = true;
-            }, this.longPressDuration);
+                this.longPressOccured = true
+            }, this.longPressDuration)
         }
     }
 
@@ -315,8 +318,8 @@ class AppGrid extends LitElement {
      * Handles mouse up event.
      */
     handleMouseUp = () => {
-        clearTimeout(this.longPressTimer);
-        this.longPressTimer = null;
+        clearTimeout(this.longPressTimer)
+        this.longPressTimer = null
     }
 
     /**
@@ -324,7 +327,7 @@ class AppGrid extends LitElement {
      * @param {number} index - The index of the app.
      */
     handleMouseLeave = (index) => {
-        clearTimeout(this.longPressTimer);
+        clearTimeout(this.longPressTimer)
         // Do something with the index if needed
     }
 
@@ -335,8 +338,8 @@ class AppGrid extends LitElement {
     showContextMenu(slug) {
         // Your logic to show the context menu
         // For example, you can set a property to indicate which index's context menu to show
-        this.showRemoveIconId = slug;
-        this.requestUpdate();
+        this.showRemoveIconId = slug
+        this.requestUpdate()
     }
 
     /**
@@ -346,27 +349,50 @@ class AppGrid extends LitElement {
     render() {
         return html`
             <div class="app-grid">
-                ${this.appData.map((app, index) => app.is_hidden !== 1 ? html`
-                    <div class="app-grid__item"
-                         data-index="${index}"
-                         @click="${(event) => this.handleSingleClick(event, index, app)}"
-                         @dblclick="${(event) => this.handleDoubleClick(event, index, app)}"
-                         @mousedown="${(event) => this.handleMouseDown(event, index, app)}"
-                         @dragstart="${(event) => this.handleDragStart(event, index, app)}"
-                         @dragend="${(event) => this.handleDragEnd(event, index, app)}"
-                         @dragover="${(event) => this.handleDragOver(event, index, app)}"
-                         @dragleave="${(event) => this.handleDragLeave(event, index, app)}"
-                         @drop="${(event) => this.handleDrop(event, index, app)}"
-                         draggable="true">
-                        ${this.showRemoveIconId === app.slug
-                                ? html`<span class="app-grid__remove-icon"
-                                             @click="${(event) => this.handleRemove(event, index, app)}"><sp-icon-close></sp-icon-close></span>`
-                                : ''}
-                        <dt-home-app-icon class="app-grid__icon"
-                                          name="${app.name}"
-                                          icon="${app.icon}"></dt-home-app-icon>
-                    </div>` : '')}
+                ${this.appData.map((app, index) =>
+                    app.is_hidden !== 1
+                        ? html` <div
+                              class="app-grid__item"
+                              data-index="${index}"
+                              @click="${(event) =>
+                                  this.handleSingleClick(event, index, app)}"
+                              @dblclick="${(event) =>
+                                  this.handleDoubleClick(event, index, app)}"
+                              @mousedown="${(event) =>
+                                  this.handleMouseDown(event, index, app)}"
+                              @dragstart="${(event) =>
+                                  this.handleDragStart(event, index, app)}"
+                              @dragend="${(event) =>
+                                  this.handleDragEnd(event, index, app)}"
+                              @dragover="${(event) =>
+                                  this.handleDragOver(event, index, app)}"
+                              @dragleave="${(event) =>
+                                  this.handleDragLeave(event, index, app)}"
+                              @drop="${(event) =>
+                                  this.handleDrop(event, index, app)}"
+                              draggable="true"
+                          >
+                              ${this.showRemoveIconId === app.slug
+                                  ? html`<span
+                                        class="app-grid__remove-icon"
+                                        @click="${(event) =>
+                                            this.handleRemove(
+                                                event,
+                                                index,
+                                                app
+                                            )}"
+                                        ><sp-icon-close></sp-icon-close
+                                    ></span>`
+                                  : ''}
+                              <dt-home-app-icon
+                                  class="app-grid__icon"
+                                  name="${app.name}"
+                                  icon="${app.icon}"
+                              ></dt-home-app-icon>
+                          </div>`
+                        : ''
+                )}
             </div>
-        `;
+        `
     }
 }

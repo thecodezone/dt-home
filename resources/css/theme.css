@@ -1,12 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,400&display=swap');
 
-
 html {
     background: #ffffff;
     color-scheme: light;
 
-    --primary-color: #2C5364;
-    --primry-dark: #1E3A4A;
+    --primary-color: #2c5364;
+    --primry-dark: #1e3a4a;
     --primary-color-light-1: #c2e0ff;
     --primary-color-light-0: #ecf5fc;
     --gray-0: #666;
@@ -20,18 +19,18 @@ html {
     --surface-2: #c2bfbf;
     --border-color: #ffffff;
 
-    --shadow-0: 0px 0px 10px 3px rgba(0, 0, 0, 0.04), 0px 40px 40px -40px rgba(0, 0, 0, 0.2);
+    --shadow-0: 0px 0px 10px 3px rgba(0, 0, 0, 0.04),
+        0px 40px 40px -40px rgba(0, 0, 0, 0.2);
     --shadow-1: 0 4px 4px rgb(0 0 0 / 25%);
 
-
-    --alert-color: #E94F54;
+    --alert-color: #e94f54;
     --caution-color: #f2c962;
     --success-color: #4caf50;
     --inactive-color: #808080;
-    --disabled-color: #F9F9F9;
+    --disabled-color: #f9f9f9;
     --font-family: Poppins, Helvetica, sans-serif;
 
-    --dt-form-border-color: #E4E4E4;
+    --dt-form-border-color: #e4e4e4;
     --dt-form-background-color: var(--surface-1);
     --dt-form-disabled-background-color: var(--disabled-color);
     --dt-form-text-color: var(--text-color);
@@ -55,9 +54,11 @@ html {
 
     --dt-text-color: var(--dt-form-text-color);
     --dt-text-color-inverse: var(--dt-form-text-color-inverse);
-    --dt-text-background-color: #E5E5E5;
+    --dt-text-background-color: #e5e5e5;
     --dt-text-border-color: var(--dt-form-border-color);
-    --dt-text-disabled-background-color: var(--dt-form-disabled-background-color);
+    --dt-text-disabled-background-color: var(
+        --dt-form-disabled-background-color
+    );
     --dt-text-border-radius: 4px;
     --td-text-box-shadow: none;
 
@@ -69,7 +70,9 @@ html {
 
     --dt-textarea-border-color: var(--dt-form-border-color);
     --dt-textarea-background-color: var(--dt-form-background-color);
-    --dt-textarea-disabled-background-color: var(--dt-form-disabled-background-color);
+    --dt-textarea-disabled-background-color: var(
+        --dt-form-disabled-background-color
+    );
     --dt-textarea-text-color: var(--dt-form-text-color);
     --dt-textarea-text-color-inverse: var(--dt-form-text-color-inverse);
     --dt-label-font-size: 14px;
@@ -78,7 +81,7 @@ html {
     --dt-spinner-color-1: var(--gray-1);
     --dt-spinner-color-2: var(--black);
     --dt-tile-font-family: var(--font-family);
-    --dt-tile-font-size: 14px;;
+    --dt-tile-font-size: 14px;
     --dt-tile-font-weight: 700;
     --dt-tile-background-color: hsla(0, 0%, 100%, 1);
     --dt-tile-border-color: var(--surface-1);
@@ -89,16 +92,16 @@ html {
     --dt-tile-header-font-weight: 700;
     --dt-tile-margin: 1rem 0;
     /*--dt-tile-border-top: 4px solid var(--primary-color);*/
-    --dt-tile-border-bottom: 0 solid #DADADA;
-    --dt-tile-border-right: 0 solid #DADADA;
-    --dt-tile-border-left: 0 solid #DADADA;
+    --dt-tile-border-bottom: 0 solid #dadada;
+    --dt-tile-border-right: 0 solid #dadada;
+    --dt-tile-border-left: 0 solid #dadada;
 
     --dt-tile-border-radius: 0.1rem;
 
     --dt-alert-text-color-light: #fff;
     --dt-alert-text-color-dark: #000;
     --dt-alert-font-family: var(--font-family);
-    --dt-alert-font-size: 14px;;
+    --dt-alert-font-size: 14px;
     --dt-alert-font-weight: 700;
     --dt-alert-background-color: var(--surface-1);
     --dt-alert-shadow: var(--shadow-0);
@@ -110,7 +113,7 @@ html {
     --dt-button-text-color-light: #fff;
     --dt-button-text-color-dark: #000;
     --dt-button-font-family: var(--font-family);
-    --dt-button-font-size: 13px;;
+    --dt-button-font-size: 13px;
     --dt-button-font-weight: 500;
     --dt-button-background-color: var(--surface-1);
     --dt-button-shadow: var(--shadow-0);
@@ -129,21 +132,25 @@ html {
 sp-theme {
     --spectrum-accent-color-100: #e2f4e2;
     --spectrum-accent-color-200: #d7e9d7;
-    --spectrum-accent-color-300: #CEEFCE;
-    --spectrum-accent-color-400: #B6E3B6;
-    --spectrum-accent-color-500: #99D999;
-    --spectrum-accent-color-600: #7CCA7C;
-    --spectrum-accent-color-700: #4CAF50;
-    --spectrum-accent-color-800: #3FAB3F;
+    --spectrum-accent-color-300: #ceefce;
+    --spectrum-accent-color-400: #b6e3b6;
+    --spectrum-accent-color-500: #99d999;
+    --spectrum-accent-color-600: #7cca7c;
+    --spectrum-accent-color-700: #4caf50;
+    --spectrum-accent-color-800: #3fab3f;
     --spectrum-accent-color-900: #328232;
-    --spectrum-accent-color-1000: #296E29;
-    --spectrum-accent-color-1100: #225E22;
-    --spectrum-accent-color-1200: #1A541A;
+    --spectrum-accent-color-1000: #296e29;
+    --spectrum-accent-color-1100: #225e22;
+    --spectrum-accent-color-1200: #1a541a;
     --spectrum-accent-color-1300: #134913;
-    --spectrum-accent-background-color-default: var(--spectrum-accent-color-700);
+    --spectrum-accent-background-color-default: var(
+        --spectrum-accent-color-700
+    );
     --spectrum-accent-background-color-hover: var(--spectrum-accent-color-900);
     --spectrum-accent-background-color-down: var(--spectrum-accent-color-1000);
-    --spectrum-accent-background-color-key-focus: var(--spectrum-accent-color-900);
+    --spectrum-accent-background-color-key-focus: var(
+        --spectrum-accent-color-900
+    );
     --mod-buttongroup-spacing-horizontal: 10px;
     --mod-button-border-radius: 7px;
     --spectrum-button-height: var(--spectrum-component-height-100);

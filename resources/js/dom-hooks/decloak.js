@@ -1,3 +1,3 @@
 export default (el) => {
-    el.classList.remove('cloak');
+    el.classList.remove('cloak')
 }
