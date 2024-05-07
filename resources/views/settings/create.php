@@ -39,7 +39,7 @@ echo '</script>';
                 <select style="min-width: 100%;" name="type" id="type" required onchange="toggleURLField()">
                     <option value=""><?php esc_html_e('Please select') ?></option>
                     <option value="Web View"><?php esc_html_e('Web View') ?></option>
-                    <!--<option value="Custom">Custom</option>-->
+                    <option value="Link"><?php esc_html_e('Link') ?></option>
                 </select>
             </td>
         </tr>

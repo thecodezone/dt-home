@@ -17,7 +17,7 @@ echo '</script>';
 
 <form action="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr($existing_data['slug']); ?>" method="post"
       enctype="multipart/form-data">
-	<?php wp_nonce_field('dt_admin_form_nonce') ?>
+    <?php wp_nonce_field('dt_admin_form_nonce') ?>
 
     <table class="widefat striped" id="ml_email_main_col_config">
         <thead>
@@ -46,8 +46,8 @@ echo '</script>';
                     <option value="Web View" <?php echo ($existing_data['type'] === 'Web View') ? 'selected' : ''; ?>>
                         <?php esc_html_e('Web View') ?>
                     </option>
-                    <option value="Custom" <?php echo ($existing_data['type'] === 'Custom') ? 'selected' : ''; ?>>
-                        <?php esc_html_e('Custom') ?>
+                    <option value="Link" <?php echo ($existing_data['type'] === 'Link') ? 'selected' : ''; ?>>
+                        <?php esc_html_e('Link') ?>
                     </option>
                 </select>
                 <input style="min-width: 100%;" type="hidden" name="type"
@@ -72,15 +72,15 @@ echo '</script>';
                 </a>
             </td>
         </tr>
-        <?php if ($existing_data['type'] === 'Web View') { ?>
-            <tr>
-                <td style="vertical-align: middle;"><?php esc_html_e('URL') ?> [&#63;]</td>
-                <td colspan="3">
-                    <input style="min-width: 100%;" type="text" name="url" id="url" class="form-control"
-                           value="<?php echo esc_url(isset($existing_data['url']) ? $existing_data['url'] : ''); ?>">
-                </td>
-            </tr>
-        <?php } ?>
+
+        <tr>
+            <td style="vertical-align: middle;"><?php esc_html_e('URL') ?> [&#63;]</td>
+            <td colspan="3">
+                <input style="min-width: 100%;" type="text" name="url" id="url" class="form-control"
+                       value="<?php echo esc_url(isset($existing_data['url']) ? $existing_data['url'] : ''); ?>">
+            </td>
+        </tr>
+
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> [&#63;]</td>
             <td colspan="2">
