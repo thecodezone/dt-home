@@ -151,13 +151,169 @@ class AppGrid extends LitElement {
       this.clickTimer = setTimeout(() => {
         // Your single click logic here
         const selectedApp = this.appData[index]
+
         if (selectedApp && selectedApp.slug) {
-          window.location.href = magic_url(`/app/${selectedApp.slug}`)
+          // Check if the app type is "Link" and you want to redirect immediately
+          if (selectedApp.type === "Link") {
+            window.location.href = selectedApp.url;
+          } else if (selectedApp.type === "Web View") {
+            // Handle other types of single clicks
+            if (selectedApp.slug) {
+              window.location.href = magic_url(`/app/${selectedApp.slug}`);
+            }
+          }
         }
         this.showRemoveIconId = null
         this.requestUpdate()
         this.clickTimer = null
       }, this.clickDelay)
+    }
+  }
+
+  /**
+   * Handles a double click event on an app.
+   * @param event
+   * @param {number} index - The index of the double-clicked app.
+   * @param {object} app - The app object.
+   */
+  handleDoubleClick(event, index, {slug}) {
+    clearTimeout(this.clickTimer)
+    this.clickTimer = null
+    // Your double click logic here
+    this.showRemoveIconId = slug
+    this.requestUpdate()
+  }
+
+  /**
+   * Handles removal of an app.
+   * @param event
+   * @param {number} index - The index of the app to be removed.
+   * @param {object} app - The app object.
+   */
+  handleRemove(event, index, {slug}) {
+    event.stopPropagation()
+    event.preventDefault()
+    this.postAppDataToServer(slug)
+    this.appData.splice(index, 1)
+    this.selectedIndex = -1
+    this.showRemoveIconId = null
+    return false
+  }
+
+  /**
+   * Handles a click outside the context menu.
+   * @param {MouseEvent} event - The click event.
+   */
+  handleDocumentClick = (event) => {
+    // Check if a long press has occurred
+    if (this.longPressOccured) {
+      // Reset the flag
+      this.longPressOccured = false
+      return
+    }
+    // Check if the click is outside the context menu
+    const removeIcon = this.shadowRoot.querySelector(
+      '.app-grid__remove-icon'
+    )
+    if (removeIcon && !removeIcon.contains(event.target)) {
+      this.showRemoveIconId = null
+      this.isDragging = false
+      this.requestUpdate()
+    }
+  }
+
+  /**
+   * Reorders apps based on drag and drop.
+   * @param {number} fromIndex - The index from which the app is dragged.
+   * @param {number} toIndex - The index to which the app is dropped.
+   */
+  reorderApps(fromIndex, toIndex) {
+    const appsCopy = [...this.appData]
+    const [removedApp] = appsCopy.splice(fromIndex, 1)
+    appsCopy.splice(toIndex, 0, removedApp)
+    this.appData = appsCopy
+    this.postNewOrderToServer()
+  }
+
+  /**
+   * Posts the new order of apps to the server.
+   */
+  postNewOrderToServer() {
+    const url = this.appUrl + '/update-app-order' // Your API endpoint
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': $home.nonce,
+      },
+      body: JSON.stringify(this.appData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Order update successful:', data)
+      })
+      .catch((error) => {
+        console.error('Error updating order:', error)
+      })
+  }
+
+  /**
+   * Loads application data from an external source.
+   */
+  loadAppData() {
+    // Fetch your data from an external source or set it from an attribute
+    // For this example, let's assume it's set from a JSON attribute
+    const jsonData = this.getAttribute('app-data')
+    this.appUrl = this.getAttribute('app-url')
+
+    if (jsonData) {
+      this.appData = JSON.parse(jsonData)
+    }
+  }
+
+  /**
+   * Posts data of the app to be hidden to the server.
+   * @param {string} appId - The ID of the app to be hidden.
+   */
+  postAppDataToServer(slug) {
+    const url = this.appUrl + '/update-hide-apps'
+    const appToHide = this.appData.find((app) => app.slug === slug)
+
+    if (!appToHide) {
+      console.error('App not found')
+      return
+    }
+
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': $home.nonce,
+      },
+      body: JSON.stringify(appToHide),
+    })
+      .then((response) => {
+        if (response.ok) {
+          window.location.reload()
+        } else {
+          // Handle error
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+  }
+
+  /**
+   * Handles mouse down event on an app.
+   * @param {MouseEvent} event - The mouse down event.
+   * @param {number} index - The index of the app.
+   */
+  handleMouseDown = (event, index, slug) => {
+    let appGridItem = event.target.closest('.app-grid__item')
+    if (!appGridItem) {
+      // If the target itself isn't an app grid item, check its parents
+=======
     }
   }
 
@@ -353,6 +509,39 @@ class AppGrid extends LitElement {
     }
     if (appGridItem) {
       this.longPressTimer = setTimeout(() => {
+        this.showContextMenu(slug)
+        // Set a flag to indicate that a long press has occurred
+        this.longPressOccured = true
+      }, this.longPressDuration)
+    }
+  }
+
+  /**
+   * Handles mouse up event.
+   */
+  handleMouseUp = () => {
+    clearTimeout(this.longPressTimer)
+    this.longPressTimer = null
+  }
+
+  /**
+   * Handles mouse leave event.
+   * @param {number} index - The index of the app.
+   */
+  handleMouseLeave = (index) => {
+    clearTimeout(this.longPressTimer)
+    // Do something with the index if needed
+  }
+
+  /**
+   * Shows context menu for the app.
+   * @param {number} index - The index of the app.
+   */
+  showContextMenu(slug) {
+    // Your logic to show the context menu
+    // For example, you can set a property to indicate which index's context menu to show
+    this.showRemoveIconId = slug
+    this.requestUpdate()
         this.editing = true; // Enable editing mode on long press
         this.showContextMenu(slug);
         this.longPressOccured = true;

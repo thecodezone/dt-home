@@ -1,4 +1,5 @@
 <?php
+
 use function DT\Home\route_url;
 
 /**
@@ -7,6 +8,7 @@ use function DT\Home\route_url;
  */
 $this->layout( 'layouts/web-view' );
 ?>
+
 
 <iframe src="<?php echo htmlspecialchars( $url ); ?>" width="100%" height="650" frameborder="0"></iframe>
 
