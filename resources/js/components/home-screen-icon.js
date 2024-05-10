@@ -1,6 +1,6 @@
-import {css, html, LitElement} from 'lit';
-import {customElement} from "lit-element";
-import {property} from "lit/decorators.js";
+import { css, html, LitElement } from 'lit'
+import { customElement } from 'lit-element'
+import { property } from 'lit/decorators.js'
 
 /**
  * Represents an application icon component.
@@ -9,9 +9,9 @@ import {property} from "lit/decorators.js";
  */
 @customElement('dt-home-app-icon')
 class AppIcon extends LitElement {
-    @property({type: String}) name = '';
-    @property({type: String}) icon = '';
-    @property({type: Boolean}) isVisible = true;
+    @property({ type: String }) name = ''
+    @property({ type: String }) icon = ''
+    @property({ type: Boolean }) isVisible = true
 
     /**
      * CSS styles for the app icon.
@@ -56,24 +56,22 @@ class AppIcon extends LitElement {
             word-wrap: break-word;
             width: 80px;
         }
-    `;
-
+    `
 
     /**
      * Renders the app icon.
      * @returns {html} - The rendered HTML for the app icon.
      */
     render() {
-        return this.isVisible ? html`
-            <div class="app-icon__container">
-                <div class="app-icon__icon">
-                    <img src="${this.icon}"/>
-                </div>
-                <span class="app-icon__name">${this.name}</span>
-
-            </div>
-        ` : html``;
+        return this.isVisible
+            ? html`
+                  <div class="app-icon__container">
+                      <div class="app-icon__icon">
+                          <img src="${this.icon}" />
+                      </div>
+                      <span class="app-icon__name">${this.name}</span>
+                  </div>
+              `
+            : html``
     }
 }
-
-

@@ -6,15 +6,15 @@ dt-button {
     --dt-button-font-size: 12px;
     --dt-button-line-height: 12px;
     --dt-button-font-weight: 700;
-    --dt-button-text-color-dark: #5E5E5E;
+    --dt-button-text-color-dark: #5e5e5e;
 }
 
-dt-button[context="link"] {
+dt-button[context='link'] {
     --dt-button-letter-spacing: 0.12em;
     --dt-button-text-decoration: none;
 }
 
-dt-button[context="link"] dt-chevron-right {
+dt-button[context='link'] dt-chevron-right {
     display: inline-block;
     font-size: 14px;
     transform: translateY(20%);
@@ -39,7 +39,7 @@ dt-button.button--block {
 }
 
 sp-icon-help {
-    color: #4CAF50;
+    color: #4caf50;
 }
 
 .learn-more-text {
@@ -56,11 +56,3 @@ sp-icon-help {
 .login-sp-button-radius {
     border-radius: 7px;
 }
-
-
-
-
-
-
-
-

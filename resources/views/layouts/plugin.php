@@ -1,16 +1,17 @@
 <?php
+use function DT\Home\magic_url;
+
 $user       = wp_get_current_user();
-$magic_url  = DT\Home\magic_url();
-$training   = $magic_url . '/training';
-$logout     = $magic_url . '/logout';
 $home       = DT\Home\route_url();
 $dashboard  = '/';
 $menu_items = [];
 
 // Adding default menu items
 $menu_items[] = [ 'label' => __( 'Apps', 'dt_home' ), 'href' => $home ];
-$menu_items[] = [ 'label' => __( 'Training', 'dt_home' ), 'href' => $training ];
-$menu_items[] = [ 'label' => __( 'Log Out', 'dt_home' ), 'href' => $logout ];
+$menu_items[] = [ 'label' => __( 'Training', 'dt_home' ), 'href' => magic_url( 'training' ) ];
+if ( get_option( 'dt_home_require_login', true ) ) {
+	$menu_items[] = [ 'label' => __( 'Log Out', 'dt_home' ), 'href' => magic_url( 'logout' ) ];
+}
 
 // Adding additional menu item based on user capability
 if ( $user->has_cap( 'access_disciple_tools' ) ) {

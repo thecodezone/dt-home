@@ -1,6 +1,6 @@
-import {css, html, LitElement} from 'lit';
-import {customElement} from "lit-element";
-import {property} from "lit/decorators.js";
+import { css, html, LitElement } from 'lit'
+import { customElement } from 'lit-element'
+import { property } from 'lit/decorators.js'
 
 @customElement('dt-home-menu')
 class Menu extends LitElement {
@@ -87,7 +87,7 @@ class Menu extends LitElement {
         }
 
         :host(:hover) .menu-icon {
-            color: #326A82;
+            color: #326a82;
         }
 
         .right-aligned-menu a {
@@ -107,43 +107,51 @@ class Menu extends LitElement {
         .menu-item {
             --spectrum-menu-item-label-content-color-hover: rgb(7, 130, 235);
         }
-    `;
-    @property({type: Boolean}) isOpen = false;
-    @property({type: Array}) menuItems = [];
+    `
+    @property({ type: Boolean }) isOpen = false
+    @property({ type: Array }) menuItems = []
 
     render() {
         return html`
             <sp-button
-                    id="trigger"
-                    placement="right"
-                    class="menu-button inline-element menu-icon toggle-button ${this.isOpen ? 'active' : ''}"
+                id="trigger"
+                placement="right"
+                class="menu-button inline-element menu-icon toggle-button ${this
+                    .isOpen
+                    ? 'active'
+                    : ''}"
             >
-                ${
-                        this.isOpen
-                                ? html`
-                                    <sp-icon-close class="menu-icon" slot="icon"></sp-icon-close>`
-                                : html`
-                                    <sp-icon-triple-gripper class="menu-icon" slot="icon"></sp-icon-triple-gripper>`
-                }
-
+                ${this.isOpen
+                    ? html` <sp-icon-close
+                          class="menu-icon"
+                          slot="icon"
+                      ></sp-icon-close>`
+                    : html` <sp-icon-triple-gripper
+                          class="menu-icon"
+                          slot="icon"
+                      ></sp-icon-triple-gripper>`}
             </sp-button>
 
             <sp-overlay
-                    trigger="trigger@click"
-                    placement="bottom-end"
-                    style="position: relative"
-                    @sp-closed="${() => this.isOpen = false}"
-                    @sp-opened="${() => this.isOpen = true}"
+                trigger="trigger@click"
+                placement="bottom-end"
+                style="position: relative"
+                @sp-closed="${() => (this.isOpen = false)}"
+                @sp-opened="${() => (this.isOpen = true)}"
             >
                 <sp-popover placement="right-end">
                     <sp-menu class="right-aligned-menu">
-                        ${this.menuItems.map(item => html`
-                            <a href="${item.href}" class="menu-set">
-                                <sp-menu-item class="menu-item">${item.label}</sp-menu-item>
-                            </a>`)}
+                        ${this.menuItems.map(
+                            (item) =>
+                                html` <a href="${item.href}" class="menu-set">
+                                    <sp-menu-item class="menu-item"
+                                        >${item.label}</sp-menu-item
+                                    >
+                                </a>`
+                        )}
                     </sp-menu>
                 </sp-popover>
             </sp-overlay>
-        `;
+        `
     }
 }

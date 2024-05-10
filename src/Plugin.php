@@ -24,6 +24,16 @@ class Plugin {
 	const HOME_ROUTE = 'dt-home';
 
 	/**
+	 * The route query parameter for the plugin
+	 *
+	 * This constant represents the query parameter used to define
+	 * the route for the plugin. Used in the WP Rewrite system.
+	 *
+	 * @var string
+	 */
+	const ROUTE_QUERY_PARAM = 'dt-home';
+
+	/**
 	 * The instance of the plugin
 	 * @var Plugin
 	 */
@@ -60,11 +70,69 @@ class Plugin {
 	public function init() {
 		static::$instance = $this;
 		$this->provider->register();
+
+		register_activation_hook( plugin_path( 'bible-plugin.php' ), [ $this, 'activation_hook' ] );
+		register_deactivation_hook( plugin_path( 'bible-plugin.php' ), [ $this, 'deactivation_hook' ] );
 		add_action( 'wp_loaded', [ $this, 'wp_loaded' ], 20 );
 		add_filter( 'dt_plugins', [ $this, 'dt_plugins' ] );
 		add_action( 'init', [ $this, 'rewrite_rules' ], 9 );
 		add_action( 'query_vars', [ $this, 'query_vars' ], 9, 1 );
 		add_action( 'template_redirect', [ $this, 'template_redirect' ], 9, 0 );
+	}
+
+	/**
+	 * Activate the plugin.
+	 *
+	 * This method is a hook that is triggered when the plugin is activated.
+	 * It calls the `rewrite_rules()` method to add or modify rewrite rules
+	 * and then flushes the rewrite rules to update them.
+	 */
+	public function activation_hook() {
+		$this->rewrite_rules();
+		flush_rewrite_rules();
+	}
+
+	/**
+	 * Flush rewrite rules after deactivating the plugin.
+	 *
+	 * @return void
+	 */
+	public function deactivation_hook() {
+		flush_rewrite_rules();
+	}
+
+	/**
+	 * Rewrite rules method.
+	 *
+	 * This method is responsible for adding any custom rewrite rules to the plugin.
+	 * We'll use this method to add a custom rewrite rule for the all routes prefixed
+	 * with the plugin's home route. Subsequent routes will be handled by the plugin's
+	 * router.
+	 *
+	 * @return void
+	 */
+	public function rewrite_rules(): void {
+		add_rewrite_rule(
+			'^' . self::HOME_ROUTE . '/?$',
+			'index.php?' . self::ROUTE_QUERY_PARAM .  '=/', 'top'
+		);
+		add_rewrite_rule(
+			'^' . self::HOME_ROUTE . '/(.+)/?',
+			'index.php?' . self::ROUTE_QUERY_PARAM .  '=$matches[1]', 'top'
+		);
+	}
+
+	/**
+	 * Add query vars
+	 *
+	 * @param array $vars
+	 *
+	 * @return array
+	 */
+	public function query_vars( array $vars ): array {
+		$vars[] = self::ROUTE_QUERY_PARAM;
+
+		return $vars;
 	}
 
 	/**
@@ -112,39 +180,12 @@ class Plugin {
 	}
 
 	/**
-	 * Rewrite rules method.
-	 *
-	 * This method is responsible for adding any custom rewrite rules to the plugin.
-	 * We'll use this method to add a custom rewrite rule for the all routes prefixed
-	 * with the plugin's home route. Subsequent routes will be handled by the plugin's
-	 * router.
-	 *
-	 * @return void
-	 */
-	public function rewrite_rules(): void {
-		add_rewrite_rule( '^' . self::HOME_ROUTE . '/?', 'index.php?dt-home=true', 'top' );
-	}
-
-	/**
-	 * Add query vars
-	 *
-	 * @param array $vars
-	 *
-	 * @return array
-	 */
-	public function query_vars( array $vars ): array {
-		$vars[] = 'dt-home';
-
-		return $vars;
-	}
-
-	/**
 	 * Perform template redirect based on query var 'dt_autolink'.
 	 *
 	 * @return void
 	 */
 	public function template_redirect(): void {
-		if ( ! get_query_var( 'dt-home' ) ) {
+		if ( ! get_query_var( self::ROUTE_QUERY_PARAM ) ) {
 			return;
 		}
 

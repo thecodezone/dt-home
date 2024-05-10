@@ -28,6 +28,23 @@ function container(): Illuminate\Container\Container {
 }
 
 /**
+ * Checks if the route rewrite rule exists in the WordPress rewrite rules.
+ *
+ * @return bool Whether the route rewrite rule exists in the rewrite rules.
+ * @global WP_Rewrite $wp_rewrite The main WordPress rewrite rules object.
+ *
+ */
+function has_route_rewrite(): bool {
+	global $wp_rewrite;
+
+	if ( ! is_array( $wp_rewrite->rules ) ) {
+		return false;
+	}
+
+	return array_key_exists( '^dt-home/(.+)/?', $wp_rewrite->rules );
+}
+
+/**
  * Returns the path of a plugin file or directory, relative to the plugin directory.
  *
  * @param string $path The path of the file or directory relative to the plugin directory. Defaults to an empty string.
@@ -105,7 +122,11 @@ function plugin_url( string $path = '' ): string {
  * @return string The generated URL for the specified route.
  */
 function route_url( string $path = '' ): string {
-	return site_url( Plugin::HOME_ROUTE . '/' . ltrim( $path, '/' ) );
+	if ( ! has_route_rewrite() ) {
+		return site_url() . '?' . http_build_query( [ Plugin::ROUTE_QUERY_PARAM => $path ] );
+	} else {
+		return site_url( Plugin::HOME_ROUTE . '/' . ltrim( $path, '/' ) );
+	}
 }
 
 /**
@@ -235,6 +256,10 @@ function get_magic_url( $root, $type, $id ): string {
  */
 function magic_url( $action = "", $key = "" ): string {
 	if ( ! $key ) {
+		if ( ! get_current_user_id() ) {
+			return route_url( 'login' );
+		}
+
 		$url = get_magic_url( "dt-home", "launcher", get_current_user_id() );
 
 		if ( $action ) {

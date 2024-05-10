@@ -1,0 +1,4 @@
+vendor
+vendor-scoped
+node_modules
+resources/views

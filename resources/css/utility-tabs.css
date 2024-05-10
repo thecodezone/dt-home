@@ -34,7 +34,6 @@ sp-tab[selected] {
     border-bottom: 1px solid white; /* Hide the border for the active tab */
 }
 
-
 .container {
     position: relative;
 }
@@ -45,17 +44,17 @@ sp-tab[selected] {
     background-color: #fff; /* Set your desired background color */
     z-index: 1; /* Adjust the z-index as needed */
 }
-.border-tab sp-tab{
-    border-right: 1px solid #074EE8 !important;
-    border-left: 1px solid #074EE8 !important;
-    border-top: 1px solid #074EE8 !important;
-    border-bottom: 1px solid #074EE8 !important;
+.border-tab sp-tab {
+    border-right: 1px solid #074ee8 !important;
+    border-left: 1px solid #074ee8 !important;
+    border-top: 1px solid #074ee8 !important;
+    border-bottom: 1px solid #074ee8 !important;
     background-color: #fff !important;
     padding: 0px 60px !important;
-    color: #074EE8 !important;
+    color: #074ee8 !important;
     font-size: 12px !important;
 }
-sp-tabs{
+sp-tabs {
     border-bottom: 0px solid #ccc !important;
 }
 
@@ -67,7 +66,6 @@ sp-tabs{
 }
 @media (min-width: 230px) and (max-width: 950px) {
     .border-tab sp-tab {
-        padding: 0px 35px!important;
+        padding: 0px 35px !important;
     }
-
 }

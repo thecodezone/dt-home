@@ -28,7 +28,7 @@ class AppController
      *
      * @return Response The response object containing the rendered application details.
      */
-    public function show( Request $request, Response $response, Apps $apps, $slug )
+    public function show( Request $request, Response $response, Apps $apps, $key, $slug )
     {
         //Fetch the app
         $app = collect( $apps->all() )->where( 'slug', $slug )->first();
@@ -51,9 +51,6 @@ class AppController
         $html = apply_filters( 'dt_home_app_template', "", $app );
 
         if ( $html ) {
-	        add_action(namespace_string( 'filter_asset_queue' ), function ( $queue ) use ( $app ) {
-		        //Don't filter assets
-	        });
             return $response->setContent( $html );
         }
 

@@ -6,12 +6,14 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prettier": "prettier --write resources/**/*.{js,css}"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@kucrut/vite-for-wp": "^0.8.0"
+    "@kucrut/vite-for-wp": "^0.8.0",
+    "prettier": "3.2.5"
   },
   "dependencies": {
     "@babel/plugin-proposal-class-properties": "^7.18.6",
