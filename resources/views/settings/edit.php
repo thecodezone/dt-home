@@ -73,13 +73,15 @@ echo '</script>';
             </td>
         </tr>
 
-        <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('URL') ?> [&#63;]</td>
-            <td colspan="3">
-                <input style="min-width: 100%;" type="text" name="url" id="url" class="form-control"
-                       value="<?php echo esc_url(isset($existing_data['url']) ? $existing_data['url'] : ''); ?>">
-            </td>
-        </tr>
+        <?php if ($existing_data['type'] === 'Web View' || $existing_data['type'] === 'Link') { ?>
+            <tr>
+                <td style="vertical-align: middle;"><?php esc_html_e('URL') ?> [&#63;]</td>
+                <td colspan="3">
+                    <input style="min-width: 100%;" type="text" name="url" id="url" class="form-control"
+                           value="<?php echo esc_url(isset($existing_data['url']) ? $existing_data['url'] : ''); ?>">
+                </td>
+            </tr>
+        <?php } ?>
 
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> [&#63;]</td>
