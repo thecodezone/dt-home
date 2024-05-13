@@ -15,21 +15,21 @@ $this->layout( 'layouts/auth' );
         <div class="section__inner">
             <div class="logo">
                 <img
-                        src="<?php echo esc_url( $logo_path ) ?>"
-                        alt="Disciple.Tools"
-                        class="logo__image">
+                    src="<?php echo esc_url( $logo_path ) ?>"
+                    alt="Disciple.Tools"
+                    class="logo__image">
             </div>
 
             <form action="<?php echo esc_attr( $form_action ) ?>"
                   method="POST">
-	            <?php wp_nonce_field( 'dt_home' ) ?>
+                <?php wp_nonce_field( 'dt_home' ) ?>
 
-                <?php if ( ! empty( $error ) ) : ?>
+                <?php if ( !empty( $error ) ) : ?>
                     <dt-alert context="alert"
                               dismissable>
-						<?php echo esc_html( $error ) ?>
+                        <?php echo esc_html( $error ) ?>
                     </dt-alert>
-				<?php endif; ?>
+                <?php endif; ?>
 
                 <dt-text name="username"
                          placeholder="<?php esc_attr_e( 'Username', 'disciple-tools-autolink' ); ?>"
@@ -50,11 +50,11 @@ $this->layout( 'layouts/auth' );
                          type="password"
                          required></dt-text>
 
-                <sp-button class="register__button"
+                <sp-button class="register__button login-sp-button-radius cre-ac"
                            tabindex="3"
                            treatment="fill"
                            type="submit">
-					<?php esc_html_e( 'Register', 'dt_home' ) ?>
+                    <span><?php esc_html_e( 'Register', 'dt_home' ) ?></span>
                 </sp-button>
             </form>
         </div>
@@ -64,7 +64,7 @@ $this->layout( 'layouts/auth' );
                    variant="secondary"
                    treatment="link"
         >
-			<?php esc_html_e( 'Back to Login', 'dt_home' ); ?>
+            <span><?php esc_html_e( 'Back to Login', 'dt_home' ); ?></span>
         </sp-button>
     </div>
 </div>

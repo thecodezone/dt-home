@@ -9,7 +9,6 @@ $this->layout('layouts/settings', compact('tab', 'link', 'page_title', 'svg_icon
 ?>
 
 <?php
-// Pass the PHP data to JavaScript
 echo '<script type="text/javascript">';
 echo 'window.svgIconUrls = ' . json_encode($svg_icon_urls) . ';';
 echo '</script>';
@@ -73,13 +72,15 @@ echo '</script>';
             </td>
         </tr>
 
-        <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('URL') ?> [&#63;]</td>
-            <td colspan="3">
-                <input style="min-width: 100%;" type="text" name="url" id="url" class="form-control"
-                       value="<?php echo esc_url(isset($existing_data['url']) ? $existing_data['url'] : ''); ?>">
-            </td>
-        </tr>
+        <?php if ($existing_data['type'] === 'Web View' || $existing_data['type'] === 'Link') { ?>
+            <tr>
+                <td style="vertical-align: middle;"><?php esc_html_e('URL') ?> [&#63;]</td>
+                <td colspan="3">
+                    <input style="min-width: 100%;" type="text" name="url" id="url" class="form-control"
+                           value="<?php echo esc_url(isset($existing_data['url']) ? $existing_data['url'] : ''); ?>">
+                </td>
+            </tr>
+        <?php } ?>
 
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> [&#63;]</td>

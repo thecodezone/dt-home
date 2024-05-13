@@ -20,47 +20,42 @@ use DT\Home\Controllers\AppController;
 use DT\Home\Controllers\LoginController;
 use DT\Home\Controllers\MagicLink\HomeController;
 use DT\Home\Controllers\MagicLink\ShareController;
-use DT\Home\Controllers\MagicLink\SubpageController;
 use DT\Home\Controllers\MagicLink\TrainingController;
 use DT\Home\Controllers\RedirectController;
 use DT\Home\Controllers\RegisterController;
-use DT\Home\Controllers\UserController;
 use DT\Home\Illuminate\Http\Request;
 use DT\Home\Symfony\Component\HttpFoundation\Response;
 
-$r->condition('plugin', function ( Routes $r ) {
-    $r->get( 'dt-home', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
+$r->get( '/', [ RedirectController::class, 'show', [ 'middleware' => 'auth' ] ] );
 
-    $r->group('dt-home', function ( Routes $r ) {
-        $r->get( '/login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
-        $r->middleware('nonce:dt_home', function ( Routes $r ) {
-            $r->post( '/login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
-            $r->post( '/register', [ RegisterController::class, 'process' ] );
-        });
-        $r->get( '/register', [ RegisterController::class, 'register' ] );
-    });
+$r->get( 'login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
 
-    $r->middleware('magic:home/launcher', function ( Routes $r ) {
-        $r->group('dt-home/launcher/{key}', function ( Routes $r ) {
-            $r->middleware([ 'auth', 'check_share' ], function ( Routes $r ) {
-	            $r->get( '/app/{slug}', [ AppController::class, 'show' ] );
-	            $r->get( '', [ HomeController::class, 'show' ] );
-	            $r->get( '/hidden-apps', [ HomeController::class, 'show_hidden_apps' ] );
-                $r->get( '/training', [ TrainingController::class, 'show' ] );
+$r->middleware('nonce:dt_home', function ( Routes $r ) {
+	$r->post( 'login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
+	$r->post( 'register', [ RegisterController::class, 'process' ] );
+});
+$r->get( 'register', [ RegisterController::class, 'register' ] );
 
-	            $r->middleware('nonce:dt_home', function ( Routes $r ) {
-                    $r->post( '/update-hide-apps', [ HomeController::class, 'update_hide_app' ] );
-                    $r->post( '/un-hide-app', [ HomeController::class, 'update_unhide_app' ] );
-                    $r->post( '/update-app-order', [ HomeController::class, 'update_app_order' ] );
-                });
-                $r->get( '/logout', [ LoginController::class, 'logout' ] );
-            });
+$r->middleware('magic:home/launcher', function ( Routes $r ) {
+	$r->group('launcher/{key}', function ( Routes $r ) {
+		$r->middleware([ 'auth', 'check_share' ], function ( Routes $r ) {
+			$r->get( '/app/{slug}', [ AppController::class, 'show' ] );
+			$r->get( '', [ HomeController::class, 'show' ] );
+			$r->get( '/hidden-apps', [ HomeController::class, 'show_hidden_apps' ] );
+			$r->get( '/training', [ TrainingController::class, 'show' ] );
 
-            $r->get( '/share', [ ShareController::class, 'show' ] );
+			$r->middleware('nonce:dt_home', function ( Routes $r ) {
+				$r->post( '/update-hide-apps', [ HomeController::class, 'update_hide_app' ] );
+				$r->post( '/un-hide-app', [ HomeController::class, 'update_unhide_app' ] );
+				$r->post( '/update-app-order', [ HomeController::class, 'update_app_order' ] );
+			});
+			$r->get( '/logout', [ LoginController::class, 'logout' ] );
+		});
 
-            $r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
-        });
-    });
+		$r->get( '/share', [ ShareController::class, 'show' ] );
+
+		$r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
+	});
 });
 
 $r->condition('backend', function ( Routes $r ) {
