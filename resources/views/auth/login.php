@@ -22,7 +22,7 @@ $this->layout('layouts/auth');
             </div>
             <form action="<?php echo esc_attr($form_action) ?>"
                   method="POST">
-                <?php wp_nonce_field('dt_home') ?>
+                <?php wp_nonce_field( 'dt_home' ) ?>
 
                 <?php if (!empty($error)) : ?>
                     <dt-alert context="alert"
@@ -47,14 +47,16 @@ $this->layout('layouts/auth');
                 <sp-button-group>
                     <sp-button tabindex="3" class="login-sp-button-radius"
                                type="submit">
-                        <span><?php esc_html_e('Login', 'dt_home') ?></span>
+                        <span><?php esc_html_e( 'Login', 'dt_home' ) ?></span>
+
                     </sp-button>
 
                     <sp-button href="<?php echo esc_url($register_url); ?>" class="cre-ac"
                                variant="secondary"
                                tabindex="`4"
-                               title="<?php esc_attr_e('Create Account', 'disciple-tools-autolink'); ?>">
-                        <span><?php esc_html_e('Create Account', 'disciple-tools-autolink') ?></span>
+    class="cre-ac"
+                               title="<?php esc_attr_e( 'Create Account', 'disciple-tools-autolink' ); ?>">
+                        <span><?php esc_html_e( 'Create Account', 'disciple-tools-autolink' ) ?></span>
                     </sp-button>
                 </sp-button-group>
             </form>
