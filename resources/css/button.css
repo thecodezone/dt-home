@@ -56,3 +56,8 @@ sp-icon-help {
 .login-sp-button-radius {
     border-radius: 7px;
 }
+
+.login-sp-button-radius span,
+.cre-ac span {
+    line-height: 27px !important;
+}
