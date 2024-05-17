@@ -130,15 +130,6 @@ class AppGrid extends LitElement {
      * @param {DragEvent} event - The drop event.
      */
 
-    // handleDrop(event) {
-    //     event.preventDefault()
-    //     const fromIndex = event.dataTransfer.getData('text/plain')
-    //     const toIndex = event.target.dataset.index
-    //     this.reorderApps(fromIndex, toIndex)
-    //
-    //     // Call handleDocumentClick to ensure immediate removal of context menu icon
-    //     this.handleDocumentClick(event)
-    // }
     handleDrop(event) {
         event.preventDefault()
         const fromIndex = event.dataTransfer.getData('text/plain')
