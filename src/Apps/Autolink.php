@@ -2,7 +2,7 @@
 
 namespace DT\Home\Apps;
 
-use function DT\Home\template;
+use function DT\Home\is_plugin_active;
 
 class Autolink extends App {
 

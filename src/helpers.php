@@ -293,3 +293,34 @@ function namespace_string( string $string ) {
 function breaks_to_html( string $string ) {
 	return str_replace( "\n", '<br>', $string );
 }
+
+/**
+ * Converts HTML line breaks to line breaks in a given string.
+ *
+ * @param string $string The string in which HTML line breaks need to be converted.
+ *
+ * @return string The string with HTML line breaks converted to line breaks.
+ */
+function is_plugin_active( $plugin ) {
+    return in_array( $plugin, (array) get_option( 'active_plugins', array() ), true ) || is_plugin_active_for_network( $plugin );
+}
+
+/**
+ * Checks if a plugin is active for the entire network.
+ *
+ * @param string $plugin The plugin file path relative to the plugins directory.
+ *
+ * @return bool Whether the plugin is active for the entire network.
+ */
+function is_plugin_active_for_network( $plugin ) {
+    if ( ! is_multisite() ) {
+        return false;
+    }
+
+    $plugins = get_site_option( 'active_sitewide_plugins' );
+    if ( isset( $plugins[ $plugin ] ) ) {
+        return true;
+    }
+
+    return false;
+}

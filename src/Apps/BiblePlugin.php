@@ -6,6 +6,7 @@ use DT\Home\Services\Assets;
 use function DT\Home\container;
 use function DT\Home\namespace_string;
 use function DT\Home\template;
+use function DT\Home\is_plugin_active;
 
 class BiblePlugin extends App {
 

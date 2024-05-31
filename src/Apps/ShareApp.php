@@ -4,7 +4,7 @@ namespace DT\Home\Apps;
 
 use function DT\Home\get_magic_url;
 use function DT\Home\magic_app;
-use function DT\Home\template;
+use function DT\Home\is_plugin_active;
 
 class ShareApp extends App {
 

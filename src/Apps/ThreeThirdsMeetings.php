@@ -2,8 +2,7 @@
 
 namespace DT\Home\Apps;
 
-use function DT\Home\template;
-use function DT\Home\view;
+use function DT\Home\is_plugin_active;
 
 class ThreeThirdsMeetings extends App {
 	public function config(): array {
