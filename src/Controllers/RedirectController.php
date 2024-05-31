@@ -8,6 +8,7 @@ use DT\Home\Illuminate\Http\Response;
 use DT_Magic_URL;
 use function DT\Home\magic_url;
 use function DT\Home\redirect;
+use function DT\Home\route_url;
 
 class RedirectController
 {
@@ -22,8 +23,11 @@ class RedirectController
      */
     public function show( Request $request, Response $response )
     {
-
         global $wpdb;
+
+        if ( ! is_user_logged_in() ) {
+            return redirect( route_url( "login" ) );
+        }
 
         $preference_key = 'dt-home-app';
         $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key( 'home', 'launcher' );

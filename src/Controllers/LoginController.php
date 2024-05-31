@@ -27,8 +27,8 @@ class LoginController {
 	public function process( Request $request, Response $response ) {
 		global $errors;
 
-		$username = $request->input( 'username' ?? '' );
-		$password = $request->input( 'password' ?? '' );
+		$username = $request->input( 'username' );
+		$password = $request->input( 'password' );
 
 		$user = wp_authenticate( $username, $password );
 
