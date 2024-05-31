@@ -76,8 +76,8 @@ body.dom-loaded .cloak {
 
 #app-header {
     display: flex;
+    width: calc(100% - 50px);
     gap: var(--spectrum-global-dimension-size-100);
-    align-items: flex-start;
 }
 
 #app-header sp-icon-help {
