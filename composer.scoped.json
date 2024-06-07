@@ -11,5 +11,8 @@
     "symfony/error-handler": "^5",
     "symfony/var-dumper": "^5",
     "symfony/event-dispatcher": "^5"
+  },
+  "config": {
+    "autoloader-suffix": "dt_home_scoped"
   }
 }
