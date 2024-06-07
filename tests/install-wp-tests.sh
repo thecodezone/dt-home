@@ -161,7 +161,7 @@ install_db() {
 	fi
 
 	# create database
-	mysqladmin create $DB_NAME --user="$DB_USER" --password="$DB_PASS"$EXTRA
+	mysqladmin create "$DB_NAME" --user="$DB_USER" --password="$DB_PASS" $EXTRA >/dev/null 2>&1 || true
 }
 
 install_theme() {
@@ -172,13 +172,8 @@ install_theme() {
     rm disciple-tools-theme.zip
 }
 
-install_plugin() {
-    ln -sf $PLUGIN_DIR $WP_PLUGINS_DIR/.
-}
-
 install_wp
 install_test_suite
 install_theme
-install_plugin
 install_db
 
