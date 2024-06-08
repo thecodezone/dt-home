@@ -85,8 +85,47 @@ class AdminServiceProvider extends ServiceProvider
      *
      * @return void
      */
+
+
     public function admin_enqueue_scripts(): void
     {
+
+        wp_register_script( 'jquery-ui-js', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js', [ 'jquery' ], '1.12.1', true );
+        wp_enqueue_script( 'jquery-ui-js' );
+        wp_register_style( 'jquery-ui', 'https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css' );
+        wp_enqueue_style( 'jquery-ui' );
+
+        dt_theme_enqueue_style( 'material-font-icons-local', 'dt-core/dependencies/mdi/css/materialdesignicons.min.css', [] );
+        wp_enqueue_style( 'material-font-icons', 'https://cdn.jsdelivr.net/npm/@mdi/font@6.6.96/css/materialdesignicons.min.css' );
+
+        wp_enqueue_script( 'dt_shared_scripts', disciple_tools()->admin_js_url . 'dt-shared.js', [ 'jquery' ], true, true );
+
+
+        wp_register_style( 'dt_admin_css', disciple_tools()->admin_css_url . 'disciple-tools-admin-styles.css', [], true );
+        wp_enqueue_style( 'dt_admin_css' );
+
+        wp_enqueue_script('dt-options', disciple_tools()->admin_js_url . 'dt-options.js', [
+            'jquery',
+            'jquery-ui-core',
+            'jquery-ui-sortable',
+            'jquery-ui-dialog',
+            'lodash',
+            'jquery-ui-js'
+        ], true);
+
+        wp_enqueue_script( 'typeahead-jquery', '/wp-content/themes/disciple-tools-theme/dt-core/dependencies/typeahead/dist/jquery.typeahead.min.js', [ 'jquery' ], true );
+        wp_enqueue_script( 'dt-settings', disciple_tools()->admin_js_url . 'dt-settings.js', [ 'jquery', 'jquery-ui-js', 'dt_shared_scripts' ], true );
+
+        wp_enqueue_style( 'material-font-icons-local', 'dt-core/dependencies/mdi/css/materialdesignicons.min.css', [] );
+        wp_enqueue_style( 'material-font-icons', 'https://cdn.jsdelivr.net/npm/@mdi/font@6.6.96/css/materialdesignicons.min.css' );
+
+        wp_register_style( 'dt_settings_css', disciple_tools()->admin_css_url . 'dt-settings.css', [], filemtime( disciple_tools()->admin_css_path . 'dt-settings.css' ) );
+        wp_enqueue_style( 'dt_settings_css' );
+
+        wp_enqueue_script( 'dt_shared_scripts', disciple_tools()->admin_js_url . 'dt-shared.js', [ 'jquery' ], true, true );
+        wp_register_style( 'dt_admin_css', disciple_tools()->admin_css_url . 'disciple-tools-admin-styles.css', [], filemtime( disciple_tools()->admin_css_path . 'disciple-tools-admin-styles.css' ) );
+        wp_enqueue_style( 'dt_admin_css' );
+
         enqueue_asset(
             plugin_path( '/dist' ),
             'resources/js/admin.js',
