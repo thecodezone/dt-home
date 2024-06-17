@@ -28,6 +28,8 @@ class AppGrid extends LitElement {
       position: relative;
       width: 100%;
       cursor: pointer;
+      min-width: 0;
+      min-height: 0;
     }
 
     .app-grid__item:hover {
