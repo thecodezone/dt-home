@@ -27,7 +27,7 @@ $menu_items_json = wp_json_encode( $menu_items );
 >
     <div class="plugin cloak">
         <div class="plugin__main">
-            <div class="container">
+            <div class="container non-selectable">
 
                 <dt-home-menu menuItems='<?php echo $menu_items_json; ?>'></dt-home-menu>
 
