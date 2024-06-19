@@ -51,7 +51,7 @@ jobs:
 
       - name: Install Scoper
         run: |
-          ./setup-scoper.sh
+          ./bin/setup-scoper.sh
 
       - name: Install dependencies
         run: composer install --no-interaction --ignore-platform-reqs
