@@ -26,15 +26,16 @@ use DT\Home\Controllers\RegisterController;
 use DT\Home\Illuminate\Http\Request;
 use DT\Home\Symfony\Component\HttpFoundation\Response;
 
-$r->get( 'login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
+
 
 $r->get( '/', [ RedirectController::class, 'show' ] );
+$r->get( 'login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
+$r->get( 'register', [ RegisterController::class, 'register', [ 'middleware' => 'guest' ] ] );
 
 $r->middleware('nonce:dt_home', function ( Routes $r ) {
 	$r->post( 'login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
 	$r->post( 'register', [ RegisterController::class, 'process',  [ 'middleware' => 'guest' ] ] );
 });
-$r->get( 'register', [ RegisterController::class, 'register', [ 'middleware' => 'guest' ] ] );
 
 $r->middleware('magic:home/launcher', function ( Routes $r ) {
 	$r->group('launcher/{key}', function ( Routes $r ) {

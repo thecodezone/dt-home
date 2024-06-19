@@ -17,6 +17,8 @@ use DT\Home\Middleware\LoggedIn;
 use DT\Home\Middleware\LoggedOut;
 use DT\Home\Middleware\MagicLink;
 use DT\Home\Middleware\Nonce;
+use DT\Home\Middleware\SetBypassCookie;
+use DT\Home\Middleware\UnCached;
 use Exception;
 use function DT\Home\namespace_string;
 
@@ -33,6 +35,8 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		HandleErrors::class,
 		HandleRedirects::class,
 		SetHeaders::class,
+        SetBypassCookie::class,
+        UnCached::class,
 		Render::class,
 	];
 
@@ -42,7 +46,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		'guest'       => LoggedOut::class,
 		'magic'       => MagicLink::class,
 		'nonce'       => Nonce::class,  // nonce:dt_home_nonce
-		'check_share' => CheckShareCookie::class,
+		'check_share' => CheckShareCookie::class
 	];
 
 	/**
