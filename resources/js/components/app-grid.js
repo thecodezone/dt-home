@@ -63,6 +63,10 @@ class AppGrid extends LitElement {
             width: 100%;
             pointer-events: none;
         }
+
+        .app-grid__remove-icon.hidden {
+            display: none;
+        }
     `
     @property({ type: Array }) appData = []
     @property({ type: Number }) selectedIndex = -1
@@ -111,6 +115,12 @@ class AppGrid extends LitElement {
     handleDragStart(event, index) {
         this.showRemoveIconId = null
         event.dataTransfer.setData('text/plain', index)
+        // Hide all remove icons
+        this.shadowRoot
+            .querySelectorAll('.app-grid__remove-icon')
+            .forEach((icon) => {
+                icon.classList.add('hidden')
+            })
     }
 
     handleDragEnd(event) {
@@ -118,13 +128,18 @@ class AppGrid extends LitElement {
             item.classList.remove('app-grid__item--over')
             item.classList.remove('app-grid__item--dragging')
         })
+        // Show all remove icons again
+        this.shadowRoot
+            .querySelectorAll('.app-grid__remove-icon')
+            .forEach((icon) => {
+                icon.classList.remove('hidden')
+            })
     }
 
     /**
      * Handles the drop event by reordering the apps.
      * @param {DragEvent} event - The drop event.
      */
-
     handleDrop(event) {
         event.preventDefault()
         const fromIndex = event.dataTransfer.getData('text/plain')
@@ -433,7 +448,10 @@ class AppGrid extends LitElement {
                                 ${this.editing
                                     ? html`
                                           <span
-                                              class="app-grid__remove-icon"
+                                              class="app-grid__remove-icon ${this
+                                                  .showRemoveIconId
+                                                  ? ''
+                                                  : 'hidden'}"
                                               @click="${(event) =>
                                                   this.handleRemove(
                                                       event,
