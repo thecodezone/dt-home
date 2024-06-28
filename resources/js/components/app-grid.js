@@ -188,7 +188,11 @@ class AppGrid extends LitElement {
         if (selectedApp) {
             switch (selectedApp.type) {
                 case 'Link':
-                    window.location.href = selectedApp.url
+                    if (selectedApp.open_in_new_tab) {
+                        window.open(selectedApp.url, '_blank')
+                    } else {
+                        window.location.href = selectedApp.url
+                    }
                     break
                 case 'Web View':
                     window.location.href = magic_url(`/app/${selectedApp.slug}`)
