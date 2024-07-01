@@ -76,8 +76,8 @@ class AppGrid extends LitElement {
     showRemoveIconId = null
     clickTimer = null
     clickDelay = 300
-    longPressTimer = 200
-    longPressDuration = 500
+    longPressTimer = 500
+    longPressDuration = 1000
 
     /**
      * Lifecycle callback when the element is connected to the DOM.
