@@ -34,15 +34,16 @@ class AssetServiceProvider extends ServiceProvider
 
             ]);
         });
+
+        add_action('wp_enqueue_scripts', function () {
+            wp_enqueue_script( 'dt-home-script', plugin_url(), [ 'jquery' ], null, true );
+            wp_localize_script( 'dt-home-script', 'dtHomeGlobals', apply_filters( namespace_string( 'javascript_globals' ), [] ) );
+        });
     }
 
     public function boot(): void
     {
         // TODO: Implement boot() method.
         // Enqueue and localize your script here
-        add_action('wp_enqueue_scripts', function () {
-            wp_enqueue_script( 'dt-home-script', plugin_url( 'assets/js/dt-home.js' ), [ 'jquery' ], null, true );
-            wp_localize_script( 'dt-home-script', 'dtHomeGlobals', apply_filters( namespace_string( 'javascript_globals' ), [] ) );
-        });
     }
 }
