@@ -54,6 +54,13 @@ echo '</script>';
             </td>
         </tr>
         <tr>
+            <td style="vertical-align: middle;"><?php esc_html_e('Open link in new tab') ?> [&#63;]</td>
+            <td colspan="2">
+                <input type="checkbox" name="open_in_new_tab" id="open_in_new_tab" value="1"
+                    <?php checked($existing_data['open_in_new_tab'] ?? 0, 1); ?>>
+            </td>
+        </tr>
+        <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?></td>
             <td style="vertical-align: middle;">
                 <?php if (!empty($existing_data['icon'])) : ?>
