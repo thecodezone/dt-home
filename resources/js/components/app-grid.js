@@ -188,20 +188,32 @@ class AppGrid extends LitElement {
         if (selectedApp) {
             switch (selectedApp.type) {
                 case 'Link':
-                    window.location.href = selectedApp.url
+                    this.visitApp(selectedApp.url, selectedApp)
                     break
                 case 'Web View':
-                    window.location.href = magic_url(`/app/${selectedApp.slug}`)
+                    this.visitApp(
+                        magic_url(`/app/${selectedApp.slug}`),
+                        selectedApp
+                    )
                     break
                 case 'custom':
                     if (selectedApp.url) {
-                        window.location.href = selectedApp.url
+                        this.visitApp(selectedApp.url, selectedApp)
                     } else if (selectedApp.slug) {
-                        window.location.href = magic_url(
-                            `/app/${selectedApp.slug}`
+                        this.visitApp(
+                            magic_url(`/app/${selectedApp.slug}`),
+                            selectedApp
                         )
                     }
             }
+        }
+    }
+
+    visitApp(url, options) {
+        if (options.open_in_new_tab) {
+            window.open(url, '_blank')
+        } else {
+            window.location.href = url
         }
     }
 
