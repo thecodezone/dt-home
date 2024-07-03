@@ -228,10 +228,14 @@ class AppGrid extends LitElement {
     handleRemove(event, index, { slug }) {
         event.stopPropagation()
         event.preventDefault()
-        this.postAppDataToServer(slug)
-        this.appData.splice(index, 1)
-        this.selectedIndex = -1
-        this.showRemoveIconId = null
+        const confirmationMessage = $home.translations.remove_app_confirmation
+        const confirmed = window.confirm(confirmationMessage)
+        if (confirmed) {
+            this.postAppDataToServer(slug)
+            this.appData.splice(index, 1)
+            this.selectedIndex = -1
+            this.showRemoveIconId = null
+        }
         return false
     }
 
