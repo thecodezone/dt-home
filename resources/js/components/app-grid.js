@@ -161,14 +161,14 @@ class AppGrid extends LitElement {
      *
      * @return {void}
      */
-    handleClick(event, index) {
+    handleClick(event, slug) {
         if (
             this.showRemoveIconId === null &&
             this.clickTimer === null &&
             this.longPressTimer === null
         ) {
             this.clickTimer = setTimeout(() => {
-                this.handleSingleClick(event, index)
+                this.handleSingleClick(event, slug)
                 this.showRemoveIconId = null
                 this.requestUpdate()
                 this.clickTimer = null
@@ -183,8 +183,8 @@ class AppGrid extends LitElement {
      * @param {number} index - The index of the app in the appData array.
      * @return {void}
      */
-    handleSingleClick(event, index) {
-        const selectedApp = this.appData[index]
+    handleSingleClick(event, slug) {
+        const selectedApp = this.appData.find((app) => app.slug === slug)
         if (selectedApp) {
             switch (selectedApp.type) {
                 case 'Link':
@@ -446,7 +446,7 @@ class AppGrid extends LitElement {
                                 @touchcancel="${this.handleTouchEnd}"
                                 @click="${(event) =>
                                     !this.editing &&
-                                    this.handleClick(event, index, app)}"
+                                    this.handleClick(event, app.slug, app)}"
                                 @mousedown="${(event) =>
                                     this.handleMouseDown(event, index, app)}"
                                 @dragstart="${(event) =>
