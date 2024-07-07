@@ -23,7 +23,6 @@ abstract class App {
 		if ( method_exists( $this, 'template' ) !== false ) {
 			add_action( 'dt_home_app_template', [ $this, 'dt_home_app_template' ], 10, 2 );
 		}
-
 		if ( method_exists( $this, 'url' ) !== false ) {
 			add_action( 'dt_home_webview_url', [ $this, 'dt_home_webview_url' ], 10, 2 );
 		}
