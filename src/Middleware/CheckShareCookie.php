@@ -29,7 +29,7 @@ class CheckShareCookie implements Middleware {
 			return $next( $request, $response );
 		}
 
-		$leader_id = $request->cookies->get( 'dt_home_share' );
+		$leader_id = $_COOKIE['dt_home_share'] ?? null;
 
 		if ( $leader_id ) {
 			try {
