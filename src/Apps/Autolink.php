@@ -9,7 +9,7 @@ class Autolink extends App {
 	public function config(): array {
 		return [
 			"name" => "Autolink",
-		    "type" => "custom",
+		    "type" => "Web View",
 		    "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg",
 			'url' => '/autolink',
 		    "sort" => 0,
