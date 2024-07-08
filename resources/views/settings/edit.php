@@ -38,7 +38,7 @@ echo '</script>';
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Type') ?> [&#63;]</td>
             <td colspan="3">
-                <select style="min-width: 100%;" id="type" required onchange="toggleURLField()" disabled>
+                <select style="min-width: 100%;" id="type" required onchange="toggleURLField()">
                     <option
                         value="" <?php echo empty($existing_data['type']) ? 'selected' : ''; ?>><?php esc_html_e('Please select') ?>
                     </option>
