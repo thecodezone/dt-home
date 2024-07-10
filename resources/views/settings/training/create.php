@@ -3,8 +3,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
 
 <form action="admin.php?page=dt_home&tab=training&action=create" method="post" enctype="multipart/form-data">
-	<?php wp_nonce_field( 'dt_admin_form', 'dt_admin_form_nonce' ) ?>
-
+    <?php wp_nonce_field( 'dt_admin_form_nonce' ) ?>
     <table class="widefat striped" id="ml_email_main_col_config">
         <thead>
         <tr>

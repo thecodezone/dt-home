@@ -78,13 +78,13 @@ $r->condition('backend', function ( Routes $r ) {
                 TrainingSettingsController::class,
                 'create_training'
             ]);
-            $r->get('?page=dt_home&tab=training&action=edit/{slug}', [
+            $r->get('?page=dt_home&tab=training&action=edit/{id}', [
                 TrainingSettingsController::class,
                 'edit_training'
             ]);
-            $r->get( '?page=dt_home&tab=training&action=up/{slug}', [ TrainingSettingsController::class, 'up' ] );
-            $r->get( '?page=dt_home&tab=training&action=down/{slug}', [ TrainingSettingsController::class, 'down' ] );
-            $r->get('?page=dt_home&tab=training&action=delete/{slug}', [
+            $r->get( '?page=dt_home&tab=training&action=up/{id}', [ TrainingSettingsController::class, 'up' ] );
+            $r->get( '?page=dt_home&tab=training&action=down/{id}', [ TrainingSettingsController::class, 'down' ] );
+            $r->get('?page=dt_home&tab=training&action=delete/{id}', [
                 TrainingSettingsController::class,
                 'delete'
             ]);
