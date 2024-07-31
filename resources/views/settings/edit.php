@@ -9,9 +9,8 @@ $this->layout('layouts/settings', compact('tab', 'link', 'page_title', 'svg_icon
 ?>
 
 <?php
-echo '<script type="text/javascript">';
-echo 'window.svgIconUrls = ' . json_encode($svg_icon_urls) . ';';
-echo '</script>';
+
+get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
 ?>
 
 <form action="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr($existing_data['slug']); ?>" method="post"
@@ -38,7 +37,7 @@ echo '</script>';
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Type') ?> [&#63;]</td>
             <td colspan="3">
-                <select style="min-width: 100%;" id="type" required onchange="toggleURLField()" disabled>
+                <select style="min-width: 100%;" id="type" name="type" required onchange="toggleURLField()">
                     <option
                         value="" <?php echo empty($existing_data['type']) ? 'selected' : ''; ?>><?php esc_html_e('Please select') ?>
                     </option>
@@ -49,31 +48,37 @@ echo '</script>';
                         <?php esc_html_e('Link') ?>
                     </option>
                 </select>
-                <input style="min-width: 100%;" type="hidden" name="type"
-                       value="<?php echo esc_attr($existing_data['type']); ?>"/>
+
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle;"><?php esc_html_e('Open link in new tab') ?> [&#63;]</td>
+            <td colspan="2">
+                <input type="checkbox" name="open_in_new_tab" id="open_in_new_tab" value="1"
+                    <?php checked($existing_data['open_in_new_tab'] ?? 0, 1); ?>>
             </td>
         </tr>
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?></td>
             <td style="vertical-align: middle;">
                 <?php if (!empty($existing_data['icon'])) : ?>
-                    <img src="<?php echo esc_url($existing_data['icon']); ?>" alt="Icon"
-                         style="max-width: 50px; max-height: 50px;">
+                    <?php if (filter_var($existing_data['icon'], FILTER_VALIDATE_URL) || strpos($existing_data['icon'], '/wp-content/') === 0) : ?>
+                        <img src="<?php echo esc_url($existing_data['icon']); ?>" alt="Icon"
+                             style="width: 50px; height: 50px;">
+                    <?php elseif (preg_match('/^mdi\smdi-/', $existing_data['icon'])) : ?>
+                        <i class="<?php echo esc_attr($existing_data['icon']); ?>" style="font-size: 50px;"></i>
+                    <?php endif; ?>
                 <?php endif; ?>
+
             </td>
             <td style="vertical-align: middle;">
-                <input style="min-width: 100%;" type="text" id="icon" name="icon"
-                       value="<?php echo esc_url(isset($existing_data['icon']) ? $existing_data['icon'] : ''); ?>"/>
+                <input style="min-width: 100%;" type="text" id="app_icon" name="icon"
+                       value="<?php if (filter_var($existing_data['icon'], FILTER_VALIDATE_URL) || strpos($existing_data['icon'], '/wp-content/') === 0) : echo esc_url(isset($existing_data['icon']) ? $existing_data['icon'] : ''); elseif (preg_match('/^mdi\smdi-/', $existing_data['icon'])) : echo esc_attr($existing_data['icon']); endif; ?>"/>
             </td>
+            <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
             <td style="vertical-align: middle;">
                 <a href="#" class="button change-icon-button" onclick="showPopup(); loadSVGIcons();">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-upload" viewBox="0 0 16 16">
-                        <path
-                            d="M.5 9.9V14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9.9a.5.5 0 0 1 1 0V14a2 2 0 0 1-2 2H1.5a2 2 0 0 1-2-2V9.9a.5.5 0 0 1 1 0z"/>
-                        <path
-                            d="M7.646 1.646a.5.5 0 0 1 .708 0L10.5 4.793a.5.5 0 1 1-.708.707L8 3.207V10.5a.5.5 0 0 1-1 0V3.207L5.207 5.5a.5.5 0 1 1-.708-.707l2.146-2.147z"/>
-                    </svg>
+                    <?php esc_html_e('Change Icon', 'disciple_tools'); ?>
                 </a>
             </td>
         </tr>
@@ -115,16 +120,6 @@ echo '</script>';
                 class="button float-right"><?php esc_html_e('Update', 'disciple_tools') ?></button>
     </span>
 </form>
-
-<div id="popup" class="popup">
-    <input type="text" id="searchInput" onkeyup="filterIcons()" placeholder="Search for icons..."
-           style="width: 100%; padding: 10px; margin-bottom: 10px;">
-    <div class="svg-container" id="svgContainer">
-        <!-- SVG icons will be dynamically inserted here -->
-    </div>
-    <br>
-    <button class="btn btn-secondary" onclick="hidePopup()"><?php esc_html_e('Close') ?></button>
-</div>
 
 
 <?php //phpcs:ignoreEnd ?>

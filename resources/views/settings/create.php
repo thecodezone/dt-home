@@ -13,14 +13,16 @@ echo '<script type="text/javascript">';
 echo 'window.svgIconUrls = ' . json_encode($svg_icon_urls) . ';';
 echo '</script>';
 //echo '<script src="../wp-content/themes/disciple-tools-theme/dt-core/admin/js/dt-options.js"></script>';
-
+//echo '<script src="../wp-admin/load-scripts.php"></script>';
 // Include the dialog-icon-selector.php template
 get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
+//get_template_part('dt-core/admin/menu/tabs/tab-scripts');
 ?>
 
 <!-- Rest of your code -->
 
-<form action="admin.php?page=dt_home&tab=app&action=create" method="post" enctype="multipart/form-data">
+<form action="admin.php?page=dt_home&tab=app&action=create" id="app_form" name="app_form" method="post"
+      enctype="multipart/form-data">
     <?php wp_nonce_field('dt_admin_form_nonce') ?>
 
     <table class="widefat striped" id="ml_email_main_col_config">
@@ -50,8 +52,9 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         </tr>
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?></td>
-            <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="icon" name="icon"
+            <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="app_icon" name="icon"
                                                        required/></td>
+            <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
             <td style="vertical-align: middle;">
                 <a href="#" class="button change-icon-button" data-icon-input="field_icon">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
