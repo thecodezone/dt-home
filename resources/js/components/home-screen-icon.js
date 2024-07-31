@@ -31,7 +31,7 @@ class AppIcon extends LitElement {
             justify-content: center;
             aspect-ratio: auto 60 / 60;
             background-color: #f0f0f0;
-            border-radius: 20px;
+            border-radius: 25%;
             width: 100%;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             margin-bottom: 8px;
@@ -53,8 +53,10 @@ class AppIcon extends LitElement {
             font-size: 10px;
             color: #333;
             text-align: center;
-            word-wrap: break-word;
-            width: 80px;
+            white-space: nowrap;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
     `
 

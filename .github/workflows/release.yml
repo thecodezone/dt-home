@@ -19,7 +19,6 @@ jobs:
       - name: Build project
         run: |
           npm install
-          npm run build
 
       - name: Install PHP
         uses: shivammathur/setup-php@master
@@ -31,17 +30,11 @@ jobs:
 
       - name: Install Scoper
         run: |
-          ./setup-scoper.sh
-
-      - name: Install dependencies
-        run: composer install --no-dev --no-interaction --ignore-platform-reqs
+          ./bin/setup-scoper.sh
 
       - name: Package release
         run: |
-          mkdir dt-home
-          rsync -av --exclude={dt-home,.git,.github,.idea,.phpunit.cache,node_modules,tests,.editorconfig,.gitignore.phpunit.result.cache,babel.config.json,CODE_OF_CONDUCT.md,CONTRIBUTING.md,package.json,package-lock.json,phpcs.xml,phpunit.xml.dist,README.md,vite.config.js} . dt-home
-          cp -r dt-home.php dist languages resources routes src vendor vendor-scoped composer.json composer.lock composer.scoped.json composer.scoped.lock LICENSE package.json package-lock.json version-control.json SECURITY.md dt-home/
-          zip -r dt-home.zip dt-home
+          ./bin/package.sh
 
       - name: Create Release
         id: create_release

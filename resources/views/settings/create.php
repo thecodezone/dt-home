@@ -51,6 +51,12 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             </td>
         </tr>
         <tr>
+            <td style="vertical-align: middle;"><?php esc_html_e('Open link in new tab') ?> [&#63;]</td>
+            <td colspan="2">
+                <input type="checkbox" name="open_in_new_tab" id="open_in_new_tab" value="1">
+            </td>
+        </tr>
+        <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?></td>
             <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="app_icon" name="icon"
                                                        required/></td>
@@ -73,6 +79,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                 <input style="min-width: 100%;" type="text" name="url" id="url"/>
             </td>
         </tr>
+
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> [&#63;]</td>
             <td colspan="2">

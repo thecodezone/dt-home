@@ -78,7 +78,7 @@ class Plugin {
 		add_action( 'init', [ $this, 'rewrite_rules' ], 9 );
 		add_action( 'query_vars', [ $this, 'query_vars' ], 9, 1 );
 		add_action( 'template_redirect', [ $this, 'template_redirect' ], 9, 0 );
-	}
+    }
 
 	/**
 	 * Activate the plugin.

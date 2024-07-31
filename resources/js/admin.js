@@ -71,6 +71,11 @@ window.filterIcons = function () {
 function toggleURLField() {
   var typeSelect = document.getElementById('type')
   var urlFieldRow = document.getElementById('urlFieldRow')
+
+  if (!typeSelect || !urlFieldRow) {
+    return;
+  }
+
   if (typeSelect.value === 'Custom') {
     urlFieldRow.style.display = 'none'
   } else {
@@ -86,7 +91,11 @@ document.addEventListener('DOMContentLoaded', function () {
   var nameInput = document.getElementById('name');
   var slugInput = document.getElementById('slug');
 
-  if (!slugInput.value) {
+  if (!slugInput || !nameInput) {
+    return;
+  }
+
+  if (nameInput && !slugInput.value) {
     nameInput.addEventListener('input', function () {
       // Convert to lowercase and replace spaces with underscores
       var slug = nameInput.value.toLowerCase()
@@ -100,6 +109,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 document.addEventListener("DOMContentLoaded", function () {
   var inputField = document.getElementById("slug");
+
+  if (!inputField) {
+    return;
+  }
 
   inputField.addEventListener("keydown", function (event) {
     // Allow controls such as backspace

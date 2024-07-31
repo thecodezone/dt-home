@@ -26,36 +26,36 @@ use DT\Home\Controllers\RegisterController;
 use DT\Home\Illuminate\Http\Request;
 use DT\Home\Symfony\Component\HttpFoundation\Response;
 
-$r->get( 'login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
 
 $r->get( '/', [ RedirectController::class, 'show' ] );
-
-$r->middleware('nonce:dt_home', function ( Routes $r ) {
-	$r->post( 'login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
-	$r->post( 'register', [ RegisterController::class, 'process',  [ 'middleware' => 'guest' ] ] );
-});
+$r->get( 'login', [ LoginController::class, 'login', [ 'middleware' => 'guest' ] ] );
 $r->get( 'register', [ RegisterController::class, 'register', [ 'middleware' => 'guest' ] ] );
 
+$r->middleware('nonce:dt_home', function ( Routes $r ) {
+    $r->post( 'login', [ LoginController::class, 'process', [ 'middleware' => 'guest' ] ] );
+    $r->post( 'register', [ RegisterController::class, 'process', [ 'middleware' => 'guest' ] ] );
+});
+
 $r->middleware('magic:home/launcher', function ( Routes $r ) {
-	$r->group('launcher/{key}', function ( Routes $r ) {
-		$r->middleware([ 'auth', 'check_share' ], function ( Routes $r ) {
-			$r->get( '/app/{slug}', [ AppController::class, 'show' ] );
-			$r->get( '', [ HomeController::class, 'show' ] );
-			$r->get( '/hidden-apps', [ HomeController::class, 'show_hidden_apps' ] );
-			$r->get( '/training', [ TrainingController::class, 'show' ] );
+    $r->group('launcher/{key}', function ( Routes $r ) {
+        $r->middleware([ 'auth', 'check_share' ], function ( Routes $r ) {
+            $r->get( '/app/{slug}', [ AppController::class, 'show' ] );
+            $r->get( '', [ HomeController::class, 'show' ] );
+            $r->get( '/hidden-apps', [ HomeController::class, 'show_hidden_apps' ] );
+            $r->get( '/training', [ TrainingController::class, 'show' ] );
 
-			$r->middleware('nonce:dt_home', function ( Routes $r ) {
-				$r->post( '/update-hide-apps', [ HomeController::class, 'update_hide_app' ] );
-				$r->post( '/un-hide-app', [ HomeController::class, 'update_unhide_app' ] );
-				$r->post( '/update-app-order', [ HomeController::class, 'update_app_order' ] );
-			});
-			$r->get( '/logout', [ LoginController::class, 'logout' ] );
-		});
+            $r->middleware('nonce:dt_home', function ( Routes $r ) {
+                $r->post( '/update-hide-apps', [ HomeController::class, 'update_hide_app' ] );
+                $r->post( '/un-hide-app', [ HomeController::class, 'update_unhide_app' ] );
+                $r->post( '/update-app-order', [ HomeController::class, 'update_app_order' ] );
+            });
+            $r->get( '/logout', [ LoginController::class, 'logout' ] );
+        });
 
-		$r->get( '/share', [ ShareController::class, 'show' ] );
+        $r->get( '/share', [ ShareController::class, 'show' ] );
 
-		$r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
-	});
+        $r->get( '/{path:.*}', fn( Request $request, Response $response ) => $response->setStatusCode( 404 ) );
+    });
 });
 
 $r->condition('backend', function ( Routes $r ) {
@@ -71,19 +71,20 @@ $r->condition('backend', function ( Routes $r ) {
             $r->get( '?page=dt_home&tab=app&action=hide/{slug}', [ AppSettingsController::class, 'hide' ] );
             $r->get( '?page=dt_home&tab=app&action=up/{slug}', [ AppSettingsController::class, 'up' ] );
             $r->get( '?page=dt_home&tab=app&action=down/{slug}', [ AppSettingsController::class, 'down' ] );
+            $r->get( '?page=dt_home&tab=app&action=delete/{slug}', [ AppSettingsController::class, 'delete' ] );
 
             $r->get( '?page=dt_home&tab=training', [ TrainingSettingsController::class, 'show_training_tab' ] );
             $r->get('?page=dt_home&tab=training&action=create', [
                 TrainingSettingsController::class,
                 'create_training'
             ]);
-            $r->get('?page=dt_home&tab=training&action=edit/{slug}', [
+            $r->get('?page=dt_home&tab=training&action=edit/{id}', [
                 TrainingSettingsController::class,
                 'edit_training'
             ]);
-            $r->get( '?page=dt_home&tab=training&action=up/{slug}', [ TrainingSettingsController::class, 'up' ] );
-            $r->get( '?page=dt_home&tab=training&action=down/{slug}', [ TrainingSettingsController::class, 'down' ] );
-            $r->get('?page=dt_home&tab=training&action=delete/{slug}', [
+            $r->get( '?page=dt_home&tab=training&action=up/{id}', [ TrainingSettingsController::class, 'up' ] );
+            $r->get( '?page=dt_home&tab=training&action=down/{id}', [ TrainingSettingsController::class, 'down' ] );
+            $r->get('?page=dt_home&tab=training&action=delete/{id}', [
                 TrainingSettingsController::class,
                 'delete'
             ]);

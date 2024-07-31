@@ -30,6 +30,9 @@ class ShareCookieTest extends TestCase {
 	 * @test
 	 */
 	public function it_sets_leader_with_cookie() {
+        $user = wp_create_user( $this->faker->userName, $this->faker->password, $this->faker->email );
+        wp_set_current_user( $user );
+        wp_set_auth_cookie( $user );
 		$middleware = $this->createPartialMock( CheckShareCookie::class, [ 'add_leader' ] );
 		$middleware->expects( $this->once() )->method( 'add_leader' );
 		$request = container()->make( Request::class );

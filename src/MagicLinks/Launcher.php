@@ -17,6 +17,10 @@ class Launcher extends MagicLink {
 	public $show_bulk_send = true;
 	public $show_app_tile = true;
 
+    public $login_whitelist = [
+        'share'
+    ];
+
 	/**
 	 * Called if the route is a magic link route.
 	 *
@@ -26,7 +30,10 @@ class Launcher extends MagicLink {
 	 * @return void
 	 */
 	public function boot() {
-		if ( ! get_option( 'dt_home_require_login', true ) && $this->get_user_id() ) {
+		if (
+            ! ( get_option( 'dt_home_require_login', true ) && $this->get_user_id() )
+            || in_array( $this->get_current_action(), $this->login_whitelist )
+        ) {
 			wp_set_current_user( $this->get_user_id() );
 		}
 	}

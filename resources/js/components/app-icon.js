@@ -59,8 +59,10 @@ class AppIcon extends LitElement {
       font-size: 14px;
       color: #333;
       text-align: center;
-      word-wrap: break-word;
-      width: 80px;
+      white-space: nowrap;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   `
 

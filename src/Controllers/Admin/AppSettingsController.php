@@ -102,6 +102,8 @@ class AppSettingsController
         $slug = $request->input( 'slug' );
         $sort = $request->input( 'sort' );
         $is_hidden = $request->input( 'is_hidden' );
+        $open_in_new_tab = $request->input( 'open_in_new_tab' );
+
 
         // Prepare the data to be stored
         $app_data = [
@@ -112,6 +114,7 @@ class AppSettingsController
             'sort' => $sort,
             'slug' => $slug,
             'is_hidden' => $is_hidden,
+            'open_in_new_tab' => $open_in_new_tab,
         ];
 
         // Get the existing apps array
@@ -306,6 +309,8 @@ class AppSettingsController
         $sort = $request->input( 'sort' );
         $new_slug = $request->input( 'slug' );
         $is_hidden = $request->input( 'is_hidden' );
+        $open_in_new_tab = $request->input( 'open_in_new_tab' );
+
         // Retrieve the existing array of apps
         $apps_array = $apps->all();
 
@@ -321,6 +326,7 @@ class AppSettingsController
                     'slug' => $new_slug,
                     'sort' => $sort,
                     'is_hidden' => $is_hidden,
+                    'open_in_new_tab' => $open_in_new_tab,
                 ];
                 break; // Stop the loop once the app is found and updated
             }
@@ -389,6 +395,7 @@ class AppSettingsController
      */
     public function delete_app( $slug )
     {
+
         // Retrieve the existing array of trainings
         $appss_array = get_option( 'dt_home_apps', [] );
 

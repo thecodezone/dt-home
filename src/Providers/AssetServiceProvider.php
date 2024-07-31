@@ -29,7 +29,14 @@ class AssetServiceProvider extends ServiceProvider
                 'nonce' => wp_create_nonce( 'dt_home' ),
                 'admin_nonce' => wp_create_nonce( 'dt_admin_form_nonce' ),
                 'route_url' => route_url(),
-                'magic_url' => magic_url()
+                'magic_url' => magic_url(),
+
+                'translations' => [
+                    'remove_app_confirmation' => __( 'Are you sure you want to remove this app?', 'dt-home' ),
+                    'installAppLabel' => 'Install as App',
+                    'hiddenAppLabel' => 'Hidden Apps',
+                    'buttonLabel' => 'Ok',
+                ]
             ]);
         });
     }

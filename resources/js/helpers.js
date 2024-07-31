@@ -45,22 +45,10 @@ export const loaded = function (callback) {
  * @param language
  * @returns {string} - The translated value of the key.
  */
-export const translate = function (key, language = 'en') {
-    const translations = {
-        en: {
-            installAppLabel: 'Install as App',
-            hiddenAppLabel: 'Hidden Apps',
-            buttonLabel: 'Ok',
-        },
-    }
 
-    // Check if the key exists in translations for the selected language
-    if (translations[language] && translations[language][key]) {
-        return translations[language][key]
-    } else {
-        // If the translation is not found, return the key itself
-        return key
-    }
+export const translate = (key, fallback = '') => {
+    if (!fallback) fallback = key
+    return window.$home.translations[key] ?? fallback
 }
 
 export const route_url = function (route) {
