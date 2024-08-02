@@ -5,18 +5,11 @@
  * @var string $link
  * @var string $page_title
  */
-$this->layout('layouts/settings', compact('tab', 'link', 'page_title', 'svg_icon_urls'));
+$this->layout('layouts/settings', compact('tab', 'link', 'page_title'));
 ?>
 <?php
-// Pass the PHP data to JavaScript
-echo '<script type="text/javascript">';
-echo 'window.svgIconUrls = ' . json_encode($svg_icon_urls) . ';';
-echo '</script>';
-//echo '<script src="../wp-content/themes/disciple-tools-theme/dt-core/admin/js/dt-options.js"></script>';
-//echo '<script src="../wp-admin/load-scripts.php"></script>';
 // Include the dialog-icon-selector.php template
 get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
-//get_template_part('dt-core/admin/menu/tabs/tab-scripts');
 ?>
 
 <!-- Rest of your code -->
@@ -62,14 +55,8 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                                                        required/></td>
             <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
             <td style="vertical-align: middle;">
-                <a href="#" class="button change-icon-button" data-icon-input="field_icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-upload" viewBox="0 0 16 16">
-                        <path
-                            d="M.5 9.9V14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1V9.9a.5.5 0 0 1 1 0V14a2 2 0 0 1-2 2H1.5a2 2 0 0 1-2-2V9.9a.5.5 0 0 1 1 0z"/>
-                        <path
-                            d="M7.646 1.646a.5.5 0 0 1 .708 0L10.5 4.793a.5.5 0 1 1-.708.707L8 3.207V10.5a.5.5 0 0 1-1 0V3.207L5.207 5.5a.5.5 0 1 1-.708-.707l2.146-2.147z"/>
-                    </svg>
+                <a href="#" class="button change-icon-button">
+                    <?php esc_html_e('Change Icon', 'disciple_tools'); ?>
                 </a>
             </td>
         </tr>

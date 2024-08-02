@@ -79,9 +79,8 @@ class AppSettingsController
         $link = 'admin.php?page=dt_home&tab=';
         $page_title = "Home Settings";
         $svg_service = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
-        $svg_icon_urls = $svg_service->get_svg_icon_urls();
 
-        return view( "settings/create", compact( 'tab', 'link', 'page_title', 'svg_icon_urls' ) );
+        return view( "settings/create", compact( 'tab', 'link', 'page_title' ) );
     }
 
     /**
@@ -349,7 +348,6 @@ class AppSettingsController
     public function edit_app( Response $response, $slug )
     {
         $svg_service = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
-        $svg_icon_urls = $svg_service->get_svg_icon_urls();
 
         $existing_data = $this->get_data_by_slug( $slug );
 
@@ -362,7 +360,7 @@ class AppSettingsController
         }
 
         // Load the edit form view and pass the existing data
-        return view( "settings/edit", compact( 'existing_data', 'link', 'tab', 'page_title', 'svg_icon_urls' ) );
+        return view( "settings/edit", compact( 'existing_data', 'link', 'tab', 'page_title' ) );
     }
 
     /**

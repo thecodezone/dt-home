@@ -7,6 +7,7 @@ use function DT\Home\Kucrut\Vite\enqueue_asset;
 use function DT\Home\namespace_string;
 use function DT\Home\plugin_path;
 
+
 class AdminServiceProvider extends ServiceProvider
 {
     /**
@@ -88,13 +89,9 @@ class AdminServiceProvider extends ServiceProvider
     public function admin_enqueue_scripts(): void
     {
 
-        wp_enqueue_script( 'common-js', admin_url() . 'js/common.min.js', true );
-        wp_enqueue_script( 'hoverintent-js-js', includes_url( 'js/hoverintent-js.min.js' ), true, '2.2.1' );
-        wp_enqueue_script( 'admin-bar-js', includes_url( '/js/admin-bar.min.js' ), true );
-        wp_enqueue_script( 'svg-painter-js', admin_url() . 'js/svg-painter.js', true );
 
+        wp_enqueue_script( 'common-js', admin_url() . 'js/common.min.js', true );
         wp_enqueue_script( 'underscore-js', includes_url( 'js/underscore.min.js' ), true, '1.13.4' );
-        wp_enqueue_script( 'shortcode-js', includes_url( 'js/shortcode.min.js' ), true );
         wp_enqueue_script( 'backbone-js', includes_url( 'js/backbone.min.js' ), true, '1.5.0' );
 
         wp_enqueue_script( 'wp-util-js', includes_url( 'js/wp-util.min.js' ), true );
@@ -143,7 +140,6 @@ class AdminServiceProvider extends ServiceProvider
             'noneditable_image' => 'This image cannot be processed by the web server. Convert it to JPEG or PNG before uploading.',
             'file_url_copied' => 'The file URL has been copied to your clipboard',
         ]);
-
         wp_localize_script('wp-plupload-js', '_wpPluploadSettings', [
             'defaults' => [
                 'file_data_name' => 'async-upload',
@@ -167,18 +163,7 @@ class AdminServiceProvider extends ServiceProvider
             'limitExceeded' => false,
         ]);
 
-
-        wp_enqueue_script( 'mediaelement-and-player-js', includes_url( 'js/mediaelement/mediaelement-and-player.min.js' ), true, '4.2.17' );
-        wp_enqueue_script( 'mediaelement-migrate-js', includes_url( 'js/mediaelement/mediaelement-migrate.min.js' ), true );
-        wp_localize_script('mediaelement-js', '_wpmejsSettings', [
-            'pluginPath' => includes_url( 'js/mediaelement/' ), // Use includes_url() to get the correct path
-            'classPrefix' => 'mejs-',
-            'stretching' => 'responsive',
-            'audioShortcodeLibrary' => 'mediaelement',
-            'videoShortcodeLibrary' => 'mediaelement',
-        ]);
         wp_enqueue_script( 'wp-mediaelement-js', includes_url( 'js/mediaelement/wp-mediaelement.min.js' ), true );
-
         wp_enqueue_script( 'wp-api-request-js', includes_url( 'js/api-request.min.js' ), true );
         wp_enqueue_script( 'wp-dom-ready-js', includes_url( 'js/dist/dom-ready.min.js' ), true );
         wp_enqueue_script( 'wp-a11y-js', includes_url( 'js/dist/a11y.min.js' ), true );
@@ -202,14 +187,10 @@ class AdminServiceProvider extends ServiceProvider
             'uploadImagesTitle' => 'Upload images',
             'mediaLibraryTitle' => 'Media Library',
             'insertMediaTitle' => 'Add media',
-            'createNewGallery' => 'Create a new gallery',
-            'createNewPlaylist' => 'Create a new playlist',
-            'createNewVideoPlaylist' => 'Create a new video playlist',
             'returnToLibrary' => '← Go to library',
             'allMediaItems' => 'All media items',
             'allDates' => 'All dates',
             'noItemsFound' => 'No items found.',
-            'insertIntoPost' => 'Insert into post',
             'unattached' => 'Unattached',
             'mine' => 'Mine',
             'trash' => 'Trash',
@@ -235,13 +216,6 @@ class AdminServiceProvider extends ServiceProvider
             'insertFromUrlTitle' => 'Insert from URL',
             'setFeaturedImageTitle' => 'Featured image',
             'setFeaturedImage' => 'Set featured image',
-            'createGalleryTitle' => 'Create gallery',
-            'editGalleryTitle' => 'Edit gallery',
-            'cancelGalleryTitle' => '← Cancel gallery',
-            'insertGallery' => 'Insert gallery',
-            'updateGallery' => 'Update gallery',
-            'addToGallery' => 'Add to gallery',
-            'addToGalleryTitle' => 'Add to gallery',
             'reverseOrder' => 'Reverse order',
             'imageDetailsTitle' => 'Image details',
             'imageReplaceTitle' => 'Replace image',
@@ -255,32 +229,6 @@ class AdminServiceProvider extends ServiceProvider
             'cropping' => 'Cropping…',
             'suggestedDimensions' => 'Suggested image dimensions: %1$s by %2$s pixels.',
             'cropError' => 'There has been an error cropping your image.',
-            'audioDetailsTitle' => 'Audio details',
-            'audioReplaceTitle' => 'Replace audio',
-            'audioAddSourceTitle' => 'Add audio source',
-            'audioDetailsCancel' => 'Cancel edit',
-            'videoDetailsTitle' => 'Video details',
-            'videoReplaceTitle' => 'Replace video',
-            'videoAddSourceTitle' => 'Add video source',
-            'videoDetailsCancel' => 'Cancel edit',
-            'videoSelectPosterImageTitle' => 'Select poster image',
-            'videoAddTrackTitle' => 'Add subtitles',
-            'playlistDragInfo' => 'Drag and drop to reorder tracks.',
-            'createPlaylistTitle' => 'Create audio playlist',
-            'editPlaylistTitle' => 'Edit audio playlist',
-            'cancelPlaylistTitle' => '← Cancel audio playlist',
-            'insertPlaylist' => 'Insert audio playlist',
-            'updatePlaylist' => 'Update audio playlist',
-            'addToPlaylist' => 'Add to audio playlist',
-            'addToPlaylistTitle' => 'Add to Audio Playlist',
-            'videoPlaylistDragInfo' => 'Drag and drop to reorder videos.',
-            'createVideoPlaylistTitle' => 'Create video playlist',
-            'editVideoPlaylistTitle' => 'Edit video playlist',
-            'cancelVideoPlaylistTitle' => '← Cancel video playlist',
-            'insertVideoPlaylist' => 'Insert video playlist',
-            'updateVideoPlaylist' => 'Update video playlist',
-            'addToVideoPlaylist' => 'Add to video playlist',
-            'addToVideoPlaylistTitle' => 'Add to video Playlist',
             'filterAttachments' => 'Filter media',
             'attachmentsList' => 'Media list',
             'settings' => [
@@ -331,6 +279,8 @@ class AdminServiceProvider extends ServiceProvider
                 'infiniteScrolling' => 0,
             ],
         ]);
+
+
         wp_enqueue_script( 'media-editor-js', includes_url( 'js/media-editor.min.js' ), true );
         wp_enqueue_script( 'media-audiovideo-js', includes_url( 'js/media-audiovideo.min.js' ), true );
         wp_enqueue_script( 'mce-view-js', includes_url( 'js/mce-view.min.js' ), true );

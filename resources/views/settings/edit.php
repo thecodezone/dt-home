@@ -5,7 +5,7 @@
  * @var string $link
  * @var string $page_title
  */
-$this->layout('layouts/settings', compact('tab', 'link', 'page_title', 'svg_icon_urls'));
+$this->layout('layouts/settings', compact('tab', 'link', 'page_title'));
 ?>
 
 <?php
@@ -77,7 +77,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             </td>
             <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
             <td style="vertical-align: middle;">
-                <a href="#" class="button change-icon-button" onclick="showPopup(); loadSVGIcons();">
+                <a href="#" class="button change-icon-button">
                     <?php esc_html_e('Change Icon', 'disciple_tools'); ?>
                 </a>
             </td>
