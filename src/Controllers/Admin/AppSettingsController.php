@@ -79,9 +79,8 @@ class AppSettingsController
         $link = 'admin.php?page=dt_home&tab=';
         $page_title = "Home Settings";
         $svg_service = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
-        $svg_icon_urls = $svg_service->get_svg_icon_urls();
 
-        return view( "settings/create", compact( 'tab', 'link', 'page_title', 'svg_icon_urls' ) );
+        return view( "settings/create", compact( 'tab', 'link', 'page_title' ) );
     }
 
     /**
@@ -103,6 +102,7 @@ class AppSettingsController
         $sort = $request->input( 'sort' );
         $is_hidden = $request->input( 'is_hidden' );
         $open_in_new_tab = $request->input( 'open_in_new_tab' );
+
 
         // Prepare the data to be stored
         $app_data = [
@@ -348,7 +348,6 @@ class AppSettingsController
     public function edit_app( Response $response, $slug )
     {
         $svg_service = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
-        $svg_icon_urls = $svg_service->get_svg_icon_urls();
 
         $existing_data = $this->get_data_by_slug( $slug );
 
@@ -361,7 +360,7 @@ class AppSettingsController
         }
 
         // Load the edit form view and pass the existing data
-        return view( "settings/edit", compact( 'existing_data', 'link', 'tab', 'page_title', 'svg_icon_urls' ) );
+        return view( "settings/edit", compact( 'existing_data', 'link', 'tab', 'page_title' ) );
     }
 
     /**
@@ -392,7 +391,7 @@ class AppSettingsController
      * @param string $slug The slug of the app to be deleted.
      * @return \Symfony\Component\HttpFoundation\RedirectResponse Redirects to the admin page with a success message.
      */
-    public function delete( $slug )
+    public function delete_app( $slug )
     {
 
         // Retrieve the existing array of trainings

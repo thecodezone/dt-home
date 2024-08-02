@@ -5,13 +5,12 @@
  * @var string $link
  * @var string $page_title
  */
-$this->layout('layouts/settings', compact('tab', 'link', 'page_title', 'svg_icon_urls'));
+$this->layout('layouts/settings', compact('tab', 'link', 'page_title'));
 ?>
 
 <?php
-echo '<script type="text/javascript">';
-echo 'window.svgIconUrls = ' . json_encode($svg_icon_urls) . ';';
-echo '</script>';
+
+get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
 ?>
 
 <form action="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr($existing_data['slug']); ?>" method="post"
@@ -63,16 +62,22 @@ echo '</script>';
             <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?></td>
             <td style="vertical-align: middle;">
                 <?php if (!empty($existing_data['icon'])) : ?>
-                    <img src="<?php echo esc_url($existing_data['icon']); ?>" alt="Icon"
-                         style="max-width: 50px; max-height: 50px;">
+                    <?php if (filter_var($existing_data['icon'], FILTER_VALIDATE_URL) || strpos($existing_data['icon'], '/wp-content/') === 0) : ?>
+                        <img src="<?php echo esc_url($existing_data['icon']); ?>" alt="Icon"
+                             style="width: 50px; height: 50px;">
+                    <?php elseif (preg_match('/^mdi\smdi-/', $existing_data['icon'])) : ?>
+                        <i class="<?php echo esc_attr($existing_data['icon']); ?>" style="font-size: 50px;"></i>
+                    <?php endif; ?>
                 <?php endif; ?>
+
             </td>
             <td style="vertical-align: middle;">
-                <input style="min-width: 100%;" type="text" id="icon" name="icon"
-                       value="<?php echo esc_url(isset($existing_data['icon']) ? $existing_data['icon'] : ''); ?>"/>
+                <input style="min-width: 100%;" type="text" id="app_icon" name="icon"
+                       value="<?php if (filter_var($existing_data['icon'], FILTER_VALIDATE_URL) || strpos($existing_data['icon'], '/wp-content/') === 0) : echo esc_url(isset($existing_data['icon']) ? $existing_data['icon'] : ''); elseif (preg_match('/^mdi\smdi-/', $existing_data['icon'])) : echo esc_attr($existing_data['icon']); endif; ?>"/>
             </td>
+            <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
             <td style="vertical-align: middle;">
-                <a href="#" class="button change-icon-button" onclick="showPopup(); loadSVGIcons();">
+                <a href="#" class="button change-icon-button">
                     <?php esc_html_e('Change Icon', 'disciple_tools'); ?>
                 </a>
             </td>
@@ -115,16 +120,6 @@ echo '</script>';
                 class="button float-right"><?php esc_html_e('Update', 'disciple_tools') ?></button>
     </span>
 </form>
-
-<div id="popup" class="popup">
-    <input type="text" id="searchInput" onkeyup="filterIcons()" placeholder="Search for icons..."
-           style="width: 100%; padding: 10px; margin-bottom: 10px;">
-    <div class="svg-container" id="svgContainer">
-        <!-- SVG icons will be dynamically inserted here -->
-    </div>
-    <br>
-    <button class="btn btn-secondary" onclick="hidePopup()"><?php esc_html_e('Close') ?></button>
-</div>
 
 
 <?php //phpcs:ignoreEnd ?>

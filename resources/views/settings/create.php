@@ -5,17 +5,17 @@
  * @var string $link
  * @var string $page_title
  */
-$this->layout('layouts/settings', compact('tab', 'link', 'page_title', 'svg_icon_urls'));
+$this->layout('layouts/settings', compact('tab', 'link', 'page_title'));
 ?>
 <?php
-// Pass the PHP data to JavaScript
-echo '<script type="text/javascript">';
-echo 'window.svgIconUrls = ' . json_encode($svg_icon_urls) . ';';
-echo '</script>';
-/*echo '<script src="../wp-content/plugins/dt-home/resources/js/components/app-setting.js"></script>';*/
+// Include the dialog-icon-selector.php template
+get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
 ?>
 
-<form action="admin.php?page=dt_home&tab=app&action=create" method="post" enctype="multipart/form-data">
+<!-- Rest of your code -->
+
+<form action="admin.php?page=dt_home&tab=app&action=create" id="app_form" name="app_form" method="post"
+      enctype="multipart/form-data">
     <?php wp_nonce_field('dt_admin_form_nonce') ?>
 
     <table class="widefat striped" id="ml_email_main_col_config">
@@ -51,10 +51,11 @@ echo '</script>';
         </tr>
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?></td>
-            <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="icon" name="icon"
+            <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="app_icon" name="icon"
                                                        required/></td>
+            <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
             <td style="vertical-align: middle;">
-                <a href="#" class="button change-icon-button" onclick="showPopup(); loadSVGIcons();">
+                <a href="#" class="button change-icon-button">
                     <?php esc_html_e('Change Icon', 'disciple_tools'); ?>
                 </a>
             </td>

@@ -13,6 +13,8 @@ class AssetServiceProvider extends ServiceProvider
     public function register(): void
     {
         add_filter(namespace_string( 'allowed_styles' ), function ( $allowed_css ) {
+            $allowed_css[] = 'material-font-icons';
+            $allowed_css[] = 'material-font-icons-local';
             $allowed_css[] = 'dt-home';
             return $allowed_css;
         });
@@ -35,7 +37,6 @@ class AssetServiceProvider extends ServiceProvider
                     'hiddenAppLabel' => 'Hidden Apps',
                     'buttonLabel' => 'Ok',
                 ]
-
             ]);
         });
     }
@@ -43,6 +44,5 @@ class AssetServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // TODO: Implement boot() method.
-        // Enqueue and localize your script here
     }
 }

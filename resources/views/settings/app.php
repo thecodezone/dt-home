@@ -36,8 +36,12 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                             <td style="border: 1px solid #ddd;"><?php echo esc_html( $app['type'] ); ?></td>
                             <td style="border: 1px solid #ddd;">
                                 <?php if ( !empty( $app['icon'] ) ) : ?>
-                                    <img src="<?php echo esc_url( $app['icon'] ); ?>" alt="Icon"
-                                         style="width: 50px; height: 50px;">
+                                    <?php if ( filter_var( $app['icon'], FILTER_VALIDATE_URL ) || strpos( $app['icon'], '/wp-content/' ) === 0 ) : ?>
+                                        <img src="<?php echo esc_url( $app['icon'] ); ?>" alt="Icon"
+                                             style="width: 50px; height: 50px;">
+                                    <?php elseif ( preg_match( '/^mdi\smdi-/', $app['icon'] ) ) : ?>
+                                        <i class="<?php echo esc_attr( $app['icon'] ); ?>" style="font-size: 50px;"></i>
+                                    <?php endif; ?>
                                 <?php endif; ?>
                             </td>
                             <td style="border: 1px solid #ddd;"><?php echo esc_attr( $app['slug'] ); ?></td>
