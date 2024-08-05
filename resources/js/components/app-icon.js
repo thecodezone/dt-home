@@ -70,7 +70,6 @@ class AppIcon extends LitElement {
      * Checks if the icon is a URL.
      * @returns {boolean} - True if the icon is a URL, otherwise false.
      */
-
     isIconURL() {
         const pattern = new RegExp('^(https?:\\/\\/|\\/)', 'i')
         return pattern.test(this.icon)
@@ -81,6 +80,9 @@ class AppIcon extends LitElement {
      * @returns {html} - The rendered HTML for the app icon.
      */
     render() {
+        console.log(`Rendering icon: ${this.icon}`)
+        console.log(`Is icon a URL? ${this.isIconURL()}`)
+
         return this.isVisible
             ? html`
                   <style>
