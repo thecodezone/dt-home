@@ -35,7 +35,10 @@ class ShareApp extends App {
 		return true;
 	}
 
-	public function url(): string {
-		return get_magic_url( 'share_app', 'ofc', \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
+	public function url( $url, $app ): string {
+        if ( empty( $url ) && $app['slug'] === 'share_app' ) {
+            return get_magic_url( 'share_app', 'ocf', \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
+        }
+        return $url;
 	}
 }
