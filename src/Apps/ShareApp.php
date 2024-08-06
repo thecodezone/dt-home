@@ -14,7 +14,7 @@ class ShareApp extends App {
 		    "type" => "custom",
 		    "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/cross.svg",
 		    "sort" => 0,
-		    "slug" => "disciple-tools-share-app",
+		    "slug" => "share_app",
 		    "is_hidden" => false,
 		];
 	}
@@ -28,7 +28,7 @@ class ShareApp extends App {
 			return false;
 		}
 
-		if ( ! magic_app( 'share_app', 'ofc' ) ) {
+		if ( ! magic_app( 'share_app', 'ocf' ) ) {
 			return false;
 		}
 
@@ -36,6 +36,6 @@ class ShareApp extends App {
 	}
 
 	public function url(): string {
-		return get_magic_url( 'share_app', 'ofc', \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
+		return get_magic_url( 'share_app', 'ocf', \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
 	}
 }
