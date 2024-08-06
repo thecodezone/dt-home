@@ -16,6 +16,29 @@ class Apps {
 		$apps = get_option( 'dt_home_apps', [] );
 		$apps = apply_filters( 'dt_home_apps', $apps );
 
+        $magic_apps = apply_filters( 'dt_magic_url_register_types', [] );
+        $magic_links = apply_filters( 'dt_settings_apps_list', [] );
+        foreach ( $magic_links as $app_key => $app_value ){
+            $display = $app_value['settings_display'] ?? true;
+            if ( $display === true ){
+                $app_user_key = get_user_option( $app_key );
+                $app_url_base = trailingslashit( trailingslashit( site_url() ) . $app_value['url_base'] );
+                $app_link = false;
+                if ( $app_user_key ){
+                    $app_link = $app_url_base . $app_user_key;
+                }
+                $apps[] = [
+                    'name' => $app_value['label'],
+                    'type' => 'Web View',
+                    'icon' => $app_value['icon'] ?? "/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg",
+                    'url' => $app_link,
+                    'slug' => $app_value['key'],
+                    'sort' => $app_value['sort'] ?? 0,
+                    'is_hidden' => false,
+                ];
+            }
+        }
+
 		// Sort the array based on the 'sort' key
 		usort($apps, function ( $a, $b ) {
 			return ( $a['sort'] ?? 0 ) - ( $b['sort'] ?? 0 );
@@ -38,9 +61,7 @@ class Apps {
 		if ( ! $user_apps ) {
 			$user_apps = [];
 		}
-		$apps = get_option( 'dt_home_apps', [] );
-		$apps = apply_filters( 'dt_home_apps', $apps );
-		$apps = $this->format( $apps );
+		$apps = $this->all();
 
 
 		foreach ( $apps as $idx => $app ) {
