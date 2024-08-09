@@ -220,7 +220,7 @@ function get_magic_url( $root, $type, $id ): string {
 		return "";
 	}
 	if ( $app['post_type'] === 'user' ) {
-		$meta_name = 'wp_' . $app['meta_key'];
+		$meta_name = get_user_option( $app['meta_key'] );
 		$key = get_user_meta( $id, $meta_name, true );
 		if ( ! $key ) {
 			$key = dt_create_unique_key();
