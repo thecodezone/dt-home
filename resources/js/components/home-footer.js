@@ -130,7 +130,7 @@ class HomeFooter extends LitElement {
                 }
 
                 .custom-dialog-overlay {
-                    left: 65px;
+                    left: 90px;
                     right: 0;
                     bottom: 0;
                     top: auto;
