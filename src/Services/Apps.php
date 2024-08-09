@@ -4,6 +4,7 @@ namespace DT\Home\Services;
 
 use DT\Home\Illuminate\Support\Arr;
 use function DT\Home\container;
+use function DT\Home\get_magic_url;
 
 class Apps {
 	/**
@@ -13,29 +14,35 @@ class Apps {
 	 */
 	public function all() {
 		// Get the apps array from the option
-		$apps = get_option( 'dt_home_apps', [] );
-		$apps = apply_filters( 'dt_home_apps', $apps );
+		$home_apps = get_option( 'dt_home_apps', [] );
+        $home_apps = apply_filters( 'dt_home_apps', $home_apps );
+
+        $apps = [];
+        foreach ( $home_apps as $app ){
+            $apps[$app['slug']] = $app;
+        }
 
         $magic_apps = apply_filters( 'dt_magic_url_register_types', [] );
-        $magic_links = apply_filters( 'dt_settings_apps_list', [] );
-        foreach ( $magic_links as $app_key => $app_value ){
-            $display = $app_value['settings_display'] ?? true;
-            if ( $display === true ){
-                $app_user_key = get_user_option( $app_key );
-                $app_url_base = trailingslashit( trailingslashit( site_url() ) . $app_value['url_base'] );
-                $app_link = false;
-                if ( $app_user_key ){
-                    $app_link = $app_url_base . $app_user_key;
+        foreach ( $magic_apps as $root_key => $root_value ){
+            foreach ( $root_value as $type_key => $app ){
+                if ( empty( $app['meta']['show_in_home_apps'] ) ){
+                    continue;
                 }
-                $apps[] = [
-                    'name' => $app_value['label'],
-                    'type' => 'Web View',
-                    'icon' => $app_value['icon'] ?? "/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg",
+                if ( $app['post_type'] === 'user' ){
+                    $app_link = get_magic_url( $app['root'], $app['type'], get_current_user_id() );
+                }
+                if ( $app['post_type'] === 'contacts' ){
+                    $app_link = get_magic_url( $app['root'], $app['type'], \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
+                }
+                $apps[$app['type']] = array_merge( [
+                    'name' => $app['label'],
+                    'type' => 'Link',
+                    'icon' => $app['meta']['icon'] ?? '/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg',
                     'url' => $app_link,
-                    'slug' => $app_value['key'],
-                    'sort' => $app_value['sort'] ?? 0,
+                    'slug' => $app['type'],
+                    'sort' => $app['sort'] ?? 10,
                     'is_hidden' => false,
-                ];
+                ], $apps[$app['type']] ?? [] );
             }
         }
 
