@@ -36,7 +36,7 @@ class Apps {
                 }
                 $apps[$app['type']] = array_merge( [
                     'name' => $app['label'],
-                    'type' => 'Link',
+                    'type' => 'Web View',
                     'icon' => $app['meta']['icon'] ?? '/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg',
                     'url' => $app_link,
                     'slug' => $app['type'],
