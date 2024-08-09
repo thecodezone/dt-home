@@ -4,14 +4,12 @@ namespace DT\Home\Providers;
 
 use DT\Home\Apps\Autolink;
 use DT\Home\Apps\BiblePlugin;
-use DT\Home\Apps\ShareApp;
 use DT\Home\Apps\ThreeThirdsMeetings;
 
 class AppServiceProvider extends ServiceProvider {
 	protected $apps = [
 		Autolink::class,
 		BiblePlugin::class,
-		ShareApp::class,
 		ThreeThirdsMeetings::class
 	];
 

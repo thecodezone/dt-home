@@ -113,9 +113,9 @@ abstract class App {
 
 	public function dt_home_webview_url( $url, $app ) {
 		if ( $app['slug'] !== $this->config()['slug'] ) {
-			return;
+			return $url;
 		}
 
-		return $this->url();
+		return $this->url( $url, $app );
 	}
 }
