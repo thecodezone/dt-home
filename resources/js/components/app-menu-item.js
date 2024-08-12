@@ -8,9 +8,13 @@ export class AppMenuItem extends MenuItem {
         return [
             super.styles,
             css`
+                :host {
+                    border-left: 2px solid transparent;
+                }
+
                 :host(:hover) {
                     background-color: hsl(209, 72%, 87%);
-                    border-left: 2px solid hsla(221, 94%, 47%, 1);
+                    border-color: hsla(221, 94%, 47%, 1);
                 }
             `,
         ]

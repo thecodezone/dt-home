@@ -122,7 +122,7 @@ class HomeFooter extends LitElement {
 
             @media (max-width: 600px) {
                 .footer-container {
-                    bottom: 10px; /* Move the button further down */
+                    bottom: 25px; /* Move the button further down */
                     position: fixed;
                     width: 100%;
                     display: flex;
@@ -132,7 +132,7 @@ class HomeFooter extends LitElement {
                 .custom-dialog-overlay {
                     left: 90px;
                     right: 0;
-                    bottom: 0;
+                    bottom: 25px;
                     top: auto;
                     width: 60vw;
                     max-height: 400px; /* Set max height */
