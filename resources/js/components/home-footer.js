@@ -69,6 +69,7 @@ class HomeFooter extends LitElement {
 
             .custom-dialog-overlay {
                 position: fixed;
+                inset: 380px 25px 18px 570px;
                 bottom: 18px;
                 top: 380px; /* Adjusted for better height */
                 right: 25px;
@@ -81,13 +82,40 @@ class HomeFooter extends LitElement {
                 box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Optional: Add a subtle shadow */
             }
 
-            sp-dialog {
-                background-color: white;
+            .custom-dialog-overlay-button {
+                position: fixed;
+                bottom: 18px;
+                top: 380px; /* Adjusted for better height */
+                right: 25px;
+                left: 570px;
+                transform: none;
+                z-index: 9999;
                 border: none; /* Remove any border */
-                box-shadow: none; /* Remove any shadow */
-                height: auto; /* Let the content dictate the height */
-                padding: 0; /* Remove default padding */
-                overflow: hidden; /* Hide overflow */
+                height: 200px; /* Let the content dictate the height */
+                max-height: 500px; /* Set max height to avoid overflow */
+            }
+
+            sp-dialog {
+                background-color: white; /* Ensure the dialog is transparent */
+                box-shadow: none; /* Remove shadow if desired */
+                border: none; /* Remove border if necessary */
+            }
+
+            .cardButton {
+                padding: 4px 21px;
+                background-color: hsla(216, 100%, 50%, 1);
+                color: white;
+                cursor: pointer;
+                bottom: 51px;
+            }
+
+            .cardButton:hover {
+                background-color: hsla(
+                    216,
+                    100%,
+                    60%,
+                    1
+                ); /* Slightly lighter blue on hover */
             }
 
             .app-row {
@@ -127,6 +155,23 @@ class HomeFooter extends LitElement {
                     width: 100%;
                     display: flex;
                     right: 10px;
+                }
+
+                .custom-dialog-overlay-button {
+                    position: absolute;
+                    top: 450px;
+                    left: 64px;
+                }
+
+                .cardButton {
+                    padding: 4px 21px;
+                    background-color: hsla(216, 100%, 50%, 1);
+                    color: white;
+                    cursor: pointer;
+                    bottom: 45px;
+                    white-space: nowrap; /* Prevents text wrapping */
+                    overflow: hidden; /* Ensures any overflow is hidden */
+                    text-overflow: ellipsis; /* Adds an ellipsis (...) if the text overflows */
                 }
 
                 .custom-dialog-overlay {
@@ -286,15 +331,22 @@ class HomeFooter extends LitElement {
                     <button slot="trigger" class="trigger-button">
                         <sp-icon-add></sp-icon-add>
                     </button>
-
+                    <div
+                        slot="click-content"
+                        class="custom-app custom-dialog-overlay-button"
+                    >
+                        <sp-button class="cardButton"> Custom App</sp-button>
+                    </div>
                     <sp-dialog
                         slot="click-content"
                         class="custom-dialog-overlay"
                         size="xs"
                     >
-                        <dt-app-menu label="Choose an app">
-                            ${this.renderAppItems()}
-                        </dt-app-menu>
+                        <div class="card">
+                            <dt-app-menu label="Choose an app">
+                                ${this.renderAppItems()}
+                            </dt-app-menu>
+                        </div>
                     </sp-dialog>
                 </overlay-trigger>
             </div>
