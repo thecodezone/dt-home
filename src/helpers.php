@@ -220,7 +220,7 @@ function get_magic_url( $root, $type, $id ): string {
 		return "";
 	}
 	if ( $app['post_type'] === 'user' ) {
-		$meta_name = 'wp_' . $app['meta_key'];
+		$meta_name = get_user_option( $app['meta_key'] );
 		$key = get_user_meta( $id, $meta_name, true );
 		if ( ! $key ) {
 			$key = dt_create_unique_key();
@@ -229,20 +229,13 @@ function get_magic_url( $root, $type, $id ): string {
 
 		return DT_Magic_URL::get_link_url( $root, $type, $key );
 	} else {
-		$record = \DT_Posts::get_post( $app['post_type'], $id, true, false );
-		if ( ! isset( $record[ $app["meta_key"] ] ) ) {
-			$key = dt_create_unique_key();
-			update_post_meta( get_the_ID(), $app["meta_key"], $key );
-		}
+        return DT_Magic_URL::get_link_url_for_post(
+            $app["post_type"],
+            $id,
+            $app["root"],
+            $app["type"]
+        );
 	}
-
-
-	return DT_Magic_URL::get_link_url_for_post(
-		$app["post_type"],
-		$id,
-		$app["root"],
-		$app["type"]
-	);
 }
 
 /**
