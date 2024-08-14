@@ -122,7 +122,7 @@ class HomeFooter extends LitElement {
 
             @media (max-width: 600px) {
                 .footer-container {
-                    bottom: 25px; /* Move the button further down */
+                    //top: calc(100dvh - 15px);
                     position: fixed;
                     width: 100%;
                     display: flex;

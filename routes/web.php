@@ -71,7 +71,7 @@ $r->condition('backend', function ( Routes $r ) {
             $r->get( '?page=dt_home&tab=app&action=hide/{slug}', [ AppSettingsController::class, 'hide' ] );
             $r->get( '?page=dt_home&tab=app&action=up/{slug}', [ AppSettingsController::class, 'up' ] );
             $r->get( '?page=dt_home&tab=app&action=down/{slug}', [ AppSettingsController::class, 'down' ] );
-            $r->get( '?page=dt_home&tab=app&action=delete/{slug}', [ AppSettingsController::class, 'delete' ] );
+            $r->get( '?page=dt_home&tab=app&action=delete/{slug}', [ AppSettingsController::class, 'delete_app' ] );
 
             $r->get( '?page=dt_home&tab=training', [ TrainingSettingsController::class, 'show_training_tab' ] );
             $r->get('?page=dt_home&tab=training&action=create', [
