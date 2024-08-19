@@ -43,6 +43,8 @@ $r->middleware('magic:home/launcher', function ( Routes $r ) {
             $r->get( '', [ HomeController::class, 'show' ] );
             $r->get( '/hidden-apps', [ HomeController::class, 'show_hidden_apps' ] );
             $r->get( '/training', [ TrainingController::class, 'show' ] );
+            $r->get( '/get-apps', [ HomeController::class, 'get_apps' ] );
+
 
             $r->middleware('nonce:dt_home', function ( Routes $r ) {
                 $r->post( '/update-hide-apps', [ HomeController::class, 'update_hide_app' ] );

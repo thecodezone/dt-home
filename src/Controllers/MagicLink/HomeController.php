@@ -25,8 +25,10 @@ class HomeController
      */
     public function show( Request $request, Response $response, Apps $apps, $key )
     {
+
         $user = get_current_user_id();
         $subpage_url = magic_url( 'subpage', $key );
+
         $apps_array = $apps->for_user( $user );
         $data = json_encode( $apps_array );
         $hidden_data = json_encode( $apps_array );
@@ -240,5 +242,16 @@ class HomeController
         }
 
         return template( 'web-view', compact( 'desired_app' ) );
+    }
+
+    public function get_apps( Apps $apps, Response $response )
+    {
+        // Fetch all apps
+        $user = get_current_user_id();
+        $apps_array = $apps->for_user( $user );
+        $response->setContent( $apps_array );
+
+        // Return the response
+        return $response;
     }
 }

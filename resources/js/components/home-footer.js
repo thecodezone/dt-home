@@ -190,6 +190,27 @@ class HomeFooter extends LitElement {
     connectedCallback() {
         super.connectedCallback()
         this.loadAppData()
+        document.addEventListener('app-hidden', this.handleAppHidden.bind(this))
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback()
+        document.removeEventListener(
+            'app-hidden',
+            this.handleAppHidden.bind(this)
+        )
+    }
+
+    handleAppHidden(event) {
+        const hiddenApp = event.detail.app
+        const appIndex = this.appData.findIndex(
+            (app) => app.slug === hiddenApp.slug
+        )
+
+        if (appIndex > -1) {
+            this.appData[appIndex] = hiddenApp
+            this.requestUpdate()
+        }
     }
 
     loadAppData() {
@@ -202,28 +223,37 @@ class HomeFooter extends LitElement {
 
     postAppDataToServer(appSlug) {
         const url = this.appUrl + '/un-hide-app'
-        const appToHide = this.appData.find((app) => app.slug === appSlug)
+        const appToUnHide = this.appData.find((app) => app.slug === appSlug)
 
-        if (!appToHide) {
+        if (!appToUnHide) {
             console.error('App not found')
             return
         }
+
+        // Optimistically update the UI before making the request
+        appToUnHide.is_hidden = 0
+        this.requestUpdate()
+
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-WP-Nonce': $home.nonce,
+                'X-WP-Nonce': $home.nonce, // Ensure $home.nonce is defined in your environment
             },
-            body: JSON.stringify(appToHide),
+            body: JSON.stringify(appToUnHide),
         })
             .then((response) => {
-                if (response.ok) {
-                    window.location.reload()
-                } else {
-                    // Handle error
+                if (!response.ok) {
+                    // If the request fails, revert the UI change
+                    appToUnHide.is_hidden = 1
+                    this.requestUpdate()
+                    console.error('Failed to update the server')
                 }
             })
             .catch((error) => {
+                // Handle errors and revert the change if necessary
+                appToUnHide.is_hidden = 1
+                this.requestUpdate()
                 console.error('Error:', error)
             })
     }
@@ -235,10 +265,30 @@ class HomeFooter extends LitElement {
             console.error('App not found')
             return
         }
-        const appId = this.appData[appIndex].slug
-        this.postAppDataToServer(appId)
-        this.requestUpdate()
+        this.appData[appIndex].is_hidden = 0
+
+        this.postAppDataToServer(appSlug)
+        // Dispatch a custom event that the app has been unhidden
+        this.dispatchEvent(
+            new CustomEvent('app-unhidden', {
+                detail: { app: this.appData[appIndex] },
+                bubbles: true,
+                composed: true,
+            })
+        )
     }
+
+    // handleAppClick(e, appSlug) {
+    //   e.stopPropagation()
+    //   const appIndex = this.appData.findIndex((app) => app.slug === appSlug)
+    //   if (appIndex === -1) {
+    //     console.error('App not found')
+    //     return
+    //   }
+    //   const appId = this.appData[appIndex].slug
+    //   this.postAppDataToServer(appId)
+    //   this.requestUpdate()
+    // }
 
     isIconURL(icon) {
         return /^(https?:\/\/|data:image|\/|\.\/|\.\.\/)/.test(icon)

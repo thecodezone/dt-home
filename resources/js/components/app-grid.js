@@ -1,7 +1,7 @@
-import { css, html, LitElement } from 'lit'
-import { customElement } from 'lit-element'
-import { property, queryAll } from 'lit/decorators.js'
-import { magic_url } from '../helpers.js'
+import {css, html, LitElement} from 'lit'
+import {customElement} from 'lit-element'
+import {property, queryAll} from 'lit/decorators.js'
+import {magic_url} from '../helpers.js'
 
 /**
  * Custom element representing an application grid.
@@ -89,6 +89,43 @@ class AppGrid extends LitElement {
         document.addEventListener('mousedown', this.handleMouseDown)
         document.addEventListener('mouseup', this.handleMouseUp)
         document.addEventListener('mouseleave', this.handleMouseLeave)
+        document.addEventListener(
+            'app-unhidden',
+            this.handleAppUnhidden.bind(this)
+        )
+    }
+
+    disconnectedCallback() {
+        super.disconnectedCallback()
+        document.removeEventListener(
+            'app-unhidden',
+            this.handleAppUnhidden.bind(this)
+        )
+        document.removeEventListener('click', this.handleDocumentClick)
+        document.removeEventListener('mousedown', this.handleMouseDown)
+        document.removeEventListener('mouseup', this.handleMouseUp)
+        document.removeEventListener('mouseleave', this.handleMouseLeave)
+    }
+
+    handleAppUnhidden(event) {
+        const unhiddenApp = event.detail.app
+        fetch(this.appUrl + '/get-apps')
+            .then((response) => response.json())
+            .then((data) => {
+                this.appData = data
+                const appIndex = this.appData.findIndex(
+                    (app) => app.slug === unhiddenApp.slug
+                )
+                if (appIndex > -1) {
+                    this.appData[appIndex] = unhiddenApp
+                    this.requestUpdate()
+                } else {
+                    console.log('App not found in appData:', unhiddenApp.slug)
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error)
+            })
     }
 
     /**
@@ -237,6 +274,7 @@ class AppGrid extends LitElement {
      * @param {number} index - The index of the app to be removed.
      * @param {object} app - The app object.
      */
+
     handleRemove(event, index, { slug }) {
         event.stopPropagation()
         event.preventDefault()
@@ -314,8 +352,9 @@ class AppGrid extends LitElement {
      */
     loadAppData() {
         // Fetch your data from an external source or set it from an attribute
-        // For this example, let's assume it's set from a JSON attribute
+        //  For this example, let's assume it's set from a JSON attribute
         const jsonData = this.getAttribute('app-data')
+
         this.appUrl = this.getAttribute('app-url')
 
         if (jsonData) {
@@ -327,6 +366,7 @@ class AppGrid extends LitElement {
      * Posts data of the app to be hidden to the server.
      * @param {string} appId - The ID of the app to be hidden.
      */
+
     postAppDataToServer(slug) {
         const url = this.appUrl + '/update-hide-apps'
         const appToHide = this.appData.find((app) => app.slug === slug)
@@ -346,9 +386,17 @@ class AppGrid extends LitElement {
         })
             .then((response) => {
                 if (response.ok) {
-                    window.location.reload()
+                    appToHide.is_hidden = 1
+                    this.requestUpdate()
+                    this.dispatchEvent(
+                        new CustomEvent('app-hidden', {
+                            detail: { app: appToHide },
+                            bubbles: true,
+                            composed: true,
+                        })
+                    )
                 } else {
-                    // Handle error
+                    console.error('Failed to update the server')
                 }
             })
             .catch((error) => {
