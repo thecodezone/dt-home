@@ -80,6 +80,9 @@ class AppIcon extends LitElement {
      * @returns {html} - The rendered HTML for the app icon.
      */
     render() {
+        console.log(`Rendering icon: ${this.icon}`)
+        console.log(`Is icon a URL? ${this.isIconURL()}`)
+
         return this.isVisible
             ? html`
                   <style>
