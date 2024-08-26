@@ -1,184 +1,98 @@
-import { css, html, LitElement } from 'lit'
+import { css, html, LitElement, nothing } from 'lit'
 import { property } from 'lit/decorators.js'
-import '@spectrum-web-components/dialog/sp-dialog.js'
-import '@spectrum-web-components/button/sp-button.js'
-import '@spectrum-web-components/overlay/overlay-trigger.js'
+import '@spectrum-web-components/action-menu/sp-action-menu.js'
 import { customElement } from 'lit-element'
-import './app-menu.js'
-import './app-menu-item.js'
 
 @customElement('dt-home-footer')
 class HomeFooter extends LitElement {
     static properties = {
         appUrl: { type: String },
     }
-
     @property({ type: Object })
     translations = {
         hiddenAppsLabel: 'Hidden Apps',
         buttonLabel: 'Ok',
     }
-
     @property({ type: Array })
-    appData = []
+    appData = [] // Declare appData as a property
 
     static get styles() {
         return css`
-            :host {
-                --mod-divider-thickness: 0px;
-                --spectrum-spacing-300: 0px;
-                --spectrum-spacing-200: 0px;
-                --spectrum-dialog-confirm-divider-block-spacing-start: var(
-                    --spectrum-spacing-300
-                );
-                --spectrum-dialog-confirm-divider-block-spacing-end: var(
-                    --spectrum-spacing-200
-                );
-                --mod-dialog-confirm-padding-grid: 0px;
-                --spectrum-dialog-confirm-padding-grid: 0px;
-                --spectrum-spacing-50: 0px;
-                --spectrum-dialog-confirm-description-padding: var(
-                    --spectrum-spacing-50
-                );
-            }
-
             .footer-container {
                 padding: 5px;
+                box-sizing: border-box;
                 display: flex;
                 justify-content: right;
-                bottom: 10px;
             }
 
-            .trigger-button {
-                border: none;
-                color: white;
-                cursor: pointer;
-                background-color: #1a73e8; /* Blue background */
-                border-radius: 50%; /* Make the button circular */
-                width: 40px; /* Set width */
-                height: 40px; /* Set height */
-                display: flex; /* Center the icon */
-                justify-content: center; /* Center the icon horizontally */
-                align-items: center; /* Center the icon vertically */
-            }
-
-            .trigger-button sp-icon-add {
-                width: 36px; /* Icon width */
-                height: 36px; /* Icon height */
-            }
-
-            .custom-dialog-overlay {
-                position: fixed;
-                bottom: 18px;
-                top: 380px; /* Adjusted for better height */
-                right: 25px;
-                left: 570px;
-                transform: none;
-                z-index: 9999;
-                border: none; /* Remove any border */
-                height: 200px; /* Let the content dictate the height */
-                max-height: 500px; /* Set max height to avoid overflow */
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Optional: Add a subtle shadow */
-            }
-
-            sp-dialog {
-                background-color: white;
-                border: none; /* Remove any border */
-                box-shadow: none; /* Remove any shadow */
-                height: auto; /* Let the content dictate the height */
-                padding: 0; /* Remove default padding */
-                overflow: hidden; /* Hide overflow */
-            }
-
-            .app-row {
+            .footer-button {
                 display: flex;
-                align-items: center;
-                border-bottom: 1px solid lightgray; /* Add bottom border */
+                margin: 0px;
+                padding: 5px 130px 11px 10px;
+                font-size: 15px;
+                border: 2px solid rgb(248, 243, 243);
+                background-color: #f5f5f5;
+                color: rgb(15, 15, 16);
+                text-decoration: none;
+                border-radius: 5px;
+                transition:
+                    background-color 0.3s ease 0s,
+                    color 0.3s ease 0s;
+                white-space: nowrap;
+                --mod-popover-border-width: 1px solid #404040 !important;
             }
 
-            .app-row:last-child {
-                border-bottom: none; /* Remove bottom border for the last item */
+            .footer-button:hover {
+                background-color: #e1e0e0;
+                color: #030000;
+                cursor: pointer;
             }
 
-            .app-icon {
-                width: 30px;
-                height: 30px;
-                margin-right: 8px;
-            }
-
-            .material-icons.app-icon {
-                font-size: 30px;
-                line-height: 30px;
-            }
-
-            .app-name {
-                flex: 1; /* Ensure the name takes the remaining space */
-                color: black; /* Ensure text color is black */
-            }
-
-            .app-name:hover {
-                color: hsla(216, 100%, 50%, 1);
-            }
-
-            @media (max-width: 600px) {
-                .footer-container {
-                    bottom: 10px; /* Move the button further down */
-                    position: fixed;
-                    width: 100%;
-                    display: flex;
-                    right: 10px;
-                }
-
-                .custom-dialog-overlay {
-                    left: 65px;
-                    right: 0;
-                    bottom: 0;
-                    top: auto;
-                    width: 60vw;
-                    max-height: 400px; /* Set max height */
-                    overflow: hidden; /* Hide overflow */
-                }
-
-                sp-dialog {
-                    background-color: white;
-                    height: auto; /* Let the content dictate the height */
-                }
-            }
-
-            sp-menu-item {
-                background-color: transparent !important;
-                border-left: none !important;
-                transition: none !important;
-                padding-left: 0 !important;
-                outline: none !important; /* Ensure no focus outline */
-                box-shadow: none !important; /* Ensure no box shadow */
-            }
-
-            sp-menu-item::part(heading),
-            sp-menu-item::part(indicator),
-            sp-menu-item::part(checkmark) {
-                display: none !important;
-            }
-
-            sp-menu-item:hover,
-            sp-menu-item:focus,
-            sp-menu-item:active,
-            sp-menu-item:focus-visible {
-                border-left: none !important; /* Remove left border on all states */
-                background-color: lightgray !important; /* Change hover background color as needed */
-                outline: none !important; /* Remove focus outline */
-                box-shadow: none !important; /* Ensure no box shadow */
-            }
-
-            sp-menu-item[focused] {
-                outline: none !important;
-                border-left: none !important; /* Remove blue left border */
-                box-shadow: none !important; /* Ensure no box shadow */
+            .footer-button span {
+                text-decoration: none !important;
+                color: #222 !important;
             }
 
             .no-data {
-                color: gray;
-                padding: 10px; /* Add padding for space */
+                font-size: 14px;
+                padding: 4px;
+            }
+
+            sp-action-menu {
+                margin-left: auto;
+                font-size: 18px;
+                border-radius: 10px;
+            }
+
+            .hidden__apps {
+                --system-spectrum-button-primary-background-color-default: #3f729b;
+                --system-spectrum-button-primary-background-color-hover: #3f729b;
+                --system-spectrum-button-primary-background-color-down: #1b4465;
+                --system-spectrum-button-secondary-background-color-default: #3f729b;
+                --system-spectrum-button-secondary-background-color-hover: #3f729b;
+                --system-spectrum-button-secondary-background-color-down: #1b4465;
+                --system-spectrum-button-secondary-content-color-default: #ffff;
+                --system-spectrum-button-secondary-content-color-hover: #ffff;
+                --system-spectrum-button-secondary-content-color-down: #ffff;
+                --spectrum-component-pill-edge-to-text-100: 40px;
+                --mod-button-border-width: 10px;
+                --spectrum-button-font-size: 14px;
+            }
+
+            :host {
+                --mod-actionbutton-border-radius: 7px;
+                font-weight: 400;
+                color: #3f729b;
+                --mod-popover-border-color: rgb(66, 64, 64);
+                --mod-popover-corner-radius: 5px;
+                --mod-popover-border-width: 1px;
+                --spectrum-spacing-100: 20px;
+            }
+
+            @media (hover: hover) {
+                :host(:hover) {
+                    --mod-popover-border-color: rgb(66, 64, 64);
+                }
             }
         `
     }
@@ -192,6 +106,12 @@ class HomeFooter extends LitElement {
         this.loadAppData()
     }
 
+    /**
+     * Loads application data from the attributes and parses it into the appData property.
+     *
+     * @memberof HomeFooter
+     * @returns {void}
+     */
     loadAppData() {
         const jsonData = this.getAttribute('hidden-data')
         this.appUrl = this.getAttribute('app-url-unhide')
@@ -200,6 +120,13 @@ class HomeFooter extends LitElement {
         }
     }
 
+    /**
+     * Posts the selected app data to the server for un-hiding.
+     *
+     * @memberof HomeFooter
+     * @param {string} appSlug - The ID of the app to un-hide.
+     * @returns {void}
+     */
     postAppDataToServer(appSlug) {
         const url = this.appUrl + '/un-hide-app'
         const appToHide = this.appData.find((app) => app.slug === appSlug)
@@ -223,11 +150,21 @@ class HomeFooter extends LitElement {
                     // Handle error
                 }
             })
+
             .catch((error) => {
                 console.error('Error:', error)
             })
     }
 
+    /**
+     * Handles the click event on an app item.
+     * Calls postAppDataToServer and requests an update.
+     *
+     * @memberof HomeFooter
+     * @param {Event} e - The click event object.
+     * @param {string} appId - The ID of the app clicked.
+     * @returns {void}
+     */
     handleAppClick(e, appSlug) {
         e.stopPropagation()
         const appIndex = this.appData.findIndex((app) => app.slug === appSlug)
@@ -240,62 +177,69 @@ class HomeFooter extends LitElement {
         this.requestUpdate()
     }
 
-    isIconURL(icon) {
-        return /^(https?:\/\/|data:image|\/|\.\/|\.\.\/)/.test(icon)
-    }
-
     renderAppItems() {
+        // Filter appData to only include items where is_hidden is true
         const hiddenApps = this.hiddenApps
 
+        // Check if the hiddenApps array is empty and return a message if so
         if (hiddenApps.length === 0) {
-            return html` <dt-app-menu-item class="no-data"
-                >No hidden apps available.
-            </dt-app-menu-item>`
+            return html` <sp-menu-item class="no-data"
+                >No hidden apps available.</sp-menu-item
+            >`
         }
 
+        // Map the filtered data to HTML elements if hidden apps are present
         return hiddenApps.map(
             (app) => html`
-                <dt-app-menu-item
+                <sp-menu-item
+                    class="footer-button"
+                    id="app-grid__remove-icon-${app.slug}"
+                    class="app-grid__remove-icon"
                     @click="${(e) => this.handleAppClick(e, app.slug)}"
                 >
-                    <div class="app-row">
-                        ${this.isIconURL(app.icon)
-                            ? html`<img
-                                  src="${app.icon}"
-                                  class="app-icon"
-                                  alt="icon"
-                              />`
-                            : html`<span
-                                  id="app-icon"
-                                  class="app-icon material-icons ${app.icon}"
-                              ></span>`}
-                        <span class="app-name">${app.name}</span>
-                    </div>
-                </dt-app-menu-item>
+                    ${app.name}
+                </sp-menu-item>
             `
         )
     }
 
     render() {
         return html`
-            <style>
-                @import url('https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css');
-            </style>
             <div class="footer-container">
                 <overlay-trigger type="modal">
-                    <button slot="trigger" class="trigger-button">
-                        <sp-icon-add></sp-icon-add>
-                    </button>
+                    <sp-dialog-base underlay slot="click-content">
+                        <sp-dialog size="s">
+                            <h2 slot="heading">
+                                ${this.translations.hiddenAppsLabel}
+                            </h2>
+                            <span slot="label"
+                                >${this.translations.hiddenAppsLabel}</span
+                            >
 
-                    <sp-dialog
-                        slot="click-content"
-                        class="custom-dialog-overlay"
-                        size="xs"
-                    >
-                        <dt-app-menu label="Choose an app">
-                            ${this.renderAppItems()}
-                        </dt-app-menu>
-                    </sp-dialog>
+                            <sp-menu label="Choose an app">
+                                ${this.renderAppItems()}
+                            </sp-menu>
+
+                            <sp-button
+                                class="hidden__apps"
+                                variant="secondary"
+                                treatment="fill"
+                                slot="button"
+                                onclick="this.dispatchEvent(new Event('close', { bubbles: true, composed: true }));"
+                            >
+                                ${this.translations.buttonLabel}
+                            </sp-button>
+                        </sp-dialog>
+                    </sp-dialog-base>
+
+                    ${this.hiddenApps.length
+                        ? html` <sp-action-button slot="trigger">
+                              <sp-icon-more-small-list-vert
+                                  slot="icon"
+                              ></sp-icon-more-small-list-vert>
+                              ${this.translations.hiddenAppsLabel}
+                          </sp-action-button>`
+                        : nothing}
                 </overlay-trigger>
             </div>
         `
