@@ -215,19 +215,16 @@ function magic_app( $root, $type ): array|bool {
  * @return string The generated magic URL.
  */
 function get_magic_url( $root, $type, $id ): string {
+
 	$app = magic_app( $root, $type );
 	if ( ! $app ) {
 		return "";
 	}
-	if ( $app['post_type'] === 'user' ) {
-		$meta_name = get_user_option( $app['meta_key'] );
-		$key = get_user_meta( $id, $meta_name, true );
-		if ( ! $key ) {
-			$key = dt_create_unique_key();
-			update_user_meta( $id, $meta_name, $key );
-		}
 
-		return DT_Magic_URL::get_link_url( $root, $type, $key );
+	if ( $app['post_type'] === 'user' ) {
+        $app_user_key = get_user_option( $app['meta_key'] );
+        $app_url_base = trailingslashit( trailingslashit( site_url() ) . $app['url_base'] );
+        return $app_url_base . $app_user_key;
 	} else {
         return DT_Magic_URL::get_link_url_for_post(
             $app["post_type"],
