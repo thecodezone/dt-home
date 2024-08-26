@@ -28,8 +28,6 @@ import '@spectrum-web-components/icons-workflow/icons/sp-icon-close.js'
 import '@spectrum-web-components/field-group/sp-field-group.js'
 import '@spectrum-web-components/textfield/sp-textfield.js'
 import '@spectrum-web-components/dialog/sp-dialog-base.js'
-import '@spectrum-web-components/icons-workflow/icons/sp-icon-add.js'
-
 /**
  * Web Components
  */
@@ -37,7 +35,7 @@ import './components/app-grid.js'
 import './components/home-footer.js'
 import './components/menu.js'
 import './components/training-video.js'
-import './components/app-icon.js'
+import './components/home-screen-icon.js'
 
 /**
  * CSS

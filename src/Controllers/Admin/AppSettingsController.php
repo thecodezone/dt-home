@@ -391,7 +391,7 @@ class AppSettingsController
      * @param string $slug The slug of the app to be deleted.
      * @return \Symfony\Component\HttpFoundation\RedirectResponse Redirects to the admin page with a success message.
      */
-    public function delete_app( $slug )
+    public function delete( $slug )
     {
 
         // Retrieve the existing array of trainings
