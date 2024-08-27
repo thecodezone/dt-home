@@ -34,6 +34,26 @@ class AppSettingsController
     }
 
     /**
+     * Show the available apps tab.
+     *
+     * @param Request $request
+     * @param Response $response
+     *
+     * @return mixed
+     */
+
+    public function show_available_app( Request $request, Response $response )
+    {
+
+        $tab = "app";
+        $link = 'admin.php?page=dt_home&tab=';
+        $page_title = "Home Settings";
+
+        $data = $this->get_all_softdelete_apps();
+        return view( "settings/available-apps", compact( 'tab', 'link', 'page_title', 'data' ) );
+    }
+
+    /**
      * Get all apps data from the options and ensure default values.
      *
      * @return array
@@ -42,8 +62,39 @@ class AppSettingsController
     {
         $apps = container()->make( Apps::class );
         // Get the apps array from the option
-        $apps_array = $apps->all();
+        $apps_collection = $apps->all();
+        $apps_array = collect( $apps_collection )->where( 'is_deleted', false )->toArray();
+        // Sort the array based on the 'sort' key
+        usort($apps_array, function ( $a, $b ) {
+            return $a['sort'] - $b['sort'];
+        });
 
+        $apps_array = array_map(function ( $app ) {
+            return array_merge([
+                'name' => '',
+                'type' => 'webview',
+                'icon' => '',
+                'url' => '',
+                'sort' => 0,
+                'slug' => '',
+                'is_hidden' => false,
+            ], $app);
+        }, $apps_array);
+
+
+        return $apps_array;
+    }
+    /**
+     * Get all soft deleted apps data from the options and ensure default values.
+     *
+     * @return array
+     */
+    protected function get_all_softdelete_apps()
+    {
+        $apps = container()->make( Apps::class );
+        // Get the apps array from the option
+        $apps_collection = $apps->all();
+        $apps_array = collect( $apps_collection )->where( 'is_deleted', true )->toArray();
         // Sort the array based on the 'sort' key
         usort($apps_array, function ( $a, $b ) {
             return $a['sort'] - $b['sort'];
@@ -391,9 +442,8 @@ class AppSettingsController
      * @param string $slug The slug of the app to be deleted.
      * @return \Symfony\Component\HttpFoundation\RedirectResponse Redirects to the admin page with a success message.
      */
-    public function delete_app( $slug )
+    public function delete( $slug )
     {
-
         // Retrieve the existing array of trainings
         $appss_array = get_option( 'dt_home_apps', [] );
 
@@ -413,4 +463,62 @@ class AppSettingsController
 
         return $response;
     }
+
+    /** Soft delete an app by its slug.
+     * This function marks an app as soft deleted based on its slug.
+     *  @param string $slug The slug of the app to be soft deleted.
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse Redirects to the admin page with a success message.
+     */
+     public function softDelete_app( $slug)
+    {
+        // Retrieve the existing array of apps
+         $apps_array = container()->make( Apps::class )->all();
+
+        // Find the app with the specified slug and mark it as soft deleted
+        foreach ( $apps_array as $key => $app ) {
+            if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
+
+                $apps_array[$key]['is_deleted'] = true; // Mark the app as soft deleted
+                break; // Exit the loop once the app is found and marked
+            }
+        }
+        // Save the updated array back to the option
+        update_option( 'dt_home_apps', $apps_array );
+
+        // Redirect to the page with a success message
+        $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
+
+        return $response;
+    }
+
+        /**
+        * Restore an app by its slug.
+        *
+        * This function restores a soft deleted app based on its slug.
+        *
+        * @param string $slug The slug of the app to be restored.
+        * @return \Symfony\Component\HttpFoundation\RedirectResponse Redirects to the admin page with a success message.
+        */
+        public function restore_app( $slug )
+        {
+            // Retrieve the existing array of apps
+            $apps_array = get_option( 'dt_home_apps', [] );
+
+            // Find the app with the specified slug and restore it
+            foreach ( $apps_array as $key => $app ) {
+                if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
+                    $apps_array[$key]['is_deleted'] = false; // Restore the app
+                    break; // Exit the loop once the app is found and restored
+                }
+            }
+
+            // Save the updated array back to the option
+            update_option( 'dt_home_apps', $apps_array );
+
+            // Redirect to the page with a success message
+            $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true', 302 );
+
+            return $response;
+        }
+
 }
