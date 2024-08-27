@@ -12,18 +12,18 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                    <span style="float:right;">
-                        <a href="admin.php?page=dt_home&tab=app&action=create" class="button float-right"><i
-                                class="fa fa-plus"></i><?php echo esc_html_e( 'Add App' ); ?> </a>
-                        &nbsp;
-                        &nbsp;
-                        &nbsp;
+                    <span style="float:left;">
                         <a href="admin.php?page=dt_home&tab=app&action=available_app" class="button float-right"><i
                                 class="fa fa-plus"></i><?php echo esc_html_e( 'Available Apps' ); ?> </a>
+                        </span>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                          <span style="float:right;">
+                         <a href="admin.php?page=dt_home&tab=app&action=create" class="button float-right"><i
+                                 class="fa fa-plus"></i><?php echo esc_html_e( 'Add App' ); ?> </a>
                     </span>
-
                 <br><br>
-
                 <table class="widefat striped" style="border-collapse: collapse; width: 100%;">
                     <thead>
                     <tr>
