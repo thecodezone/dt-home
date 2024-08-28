@@ -331,7 +331,7 @@ class AppSettingsController
                     'url' => $url,
                     'slug' => $new_slug,
                     'sort' => $sort,
-                    'is_hidden' => $is_hidden,
+                    'is_hidden' => $is_hidden == "1" ? 1 : 0,
                     'open_in_new_tab' => $open_in_new_tab,
                 ];
                 break; // Stop the loop once the app is found and updated
