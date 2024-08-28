@@ -28,7 +28,9 @@
     ]
   },
   "require": {
-    "ext-json": "*"
+    "ext-json": "*",
+    "humbug/php-scoper": "0.18.3",
+    "wpify/scoper": "*"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
