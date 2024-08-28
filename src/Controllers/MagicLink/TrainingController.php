@@ -32,7 +32,7 @@ class TrainingController
 
         // Sort the array based on the 'sort' key
         usort($trainings_array, function ( $a, $b ) {
-            return $a['sort'] - $b['sort'];
+            return ( !empty( $a['sort'] ) && !empty( $b['sort'] ) ) ? ( $a['sort'] - $b['sort'] ) : -1;
         });
 
         return $trainings_array;
