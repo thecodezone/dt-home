@@ -333,6 +333,7 @@ class AppSettingsController
 
         // Save the updated array back to the option
         update_option( 'dt_home_apps', $apps_array );
+        update_user_option( get_current_user_id(), 'dt_home_apps', $apps_array );
 
         // Redirect to the page with a success message
         return new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
