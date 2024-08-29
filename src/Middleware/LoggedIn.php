@@ -13,7 +13,7 @@ class LoggedIn implements Middleware
     public function handle( Request $request, Response $response, $next )
     {
 
-        $require_login = get_option( 'dt_home_require_login' );
+        $require_login = get_option( 'dt_home_require_login', true );
 
         if ( !is_user_logged_in() && ( $require_login == " " || $require_login == 1 ) ) {
             $response = new RedirectResponse( route_url( "/login" ), 302 );
