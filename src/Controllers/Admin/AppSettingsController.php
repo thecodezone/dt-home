@@ -97,8 +97,6 @@ class AppSettingsController
         $apps_collection = $apps->all();
         $apps_array = collect( $apps_collection )->where( 'is_deleted', true )->toArray();
 
-        $apps_array = $apps->all();
-
         // Sort the array based on the 'sort' key
         usort($apps_array, function ( $a, $b ) {
             return $a['sort'] - $b['sort'];
