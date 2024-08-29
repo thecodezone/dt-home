@@ -62,6 +62,7 @@ class AppSettingsController
     {
         $apps = container()->make( Apps::class );
         // Get the apps array from the option
+
         $apps_collection = $apps->all();
         $apps_array = collect( $apps_collection )->where( 'is_deleted', false )->toArray();
         // Sort the array based on the 'sort' key
@@ -95,6 +96,9 @@ class AppSettingsController
         // Get the apps array from the option
         $apps_collection = $apps->all();
         $apps_array = collect( $apps_collection )->where( 'is_deleted', true )->toArray();
+
+        $apps_array = $apps->all();
+
         // Sort the array based on the 'sort' key
         usort($apps_array, function ( $a, $b ) {
             return $a['sort'] - $b['sort'];
@@ -192,7 +196,6 @@ class AppSettingsController
     {
         // Retrieve the existing array of apps
         $apps_array = $apps->all();
-
         // Find the app with the specified ID and update its 'is_hidden' status
         foreach ( $apps_array as $key => $app ) {
             if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
@@ -200,7 +203,6 @@ class AppSettingsController
                 break;
             }
         }
-
         // Save the updated array back to the option
         update_option( 'dt_home_apps', $apps_array );
 
@@ -246,6 +248,7 @@ class AppSettingsController
      *
      * @return RedirectResponse
      */
+
     public function up( Apps $apps, $slug )
     {
         // Retrieve the existing array of apps
@@ -262,32 +265,37 @@ class AppSettingsController
             }
         }
 
-        // Only proceed if the app was found and it's not already at the top
-        if ( $current_index !== null && $current_sort > 1 ) {
-            // Adjust the sort values
-            foreach ( $apps_array as $key => &$app ) {
-                if ( $app['sort'] == $current_sort - 1 ) {
-                    // Increment the sort value of the app that's currently one position above
-                    $app['sort']++;
-                }
+        // Adjust the sort values
+        foreach ( $apps_array as $key => &$app ) {
+            if ( $app['sort'] == $current_sort - 1 ) {
+                // Increment the sort value of the app that's currently one position above
+                $app['sort']++;
             }
-            // Decrement the sort value of the current app
-            $apps_array[$current_index]['sort']--;
-
-            // Re-sort the array
-            usort($apps_array, function ( $a, $b ) {
-                return $a['sort'] - $b['sort'];
-            });
-
-            // Save the updated array back to the option
-            update_option( 'dt_home_apps', $apps_array );
         }
+
+        // Decrement the sort value of the current app
+        if ( $current_sort > 0 ) {
+            $apps_array[$current_index]['sort']--;
+        }
+
+        // Normalize the sort values to ensure they are positive and sequential
+        usort($apps_array, function ( $a, $b ) {
+            return $a['sort'] - $b['sort'];
+        });
+
+        foreach ( $apps_array as $key => &$app ) {
+            $app['sort'] = $key;
+        }
+
+        // Save the updated array back to the option
+        update_option( 'dt_home_apps', $apps_array );
 
         // Redirect to the page with a success message
         $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
 
         return $response;
     }
+
 
     /**
      * Move an app down in the list by ID.
@@ -332,8 +340,13 @@ class AppSettingsController
                 return $a['sort'] - $b['sort'];
             });
 
+            foreach ( $apps_array as $key => &$app ) {
+                $app['sort'] = $key;
+            }
+
             // Save the updated array back to the option
             update_option( 'dt_home_apps', $apps_array );
+
         }
 
         // Redirect to the page with a success message
@@ -364,7 +377,6 @@ class AppSettingsController
         // Retrieve the existing array of apps
         $apps_array = $apps->all();
 
-
         // Find and update the app in the array
         foreach ( $apps_array as $key => $app ) {
             if ( $app['slug'] == $slug ) {
@@ -375,7 +387,7 @@ class AppSettingsController
                     'url' => $url,
                     'slug' => $new_slug,
                     'sort' => $sort,
-                    'is_hidden' => $is_hidden,
+                    'is_hidden' => $is_hidden == "1" ? 1 : 0,
                     'open_in_new_tab' => $open_in_new_tab,
                 ];
                 break; // Stop the loop once the app is found and updated
