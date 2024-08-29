@@ -25,19 +25,20 @@ class RedirectController
     {
         global $wpdb;
 
-        if ( ! is_user_logged_in() ) {
+        if ( !is_user_logged_in() ) {
             return redirect( route_url( "login" ) );
         }
 
-        $preference_key = 'dt-home-app';
+        $preference_key = 'dt-home_launcher_magic_key';
         $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key( 'home', 'launcher' );
 
         if ( !$this->is_activated() ) {
             delete_user_meta( get_current_user_id(), $meta_key );
             delete_user_option( get_current_user_id(), $preference_key );
-
             add_user_meta( get_current_user_id(), $meta_key, DT_Magic_URL::create_unique_key() );
+
             Disciple_Tools_Users::app_switch( get_current_user_id(), $preference_key );
+
         }
 
         return redirect( magic_url() );
@@ -46,8 +47,9 @@ class RedirectController
     public function is_activated()
     {
         global $wpdb;
-        $preference_key = 'dt-home-app';
+        $preference_key = 'dt-home_launcher_magic_key';
         $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key( 'home', 'launcher' );
+
         $public = get_user_meta( get_current_user_id(), $meta_key, true );
         $secret = get_user_option( $preference_key );
 
