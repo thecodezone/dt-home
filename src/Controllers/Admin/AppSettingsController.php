@@ -469,7 +469,7 @@ class AppSettingsController
      *  @param string $slug The slug of the app to be soft deleted.
      * @return \Symfony\Component\HttpFoundation\RedirectResponse Redirects to the admin page with a success message.
      */
-     public function softDelete_app( $slug)
+     public function soft_delete_app( $slug )
     {
         // Retrieve the existing array of apps
          $apps_array = container()->make( Apps::class )->all();
