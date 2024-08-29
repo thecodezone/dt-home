@@ -14,8 +14,9 @@ use DT_Magic_URL;
  *
  * @return Plugin The instance of the Plugin class.
  */
-function plugin(): Plugin {
-	return Plugin::$instance;
+function plugin(): Plugin
+{
+    return Plugin::$instance;
 }
 
 /**
@@ -23,8 +24,9 @@ function plugin(): Plugin {
  *
  * @return Illuminate\Container\Container The container object.
  */
-function container(): Illuminate\Container\Container {
-	return plugin()->container;
+function container(): Illuminate\Container\Container
+{
+    return plugin()->container;
 }
 
 /**
@@ -34,14 +36,15 @@ function container(): Illuminate\Container\Container {
  * @global WP_Rewrite $wp_rewrite The main WordPress rewrite rules object.
  *
  */
-function has_route_rewrite(): bool {
-	global $wp_rewrite;
+function has_route_rewrite(): bool
+{
+    global $wp_rewrite;
 
-	if ( ! is_array( $wp_rewrite->rules ) ) {
-		return false;
-	}
+    if ( !is_array( $wp_rewrite->rules ) ) {
+        return false;
+    }
 
-	return array_key_exists( '^dt-home/(.+)/?', $wp_rewrite->rules );
+    return array_key_exists( '^dt-home/(.+)/?', $wp_rewrite->rules );
 }
 
 /**
@@ -51,11 +54,12 @@ function has_route_rewrite(): bool {
  *
  * @return string The full path of the file or directory, relative to the plugin directory.
  */
-function plugin_path( string $path = '' ): string {
-	return '/' . implode( '/', [
-			trim( Str::remove( '/src', plugin_dir_path( __FILE__ ) ), '/' ),
-			trim( $path, '/' ),
-    ] );
+function plugin_path( string $path = '' ): string
+{
+    return '/' . implode('/', [
+            trim( Str::remove( '/src', plugin_dir_path( __FILE__ ) ), '/' ),
+            trim( $path, '/' ),
+    ]);
 }
 
 /**
@@ -65,8 +69,9 @@ function plugin_path( string $path = '' ): string {
  *
  * @return string The complete source path.
  */
-function src_path( string $path = '' ): string {
-	return plugin_path( 'src/' . $path );
+function src_path( string $path = '' ): string
+{
+    return plugin_path( 'src/' . $path );
 }
 
 /**
@@ -76,8 +81,9 @@ function src_path( string $path = '' ): string {
  *
  * @return string The path to the resources directory, with optional subdirectory appended.
  */
-function resources_path( string $path = '' ): string {
-	return plugin_path( 'resources/' . $path );
+function resources_path( string $path = '' ): string
+{
+    return plugin_path( 'resources/' . $path );
 }
 
 /**
@@ -87,8 +93,9 @@ function resources_path( string $path = '' ): string {
  *
  * @return string The path to the routes directory, with optional subdirectory appended.
  */
-function routes_path( string $path = '' ): string {
-	return plugin_path( 'routes/' . $path );
+function routes_path( string $path = '' ): string
+{
+    return plugin_path( 'routes/' . $path );
 }
 
 /**
@@ -98,8 +105,9 @@ function routes_path( string $path = '' ): string {
  *
  * @return string The path to the views directory, with optional subdirectory appended.
  */
-function views_path( string $path = '' ): string {
-	return plugin_path( 'resources/views/' . $path );
+function views_path( string $path = '' ): string
+{
+    return plugin_path( 'resources/views/' . $path );
 }
 
 /**
@@ -110,8 +118,9 @@ function views_path( string $path = '' ): string {
  *
  * @return string The URL for the specified plugin file.
  */
-function plugin_url( string $path = '' ): string {
-	return trim( Str::remove( '/src', plugin_dir_url( __FILE__ ) ), '/' ) . '/' . ltrim( $path, '/' );
+function plugin_url( string $path = '' ): string
+{
+    return trim( Str::remove( '/src', plugin_dir_url( __FILE__ ) ), '/' ) . '/' . ltrim( $path, '/' );
 }
 
 /**
@@ -121,12 +130,13 @@ function plugin_url( string $path = '' ): string {
  *
  * @return string The generated URL for the specified route.
  */
-function route_url( string $path = '' ): string {
-	if ( ! has_route_rewrite() ) {
-		return site_url() . '?' . http_build_query( [ Plugin::ROUTE_QUERY_PARAM => $path ] );
-	} else {
-		return site_url( Plugin::HOME_ROUTE . '/' . ltrim( $path, '/' ) );
-	}
+function route_url( string $path = '' ): string
+{
+    if ( !has_route_rewrite() ) {
+        return site_url() . '?' . http_build_query( [ Plugin::ROUTE_QUERY_PARAM => $path ] );
+    } else {
+        return site_url( Plugin::HOME_ROUTE . '/' . ltrim( $path, '/' ) );
+    }
 }
 
 /**
@@ -137,13 +147,14 @@ function route_url( string $path = '' ): string {
  *
  * @return string|Engine The rendered view if a view name is provided, otherwise the view engine object.
  */
-function view( string $view = "", array $args = [] ): string|Engine {
-	$engine = container()->make( Engine::class );
-	if ( ! $view ) {
-		return $engine;
-	}
+function view( string $view = "", array $args = [] ): string|Engine
+{
+    $engine = container()->make( Engine::class );
+    if ( !$view ) {
+        return $engine;
+    }
 
-	return $engine->render( $view, $args );
+    return $engine->render( $view, $args );
 }
 
 /**
@@ -155,13 +166,14 @@ function view( string $view = "", array $args = [] ): string|Engine {
  * @return mixed If $template is not specified, an instance of the Template service is returned.
  *               If $template is specified, the rendered template is returned.
  */
-function template( string $template = "", array $args = [] ): mixed {
-	$service = container()->make( Template::class );
-	if ( ! $template ) {
-		return $service;
-	}
+function template( string $template = "", array $args = [] ): mixed
+{
+    $service = container()->make( Template::class );
+    if ( !$template ) {
+        return $service;
+    }
 
-	return $service->render( $template, $args );
+    return $service->render( $template, $args );
 }
 
 /**
@@ -169,8 +181,9 @@ function template( string $template = "", array $args = [] ): mixed {
  *
  * @return Request The Request object.
  */
-function request(): Request {
-	return container()->make( Request::class );
+function request(): Request
+{
+    return container()->make( Request::class );
 }
 
 /**
@@ -181,11 +194,12 @@ function request(): Request {
  *
  * @return RedirectResponse A new RedirectResponse instance.
  */
-function redirect( string $url, int $status = 302 ): RedirectResponse {
-	return container()->makeWith( RedirectResponse::class, [
-		'url'    => $url,
-		'status' => $status,
-	] );
+function redirect( string $url, int $status = 302 ): RedirectResponse
+{
+    return container()->makeWith(RedirectResponse::class, [
+        'url' => $url,
+        'status' => $status,
+    ]);
 }
 
 
@@ -198,11 +212,12 @@ function redirect( string $url, int $status = 302 ): RedirectResponse {
  * @return array|bool The registered magic apps for the given root and type.
  *                  Returns an array if found, otherwise returns false.
  */
-function magic_app( $root, $type ): array|bool {
-	$magic_apps = apply_filters( 'dt_magic_url_register_types', [] );
-	$root_apps  = $magic_apps[ $root ] ?? [];
+function magic_app( $root, $type ): array|bool
+{
+    $magic_apps = apply_filters( 'dt_magic_url_register_types', [] );
+    $root_apps = $magic_apps[$root] ?? [];
 
-	return $root_apps[ $type ] ?? false;
+    return $root_apps[$type] ?? false;
 }
 
 /**
@@ -214,28 +229,25 @@ function magic_app( $root, $type ): array|bool {
  *
  * @return string The generated magic URL.
  */
-function get_magic_url( $root, $type, $id ): string {
-	$app = magic_app( $root, $type );
-	if ( ! $app ) {
-		return "";
-	}
-	if ( $app['post_type'] === 'user' ) {
-		$meta_name = get_user_option( $app['meta_key'] );
-		$key = get_user_meta( $id, $meta_name, true );
-		if ( ! $key ) {
-			$key = dt_create_unique_key();
-			update_user_meta( $id, $meta_name, $key );
-		}
+function get_magic_url( $root, $type, $id ): string
+{
+    $app = magic_app( $root, $type );
+    if ( !$app ) {
+        return "";
+    }
+    if ( $app['post_type'] === 'user' ) {
 
-		return DT_Magic_URL::get_link_url( $root, $type, $key );
-	} else {
+        $app_user_key = get_user_option( $app['meta_key'] );
+        $app_url_base = trailingslashit( trailingslashit( site_url() ) . $app['url_base'] );
+        return $app_url_base . $app_user_key;
+    } else {
         return DT_Magic_URL::get_link_url_for_post(
             $app["post_type"],
             $id,
             $app["root"],
             $app["type"]
         );
-	}
+    }
 }
 
 /**
@@ -247,22 +259,23 @@ function get_magic_url( $root, $type, $id ): string {
  *
  * @return string The generated magic URL.
  */
-function magic_url( $action = "", $key = "" ): string {
-	if ( ! $key ) {
-		if ( ! get_current_user_id() ) {
-			return route_url( 'login' );
-		}
+function magic_url( $action = "", $key = "" ): string
+{
+    if ( !$key ) {
+        if ( !get_current_user_id() ) {
+            return route_url( 'login' );
+        }
 
-		$url = get_magic_url( "dt-home", "launcher", get_current_user_id() );
+        $url = get_magic_url( "dt-home", "launcher", get_current_user_id() );
 
-		if ( $action ) {
-			return $url . '/' . $action;
-		}
+        if ( $action ) {
+            return $url . '/' . $action;
+        }
 
-		return $url;
-	}
+        return $url;
+    }
 
-	return DT_Magic_URL::get_link_url( 'dt-home', 'launcher', $key, $action );
+    return DT_Magic_URL::get_link_url( 'dt-home', 'launcher', $key, $action );
 }
 
 /**
@@ -272,8 +285,9 @@ function magic_url( $action = "", $key = "" ): string {
  *
  * @return string The fully qualified class name.
  */
-function namespace_string( string $string ) {
-	return Plugin::class . '\\' . $string;
+function namespace_string( string $string )
+{
+    return Plugin::class . '\\' . $string;
 }
 
 /**
@@ -283,8 +297,9 @@ function namespace_string( string $string ) {
  *
  * @return string The string with line breaks converted to HTML line breaks.
  */
-function breaks_to_html( string $string ) {
-	return str_replace( "\n", '<br>', $string );
+function breaks_to_html( string $string )
+{
+    return str_replace( "\n", '<br>', $string );
 }
 
 /**
@@ -294,8 +309,9 @@ function breaks_to_html( string $string ) {
  *
  * @return string The string with HTML line breaks converted to line breaks.
  */
-function is_plugin_active( $plugin ) {
-    return in_array( $plugin, (array) get_option( 'active_plugins', array() ), true ) || is_plugin_active_for_network( $plugin );
+function is_plugin_active( $plugin )
+{
+    return in_array( $plugin, (array) get_option( 'active_plugins', [] ), true ) || is_plugin_active_for_network( $plugin );
 }
 
 /**
@@ -305,13 +321,14 @@ function is_plugin_active( $plugin ) {
  *
  * @return bool Whether the plugin is active for the entire network.
  */
-function is_plugin_active_for_network( $plugin ) {
-    if ( ! is_multisite() ) {
+function is_plugin_active_for_network( $plugin )
+{
+    if ( !is_multisite() ) {
         return false;
     }
 
     $plugins = get_site_option( 'active_sitewide_plugins' );
-    if ( isset( $plugins[ $plugin ] ) ) {
+    if ( isset( $plugins[$plugin] ) ) {
         return true;
     }
 
