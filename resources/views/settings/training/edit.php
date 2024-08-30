@@ -17,32 +17,33 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
         </thead>
         <tbody>
         <tr>
-            <td style="vertical-align: middle;">Name [&#63;]</td>
+            <td style="vertical-align: middle;">Name </td>
             <td colspan="3">
                 <input style="min-width: 100%;" type="text" name="name" id="name" class="form-control"
-                       value="<?php echo esc_attr( $existing_data['name'] ); ?>" required>
+                       value="<?php echo esc_attr( $existing_data['name'] ); ?>" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required>
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;">Embed Video [&#63;]</td>
+            <td style="vertical-align: middle;">Embed Video </td>
             <td colspan="3">
                 <textarea style="min-width: 100%;" class="form-control" name="embed_video" id="embed_video"
+                          oninput="this.setCustomValidity(this.value.trim() === '' ? 'The video embed cannot be empty or just whitespace.' : '')"
                           required><?php echo stripslashes( esc_html( $existing_data['embed_video'] ) ); ?>
                 </textarea>
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;">Anchor [&#63;]</td>
+            <td style="vertical-align: middle;">Anchor </td>
             <td colspan="2">
                 <input style="min-width: 100%;" class="form-control" type="text" name="anchor" id="anchor"
-                       value="<?php echo esc_attr( $existing_data['anchor'] ); ?>" required/>
+                       value="<?php echo esc_attr( $existing_data['anchor'] ); ?>" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/>
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;">Sort [&#63;]</td>
+            <td style="vertical-align: middle;">Sort </td>
             <td colspan="3">
                 <input style="min-width: 100%;" type="number" name="sort" id="sort" class="form-control"
-                       value="<?php echo esc_attr( $existing_data['sort'] ); ?>">
+                       value="<?php echo esc_attr( $existing_data['sort'] ); ?>" required>
             </td>
         </tr>
         </tbody>
