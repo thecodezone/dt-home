@@ -16,21 +16,21 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
         <tr>
             <td style="vertical-align: middle;">Name [&#63;]</td>
             <td colspan="2">
-                <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name" required/>
+                <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name"  pattern=".*\S+.*" title="The name cannot be empty or just whitespace."  required/>
             </td>
         </tr>
         <tr>
             <td style="vertical-align: middle;">Embed Video [&#63;]</td>
             <td colspan="2">
                 <textarea style="min-width: 100%;" class="form-control" name="embed_video" id="embed_video"
-                          required></textarea>
+                          oninput="this.setCustomValidity(this.value.trim() === '' ? 'The embed Video cannot be empty or just whitespace.' : '')"   required></textarea>
             </td>
         </tr>
         <tr>
             <td style="vertical-align: middle;">Anchor [&#63;]</td>
             <td colspan="2">
                 <input style="min-width: 100%;" class="form-control" type="text" name="anchor" id="anchor"
-                       required/>
+                       pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/>
             </td>
         </tr>
         <tr>
