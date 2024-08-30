@@ -33,12 +33,19 @@ document.addEventListener('DOMContentLoaded', function () {
     var nameInput = document.getElementById('name')
     var slugInput = document.getElementById('slug')
 
-    if (!slugInput || !nameInput) {
+    if (!slugInput && !nameInput) {
         return
     }
 
-    if (nameInput && slugInput.value || !slugInput.value) {
-        nameInput.addEventListener('input', function () {
+    if (nameInput && slugInput) {
+      nameInput.addEventListener('input', function () {
+            var nameInputVal = nameInput.value.trim();
+
+            // Remove trailing and leading spaces.
+            if (nameInputVal.length === 0) {
+              nameInput.value = nameInputVal;
+            }
+
             // Convert to lowercase and replace spaces with underscores
 
             var slug = nameInput.value
@@ -48,6 +55,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 .replace(/[^a-z0-9_\-]/g, '')
             slugInput.value = slug
         })
+    } else if (nameInput) {
+      nameInput.addEventListener('input', function () {
+        if (nameInput.value.trim().length === 0) {
+          nameInput.value = nameInput.value.trim();
+        }
+      });
     }
 })
 
