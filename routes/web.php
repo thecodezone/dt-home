@@ -65,6 +65,7 @@ $r->condition('backend', function ( Routes $r ) {
             $r->get( '?page=dt_home&tab=general', [ GeneralSettingsController::class, 'show' ] );
 
             $r->get( '?page=dt_home&tab=app', [ AppSettingsController::class, 'show_app_tab' ] );
+            $r->get( '?page=dt_home&tab=app&action=available_app', [ AppSettingsController::class, 'show_available_app' ] );
             $r->get( '?page=dt_home&tab=app&action=create', [ AppSettingsController::class, 'create_app' ] );
             $r->get( '?page=dt_home&tab=app&action=edit/{slug}', [ AppSettingsController::class, 'edit_app' ] );
             $r->get( '?page=dt_home&tab=app&action=unhide/{slug}', [ AppSettingsController::class, 'unhide' ] );
@@ -72,6 +73,8 @@ $r->condition('backend', function ( Routes $r ) {
             $r->get( '?page=dt_home&tab=app&action=up/{slug}', [ AppSettingsController::class, 'up' ] );
             $r->get( '?page=dt_home&tab=app&action=down/{slug}', [ AppSettingsController::class, 'down' ] );
             $r->get( '?page=dt_home&tab=app&action=delete/{slug}', [ AppSettingsController::class, 'delete' ] );
+            $r->get( '?page=dt_home&tab=app&action=softdelete/{slug}', [ AppSettingsController::class, 'soft_delete_app' ] );
+            $r->get( '?page=dt_home&tab=app&action=restore_app/{slug}', [ AppSettingsController::class, 'restore_app' ] );
 
             $r->get( '?page=dt_home&tab=training', [ TrainingSettingsController::class, 'show_training_tab' ] );
             $r->get('?page=dt_home&tab=training&action=create', [

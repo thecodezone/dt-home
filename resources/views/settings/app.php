@@ -12,13 +12,18 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                    <span style="float:right;">
-                        <a href="admin.php?page=dt_home&tab=app&action=create" class="button float-right"><i
-                                class="fa fa-plus"></i><?php echo esc_html_e( 'Add App' ); ?> </a>
+                    <span style="float:left;">
+                        <a href="admin.php?page=dt_home&tab=app&action=available_app" class="button float-right"><i
+                                class="fa fa-plus"></i><?php echo esc_html_e( 'Available Apps' ); ?> </a>
+                        </span>
+                        &nbsp;
+                        &nbsp;
+                        &nbsp;
+                          <span style="float:right;">
+                         <a href="admin.php?page=dt_home&tab=app&action=create" class="button float-right"><i
+                                 class="fa fa-plus"></i><?php echo esc_html_e( 'Add App' ); ?> </a>
                     </span>
-
                 <br><br>
-
                 <table class="widefat striped" style="border-collapse: collapse; width: 100%;">
                     <thead>
                     <tr>
@@ -57,13 +62,21 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                                 <a href="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr( $app['slug'] ); ?>"><?php echo esc_html_e( 'Edit' ); ?></a>&nbsp;
                                 |&nbsp;
                                 <a href="admin.php?page=dt_home&tab=app&action=down/<?php echo esc_attr( $app['slug'] ); ?>"><?php echo esc_html_e( 'Down' ); ?></a>&nbsp;
-                                <?php if ( $app['type'] != 'custom' ) : ?>
+                                <?php if ( $app['type'] != 'custom' ) { ?>
                                     |&nbsp;
-                                    <a href="#" onclick="deleteApp('<?php echo esc_attr( $app['slug'] ); ?>')"
+                                    <a href="#"
+                                       onclick="deleteApp('<?php echo esc_attr( $app['slug'] ); ?>')"
                                        class="delete-apps">
                                         <?php echo esc_html_e( 'Delete' ); ?>
                                     </a>
-                                <?php endif; ?>
+                                <?php  }else{ ?>
+                                    |&nbsp;
+                                    <a href="#" onclick="softdelete('<?php echo esc_attr( $app['slug'] ); ?>')"
+                                       class="delete-apps">
+                                        <?php echo esc_html_e( 'Delete' ); ?>
+                                    </a>
+                                <?php     }
+                               ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -80,6 +93,14 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
         if (confirmation) {
             // If the user confirms, redirect to the delete URL
             window.location.href = "admin.php?page=dt_home&tab=app&action=delete/" + slug;
+        }
+        // If the user cancels, do nothing
+    }
+    function softdelete(slug) {
+        var confirmation = confirm(<?php echo json_encode( __( 'Are you sure you want to delete this app?', 'disciple_tools' ) ); ?>);
+        if (confirmation) {
+            // If the user confirms, redirect to the delete URL
+            window.location.href = "admin.php?page=dt_home&tab=app&action=softdelete/" + slug;
         }
         // If the user cancels, do nothing
     }

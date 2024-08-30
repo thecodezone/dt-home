@@ -45,7 +45,6 @@ class Apps {
                 ], $apps[$app['type']] ?? [] );
             }
         }
-
 		// Sort the array based on the 'sort' key
 		usort($apps, function ( $a, $b ) {
 			return ( $a['sort'] ?? 0 ) - ( $b['sort'] ?? 0 );
@@ -70,7 +69,6 @@ class Apps {
 		}
 		$apps = $this->all();
 
-
 		foreach ( $apps as $idx => $app ) {
 			$matching_user_apps = array_filter( $user_apps, function ( $user_app ) use ( $app ) {
 				return ( $user_app['slug'] ?? '' ) === ( $app['slug'] ?? '' );
@@ -83,7 +81,7 @@ class Apps {
 				);
 			}
 		}
-
+        $apps = collect($apps)->where('is_deleted', false)->toArray();
 		// Sort the array based on the 'sort' key
 		usort($apps, function ( $a, $b ) {
 			return ( $a['sort'] ?? 0 ) - ( $b['sort'] ?? 0 );
