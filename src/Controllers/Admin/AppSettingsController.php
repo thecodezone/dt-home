@@ -111,7 +111,7 @@ class AppSettingsController
             'url' => $url,
             'sort' => $sort,
             'slug' => $slug,
-            'is_hidden' => $is_hidden,
+            'is_hidden' => $is_hidden == "1" ? 1 : 0,
             'open_in_new_tab' => $open_in_new_tab,
         ];
 
