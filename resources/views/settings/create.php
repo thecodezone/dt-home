@@ -28,13 +28,13 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         </thead>
         <tbody>
         <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Name') ?> [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Name') ?> </td>
             <td colspan="2">
-                <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name" required/>
+                <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/>
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Type') ?> [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Type') ?> </td>
             <td colspan="2">
                 <select style="min-width: 100%;" name="type" id="type" required onchange="toggleURLField()">
                     <option value=""><?php esc_html_e('Please select') ?></option>
@@ -44,14 +44,14 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Open link in new tab') ?> [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Open link in new tab') ?> </td>
             <td colspan="2">
                 <input type="checkbox" name="open_in_new_tab" id="open_in_new_tab" value="1">
             </td>
         </tr>
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?></td>
-            <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="app_icon" name="icon"
+            <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="app_icon"  name="icon" pattern=".*\S+.*" title="The name cannot be empty or just whitespace."
                                                        required/></td>
             <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
             <td style="vertical-align: middle;">
@@ -61,20 +61,20 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             </td>
         </tr>
         <tr id="urlFieldRow">
-            <td style="vertical-align: middle;"><?php esc_html_e('URL') ?> [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('URL') ?> </td>
             <td colspan="2">
                 <input style="min-width: 100%;" type="text" name="url" id="url"/>
             </td>
         </tr>
 
         <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> </td>
             <td colspan="2">
-                <input style="min-width: 100%;" type="text" name="slug" id="slug" required/>
+                <input style="min-width: 100%;" type="text" name="slug" id="slug" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/>
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Is Hidden') ?> [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Is Hidden') ?> </td>
             <td colspan="2">
                 <input type="checkbox" name="is_hidden" id="is_hidden" value="1">
             </td>
