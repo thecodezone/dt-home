@@ -118,6 +118,16 @@ class AppSettingsController
         // Get the existing apps array
         $apps_array = $apps->all(); // Default to an empty array if the option does not exist
 
+        // Avoid duplicate slugs and append unique counter if required.
+        $dup_apps = array_filter( $apps_array, function ( $app ) use ( $app_data ) {
+
+            // Check for identical matches, as well as for previously set slugs, with appended counts.
+            return ( isset( $app['slug'] ) && ( ( $app['slug'] === $app_data['slug'] ) || ( substr( $app['slug'], 0, strlen( $app_data['slug'] . '_' ) ) === ( $app_data['slug'] . '_' ) ) ) );
+        } );
+        if ( count( $dup_apps ) > 0 ) {
+            $app_data['slug'] .= '_' . ( count( $dup_apps ) + 1 );
+        }
+
         // Append new app data to the array
         $apps_array[] = $app_data;
 
