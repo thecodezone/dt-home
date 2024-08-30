@@ -28,14 +28,14 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         </thead>
         <tbody>
         <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Name') ?> [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Name') ?> </td>
             <td colspan="3">
                 <input style="min-width: 100%;" type="text" name="name" id="name" class="form-control"
                        value="<?php echo esc_attr($existing_data['name']); ?>" required>
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Type') ?> [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Type') ?> </td>
             <td colspan="3">
                 <select style="min-width: 100%;" id="type" name="type" required onchange="toggleURLField()">
                     <option
@@ -52,7 +52,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Open link in new tab') ?> [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Open link in new tab') ?> </td>
             <td colspan="2">
                 <input type="checkbox" name="open_in_new_tab" id="open_in_new_tab" value="1"
                     <?php checked($existing_data['open_in_new_tab'] ?? 0, 1); ?>>
@@ -85,7 +85,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
 
         <?php if ($existing_data['type'] === 'Web View' || $existing_data['type'] === 'Link') { ?>
             <tr>
-                <td style="vertical-align: middle;"><?php esc_html_e('URL') ?> [&#63;]</td>
+                <td style="vertical-align: middle;"><?php esc_html_e('URL') ?> </td>
                 <td colspan="3">
                     <input style="min-width: 100%;" type="text" name="url" id="url" class="form-control"
                            value="<?php echo esc_url(isset($existing_data['url']) ? $existing_data['url'] : ''); ?>">
@@ -94,7 +94,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         <?php } ?>
 
         <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> </td>
             <td colspan="2">
                 <input style="min-width: 100%;" type="text" name="slug" id="slug"
                        <?php if ($existing_data['type'] !== 'Web View'): ?>readonly<?php endif; ?>
@@ -103,7 +103,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Is Hidden') ?> [&#63;]</td>
+            <td style="vertical-align: middle;"><?php esc_html_e('Is Hidden') ?> </td>
             <td colspan="3">
                 <input type="checkbox" name="is_hidden" id="is_hidden"
                        value="1" <?php checked($existing_data['is_hidden'], 1); ?>>
