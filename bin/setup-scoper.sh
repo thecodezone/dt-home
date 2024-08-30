@@ -1,4 +1,6 @@
-. $HOME/.bashrc
+if [ -f "$HOME/.bashrc" ]; then
+    . "$HOME/.bashrc"
+fi
 
 if ! command -v php-scoper > /dev/null 2>&1; then
   echo "PHP Scoper is not installed. Installing..."
