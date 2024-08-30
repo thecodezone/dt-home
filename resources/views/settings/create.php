@@ -30,7 +30,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Name') ?> </td>
             <td colspan="2">
-                <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name" required/>
+                <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/>
             </td>
         </tr>
         <tr>
@@ -51,7 +51,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         </tr>
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?></td>
-            <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="app_icon" name="icon"
+            <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="app_icon"  name="icon" pattern=".*\S+.*" title="The name cannot be empty or just whitespace."
                                                        required/></td>
             <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
             <td style="vertical-align: middle;">
@@ -70,7 +70,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> </td>
             <td colspan="2">
-                <input style="min-width: 100%;" type="text" name="slug" id="slug" required/>
+                <input style="min-width: 100%;" type="text" name="slug" id="slug" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/>
             </td>
         </tr>
         <tr>

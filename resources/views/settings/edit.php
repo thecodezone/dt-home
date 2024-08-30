@@ -31,6 +31,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             <td style="vertical-align: middle;"><?php esc_html_e('Name') ?> </td>
             <td colspan="3">
                 <input style="min-width: 100%;" type="text" name="name" id="name" class="form-control"
+                       pattern=".*\S+.*" title="The name cannot be empty or just whitespace."
                        value="<?php echo esc_attr($existing_data['name']); ?>" required>
             </td>
         </tr>
@@ -73,6 +74,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             </td>
             <td style="vertical-align: middle;">
                 <input style="min-width: 100%;" type="text" id="app_icon" name="icon"
+                       pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required
                        value="<?php if (filter_var($existing_data['icon'], FILTER_VALIDATE_URL) || strpos($existing_data['icon'], '/wp-content/') === 0) : echo esc_url(isset($existing_data['icon']) ? $existing_data['icon'] : ''); elseif (preg_match('/^mdi\smdi-/', $existing_data['icon'])) : echo esc_attr($existing_data['icon']); endif; ?>"/>
             </td>
             <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
@@ -97,6 +99,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> </td>
             <td colspan="2">
                 <input style="min-width: 100%;" type="text" name="slug" id="slug"
+                       pattern=".*\S+.*" title="The name cannot be empty or just whitespace."
                        <?php if ($existing_data['type'] !== 'Web View'): ?>readonly<?php endif; ?>
                        value="<?php echo esc_attr(isset($existing_data['slug']) ? $existing_data['slug'] : ''); ?>"
                        required/>
