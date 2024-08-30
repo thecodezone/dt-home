@@ -98,9 +98,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> </td>
             <td colspan="2">
-                <input style="min-width: 100%;" type="text" name="slug" id="slug"
-                       pattern=".*\S+.*" title="The name cannot be empty or just whitespace."
-                       <?php if ($existing_data['type'] !== 'Web View'): ?>readonly<?php endif; ?>
+                <input style="min-width: 100%;" type="text" name="slug" id="slug" readonly
                        value="<?php echo esc_attr(isset($existing_data['slug']) ? $existing_data['slug'] : ''); ?>"
                        required/>
             </td>
