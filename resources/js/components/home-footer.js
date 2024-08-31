@@ -122,7 +122,6 @@ class HomeFooter extends LitElement {
 
             @media (max-width: 600px) {
                 .footer-container {
-                    bottom: 10px; /* Move the button further down */
                     position: fixed;
                     width: 100%;
                     display: flex;
@@ -130,9 +129,9 @@ class HomeFooter extends LitElement {
                 }
 
                 .custom-dialog-overlay {
-                    left: 65px;
+                    left: 90px;
                     right: 0;
-                    bottom: 0;
+                    bottom: 25px;
                     top: auto;
                     width: 60vw;
                     max-height: 400px; /* Set max height */
@@ -245,8 +244,7 @@ class HomeFooter extends LitElement {
     }
 
     renderAppItems() {
-        const hiddenApps = this.hiddenApps
-
+      const hiddenApps = this.hiddenApps.sort((a, b) => b.sort - a.sort);
         if (hiddenApps.length === 0) {
             return html` <dt-app-menu-item class="no-data"
                 >No hidden apps available.
