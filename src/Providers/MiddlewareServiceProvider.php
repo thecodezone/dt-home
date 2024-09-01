@@ -12,6 +12,8 @@ use DT\Home\CodeZone\Router\Middleware\Route;
 use DT\Home\CodeZone\Router\Middleware\Stack;
 use DT\Home\CodeZone\Router\Middleware\UserHasCap;
 use DT\Home\CodeZone\Router\Middleware\SetHeaders;
+use DT\Home\League\Container\ServiceProvider\AbstractServiceProvider;
+use DT\Home\League\Container\ServiceProvider\BootableServiceProviderInterface;
 use DT\Home\Middleware\CheckShareCookie;
 use DT\Home\Middleware\LoggedIn;
 use DT\Home\Middleware\LoggedOut;
@@ -28,7 +30,7 @@ use function DT\Home\namespace_string;
  * Class MiddlewareServiceProvider
  * @package DT\Home\Providers
  */
-class MiddlewareServiceProvider extends ServiceProvider {
+class MiddlewareServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface {
 	protected $middleware = [
 		Route::class,
 		DispatchController::class,
@@ -57,7 +59,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
 	 *
 	 * @return void
 	 */
-	public function register(): void {
+	public function boot(): void {
 		add_filter( namespace_string( 'middleware' ), function ( Stack $stack ) {
 			$stack->push( ...$this->middleware );
 
@@ -73,32 +75,7 @@ class MiddlewareServiceProvider extends ServiceProvider {
 		 * Signature format: "name:signature"
 		 */
 		add_filter( Router\namespace_string( 'middleware_factory' ), function ( Middleware|null $middleware, $attributes ) {
-			$classname = $attributes['className'] ?? null;
-			$name      = $attributes['name'] ?? null;
-			$signature = $attributes['signature'] ?? null;
-
-			switch ( $name ) {
-				case 'magic':
-					$magic_link_name       = $signature;
-					$magic_link_class_name = $this->container->make( 'DT\Home\MagicLinks' )->get( $magic_link_name );
-					if ( ! $magic_link_class_name ) {
-						throw new Exception( esc_attr( "Magic link not found: " . $magic_link_name ) );
-					}
-					$magic_link = $this->container->make( $magic_link_class_name );
-
-					//The signature is the part of the route name after the ":". We need to break it into an array.
-					$middleware = $this->container->makeWith( $classname, [
-						'magic_link' => $magic_link
-					] );
-					break;
-				case 'nonce':
-					$middleware = $this->container->makeWith( $classname, [
-						'nonce_name' => $signature
-					] );
-					break;
-			}
-
-			return $middleware;
+	        return null;
 		}, 10, 2 );
 	}
 
@@ -107,6 +84,11 @@ class MiddlewareServiceProvider extends ServiceProvider {
 	 *
 	 * @return void
 	 */
-	public function boot(): void {
+	public function register(): void {
 	}
+
+    public function provides(string $id): bool
+    {
+        return false;
+    }
 }

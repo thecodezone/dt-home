@@ -17,34 +17,42 @@
  * @license GPL-2.0 or later
  *          https://www.gnu.org/licenses/gpl-2.0.html
  */
-
-use DT\Home\Illuminate\Container\Container;
+use DT\Home\CodeZone\WPSupport\Config\ConfigInterface;
+use DT\Home\CodeZone\WPSupport\Container\ContainerFactory;
 use DT\Home\Plugin;
+use DT\Home\Providers\ConfigServiceProvider;
+use DT\Home\Providers\PluginServiceProvider;
+use DT\Home\Providers\RewritesServiceProvider;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }
 
-register_activation_hook( __FILE__, function () {
-	flush_rewrite_rules( true );
-} );
-
-register_deactivation_hook( __FILE__, function () {
-	flush_rewrite_rules( true );
-} );
-
-
+// Load dependencies
 require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/scoper-autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-$container = new Container();
-$container->singleton( Container::class, function ( $container ) {
-	return $container;
-} );
-$container->singleton( Plugin::class, function ( $container ) {
-	return new Plugin( $container );
-} );
+// Create the IOC container
+$container = ContainerFactory::singleton();
 
-$plugin_instance = $container->make( Plugin::class );
-$plugin_instance->init();
+require_once plugin_dir_path( __FILE__ ) . 'src/helpers.php';
+
+$boot_providers = [
+    ConfigServiceProvider::class,
+    RewritesServiceProvider::class,
+    PluginServiceProvider::class
+];
+foreach ( $boot_providers as $provider ) {
+    $container->addServiceProvider( $container->get( $provider ) );
+}
+
+// Init the plugin
+$dt_home = $container->get( Plugin::class );
+$dt_home->init();
+
+// Add the rest of the service providers
+$config = $container->get( ConfigInterface::class );
+foreach ( $config->get( 'services.providers' ) as $provider ) {
+    $container->addServiceProvider( $container->get( $provider ) );
+}
