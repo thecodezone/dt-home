@@ -251,11 +251,12 @@ function get_magic_url( $root, $type, $id ): string
 }
 
 /**
- * Generates a magic URL for a given root, type, and ID.
+ * Generates a magic URL based on the specified action and key.
+ * If the key is not provided, it checks if a user is logged in and returns the login route URL.
+ * If the key is provided, it calls the DT_Magic_URL::get_link_url method.
  *
- * @param string $root The root of the magic URL.
- * @param string $type The type of the magic URL.
- * @param int $id The ID of the post to generate the magic URL for.
+ * @param string $action Optional. The action to be appended to the URL.
+ * @param string $key Optional. The key used for generating the magic URL.
  *
  * @return string The generated magic URL.
  */
@@ -303,11 +304,11 @@ function breaks_to_html( string $string )
 }
 
 /**
- * Converts HTML line breaks to line breaks in a given string.
+ * Checks if a plugin is active.
  *
- * @param string $string The string in which HTML line breaks need to be converted.
+ * @param string $plugin The plugin to check.
  *
- * @return string The string with HTML line breaks converted to line breaks.
+ * @return bool True if the plugin is active, false otherwise.
  */
 function is_plugin_active( $plugin )
 {

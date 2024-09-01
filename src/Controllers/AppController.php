@@ -17,16 +17,14 @@ use function DT\Home\template;
 class AppController
 {
     /**
-     * Displays the application in an iframe webview
-     *
-     * This method retrieves the application with the provided ID from the "dt_home_apps" option and displays its details.
-     * If the application is not found, a 404 error response is returned.
+     * Displays the app based on the provided slug.
      *
      * @param Request $request The request object.
      * @param Response $response The response object.
-     * @param int $slug The ID of the application to display.
-     *
-     * @return Response The response object containing the rendered application details.
+     * @param Apps $apps The apps service.
+     * @param mixed $key The key parameter.
+     * @param string $slug The slug parameter.
+     * @return Response The response object.
      */
     public function show( Request $request, Response $response, Apps $apps, $key, $slug )
     {

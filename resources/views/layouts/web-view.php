@@ -1,6 +1,8 @@
 <div class="webview__container cloak">
 
-    <?php echo $this->section( 'content' ) ?>
+    <?php
+    // phpcs:ignore
+    echo $this->section( 'content' ) ?>
 
 </div>
 

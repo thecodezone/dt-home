@@ -194,11 +194,12 @@ class AppSettingsController
     }
 
     /**
-     * Unhide an app by ID.
+     * Unhide the app with the specified slug.
      *
-     * @param int $slug
+     * @param Apps $apps The Apps object containing the list of apps
+     * @param string $slug The slug of the app to unhide
      *
-     * @return RedirectResponse
+     * @return RedirectResponse The response after the app has been unhidden
      */
     public function unhide( Apps $apps, $slug )
     {
@@ -221,11 +222,7 @@ class AppSettingsController
     }
 
     /**
-     * Hide an app by ID.
      *
-     * @param int $slug
-     *
-     * @return RedirectResponse
      */
     public function hide( Apps $apps, $slug )
     {
@@ -250,11 +247,12 @@ class AppSettingsController
     }
 
     /**
-     * Move an app up in the list by ID.
+     * Updates the sort order of an app.
      *
-     * @param int $slug
+     * @param Apps $apps An instance of the Apps class.
+     * @param string $slug The slug of the app.
      *
-     * @return RedirectResponse
+     * @return RedirectResponse The RedirectResponse instance.
      */
 
     public function up( Apps $apps, $slug )
@@ -306,11 +304,12 @@ class AppSettingsController
 
 
     /**
-     * Move an app down in the list by ID.
+     * Move an app down in the list of apps.
      *
-     * @param int $slug
+     * @param Apps $apps The object representing the list of apps.
+     * @param string $slug The slug of the app to be moved down.
      *
-     * @return RedirectResponse
+     * @return RedirectResponse The response object for redirecting to a page.
      */
     public function down( Apps $apps, $slug )
     {
@@ -410,9 +409,10 @@ class AppSettingsController
     }
 
     /**
-     * Show the form to edit an existing app by ID.
+     * Show the form to edit an existing app.
      *
-     * @param int $slug
+     * @param Response $response
+     * @param string $slug
      *
      * @return mixed
      */
@@ -489,10 +489,10 @@ class AppSettingsController
      *  @param string $slug The slug of the app to be soft deleted.
      * @return \Symfony\Component\HttpFoundation\RedirectResponse Redirects to the admin page with a success message.
      */
-     public function soft_delete_app( $slug )
+	public function soft_delete_app( $slug )
     {
         // Retrieve the existing array of apps
-         $apps_array = container()->make( Apps::class )->all();
+		$apps_array = container()->make( Apps::class )->all();
 
         // Find the app with the specified slug and mark it as soft deleted
         foreach ( $apps_array as $key => $app ) {
@@ -519,26 +519,25 @@ class AppSettingsController
         * @param string $slug The slug of the app to be restored.
         * @return \Symfony\Component\HttpFoundation\RedirectResponse Redirects to the admin page with a success message.
         */
-        public function restore_app( $slug )
+	public function restore_app( $slug )
         {
-            // Retrieve the existing array of apps
-            $apps_array = get_option( 'dt_home_apps', [] );
+		// Retrieve the existing array of apps
+		$apps_array = get_option( 'dt_home_apps', [] );
 
-            // Find the app with the specified slug and restore it
-            foreach ( $apps_array as $key => $app ) {
-                if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
-                    $apps_array[$key]['is_deleted'] = false; // Restore the app
-                    break; // Exit the loop once the app is found and restored
-                }
-            }
+		// Find the app with the specified slug and restore it
+		foreach ( $apps_array as $key => $app ) {
+			if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
+				$apps_array[$key]['is_deleted'] = false; // Restore the app
+				break; // Exit the loop once the app is found and restored
+			}
+		}
 
-            // Save the updated array back to the option
-            update_option( 'dt_home_apps', $apps_array );
+		// Save the updated array back to the option
+		update_option( 'dt_home_apps', $apps_array );
 
-            // Redirect to the page with a success message
-            $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true', 302 );
+		// Redirect to the page with a success message
+		$response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true', 302 );
 
-            return $response;
-        }
-
+		return $response;
+	}
 }

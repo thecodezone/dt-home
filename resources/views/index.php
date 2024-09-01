@@ -15,7 +15,9 @@ $this->layout( 'layouts/plugin' );
         </div>
 
         <sp-tooltip slot="hover-content" open placement="right" class="spl-text">
-			<?php echo wordwrap( esc_attr( __( "Copy this link and share it with people you are coaching.", "dt_home" ) ), 40, "<br />\n" ); ?>
+			<?php
+            // phpcs:ignore
+            echo wordwrap( esc_attr( __( "Copy this link and share it with people you are coaching.", "dt_home" ) ), 40, "<br />\n" ); ?>
         </sp-tooltip>
     </overlay-trigger>
 
@@ -28,7 +30,9 @@ $this->layout( 'layouts/plugin' );
 </dt-home-app-grid>
 
 <div>
-    <?php echo $this->section( 'content' ) ?>
+    <?php
+    // phpcs:ignore
+    echo $this->section( 'content' ) ?>
 </div>
 
 <?php $this->start( 'footer' ) ?>

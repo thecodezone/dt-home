@@ -81,7 +81,7 @@ class Apps {
 				);
 			}
 		}
-        $apps = collect($apps)->where('is_deleted', false)->toArray();
+        $apps = collect( $apps )->where( 'is_deleted', false )->toArray();
 		// Sort the array based on the 'sort' key
 		usort($apps, function ( $a, $b ) {
 			return ( $a['sort'] ?? 0 ) - ( $b['sort'] ?? 0 );

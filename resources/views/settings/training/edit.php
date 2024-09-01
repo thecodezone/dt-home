@@ -28,7 +28,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
             <td colspan="3">
                 <textarea style="min-width: 100%;" class="form-control" name="embed_video" id="embed_video"
                           oninput="this.setCustomValidity(this.value.trim() === '' ? 'The video embed cannot be empty or just whitespace.' : '')"
-                          required><?php echo stripslashes( esc_html( $existing_data['embed_video'] ) ); ?>
+                          required><?php echo esc_html( $existing_data['embed_video'] ); ?>
                 </textarea>
             </td>
         </tr>

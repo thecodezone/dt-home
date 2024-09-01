@@ -29,15 +29,19 @@ $menu_items_json = wp_json_encode( $menu_items );
         <div class="plugin__main">
             <div class="container non-selectable">
 
-                <dt-home-menu menuItems='<?php echo $menu_items_json; ?>'></dt-home-menu>
+                <dt-home-menu menuItems='<?php echo esc_js( $menu_items_json ); ?>'></dt-home-menu>
 
-                <?php echo $this->section( 'content' ) ?>
+                <?php
+                // phpcs:ignore
+                echo $this->section( 'content' ) ?>
             </div>
         </div>
 
         <div class="plugin__footer">
             <div class="container">
-                <?php echo $this->section( 'footer' ) ?>
+                <?php
+                // phpcs:ignore
+                echo $this->section( 'footer' ) ?>
             </div>
         </div>
     </div>

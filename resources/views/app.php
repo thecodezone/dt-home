@@ -1,3 +1,8 @@
+<?php
+/**
+ * @var string $html
+ */
+?>
 <style>
     .container {
         max-width: 1200px;
@@ -8,7 +13,7 @@
 </style>
 
 <div class="container">
-	<?php echo $html; ?>
+	<?php echo esc_html( $html ); ?>
 </div>
 
 <?php

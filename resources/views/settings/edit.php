@@ -4,6 +4,7 @@
  * @var string $tab
  * @var string $link
  * @var string $page_title
+ * @var array $existing_data
  */
 $this->layout('layouts/settings', compact('tab', 'link', 'page_title'));
 ?>
@@ -13,7 +14,7 @@ $this->layout('layouts/settings', compact('tab', 'link', 'page_title'));
 get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
 ?>
 
-<form action="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr($existing_data['slug']); ?>" method="post"
+<form action="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr( $existing_data['slug'] ); ?>" method="post"
       enctype="multipart/form-data">
     <?php wp_nonce_field('dt_admin_form_nonce') ?>
 
@@ -32,7 +33,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             <td colspan="3">
                 <input style="min-width: 100%;" type="text" name="name" id="name" class="form-control"
                        pattern=".*\S+.*" title="The name cannot be empty or just whitespace."
-                       value="<?php echo esc_attr($existing_data['name']); ?>" required>
+                       value="<?php echo esc_attr( $existing_data['name'] ); ?>" required>
             </td>
         </tr>
         <tr>
@@ -40,13 +41,13 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             <td colspan="3">
                 <select style="min-width: 100%;" id="type" name="type" required onchange="toggleURLField()">
                     <option
-                        value="" <?php echo empty($existing_data['type']) ? 'selected' : ''; ?>><?php esc_html_e('Please select') ?>
+                        value="" <?php echo empty( $existing_data['type'] ) ? 'selected' : ''; ?>><?php esc_html_e('Please select') ?>
                     </option>
-                    <option value="Web View" <?php echo ($existing_data['type'] === 'Web View') ? 'selected' : ''; ?>>
+                    <option value="Web View" <?php echo ( $existing_data['type'] === 'Web View' ) ? 'selected' : ''; ?>>
                         <?php esc_html_e('Web View') ?>
                     </option>
-                    <option value="Link" <?php echo ($existing_data['type'] === 'Link') ? 'selected' : ''; ?>>
-                        <?php esc_html_e('Link') ?>
+                    <option value="Link" <?php echo ( $existing_data['type'] === 'Link') ? 'selected' : ''; ?>>
+                        <?php esc_html_e('Link') ?>which
                     </option>
                 </select>
 
@@ -62,8 +63,8 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?></td>
             <td style="vertical-align: middle;">
-                <?php if (!empty($existing_data['icon'])) : ?>
-                    <?php if (filter_var($existing_data['icon'], FILTER_VALIDATE_URL) || strpos($existing_data['icon'], '/wp-content/') === 0) : ?>
+                <?php if (!empty( $existing_data['icon'] )) : ?>
+                    <?php if ( filter_var( $existing_data['icon'], FILTER_VALIDATE_URL) || strpos( $existing_data['icon'], '/wp-content/') === 0) : ?>
                         <img src="<?php echo esc_url($existing_data['icon']); ?>" alt="Icon"
                              style="width: 50px; height: 50px;">
                     <?php elseif (preg_match('/^mdi\smdi-/', $existing_data['icon'])) : ?>
@@ -75,7 +76,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             <td style="vertical-align: middle;">
                 <input style="min-width: 100%;" type="text" id="app_icon" name="icon"
                        pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required
-                       value="<?php if (filter_var($existing_data['icon'], FILTER_VALIDATE_URL) || strpos($existing_data['icon'], '/wp-content/') === 0) : echo esc_url(isset($existing_data['icon']) ? $existing_data['icon'] : ''); elseif (preg_match('/^mdi\smdi-/', $existing_data['icon'])) : echo esc_attr($existing_data['icon']); endif; ?>"/>
+                       value="<?php if (filter_var( $existing_data['icon'], FILTER_VALIDATE_URL) || strpos($existing_data['icon'], '/wp-content/') === 0) : echo esc_url(isset($existing_data['icon']) ? $existing_data['icon'] : ''); elseif (preg_match('/^mdi\smdi-/', $existing_data['icon'])) : echo esc_attr($existing_data['icon']); endif; ?>"/>
             </td>
             <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
             <td style="vertical-align: middle;">
@@ -99,7 +100,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> </td>
             <td colspan="2">
                 <input style="min-width: 100%;" type="text" name="slug" id="slug" readonly
-                       value="<?php echo esc_attr(isset($existing_data['slug']) ? $existing_data['slug'] : ''); ?>"
+                       value="<?php echo esc_attr(isset( $existing_data['slug']) ? $existing_data['slug'] : '' ); ?>"
                        required/>
             </td>
         </tr>
@@ -107,7 +108,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             <td style="vertical-align: middle;"><?php esc_html_e('Is Hidden') ?> </td>
             <td colspan="3">
                 <input type="checkbox" name="is_hidden" id="is_hidden"
-                       value="1" <?php checked($existing_data['is_hidden'], 1); ?>>
+                       value="1" <?php checked( $existing_data['is_hidden'] , 1); ?>>
             </td>
         </tr>
         </tbody>

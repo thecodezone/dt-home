@@ -14,9 +14,9 @@ class SetBypassCookie implements Middleware {
         return md5( session_id() . wp_get_session_token() . time() );
     }
 
-    public function handle(Request $request, Response $response, callable $next)
+    public function handle( Request $request, Response $response, callable $next )
     {
-        setcookie( 'DT_HOME', $this->get_bypass_value(), time() + 600, '/');
+        setcookie( 'DT_HOME', $this->get_bypass_value(), time() + 600, '/' );
 
         return $next( $request, $response );
     }

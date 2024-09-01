@@ -83,11 +83,11 @@ abstract class MagicLink extends DT_Magic_Url_Base {
 	}
 
 	public function get_current_action() {
-		$current_action = \DT\Home\request()->getUri();
-		$current_action = trim( $current_action, '/' );
-		$urlParts = explode( '/', $current_action );
-		$requiredParts = array_slice( $urlParts, 6, 1 );
-		return implode( '/', $requiredParts );
+        $current_action = request()->getUri()->getPath();
+        $current_action = trim( $current_action, '/' );
+        $url_parts = explode( '/', $current_action );
+        $required_parts = array_slice( $url_parts, 3, 1 );
+        return implode( '/', $required_parts );
 	}
 
 	public function add_endpoints() {

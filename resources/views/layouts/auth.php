@@ -5,7 +5,9 @@
         <div class="plugin__main">
             <div class="container">
                 <div>
-					<?php echo $this->section( 'content' ) ?>
+					<?php
+                    // phpcs:ignore
+                    echo $this->section( 'content' ) ?>
                 </div>
             </div>
         </div>
