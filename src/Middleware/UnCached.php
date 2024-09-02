@@ -10,7 +10,7 @@ class UnCached implements Middleware {
 
     protected $value;
 
-    public function handle(Request $request, Response $response, callable $next)
+    public function handle( Request $request, Response $response, callable $next )
     {
         $response->headers->set( 'Cache-Control', 'uncached' );
 
