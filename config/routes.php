@@ -4,7 +4,8 @@
  * @var $config DT\Home\CodeZone\WPSupport\Config\ConfigInterface
  */
 
-use function DT\Home\routes_path;
+use DT\Home\Middleware\SetBypassCookie;
+use DT\Home\Middleware\UnCached;
 
 $config->merge( [
     'routes' => [
@@ -20,7 +21,8 @@ $config->merge( [
             ]
         ],
         'middleware' => [
-            // CustomMiddleware::class,
+            new SetBypassCookie(),
+	        new UnCached()
         ],
     ],
 ] );

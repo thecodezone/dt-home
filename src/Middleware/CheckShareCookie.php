@@ -5,6 +5,10 @@ namespace DT\Home\Middleware;
 use DT\Home\CodeZone\Router\Middleware\Middleware;
 use DT\Home\Illuminate\Http\RedirectResponse;
 use DT\Home\Illuminate\Http\Request;
+use DT\Home\Psr\Http\Message\ResponseInterface;
+use DT\Home\Psr\Http\Message\ServerRequestInterface;
+use DT\Home\Psr\Http\Server\MiddlewareInterface;
+use DT\Home\Psr\Http\Server\RequestHandlerInterface;
 use DT\Home\Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -13,39 +17,7 @@ use DT\Home\Symfony\Component\HttpFoundation\Response;
  * This class implements the Middleware interface and is responsible for checking
  * the value of the "dt_home_share" cookie and perform the necessary actions.
  */
-class CheckShareCookie implements Middleware {
-	/**
-	 * Handle the incoming request.
-	 *
-	 * @param Request $request The incoming request
-	 * @param Response $response The response object
-	 * @param callable $next The next handler in the middleware stack
-	 *
-	 * @return mixed The result of the next handler
-	 */
-	public function handle( Request $request, Response $response, callable $next ) {
-
-		if ( ! is_user_logged_in() ) {
-			return $next( $request, $response );
-		}
-
-        if ( isset( $_COOKIE['dt_home_share'] ) ) {
-            $leader_id = sanitize_text_field( wp_unslash( $_COOKIE['dt_home_share'] ) );
-        } else {
-            $leader_id = null;
-        }
-
-		if ( $leader_id ) {
-			try {
-				$this->add_leader( $leader_id );
-			} catch ( \Exception $e ) {
-				$this->remove_cookie();
-			}
-		}
-
-		return $next( $request, $response );
-	}
-
+class CheckShareCookie implements MiddlewareInterface {
 	/**
 	 * Add a leader to a contact's coached_by field and update assigned_to field.
 	 *
@@ -101,5 +73,41 @@ class CheckShareCookie implements Middleware {
 			unset( $_COOKIE['dt_home_share'] );
 			setcookie( 'dt_home_share', '', time() - 3600, '/' );
 		};
+	}
+
+	/**
+	 * Process the request and handle the response.
+	 *
+	 * If the user is not logged in, the request handler is directly called and the response is returned.
+	 * If the 'dt_home_share' cookie exists, sanitize and assign its value to $leader_id, otherwise set $leader_id to null.
+	 * If $leader_id is not null, attempt to add the leader with the given ID.
+	 * If an exception occurs during adding the leader, remove the 'dt_home_share' cookie.
+	 * Finally, call the request handler and return the response.
+	 *
+	 * @param ServerRequestInterface $request The request object.
+	 * @param RequestHandlerInterface $handler The request handler object.
+	 *
+	 * @return ResponseInterface The response object.
+	 */
+	public function process( ServerRequestInterface $request, RequestHandlerInterface $handler ): ResponseInterface {
+		if ( ! is_user_logged_in() ) {
+			return $handler->handle( $request );
+		}
+
+		if ( isset( $_COOKIE['dt_home_share'] ) ) {
+			$leader_id = sanitize_text_field( wp_unslash( $_COOKIE['dt_home_share'] ) );
+		} else {
+			$leader_id = null;
+		}
+
+		if ( $leader_id ) {
+			try {
+				$this->add_leader( $leader_id );
+			} catch ( \Exception $e ) {
+				$this->remove_cookie();
+			}
+		}
+
+		return $handler->handle( $request );
 	}
 }

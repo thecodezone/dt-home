@@ -42,15 +42,6 @@ class MiddlewareServiceProvider extends AbstractServiceProvider implements Boota
 		Render::class,
 	];
 
-	protected $route_middleware = [
-		'auth'        => LoggedIn::class,
-		'can'         => UserHasCap::class, // can:manage_dt
-		'guest'       => LoggedOut::class,
-		'magic'       => MagicLink::class,
-		'nonce'       => Nonce::class,  // nonce:dt_home_nonce
-		'check_share' => CheckShareCookie::class
-	];
-
 	/**
 	 * Registers the middleware for the plugin.
 	 *
@@ -87,7 +78,7 @@ class MiddlewareServiceProvider extends AbstractServiceProvider implements Boota
 	public function register(): void {
 	}
 
-    public function provides(string $id): bool
+    public function provides( string $id ): bool
     {
         return false;
     }
