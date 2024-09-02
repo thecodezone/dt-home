@@ -2,8 +2,7 @@
 
 namespace DT\Home\Controllers;
 
-use DT\Home\Illuminate\Http\Request;
-use DT\Home\Illuminate\Http\Response;
+use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use function DT\Home\redirect;
 use function DT\Home\route_url;
 use function DT\Home\template;
@@ -24,13 +23,11 @@ class LoginController {
 	 *
 	 * @return Response The response object.
 	 */
-	public function process( Request $request, Response $response ) {
+	public function process( Request $request ) {
 		global $errors;
 
-		$username = $request->input( 'username' );
-		$password = $request->input( 'password' );
-
-		$user = wp_authenticate( $username, $password );
+		$params = $request->getParsedBody();
+		$user = wp_authenticate( $params['username'] ?? '', $params['password'] ?? '' );
 
 		if ( is_wp_error( $user ) ) {
 			//phpcs:ignore
@@ -68,12 +65,13 @@ class LoginController {
 	 *
 	 * @return Response The response object.
 	 */
-	public function login( $params = [] ) {
+	public function login( Request $request ) {
+		$params = $request->getParsedBody();
 		$register_url = route_url( 'register' );
 		$form_action  = route_url( 'login' );
-		$username     = $params['username'] ?? '';
-		$password     = $params['password'] ?? '';
-		$error        = $params['error'] ?? '';
+		$username     = sanitize_text_field( $params['username'] ?? '' );
+		$password     = sanitize_text_field( $params['password'] ?? '' );
+		$error        = sanitize_text_field( $params['error'] ?? '' );
 		$logo_path    = plugin_url( 'resources/img/logo-color.png' );
 		$reset_url    = wp_lostpassword_url( plugin_url() );
 
@@ -95,7 +93,7 @@ class LoginController {
 	 *
 	 * @return Response The response object.
 	 */
-	public function logout( $params = [] ) {
+	public function logout() {
 		wp_logout();
 
 		return redirect( route_url( 'login' ) );
