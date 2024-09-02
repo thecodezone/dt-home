@@ -3,8 +3,7 @@
 namespace DT\Home\Controllers;
 
 use Disciple_Tools_Users;
-use DT\Home\Illuminate\Http\Request;
-use DT\Home\Illuminate\Http\Response;
+use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT_Magic_URL;
 use function DT\Home\magic_url;
 use function DT\Home\redirect;
@@ -21,7 +20,7 @@ class RedirectController
      * @param Request $request The HTTP request object.
      * @param Response $response The HTTP response object.
      */
-    public function show( Request $request, Response $response )
+    public function show( Request $request )
     {
         global $wpdb;
 
