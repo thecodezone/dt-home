@@ -69,14 +69,14 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                                        class="delete-apps">
                                         <?php echo esc_html_e( 'Delete' ); ?>
                                     </a>
-                                <?php  }else{ ?>
+                                <?php }else { ?>
                                     |&nbsp;
                                     <a href="#" onclick="softdelete('<?php echo esc_attr( $app['slug'] ); ?>')"
                                        class="delete-apps">
                                         <?php echo esc_html_e( 'Delete' ); ?>
                                     </a>
                                 <?php     }
-                               ?>
+								?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

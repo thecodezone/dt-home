@@ -21,7 +21,7 @@ class ShareController
             setcookie( 'dt_home_share', $contact, time() + ( 86400 * 30 ), "/" );
         }
 
-        return redirect(route_url());
+        return redirect( route_url() );
     }
 
     public function data( Request $request, Response $response, $key )

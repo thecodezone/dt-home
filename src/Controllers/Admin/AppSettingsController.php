@@ -489,10 +489,10 @@ class AppSettingsController
      *  @param string $slug The slug of the app to be soft deleted.
      * @return \Symfony\Component\HttpFoundation\RedirectResponse Redirects to the admin page with a success message.
      */
-     public function soft_delete_app( $slug )
+	public function soft_delete_app( $slug )
     {
         // Retrieve the existing array of apps
-         $apps_array = container()->make( Apps::class )->all();
+		$apps_array = container()->make( Apps::class )->all();
 
         // Find the app with the specified slug and mark it as soft deleted
         foreach ( $apps_array as $key => $app ) {
@@ -519,26 +519,25 @@ class AppSettingsController
         * @param string $slug The slug of the app to be restored.
         * @return \Symfony\Component\HttpFoundation\RedirectResponse Redirects to the admin page with a success message.
         */
-        public function restore_app( $slug )
+	public function restore_app( $slug )
         {
-            // Retrieve the existing array of apps
-            $apps_array = get_option( 'dt_home_apps', [] );
+		// Retrieve the existing array of apps
+		$apps_array = get_option( 'dt_home_apps', [] );
 
-            // Find the app with the specified slug and restore it
-            foreach ( $apps_array as $key => $app ) {
-                if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
-                    $apps_array[$key]['is_deleted'] = false; // Restore the app
-                    break; // Exit the loop once the app is found and restored
-                }
-            }
+		// Find the app with the specified slug and restore it
+		foreach ( $apps_array as $key => $app ) {
+			if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
+				$apps_array[$key]['is_deleted'] = false; // Restore the app
+				break; // Exit the loop once the app is found and restored
+			}
+		}
 
-            // Save the updated array back to the option
-            update_option( 'dt_home_apps', $apps_array );
+		// Save the updated array back to the option
+		update_option( 'dt_home_apps', $apps_array );
 
-            // Redirect to the page with a success message
-            $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true', 302 );
+		// Redirect to the page with a success message
+		$response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true', 302 );
 
-            return $response;
-        }
-
+		return $response;
+	}
 }

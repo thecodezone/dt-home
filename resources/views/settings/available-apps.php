@@ -1,4 +1,3 @@
-
 <?php
 $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
@@ -32,7 +31,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                     </tr>
                     </thead>
                     <tbody>
-                    <?php if(  empty( $data ) ) : ?>
+                    <?php if ( empty( $data ) ) : ?>
                         <tr>
                             <td colspan="5" style="text-align: center;border: 1px solid #ddd;"><?php echo esc_html_e( 'No apps found' ); ?></td>
                         </tr>
