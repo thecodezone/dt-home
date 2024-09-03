@@ -43,6 +43,7 @@ $boot_providers = [
     RewritesServiceProvider::class,
     PluginServiceProvider::class
 ];
+
 foreach ( $boot_providers as $provider ) {
     $container->addServiceProvider( $container->get( $provider ) );
 }
@@ -50,6 +51,7 @@ foreach ( $boot_providers as $provider ) {
 // Init the plugin
 $dt_home = $container->get( Plugin::class );
 $dt_home->init();
+
 
 // Add the rest of the service providers
 $config = $container->get( ConfigInterface::class );

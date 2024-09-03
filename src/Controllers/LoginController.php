@@ -2,6 +2,7 @@
 
 namespace DT\Home\Controllers;
 
+use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use function DT\Home\redirect;
 use function DT\Home\route_url;
@@ -38,17 +39,17 @@ class LoginController {
 			//If the error links to lost password, inject the 3/3rds redirect
 			$error = str_replace( '?action=lostpassword', '?action=lostpassword?&redirect_to=/', $error );
 
-			return $this->login( [ 'error' => $error, 'username' => $username, 'password' => $password ] );
+			return $this->login( ServerRequestFactory::with_query_params( [ 'error' => $error, 'username' => $username ] ) );
 		}
 
 		wp_set_auth_cookie( $user->ID );
 
 		if ( ! $user ) {
-			return $this->login( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'dt_home' ) ] );
+			return $this->login( ServerRequestFactory::with_query_params( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'dt_home' ) ] ) );
 		}
 
 		wp_set_current_user( $user->ID );
-
+s
 		return redirect( route_url() );
 	}
 

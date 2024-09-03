@@ -1,4 +1,6 @@
 <?php
+use function DT\Home\config;
+
 $this->layout( 'layouts/auth' );
 /**
  * @var string $logo_path
@@ -22,7 +24,7 @@ $this->layout( 'layouts/auth' );
             </div>
             <form action="<?php echo esc_attr( $form_action ) ?>"
                   method="POST">
-                <?php wp_nonce_field( 'dt_home' ) ?>
+                <?php wp_nonce_field( config( 'plugin.nonce_name' ) ) ?>
 
                 <?php if ( !empty( $error ) ) : ?>
                     <dt-alert context="alert"

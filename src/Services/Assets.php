@@ -78,12 +78,12 @@ class Assets
         \DT\Home\Kucrut\Vite\enqueue_asset(config( 'assets.manifest_dir' ),
             'resources/js/plugin.js',
             [
-                'handle' => 'dt-plugin',
+                'handle' => 'dt-home',
                 'css-media' => 'all', // Optional.
                 'css-only' => false, // Optional. Set to true to only load style assets in production mode.
                 'in-footer' => true, // Optional. Defaults to false.
         ]);
-        wp_localize_script( 'dt-plugin', config( 'assets.javascript_global_scope' ), apply_filters( \DT\Home\namespace_string( 'javascript_globals' ), [] ) );
+        wp_localize_script( 'dt-home', config( 'assets.javascript_global_scope' ), apply_filters( \DT\Home\namespace_string( 'javascript_globals' ), [] ) );
     }
 
     /**
