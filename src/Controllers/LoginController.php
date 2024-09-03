@@ -39,7 +39,7 @@ class LoginController {
 			//If the error links to lost password, inject the 3/3rds redirect
 			$error = str_replace( '?action=lostpassword', '?action=lostpassword?&redirect_to=/', $error );
 
-			return $this->login( ServerRequestFactory::with_query_params( [ 'error' => $error, 'username' => $username ] ) );
+			return $this->login( ServerRequestFactory::with_query_params( [ 'error' => $error ] ) );
 		}
 
 		wp_set_auth_cookie( $user->ID );
@@ -49,7 +49,7 @@ class LoginController {
 		}
 
 		wp_set_current_user( $user->ID );
-s
+
 		return redirect( route_url() );
 	}
 
