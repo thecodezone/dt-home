@@ -2,8 +2,8 @@
 
 /**
  * @var RouteCollectionInterface $r
+ * @see https://route.thephpleague.com/
  */
-
 use DT\Home\CodeZone\WPSupport\Middleware\Nonce;
 use DT\Home\Controllers\AppController;
 use DT\Home\Controllers\LoginController;

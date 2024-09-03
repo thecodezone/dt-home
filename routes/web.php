@@ -1,17 +1,8 @@
 <?php
 /**
- * Conditions are used to determine if a group of routes should be registered.
- *
- * Groups are used to register a group of routes with a common URL prefix.
- *
- * Middleware is used to modify requests before they are handled by a controller, or to modify responses before they are returned to the client.
- *
- * Routes are used to bind a URL to a controller.
- *
  * @var RouteCollectionInterface $r
- * @see https://github.com/thecodezone/wp-router
+ * @see https://route.thephpleague.com/
  */
-
 use DT\Home\Controllers\LoginController;
 use DT\Home\Controllers\RedirectController;
 use DT\Home\Controllers\RegisterController;

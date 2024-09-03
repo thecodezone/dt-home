@@ -1,17 +1,17 @@
 <?php
 
 /**
- * @var RouteCollector $r
+ * @var RouteCollectionInterface $r
+ * @see https://route.thephpleague.com/
  */
-
 use DT\Home\CodeZone\WPSupport\Middleware\HasCap;
 use DT\Home\Controllers\Admin\AppSettingsController;
 use DT\Home\Controllers\Admin\GeneralSettingsController;
 use DT\Home\Controllers\Admin\TrainingSettingsController;
-use DT\Home\FastRoute\RouteCollector;
 use DT\Home\CodeZone\WPSupport\Middleware\Nonce;
+use DT\Home\League\Route\RouteCollectionInterface;
 
-$r->group( new HasCap( '/wp-admin' ), function ( RouteCollector $r ) {
+$r->group( '/wp-admin', function ( RouteCollectionInterface $r ) {
 	$r->get( '/admin.php?page=dt_home', [ GeneralSettingsController::class, 'show' ] );
 	$r->get( '/admin.php?page=dt_home&tab=general', [ GeneralSettingsController::class, 'show' ] );
 
@@ -44,7 +44,7 @@ $r->group( new HasCap( '/wp-admin' ), function ( RouteCollector $r ) {
 	]);
 })->middleware( new HasCap( 'manage_dt' ) );
 
-$r->group( '/wp-admin', function ( RouteCollector $r ) {
+$r->group( '/wp-admin', function ( RouteCollectionInterface $r ) {
 	$r->post( '/admin.php?page=dt_home', [ GeneralSettingsController::class, 'update' ] );
 	$r->post( '/admin.php?page=dt_home&tab=general', [ GeneralSettingsController::class, 'update' ] );
 	$r->post( '/admin.php?page=dt_home&tab=app&action=create', [ AppSettingsController::class, 'store' ] );
