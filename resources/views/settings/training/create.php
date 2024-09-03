@@ -7,34 +7,54 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
     <table class="widefat striped" id="ml_email_main_col_config">
     <thead>
     <tr>
-        <th>Training Video</th>
+        <th><?php esc_html_e('Training Videos') ?></th>
         <th></th>
         <th></th>
     </tr>
     </thead>
     <tbody>
     <tr>
-        <td style="vertical-align: middle;">Name <span title="Enter the name of the training video.">[?]</span></td>
+        <td style="vertical-align: middle;">
+            <?php esc_html_e('Name') ?>
+            <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Enter the name of the training video.') ?></span>
+            </span>
+        </td>
         <td colspan="2">
             <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name"  pattern=".*\S+.*" title="The name cannot be empty or just whitespace."  required/>
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: middle;">Embed Video <span title="Paste the embed code for the video.">[?]</span></td>
+        <td style="vertical-align: middle;">
+            <?php esc_html_e('Embed Video') ?>
+            <span class="tooltip">[?]
+            <span class="tooltiptext"><?php esc_html_e('Paste the embed code for the video.') ?></span>
+        </span>
+        </td>
         <td colspan="2">
             <textarea style="min-width: 100%;" class="form-control" name="embed_video" id="embed_video"
                       oninput="this.setCustomValidity(this.value.trim() === '' ? 'The embed Video cannot be empty or just whitespace.' : '')"   required></textarea>
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: middle;">Anchor <span title="Specify the anchor text for the video.">[?]</span></td>
+        <td style="vertical-align: middle;">
+            <?php esc_html_e('Anchor') ?>
+            <span class="tooltip">[?]
+            <span class="tooltiptext"><?php esc_html_e("Specify the anchor text for the video.")?> </span>
+        </span>
+        </td>
         <td colspan="2">
             <input style="min-width: 100%;" class="form-control" type="text" name="anchor" id="anchor"
                    pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/>
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: middle;">Sort <span title="Set the sort order for the video.">[?]</span></td>
+        <td style="vertical-align: middle;">
+            <?php esc_html_e('Sort') ?>
+            <span class="tooltip">[?]
+            <span class="tooltiptext"> <?php esc_html_e( "Set the sort order for the video.")?></span>
+        </span>
+        </td>
         <td colspan="2">
             <input style="min-width: 100%;" type="number" name="sort" id="sort" required/>
         </td>
