@@ -120,6 +120,7 @@ class HomeFooter extends LitElement {
                 color: hsla(216, 100%, 50%, 1);
             }
 
+            /* Mobile */
             @media (max-width: 600px) {
                 .footer-container {
                     position: fixed;
@@ -129,7 +130,7 @@ class HomeFooter extends LitElement {
                 }
 
                 .custom-dialog-overlay {
-                    left: 90px;
+                    left: calc(100vw - 72vw) !important;
                     right: 0;
                     bottom: 25px;
                     top: auto;
@@ -141,6 +142,38 @@ class HomeFooter extends LitElement {
                 sp-dialog {
                     background-color: white;
                     height: auto; /* Let the content dictate the height */
+                }
+            }
+
+            /* Tablet */
+            @media (min-width: 601px) and (max-width: 962px) {
+                .footer-container {
+                    position: fixed;
+                    width: 100%;
+                    display: flex;
+                    right: 10px;
+                }
+
+                .custom-dialog-overlay {
+                    left: calc(100vw - 350px) !important;
+                    top: auto;
+                    width: 100px;
+                }
+            }
+
+            /* Desktop */
+            @media (min-width: 963px) and (max-width: 1920px) {
+                .footer-container {
+                    position: fixed;
+                    width: 100%;
+                    display: flex;
+                    right: 10px;
+                }
+
+                .custom-dialog-overlay {
+                    left: calc(100vw - 350px) !important;
+                    top: auto;
+                    width: 100px;
                 }
             }
 
