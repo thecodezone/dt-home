@@ -19,69 +19,96 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
     <?php wp_nonce_field('dt_admin_form_nonce') ?>
 
     <table class="widefat striped" id="ml_email_main_col_config">
-        <thead>
-        <tr>
-            <th><?php esc_html_e('Apps') ?></th>
-            <th></th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Name') ?> </td>
-            <td colspan="2">
-                <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/>
-            </td>
-        </tr>
-        <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Type') ?> </td>
-            <td colspan="2">
-                <select style="min-width: 100%;" name="type" id="type" required onchange="toggleURLField()">
-                    <option value=""><?php esc_html_e('Please select') ?></option>
-                    <option value="Web View"><?php esc_html_e('Web View') ?></option>
-                    <option value="Link"><?php esc_html_e('Link') ?></option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Open link in new tab') ?> </td>
-            <td colspan="2">
-                <input type="checkbox" name="open_in_new_tab" id="open_in_new_tab" value="1">
-            </td>
-        </tr>
-        <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?></td>
-            <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="app_icon"  name="icon" pattern=".*\S+.*" title="The name cannot be empty or just whitespace."
-                                                       required/></td>
-            <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
-            <td style="vertical-align: middle;">
-                <a href="#" class="button change-icon-button">
-                    <?php esc_html_e('Change Icon', 'disciple_tools'); ?>
-                </a>
-            </td>
-        </tr>
-        <tr id="urlFieldRow">
-            <td style="vertical-align: middle;"><?php esc_html_e('URL') ?> </td>
-            <td colspan="2">
-                <input style="min-width: 100%;" type="text" name="url" id="url"/>
-            </td>
-        </tr>
+    <thead>
+    <tr>
+        <th><?php esc_html_e('Apps') ?></th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
 
-        <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?> </td>
-            <td colspan="2">
-                <input style="min-width: 100%;" type="text" name="slug" id="slug" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/>
-            </td>
-        </tr>
-        <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Is Hidden') ?> </td>
-            <td colspan="2">
-                <input type="checkbox" name="is_hidden" id="is_hidden" value="1">
-            </td>
-        </tr>
 
-        </tbody>
-    </table>
+    <tr>
+        <td style="vertical-align: middle;"><?php esc_html_e('Name') ?>
+            <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Enter the name of the app.') ?></span>
+            </span>
+        </td>
+        <td colspan="2">
+            <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/>
+        </td>
+    </tr>
+    <tr>
+        <td style="vertical-align: middle;"><?php esc_html_e('Type') ?>
+            <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Select the type of the app.') ?></span>
+            </span>
+        </td>
+        <td colspan="2">
+            <select style="min-width: 100%;" name="type" id="type" required onchange="toggleURLField()">
+                <option value=""><?php esc_html_e('Please select') ?></option>
+                <option value="Web View"><?php esc_html_e('Web View') ?></option>
+                <option value="Link"><?php esc_html_e('Link') ?></option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td style="vertical-align: middle;"><?php esc_html_e('Open link in new tab') ?>
+            <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Check this box to open the link in a new tab.') ?></span>
+            </span>
+        </td>
+        <td colspan="2">
+            <input type="checkbox" name="open_in_new_tab" id="open_in_new_tab" value="1">
+        </td>
+    </tr>
+    <tr>
+        <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?>
+            <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Upload an icon for the app.') ?></span>
+            </span>
+        </td>
+        <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="app_icon"  name="icon" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/></td>
+        <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
+        <td style="vertical-align: middle;">
+            <a href="#" class="button change-icon-button">
+                <?php esc_html_e('Change Icon', 'disciple_tools'); ?>
+            </a>
+        </td>
+    </tr>
+    <tr id="urlFieldRow">
+        <td style="vertical-align: middle;"><?php esc_html_e('URL') ?>
+            <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Enter the URL for the app.') ?></span>
+            </span>
+        </td>
+        <td colspan="2">
+            <input style="min-width: 100%;" type="text" name="url" id="url"/>
+        </td>
+    </tr>
+    <tr>
+        <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?>
+            <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Enter a slug for the app.') ?></span>
+            </span>
+        </td>
+        <td colspan="2">
+            <input style="min-width: 100%;" type="text" name="slug" id="slug" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/>
+        </td>
+    </tr>
+    <tr>
+        <td style="vertical-align: middle;"><?php esc_html_e('Is Hidden') ?>
+            <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Check this box to hide the app.') ?></span>
+            </span>
+        </td>
+        <td colspan="2">
+            <input type="checkbox" name="is_hidden" id="is_hidden" value="1">
+        </td>
+    </tr>
+    </tbody>
+</table>
 
     <br>
     <span id="ml_email_main_col_update_msg" style="font-weight: bold; color: red;"></span>
