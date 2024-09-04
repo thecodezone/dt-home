@@ -13,6 +13,7 @@ Follow the links below for detailed descriptions of the functionality offered by
 - [Plugin Setup & Management](./documentation/admin/README.md)
 - [Home Screen Custom Apps](./documentation/apps/README.md)
 - [Home Screen Training Videos](./documentation/train/README.md)
+- [Registering New Custom Apps](./documentation/custom/README.md)
 
 ## Requirements
 
