@@ -10,3 +10,6 @@ $this->layout( 'layouts/plugin' );
     <dt-home-video-list training-data='<?php echo htmlspecialchars( $data ); ?>'></dt-home-video-list>
 </dt-tile>
 
+<?php
+$this->insert( 'partials/return-to-launcher-button' );
+?>
