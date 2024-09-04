@@ -23,7 +23,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                     <thead>
                     <tr>
                         <th style="border: 1px solid #ddd;"><?php echo esc_html_e( 'Name' ); ?></th>
-                        <th style="border: 1px solid #ddd;"><?php echo esc_html_e( 'Embed Videos' ); ?></th>
+                        <th style="border: 1px solid #ddd;"><?php echo esc_html_e( 'Embed Video' ); ?></th>
                         <th style="border: 1px solid #ddd;"><?php echo esc_html_e( 'Anchor' ); ?></th>
                         <th style="border: 1px solid #ddd;min-width: 100%"><?php echo esc_html_e( 'Action' ); ?></th>
                     </tr>
