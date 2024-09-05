@@ -8,7 +8,7 @@ $config->merge( [
     'options' => [
         'prefix' => 'dt_home',
         'defaults' => [
-            //'widget_name' => 'Widget,
+            'require_login' => true,
         ],
     ]
 ] );
