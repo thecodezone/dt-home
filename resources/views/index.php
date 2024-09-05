@@ -15,7 +15,7 @@ $this->layout( 'layouts/plugin' );
         </div>
 
         <sp-tooltip slot="hover-content" open placement="right" class="spl-text">
-			<?php echo wordwrap( esc_attr( __( "Copy this link and share it with people you are coaching.", "dt_home" ) ), 40, "<br />\n" ); ?>
+            <?php echo wordwrap( esc_html__( "Copy this link and share it with people you are coaching.", "dt_home" ), 40, "<br />\n" ); ?>
         </sp-tooltip>
     </overlay-trigger>
 
@@ -35,8 +35,8 @@ $this->layout( 'layouts/plugin' );
 
     <dt-home-footer id="hiddenApps"
                     translations='<?php echo wp_json_encode([
-                        "hiddenAppsLabel" => __( "Hidden Apps", 'dt_home' ),
-                        "buttonLabel" => __( "Ok", 'dt_home' )
+                        "hiddenAppsLabel" => esc_html__( "Hidden Apps", 'dt_home' ),
+                        "buttonLabel" => esc_html__( "Ok", 'dt_home' )
                     ]) ?>'
                     hidden-data='<?php echo esc_attr( htmlspecialchars( $data ) ); ?>'
                     app-url-unhide='<?php echo esc_url( $app_url ); ?>'>

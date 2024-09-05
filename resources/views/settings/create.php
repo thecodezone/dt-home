@@ -21,42 +21,40 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
     <table class="widefat striped" id="ml_email_main_col_config">
     <thead>
     <tr>
-        <th><?php esc_html_e('Apps') ?></th>
+        <th><?php esc_html_e('Apps', 'dt_home') ?></th>
         <th></th>
         <th></th>
     </tr>
     </thead>
     <tbody>
-
-
     <tr>
-        <td style="vertical-align: middle;"><?php esc_html_e('Name') ?>
+        <td style="vertical-align: middle;"><?php esc_html_e('Name', 'dt_home') ?>
             <span class="tooltip">[?]
-                <span class="tooltiptext"><?php esc_html_e('Enter the name of the app.') ?></span>
+                <span class="tooltiptext"><?php esc_html_e('Enter the name of the app.', 'dt_home') ?></span>
             </span>
         </td>
         <td colspan="2">
-            <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/>
+            <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name" pattern=".*\S+.*" title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt_home'); ?>" required/>
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: middle;"><?php esc_html_e('Type') ?>
+        <td style="vertical-align: middle;"><?php esc_html_e('Type', 'dt_home') ?>
             <span class="tooltip">[?]
-                <span class="tooltiptext"><?php esc_html_e('Select the type of the app.') ?></span>
+                <span class="tooltiptext"><?php esc_html_e('Select the type of the app.', 'dt_home') ?></span>
             </span>
         </td>
         <td colspan="2">
             <select style="min-width: 100%;" name="type" id="type" required onchange="toggleURLField()">
-                <option value=""><?php esc_html_e('Please select') ?></option>
-                <option value="Web View"><?php esc_html_e('Web View') ?></option>
-                <option value="Link"><?php esc_html_e('Link') ?></option>
+                <option value=""><?php esc_html_e('Please select', 'dt_home') ?></option>
+                <option value="Web View"><?php esc_html_e('Web View', 'dt_home') ?></option>
+                <option value="Link"><?php esc_html_e('Link', 'dt_home') ?></option>
             </select>
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: middle;"><?php esc_html_e('Open link in new tab') ?>
+        <td style="vertical-align: middle;"><?php esc_html_e('Open link in new tab', 'dt_home') ?>
             <span class="tooltip">[?]
-                <span class="tooltiptext"><?php esc_html_e('Check this box to open the link in a new tab.') ?></span>
+                <span class="tooltiptext"><?php esc_html_e('Check this box to open the link in a new tab.', 'dt_home') ?></span>
             </span>
         </td>
         <td colspan="2">
@@ -64,23 +62,23 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)') ?>
+        <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)', 'dt_home') ?>
             <span class="tooltip">[?]
-                <span class="tooltiptext"><?php esc_html_e('Upload an icon for the app.') ?></span>
+                <span class="tooltiptext"><?php esc_html_e('Upload an icon for the app.', 'dt_home') ?></span>
             </span>
         </td>
-        <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="app_icon"  name="icon" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/></td>
+        <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="app_icon"  name="icon" pattern=".*\S+.*" title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt_home'); ?>" required/></td>
         <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
         <td style="vertical-align: middle;">
             <a href="#" class="button change-icon-button">
-                <?php esc_html_e('Change Icon', 'disciple_tools'); ?>
+                <?php esc_html_e('Change Icon', 'dt_home'); ?>
             </a>
         </td>
     </tr>
     <tr id="urlFieldRow">
-        <td style="vertical-align: middle;"><?php esc_html_e('URL') ?>
+        <td style="vertical-align: middle;"><?php esc_html_e('URL', 'dt_home') ?>
             <span class="tooltip">[?]
-                <span class="tooltiptext"><?php esc_html_e('Enter the URL for the app.') ?></span>
+                <span class="tooltiptext"><?php esc_html_e('Enter the URL for the app.', 'dt_home') ?></span>
             </span>
         </td>
         <td colspan="2">
@@ -88,19 +86,19 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: middle;"><?php esc_html_e('Slug') ?>
+        <td style="vertical-align: middle;"><?php esc_html_e('Slug', 'dt_home') ?>
             <span class="tooltip">[?]
-                <span class="tooltiptext"><?php esc_html_e('Enter a slug for the app.') ?></span>
+                <span class="tooltiptext"><?php esc_html_e('Enter a slug for the app.', 'dt_home') ?></span>
             </span>
         </td>
         <td colspan="2">
-            <input style="min-width: 100%;" type="text" name="slug" id="slug" pattern=".*\S+.*" title="The name cannot be empty or just whitespace." required/>
+            <input style="min-width: 100%;" type="text" name="slug" id="slug" pattern=".*\S+.*" title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt_home'); ?>" required/>
         </td>
     </tr>
     <tr>
-        <td style="vertical-align: middle;"><?php esc_html_e('Is Hidden') ?>
+        <td style="vertical-align: middle;"><?php esc_html_e('Is Hidden', 'dt_home') ?>
             <span class="tooltip">[?]
-                <span class="tooltiptext"><?php esc_html_e('Check this box to hide the app.') ?></span>
+                <span class="tooltiptext"><?php esc_html_e('Check this box to hide the app.', 'dt_home') ?></span>
             </span>
         </td>
         <td colspan="2">
@@ -114,22 +112,21 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
     <span id="ml_email_main_col_update_msg" style="font-weight: bold; color: red;"></span>
     <span style="float:right;">
         <a href="admin.php?page=dt_home&tab=app"
-           class="button float-right"><?php esc_html_e('Cancel', 'disciple_tools') ?></a>
+           class="button float-right"><?php esc_html_e('Cancel', 'dt_home') ?></a>
         <button type="submit" id="ml_email_main_col_update_but"
-                class="button float-right"><?php esc_html_e('Submit', 'disciple_tools') ?></button>
+                class="button float-right"><?php esc_html_e('Submit', 'dt_home') ?></button>
     </span>
 </form>
 
 <div id="popup" class="popup">
-    <input type="text" id="searchInput" onkeyup="filterIcons()" placeholder="Search for icons..."
+    <input type="text" id="searchInput" onkeyup="filterIcons()" placeholder="<?php esc_attr_e('Search for icons...', 'dt_home'); ?>"
            style="width: 100%; padding: 10px; margin-bottom: 10px;">
     <div class="svg-container" id="svgContainer">
         <!-- SVG icons will be dynamically inserted here -->
     </div>
     <br>
-    <button class="btn btn-secondary" onclick="hidePopup()"><?php esc_html_e('Close') ?></button>
+    <button class="btn btn-secondary" onclick="hidePopup()"><?php esc_html_e('Close', 'dt_home') ?></button>
 </div>
-
 
 <?php $this->start('right') ?>
 
