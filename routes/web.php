@@ -12,8 +12,8 @@ use DT\Home\CodeZone\WPSupport\Middleware\Nonce;
 use function DT\Home\config;
 
 $r->get( '/', [ RedirectController::class, 'show' ] );
-$r->get( '/login', [ LoginController::class, 'login' ] )->middleware( new LoggedOut() );
-$r->get( '/register', [ RegisterController::class, 'register' ] )->middleware( new LoggedOut() );
+$r->get( '/login', [ LoginController::class, 'show' ] )->middleware( new LoggedOut() );
+$r->get( '/register', [ RegisterController::class, 'show' ] )->middleware( new LoggedOut() );
 
 $r->group('', function ( RouteCollectionInterface $r ) {
     $r->post( '/login', [ LoginController::class, 'process' ] )->middleware( new LoggedOut() );

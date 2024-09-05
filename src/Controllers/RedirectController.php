@@ -4,6 +4,7 @@ namespace DT\Home\Controllers;
 
 use Disciple_Tools_Users;
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
+use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT_Magic_URL;
 use function DT\Home\magic_url;
 use function DT\Home\redirect;
@@ -18,7 +19,7 @@ class RedirectController
      * the login page if they are not logged in.
      *
      * @param Request $request The HTTP request object.
-     * @param Response $response The HTTP response object.
+     * @param ResponseInterface $response The HTTP response object.
      */
     public function show( Request $request )
     {
@@ -43,6 +44,11 @@ class RedirectController
         return redirect( magic_url() );
     }
 
+    /**
+     * Checks if the user is activated for the home launcher app.
+     *
+     * @return bool True if the user is activated, false otherwise.
+     */
     public function is_activated()
     {
         global $wpdb;

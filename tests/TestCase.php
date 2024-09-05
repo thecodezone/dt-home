@@ -51,6 +51,8 @@ abstract class TestCase extends WP_UnitTestCase {
      */
     public function setUp(): void {
 		global $wpdb;
+        wp_logout();
+        wp_clear_auth_cookie();
 		$wpdb->query( 'START TRANSACTION' );
 		parent::setUp();
 	}
@@ -64,7 +66,9 @@ abstract class TestCase extends WP_UnitTestCase {
 	public function tearDown(): void {
 		global $wpdb;
 		$wpdb->query( 'ROLLBACK' );
-		parent::tearDown();
+        wp_logout();
+        wp_clear_auth_cookie();
+        parent::tearDown();
 	}
 
     public function as_user() {
