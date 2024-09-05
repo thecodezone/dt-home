@@ -22,8 +22,14 @@ require_once $_tests_dir . '/includes/functions.php';
  * Registers theme
  */
 $_register_theme = function () use ( $_tests_dir, $_core_dir, $_theme_dir, $_plugin_file ) {
+    //The theme throws some errors because it is missing some tables even after migration,
+    //but our tests still run properly without them.
+    global $wpdb;
+    $wpdb->suppress_errors( true );
+
     $current_theme = basename( $_theme_dir );
     $theme_root    = dirname( $_theme_dir );
+
     add_filter( 'theme_root', function () use ( $theme_root ) {
         return $theme_root;
     } );
