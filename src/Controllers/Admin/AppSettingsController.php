@@ -521,6 +521,7 @@ class AppSettingsController
             return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
         }
 
+        // Retrieve the existing array of apps
         $apps = container()->get( Apps::class );
 		$apps_array = $apps->all();
 
@@ -538,15 +539,15 @@ class AppSettingsController
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
 
-        /**
-        * Restore an app by its slug.
-        *
-        * This function restores a soft deleted app based on its slug.
-        *
-         * @param Request $request The request instance.
-         * @param array $params The route parameters.
-         * @return mixed
-         */
+    /**
+    * Restore an app by its slug.
+    *
+    * This function restores a soft deleted app based on its slug.
+    *
+     * @param Request $request The request instance.
+     * @param array $params The route parameters.
+     * @return mixed
+     */
 	public function restore_app( Request $request, $params )
         {
         $slug = $params['slug'] ?? '';
@@ -569,6 +570,7 @@ class AppSettingsController
 		// Save the updated array back to the option
 		update_option( 'dt_home_apps', $apps_array );
 
-		return redirect( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true' );
+        // Redirect to the page with a success message
+        return redirect( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true' );
 	}
 }
