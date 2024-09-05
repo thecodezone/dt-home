@@ -19,15 +19,15 @@ $this->layout( 'layouts/plugin' );
         <!-- Add more app icons as needed -->
     </dt-home-hidden-app-menu>
     <div>
-		<?php echo $this->section( 'content' ) ?>
+        <?php echo $this->section( 'content' ) ?>
     </div>
 
     <b>
-        Name: <?php echo $this->e( $user->user_nicename ); ?>
+        <?php esc_html_e( 'Name:', 'dt_home' ); ?> <?php echo $this->e( $user->user_nicename ); ?>
     </b>
 
     <a href="<?php echo esc_url( $subpage_url ); ?>">
-		<?php $this->esc_html_e( 'Visit subpage', 'dt_home' ); ?>
+        <?php esc_html_e( 'Visit subpage', 'dt_home' ); ?>
     </a>
 
     <dt-home-footer></dt-home-footer>
