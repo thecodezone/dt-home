@@ -68,7 +68,6 @@ class RouteServiceProvider extends RouteProvider implements BootableServiceProvi
      * @return void
      */
     protected function route_file( RouteInterface $route, $file ) {
-
         $route->middleware( $this->middleware() )
             ->file( routes_path( $file['file'] ) )
             ->rewrite( $file['query'] );
