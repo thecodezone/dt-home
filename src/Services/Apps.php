@@ -47,7 +47,7 @@ class Apps {
         }
 		// Sort the array based on the 'sort' key
 		usort($apps, function ( $a, $b ) {
-			return ( $a['sort'] ?? 0 ) - ( $b['sort'] ?? 0 );
+			return ( (int) $a['sort'] ?? 0 ) - ( (int) $b['sort'] ?? 0 );
 		});
 
 		return $this->format( $apps );

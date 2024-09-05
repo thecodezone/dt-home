@@ -4,10 +4,8 @@ namespace Tests;
 
 use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\Controllers\Admin\GeneralSettingsController;
-use DT\Home\Controllers\RedirectController;
 use function DT\Home\container;
 use function DT\Home\get_plugin_option;
-use function DT\Home\magic_url;
 use function DT\Home\set_plugin_option;
 
 class GeneralSettingsControllerTest extends TestCase

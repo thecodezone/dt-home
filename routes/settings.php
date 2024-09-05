@@ -15,10 +15,10 @@ $r->group( '/wp-admin', function ( RouteCollectionInterface $r ) {
 	$r->get( '/admin.php?page=dt_home', [ GeneralSettingsController::class, 'show' ] );
 	$r->get( '/admin.php?page=dt_home&tab=general', [ GeneralSettingsController::class, 'show' ] );
 
-	$r->get( '/admin.php?page=dt_home&tab=app', [ AppSettingsController::class, 'show_app_tab' ] );
-	$r->get( '/admin.php?page=dt_home&tab=app&action=available_app', [ AppSettingsController::class, 'show_available_app' ] );
-	$r->get( '/admin.php?page=dt_home&tab=app&action=create', [ AppSettingsController::class, 'create_app' ] );
-	$r->get( '/admin.php?page=dt_home&tab=app&action=edit/{slug}', [ AppSettingsController::class, 'edit_app' ] );
+	$r->get( '/admin.php?page=dt_home&tab=app', [ AppSettingsController::class, 'show' ] );
+	$r->get( '/admin.php?page=dt_home&tab=app&action=available_app', [ AppSettingsController::class, 'show_available_apps'] );
+	$r->get( '/admin.php?page=dt_home&tab=app&action=create', [ AppSettingsController::class, 'create' ] );
+	$r->get( '/admin.php?page=dt_home&tab=app&action=edit/{slug}', [ AppSettingsController::class, 'edit' ] );
 	$r->get( '/admin.php?page=dt_home&tab=app&action=unhide/{slug}', [ AppSettingsController::class, 'unhide' ] );
 	$r->get( '/admin.php?page=dt_home&tab=app&action=hide/{slug}', [ AppSettingsController::class, 'hide' ] );
 	$r->get( '/admin.php?page=dt_home&tab=app&action=up/{slug}', [ AppSettingsController::class, 'up' ] );

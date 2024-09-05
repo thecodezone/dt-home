@@ -3,11 +3,12 @@
 namespace DT\Home\Controllers\Admin;
 
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
-use DT\Home\Illuminate\Http\Response;
 use DT\Home\Services\Apps;
 use DT\Home\Services\SVGIconService;
 use function DT\Home\container;
+use function DT\Home\get_plugin_option;
 use function DT\Home\redirect;
+use function DT\Home\set_plugin_option;
 use function DT\Home\view;
 use function DT\Home\response;
 
@@ -19,7 +20,7 @@ class AppSettingsController
      *
      * @return mixed
      */
-    public function show_app_tab()
+    public function show()
     {
 
         $tab = "app";
@@ -33,14 +34,10 @@ class AppSettingsController
 
     /**
      * Show the available apps tab.
-     *
-     * @param Request $request
-     * @param Response $response
-     *
      * @return mixed
      */
 
-    public function show_available_app( Request $request, Response $response )
+    public function show_available_apps()
     {
 
         $tab = "app";
@@ -59,8 +56,8 @@ class AppSettingsController
     protected function get_all_apps_data()
     {
         $apps = container()->get( Apps::class );
-        // Get the apps array from the option
 
+        // Get the apps array from the option
         $apps_collection = $apps->all();
         $apps_array = array_values( array_filter( $apps_collection, function ( $app ) {
             if ( !isset( $app['is_deleted'] ) ) {
@@ -68,8 +65,9 @@ class AppSettingsController
             }
             return false === $app['is_deleted'];
         }));
+
         usort($apps_array, function ( $a, $b ) {
-            return $a['sort'] - $b['sort'];
+            return (int) $a['sort'] - (int) $b['sort'];
         });
 
         $apps_array = array_map(function ( $app ) {
@@ -87,6 +85,7 @@ class AppSettingsController
 
         return $apps_array;
     }
+
     /**
      * Get all soft deleted apps data from the options and ensure default values.
      *
@@ -129,7 +128,7 @@ class AppSettingsController
      *
      * @return mixed
      */
-    public function create_app()
+    public function create()
     {
         $tab = "app";
         $link = 'admin.php?page=dt_home&tab=';
@@ -150,7 +149,7 @@ class AppSettingsController
         // Retrieve form data
         $input = $request->getParsedBody();
 
-        $name = sanitize_text_field( $inpug['name'] ?? '' );
+        $name = sanitize_text_field( $input['name'] ?? '' );
         $type = sanitize_text_field( $input['type'] ?? '' );
         $icon = sanitize_text_field( $input['icon'] ?? '' );
         $url = sanitize_text_field( $input['url'] ?? '' );
@@ -189,7 +188,7 @@ class AppSettingsController
         $apps_array[] = $app_data;
 
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
@@ -218,7 +217,7 @@ class AppSettingsController
             }
         }
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
@@ -249,7 +248,7 @@ class AppSettingsController
         }
 
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
@@ -308,7 +307,7 @@ class AppSettingsController
         }
 
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
@@ -368,7 +367,7 @@ class AppSettingsController
             }
 
             // Save the updated array back to the option
-            update_option( 'dt_home_apps', $apps_array );
+            set_plugin_option( 'apps', $apps_array );
 
         }
 
@@ -423,7 +422,7 @@ class AppSettingsController
         }
 
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
@@ -435,7 +434,7 @@ class AppSettingsController
      * @param array $params The route parameters.
      * @return mixed
      */
-    public function edit_app( Request $request, $params )
+    public function edit( Request $request, $params )
     {
         $slug = $params['slug'] ?? '';
         $svg_service = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
@@ -490,7 +489,7 @@ class AppSettingsController
         }
 
         // Retrieve the existing array of trainings
-        $apps_array = get_option( 'dt_home_apps', [] );
+        $apps_array = get_plugin_option( 'apps' );
 
         // Find the app with the specified ID and remove it from the array
         foreach ( $apps_array as $key => $app ) {
@@ -501,7 +500,7 @@ class AppSettingsController
         }
 
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
@@ -534,7 +533,7 @@ class AppSettingsController
             }
         }
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
@@ -568,7 +567,7 @@ class AppSettingsController
 		}
 
 		// Save the updated array back to the option
-		update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
         // Redirect to the page with a success message
         return redirect( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true' );

@@ -9,6 +9,7 @@ $config->merge( [
         'prefix' => 'dt_home',
         'defaults' => [
             'require_login' => true,
+            'apps' => [],
         ],
     ]
 ] );
