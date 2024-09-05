@@ -3,6 +3,7 @@
 namespace DT\Home\Controllers\Admin;
 
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
+use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Services\Apps;
 use DT\Home\Services\SVGIconService;
 use function DT\Home\container;
@@ -18,7 +19,7 @@ class AppSettingsController
     /**
      * Show the general settings app tab.
      *
-     * @return mixed
+     * @return ResponseInterface
      */
     public function show()
     {
@@ -34,7 +35,7 @@ class AppSettingsController
 
     /**
      * Show the available apps tab.
-     * @return mixed
+     * @return ResponseInterface
      */
 
     public function show_available_apps()
@@ -89,7 +90,7 @@ class AppSettingsController
     /**
      * Get all soft deleted apps data from the options and ensure default values.
      *
-     * @return array
+     * @return ResponseInterface
      */
     protected function get_all_softdelete_apps()
     {
@@ -126,7 +127,7 @@ class AppSettingsController
     /**
      * Show the form to create a new app.
      *
-     * @return mixed
+     * @return ResponseInterface
      */
     public function create()
     {
@@ -142,7 +143,7 @@ class AppSettingsController
      * Store a new app in the database.
      *
      * @param Request $request The request object containing the form data.
-     * @return mixed
+     * @return ResponseInterface
      */
     public function store( Request $request )
     {
@@ -198,7 +199,7 @@ class AppSettingsController
      *
      * @param Request $request The request object.
      * @param mixed $params Additional parameters.
-     * @return mixed
+     * @return ResponseInterface
      */
     public function unhide( Request $request, $params )
     {
@@ -227,7 +228,7 @@ class AppSettingsController
      *
      * @param Request $request The request instance.
      * @param array $params The route parameters.
-     * @return mixed The redirect response.
+     * @return ResponseInterface The redirect response.
      */
     public function hide( Request $request, $params )
     {
@@ -259,7 +260,7 @@ class AppSettingsController
      * @param Request $request The request instance.
      * @param array $params The route parameters.
      *
-     * @return mixed The RedirectResponse instance.
+     * @return ResponseInterface The RedirectResponse instance.
      */
 
     public function up( Request $request, $params )
@@ -319,7 +320,7 @@ class AppSettingsController
      * @param Request $request The request instance.
      * @param array $params The route parameters.
      *
-     * @return mixed The RedirectResponse instance.
+     * @return ResponseInterface The RedirectResponse instance.
      */
     public function down( Request $request, $params )
     {
@@ -379,7 +380,7 @@ class AppSettingsController
      *
      * @param Request $request The request instance.
      * @param array $params The route parameters.
-     * @return mixed
+     * @return ResponseInterface
      */
     public function update( Request $request, $params )
     {
@@ -432,7 +433,7 @@ class AppSettingsController
      *
      * @param Request $request The request instance.
      * @param array $params The route parameters.
-     * @return mixed
+     *@return ResponseInterface
      */
     public function edit( Request $request, $params )
     {
@@ -458,7 +459,7 @@ class AppSettingsController
      *
      * @param int $slug
      *
-     * @return mixed
+     * @return ResponseInterface
      */
     protected function get_data_by_slug( $slug )
     {
@@ -478,7 +479,7 @@ class AppSettingsController
      *
      * @param Request $request The request instance.
      * @param array $params The route parameters.
-     * @return mixed
+     * @return ResponseInterface
      */
     public function delete( Request $request, $params )
     {
@@ -510,7 +511,7 @@ class AppSettingsController
      *
      * @param Request $request The request instance.
      * @param array $params The route parameters.
-     * @return mixed
+     * @return ResponseInterface
      */
 	public function soft_delete_app( Request $request, $params )
     {
@@ -545,7 +546,7 @@ class AppSettingsController
     *
      * @param Request $request The request instance.
      * @param array $params The route parameters.
-     * @return mixed
+     * @return ResponseInterface
      */
 	public function restore_app( Request $request, $params )
         {

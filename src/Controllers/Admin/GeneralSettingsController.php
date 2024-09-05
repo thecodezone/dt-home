@@ -3,6 +3,7 @@
 namespace DT\Home\Controllers\Admin;
 
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
+use DT\Home\Psr\Http\Message\ResponseInterface;
 use function DT\Home\get_plugin_option;
 use function DT\Home\set_plugin_option;
 use function DT\Home\view;
@@ -11,6 +12,8 @@ use function DT\Home\redirect;
 class GeneralSettingsController {
 	/**
 	 * Show the general settings admin tab
+     *
+     * @return ResponseInterface
 	 */
 	public function show( Request $request ) {
 		$tab                   = "general";
@@ -21,7 +24,13 @@ class GeneralSettingsController {
 		return view( "settings/general", compact( 'tab', 'link', 'page_title', 'dt_home_require_login' ) );
 	}
 
-	public function update( Request $request ) {
+    /**
+     * Update the general settings admin tab
+     *
+     * @param Request $request The Request object containing the parsed body data
+     * @return ResponseInterface The redirect response
+     */
+    public function update(Request $request ) {
         $input = $request->getParsedBody();
 		$require_user = $input['dt_home_require_login'] ?? 'off';
 

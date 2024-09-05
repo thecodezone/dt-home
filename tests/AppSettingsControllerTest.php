@@ -6,7 +6,6 @@ use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\Controllers\Admin\AppSettingsController;
 use DT\Home\Services\Apps;
 use function DT\Home\container;
-use function DT\Home\get_plugin_option;
 use function DT\Home\set_plugin_option;
 
 class AppSettingsControllerTest extends TestCase
@@ -47,7 +46,7 @@ class AppSettingsControllerTest extends TestCase
      */
     public function it_creates_apps()
     {
-        $app = $this->app_factory();
+        $app = app_factory();
         set_plugin_option( 'require_login', 'off' );
         $request = ServerRequestFactory::request('POST', '/admin.php?page=dt_home&tab=app&action=create', $app );
         $controller = container()->get( AppSettingsController::class );
@@ -62,7 +61,7 @@ class AppSettingsControllerTest extends TestCase
      */
     public function it_increments_duplicate_app_slugs()
     {
-        $app = $this->app_factory();
+        $app = app_factory();
         set_plugin_option( 'require_login', 'off' );
         $request = ServerRequestFactory::request( 'POST', '/admin.php?page=dt_home&tab=app&action=create', $app );
         $controller = container()->get( AppSettingsController::class );
@@ -80,7 +79,7 @@ class AppSettingsControllerTest extends TestCase
      */
     public function it_hides_apps()
     {
-        $app = $this->app_factory([
+        $app = app_factory([
             'is_hidden' => false
         ]);
         set_plugin_option( 'apps', [ $app ] );
@@ -97,7 +96,7 @@ class AppSettingsControllerTest extends TestCase
      */
     public function it_unhides_apps()
     {
-        $app = $this->app_factory([
+        $app = app_factory([
             'is_hidden' => true
         ]);
         set_plugin_option( 'apps', [ $app ] );
@@ -113,7 +112,7 @@ class AppSettingsControllerTest extends TestCase
      * @test
      */
     public function it_renders_update() {
-        $app = $this->app_factory([
+        $app = app_factory([
             'is_hidden' => true
         ]);
         $request = ServerRequestFactory::from_globals();
@@ -127,7 +126,7 @@ class AppSettingsControllerTest extends TestCase
      */
     public function it_updates_apps()
     {
-        $app = $this->app_factory();
+        $app = app_factory();
 
         $controller = container()->get( AppSettingsController::class );
 

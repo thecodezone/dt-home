@@ -77,17 +77,4 @@ abstract class TestCase extends WP_UnitTestCase {
         wp_set_current_user( $user_id );
         wp_set_auth_cookie( $user_id );
     }
-
-    public function app_factory( $params = [] ) {
-        return array_merge( [
-            'name' => $this->faker->name,
-            'type' => $this->faker->randomElement( [ 'Webview', 'Link' ] ),
-            'creation_type' => $this->faker->randomElement( [ 'Custom', 'Code' ] ),
-            'icon' => $this->faker->imageUrl(),
-            'url' => $this->faker->url,
-            'sort' => $this->faker->numberBetween(0, 50),
-            'slug' => $this->faker->slug,
-            'is_hidden' => $this->faker->boolean,
-        ], $params );
-    }
 }

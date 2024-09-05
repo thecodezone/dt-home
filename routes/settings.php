@@ -27,14 +27,14 @@ $r->group( '/wp-admin', function ( RouteCollectionInterface $r ) {
 	$r->get( '/admin.php?page=dt_home&tab=app&action=softdelete/{slug}', [ AppSettingsController::class, 'soft_delete_app' ] );
 	$r->get( '/admin.php?page=dt_home&tab=app&action=restore_app/{slug}', [ AppSettingsController::class, 'restore_app' ] );
 
-	$r->get( '/admin.php?page=dt_home&tab=training', [ TrainingSettingsController::class, 'show_training_tab' ] );
+	$r->get( '/admin.php?page=dt_home&tab=training', [ TrainingSettingsController::class, 'show' ] );
 	$r->get('/admin.php?page=dt_home&tab=training&action=create', [
 		TrainingSettingsController::class,
-		'create_training'
+		'create'
 	]);
 	$r->get('/admin.php?page=dt_home&tab=training&action=edit/{id}', [
 		TrainingSettingsController::class,
-		'edit_training'
+		'edit'
 	]);
 	$r->get( '/admin.php?page=dt_home&tab=training&action=up/{id}', [ TrainingSettingsController::class, 'up' ] );
 	$r->get( '/admin.php?page=dt_home&tab=training&action=down/{id}', [ TrainingSettingsController::class, 'down' ] );

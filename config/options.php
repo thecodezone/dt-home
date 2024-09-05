@@ -10,6 +10,7 @@ $config->merge( [
         'defaults' => [
             'require_login' => true,
             'apps' => [],
+            'trainings' => [],
         ],
     ]
 ] );
