@@ -4,8 +4,6 @@
  * @var $config DT\Plugin\CodeZone\WPSupport\Config\ConfigInterface
  */
 
-use function DT\Home\magic_url;
-use function DT\Home\config;
 use function DT\Home\plugin_path;
 use function DT\Home\route_url;
 
@@ -39,6 +37,5 @@ add_action('wp_loaded', function () use ( $config ) {
         'nonce' => wp_create_nonce( 'dt_home' ),
         'admin_nonce' => wp_create_nonce( 'dt_admin_form_nonce' ),
         'route_url' => route_url(),
-        'magic_url' => magic_url(),
     ]);
 });

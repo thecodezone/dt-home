@@ -6,6 +6,7 @@ use DT\Home\League\Container\ServiceProvider\AbstractServiceProvider;
 use DT\Home\CodeZone\WPSupport\Assets\AssetQueue;
 use DT\Home\Services\Assets;
 use DT\Home\CodeZone\WPSupport\Assets\AssetQueueInterface;
+use function DT\Home\magic_url;
 use function DT\Home\namespace_string;
 use function DT\Home\config;
 
@@ -42,7 +43,9 @@ class AssetServiceProvider extends AbstractServiceProvider
         } );
 
         add_filter( namespace_string( 'javascript_globals' ), function ( $data ) {
-            return array_merge( $data, config( 'assets.javascript_globals' ) );
+            return array_merge( $data, config( 'assets.javascript_globals' ), [
+                'magic_url' => magic_url()
+            ] );
         });
 
         $this->getContainer()->add( AssetQueueInterface::class, function () {

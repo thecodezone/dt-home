@@ -6,7 +6,6 @@
 
 use DT\Home\Providers\AdminServiceProvider;
 use DT\Home\Providers\AppServiceProvider;
-use DT\Home\Providers\ConfigServiceProvider;
 use DT\Home\Providers\MagicLinkServiceProvider;
 use DT\Home\Providers\MiddlewareServiceProvider;
 use DT\Home\Providers\OptionsServiceProvider;
@@ -18,12 +17,12 @@ $config->merge( [
     'services' => [
         'providers' => [
             AdminServiceProvider::class,
-            AppServiceProvider::class,
-            AssetServiceProvider::class,
             MagicLinkServiceProvider::class,
+            AppServiceProvider::class,
             MiddlewareServiceProvider::class,
             OptionsServiceProvider::class,
             RouteServiceProvider::class,
+            AssetServiceProvider::class,
             ViewServiceProvider::class,
         ],
         'tgmpa' => [

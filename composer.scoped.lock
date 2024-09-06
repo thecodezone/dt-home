@@ -135,12 +135,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/thecodezone/wp-support.git",
-                "reference": "3ca7db975b7878e24d857479b0e321b81cc3f5cd"
+                "reference": "32641ae8d29e352df653cae5a76f673782c0c2bb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thecodezone/wp-support/zipball/3ca7db975b7878e24d857479b0e321b81cc3f5cd",
-                "reference": "3ca7db975b7878e24d857479b0e321b81cc3f5cd",
+                "url": "https://api.github.com/repos/thecodezone/wp-support/zipball/32641ae8d29e352df653cae5a76f673782c0c2bb",
+                "reference": "32641ae8d29e352df653cae5a76f673782c0c2bb",
                 "shasum": ""
             },
             "require": {
@@ -182,7 +182,7 @@
                 "issues": "https://github.com/thecodezone/wp-support/issues",
                 "source": "https://github.com/thecodezone/wp-support/tree/main"
             },
-            "time": "2024-09-05T16:29:00+00:00"
+            "time": "2024-09-06T01:22:45+00:00"
         },
         {
             "name": "doctrine/inflector",

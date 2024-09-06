@@ -2,12 +2,12 @@
 
 namespace DT\Home\Controllers;
 
-use DT\Home\Illuminate\Http\Request;
-use DT\Home\Illuminate\Http\Response;
+use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
+use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Services\Apps;
-use function DT\Home\collect;
-use function DT\Home\namespace_string;
+use function DT\Home\container;
 use function DT\Home\template;
+use function DT\Home\response;
 
 /**
  * Class AppController
@@ -20,36 +20,34 @@ class AppController
      * Displays the app based on the provided slug.
      *
      * @param Request $request The request object.
-     * @param Response $response The response object.
-     * @param Apps $apps The apps service.
-     * @param mixed $key The key parameter.
-     * @param string $slug The slug parameter.
-     * @return Response The response object.
+     * @param array $params
+     * @return ResponseInterface The response object.
      */
-    public function show( Request $request, Response $response, Apps $apps, $key, $slug )
+    public function show( Request $request, $params )
     {
         //Fetch the app
-        $app = collect( $apps->all() )->where( 'slug', $slug )->first();
+        $slug = $params['slug'];
+        $apps = container()->get( Apps::class );
+        $app = $apps->find( $slug );
 
         if ( !$app ) {
-            return $response->setStatusCode( 404 )->setContent( 'Not Found' );
+            return response( __( 'Not Found', 'dt_home' ), 404 );
         }
 
         //Check if there is a custom action to render the app
-        $action = has_action( 'dt_home_app_render' );
+        $action = has_action( 'dt_home_render' );
         if ( $action ) {
-			add_action(namespace_string( 'filter_asset_queue' ), function ( $queue ) use ( $app ) {
-				//Don't filter assets
-			});
             do_action( 'dt_home_app_render', $app );
-            exit;
         }
 
         //Check if the app has a custom template
         $html = apply_filters( 'dt_home_app_template', "", $app );
 
         if ( $html ) {
-            return $response->setContent( $html );
+            if ($html instanceof ResponseInterface) {
+                return $html;
+            }
+            return response( $html );
         }
 
         //Check to see if the app has an iframe URL
@@ -57,11 +55,9 @@ class AppController
 
         if ( !$url ) {
             //No URL found 404
-            return $response->setStatusCode( 404 )->setContent( 'Not Found' );
+            return response( __( 'Not Found', 'dt_home' ), 404 );
         }
 
-        return $response->setContent(
-            template( 'web-view', compact( 'app', 'url' ) )
-        );
+        return template( 'web-view', compact( 'app', 'url' ) );
     }
 }

@@ -2,10 +2,15 @@
 
 namespace DT\Home\Controllers\MagicLink;
 
-use DT\Home\Illuminate\Http\Request;
-use DT\Home\Illuminate\Http\Response;
+use DT\Home\CodeZone\WPSupport\Router\ResponseFactory;
+use DT\Home\Psr\Http\Message\ResponseInterface;
+use DT\Home\Psr\Http\Message\ServerRequestInterface as Request;
 use DT\Home\Services\Apps;
+use function DT\Home\container;
 use function DT\Home\magic_url;
+use function DT\Home\redirect;
+use function DT\Home\response;
+use function DT\Home\route_url;
 use function DT\Home\template;
 
 /**
@@ -14,19 +19,18 @@ use function DT\Home\template;
 class HomeController
 {
     /**
-     * This method is responsible for rendering the "show" page.
+     * Shows the index page with user data and magic link.
      *
      * @param Request $request The request object.
-     * @param Response $response The response object.
-     * @param Apps $apps The instance of the Apps class.
-     * @param string $key The key parameter.
+     * @param mixed $params The parameters containing the key.
      *
-     * @return \Symfony\Component\HttpFoundation\Response The rendered template.
+     * @return ResponseInterface The response containing the rendered template.
      */
-    public function show( Request $request, Response $response, Apps $apps, $key )
+    public function show( Request $request, $params )
     {
+        $key = $params['key'];
+        $apps = container()->get( Apps::class );
         $user = get_current_user_id();
-        $subpage_url = magic_url( 'subpage', $key );
         $apps_array = $apps->for_user( $user );
         $data = json_encode( $apps_array );
         $hidden_data = json_encode( $apps_array );
@@ -35,7 +39,6 @@ class HomeController
 
         return template('index', compact(
             'user',
-            'subpage_url',
             'data',
             'app_url',
             'magic_link',
@@ -44,38 +47,16 @@ class HomeController
     }
 
     /**
-     * This method is responsible for retrieving and returning user data.
-     *
-     * @param Request $request The request object.
-     * @param Response $response The response object.
-     * @param string $key The key parameter.
-     *
-     * @return \Symfony\Component\HttpFoundation\Response The response with the user data.
-     */
-    public function data( Request $request, Response $response, $key )
-    {
-        $user = wp_get_current_user();
-        $data = [
-            'user_login' => $user->user_login,
-        ];
-        $response->setContent( $data );
-
-        return $response;
-    }
-
-    /**
      * This method is responsible for updating the "is_hidden" status of an app.
      *
      * @param Request $request The request object.
-     * @param Response $response The response object.
-     * @param Apps $apps The instance of the Apps class.
-     * @param string $key The key parameter.
      *
-     * @return \Symfony\Component\HttpFoundation\Response The updated response.
+     * @return ResponseInterface The response containing the rendered template.
      */
-    public function update_hide_app( Request $request, Response $response, Apps $apps, $key )
+    public function update_hide_app( Request $request )
     {
-        $data = $request->json()->all();
+        $apps = container()->get( Apps::class );
+        $data = $request->getParsedBody();
 
         $apps_array = $apps->for_user( get_current_user_id() );
 
@@ -118,27 +99,21 @@ class HomeController
         // Save the updated array back to the option
         update_user_option( get_current_user_id(), 'dt_home_apps', $visible_apps );
 
-        $response_data = [ 'message' => 'App visibility and order updated' ];
-
-        $response->setContent( json_encode( $response_data ) );
-
-        return $response;
+        return response( [ 'message' => 'App visibility and order updated' ] );
     }
 
 
     /**
-     * This method is responsible for updating the 'is_hidden' status of an app.
+     * This method is responsible for updating the "is_hidden" status of an app.
      *
      * @param Request $request The request object.
-     * @param Response $response The response object.
-     * @param Apps $apps The instance of the Apps class.
-     * @param string $key The key parameter.
      *
-     * @return \Symfony\Component\HttpFoundation\Response The updated response.
+     * @return ResponseInterface
      */
-    public function update_unhide_app( Request $request, Response $response, Apps $apps, $key )
+    public function update_unhide_app( Request $request )
     {
-        $data = $request->json()->all();
+        $apps = container()->get( Apps::class );
+        $data = $request->getParsedBody();
 
         $apps_array = $apps->for_user( get_current_user_id() );
 
@@ -182,25 +157,21 @@ class HomeController
         // Save the updated array back to the option
         update_user_option( get_current_user_id(), 'dt_home_apps', $visible_apps );
 
-        $response_data = [ 'message' => 'App visibility updated' ];
-
-        $response->setContent( json_encode( $response_data ) );
-
-        return $response;
+       return response( [ 'message' => 'App visibility updated' ] );
     }
 
     /**
      * Updates the app order based on the provided request data.
      *
      * @param Request $request The request object containing the app order data.
-     * @param Response $response The response object to be returned.
-     * @param mixed $key The key parameter that is not used in the code.
      *
-     * @return Response The updated response object.
+     * @return ResponseInterface
+     *
      */
-    public function update_app_order( Request $request, Response $response, $key ): Response
+    public function update_app_order( Request $request )
     {
-        $data = $request->json()->all();
+        $data = $request->getParsedBody();
+
         // Iterate through each app in the data
         foreach ( $data as $key => $app ) {
             // Update the 'sort' field for each app based on its position in the array
@@ -209,36 +180,6 @@ class HomeController
         // Save the updated app order back to the database or storage
         update_user_option( get_current_user_id(), 'dt_home_apps', $data );
 
-        $response_data = [ 'message' => 'App order updated' ];
-
-        $response->headers->set( 'Content-Type', 'application/json' );
-
-        $response->setContent( json_encode( $response_data ) );
-
-        return $response;
-    }
-
-    /**
-     * Opens the desired app based on the provided slug.
-     *
-     * @param Apps $apps The Apps object containing all the available apps.
-     * @param string $slug The slug of the desired app.
-     *
-     * @return Response The template response object.
-     */
-    public function open_app( Apps $apps, $slug )
-    {
-        $apps_array = $apps->all();
-
-        $desired_app = null;
-
-        foreach ( $apps_array as $app ) {
-            if ( ( is_array( $app ) && $app['slug'] == $slug ) || ( is_object( $app ) && $app->slug == $slug ) ) {
-                $desired_app = $app;
-                break;
-            }
-        }
-
-        return template( 'web-view', compact( 'desired_app' ) );
+        return response( [ 'message' => 'App order updated' ] );
     }
 }

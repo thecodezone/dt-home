@@ -24,11 +24,15 @@ use DT_Magic_URL;
  * @return mixed The ConfigInterface object if no key is provided, or the value of the specified configuration key.
  * @see https://config.thephpleague.com/
  */
-function config( $key = null ) {
+function config( $key = null, $value = null ) {
     $service = container()->get( ConfigInterface::class );
 
     if ( $key ) {
         return $service->get( $key );
+    }
+
+    if ( $value ) {
+        return $service->set( $key, $value );
     }
 
     return $service;
@@ -387,7 +391,7 @@ function magic_url( $action = "", $key = "" ): string
             return route_url( 'login' );
         }
 
-        $url = get_magic_url( "dt-home", "launcher", get_current_user_id() );
+        $url = get_magic_url( "apps", "launcher", get_current_user_id() );
 
         if ( $action ) {
             return $url . '/' . $action;
@@ -442,4 +446,22 @@ function is_plugin_active_for_network( $plugin )
     }
 
     return false;
+}
+
+/**
+ * Generates a relative URI based on the given URL.
+ *
+ * @param string $url The URL from which the relative URI should be generated.
+ *
+ * @return string The relative URI generated from the given URL.
+ */
+function site_uri( $url ) {
+    $uri = str_replace( site_url(), '', $url );
+
+    // Ensure leading slash
+    if ($uri[0] !== '/') {
+        $uri = '/' . $uri;
+    }
+
+    return $uri;
 }

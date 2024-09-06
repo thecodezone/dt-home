@@ -38,7 +38,6 @@ class RedirectController
             add_user_meta( get_current_user_id(), $meta_key, DT_Magic_URL::create_unique_key() );
 
             Disciple_Tools_Users::app_switch( get_current_user_id(), $preference_key );
-
         }
 
         return redirect( magic_url() );

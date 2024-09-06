@@ -13,7 +13,7 @@
 </style>
 
 <div class="container">
-	<?php echo esc_html( $html ); ?>
+	<?php echo $html; ?>
 </div>
 
 <?php

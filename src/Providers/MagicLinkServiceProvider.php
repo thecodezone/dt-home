@@ -7,6 +7,8 @@ use DT\Home\League\Container\ServiceProvider\BootableServiceProviderInterface;
 use DT\Home\Psr\Container\ContainerExceptionInterface;
 use DT\Home\Psr\Container\NotFoundExceptionInterface;
 use function DT\Home\config;
+use function DT\Home\container;
+use function DT\Home\magic_url;
 use function DT\Home\namespace_string;
 
 /**

@@ -84,7 +84,7 @@ class Apps {
         $apps = collect( $apps )->where( 'is_deleted', false )->toArray();
 		// Sort the array based on the 'sort' key
 		usort($apps, function ( $a, $b ) {
-			return ( $a['sort'] ?? 0 ) - ( $b['sort'] ?? 0 );
+			return ( (int) $a['sort'] ?? 0 ) - ( (int) $b['sort'] ?? 0 );
 		});
 
 		return $apps;
@@ -94,7 +94,7 @@ class Apps {
 		$apps = array_map(function ( $app ) {
 			return array_merge([
 				'name' => '',
-				'type' => 'webview',
+				'type' => 'Web view',
 				'icon' => '',
 				'url' => '',
 				'sort' => 0,
@@ -105,4 +105,25 @@ class Apps {
 
 		return $apps;
 	}
+
+    /**
+     * Find an app by slug.
+     *
+     * @param string $slug The slug of the app.
+     * @return array|null The app with matching slug, or null if not found.
+     */
+    public function find( $slug ) {
+        $apps = $this->all();
+
+        // Filter the $apps array to find the item with matching slug.
+        $filtered_apps = array_filter($apps, function ( $app ) use ( $slug ) {
+            return $app['slug'] === $slug;
+        });
+
+        // array_filter preserves array keys, so use array_values to reindex it
+        $filtered_apps = array_values( $filtered_apps );
+
+        // Return the first app if one was found, otherwise return null
+        return !empty( $filtered_apps ) ? $filtered_apps[0] : null;
+    }
 }
