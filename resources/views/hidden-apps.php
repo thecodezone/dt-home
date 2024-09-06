@@ -14,16 +14,18 @@ $this->layout( 'layouts/plugin' );
         <dt-copy-text value="<?php echo esc_url( $magic_link ); ?>"></dt-copy-text>
     </div>
 
-    <dt-home-hidden-app-menu id="appGrid" app-data='<?php echo htmlspecialchars( $data ); ?>'
+    <dt-home-hidden-app-menu id="appGrid" app-data='<?php echo esc_js( $data ); ?>'
                              app-url='<?php echo esc_url( $app_url ); ?>'>
         <!-- Add more app icons as needed -->
     </dt-home-hidden-app-menu>
     <div>
-        <?php echo $this->section( 'content' ) ?>
+		<?php
+        // phpcs:ignore
+        echo $this->section( 'content' ) ?>
     </div>
 
     <b>
-        <?php esc_html_e( 'Name:', 'dt_home' ); ?> <?php echo $this->e( $user->user_nicename ); ?>
+        <?php esc_html_e( 'Name:', 'dt_home' ); ?> <?php echo esc_html( $user->user_nicename ); ?>
     </b>
 
     <a href="<?php echo esc_url( $subpage_url ); ?>">

@@ -2,6 +2,9 @@
 
 namespace DT\Home\MagicLinks;
 
+use DT\Home\League\Route\RouteCollectionInterface;
+use function DT\Home\routes_path;
+
 /**
  * Class StarterMagicApp
  *
@@ -11,7 +14,7 @@ class Launcher extends MagicLink {
 
 	public $page_title = 'DT Home';
 	public $page_description = 'DT home screen.';
-	public $root = 'dt-home';
+	public $root = 'apps';
 	public $type = 'launcher';
 	public $post_type = 'user';
 	public $show_bulk_send = true;
@@ -20,6 +23,14 @@ class Launcher extends MagicLink {
     public $login_whitelist = [
         'share'
     ];
+
+    /**
+     * Do any action before the magic link is bootstrapped
+     * @return void
+     */
+    public function init() {
+        $this->whitelist_current_route();
+    }
 
 	/**
 	 * Called if the route is a magic link route.
@@ -30,13 +41,25 @@ class Launcher extends MagicLink {
 	 * @return void
 	 */
 	public function boot() {
-		if (
+        if (
             ! ( get_option( 'dt_home_require_login', true ) && $this->get_user_id() )
             || in_array( $this->get_current_action(), $this->login_whitelist )
         ) {
 			wp_set_current_user( $this->get_user_id() );
 		}
-	}
+
+        $this->render();
+    }
+
+    /**
+     * Add routes to the RouteCollection
+     *
+     * @param RouteCollectionInterface $r The RouteCollection object
+     * @return void
+     */
+    public function routes( RouteCollectionInterface $r ) {
+        require_once routes_path( 'launcher.php' );
+    }
 
 	/**
 	 * Fetch and return the user ID from the 'post_id' key of the parts array.

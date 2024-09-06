@@ -2,13 +2,17 @@
 
 namespace DT\Home\Controllers\Admin;
 
-use DT\Home\Illuminate\Http\RedirectResponse;
-use DT\Home\Illuminate\Http\Request;
-use DT\Home\Illuminate\Http\Response;
+use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
+use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Services\Apps;
 use DT\Home\Services\SVGIconService;
 use function DT\Home\container;
+use function DT\Home\extract_request_input;
+use function DT\Home\get_plugin_option;
+use function DT\Home\redirect;
+use function DT\Home\set_plugin_option;
 use function DT\Home\view;
+use function DT\Home\response;
 
 class AppSettingsController
 {
@@ -16,12 +20,9 @@ class AppSettingsController
     /**
      * Show the general settings app tab.
      *
-     * @param Request $request
-     * @param Response $response
-     *
-     * @return mixed
+     * @return ResponseInterface
      */
-    public function show_app_tab( Request $request, Response $response )
+    public function show()
     {
 
         $tab = "app";
@@ -35,14 +36,10 @@ class AppSettingsController
 
     /**
      * Show the available apps tab.
-     *
-     * @param Request $request
-     * @param Response $response
-     *
-     * @return mixed
+     * @return ResponseInterface
      */
 
-    public function show_available_app( Request $request, Response $response )
+    public function show_available_apps()
     {
 
         $tab = "app";
@@ -60,14 +57,19 @@ class AppSettingsController
      */
     protected function get_all_apps_data()
     {
-        $apps = container()->make( Apps::class );
-        // Get the apps array from the option
+        $apps = container()->get( Apps::class );
 
+        // Get the apps array from the option
         $apps_collection = $apps->all();
-        $apps_array = collect( $apps_collection )->where( 'is_deleted', false )->toArray();
-        // Sort the array based on the 'sort' key
+        $apps_array = array_values( array_filter( $apps_collection, function ( $app ) {
+            if ( !isset( $app['is_deleted'] ) ) {
+                return true;
+            }
+            return false === $app['is_deleted'];
+        }));
+
         usort($apps_array, function ( $a, $b ) {
-            return $a['sort'] - $b['sort'];
+            return (int) $a['sort'] - (int) $b['sort'];
         });
 
         $apps_array = array_map(function ( $app ) {
@@ -85,18 +87,23 @@ class AppSettingsController
 
         return $apps_array;
     }
+
     /**
      * Get all soft deleted apps data from the options and ensure default values.
      *
-     * @return array
+     * @return ResponseInterface
      */
     protected function get_all_softdelete_apps()
     {
-        $apps = container()->make( Apps::class );
+        $apps = container()->get( Apps::class );
         // Get the apps array from the option
         $apps_collection = $apps->all();
-        $apps_array = collect( $apps_collection )->where( 'is_deleted', true )->toArray();
-
+        $apps_array = array_values( array_filter( $apps_collection, function ( $app ) {
+            if ( !isset( $app['is_deleted'] ) ) {
+                return false;
+            }
+            return true === $app['is_deleted'];
+        }));
         // Sort the array based on the 'sort' key
         usort($apps_array, function ( $a, $b ) {
             return $a['sort'] - $b['sort'];
@@ -122,12 +129,9 @@ class AppSettingsController
     /**
      * Show the form to create a new app.
      *
-     * @param Request $request
-     * @param Response $response
-     *
-     * @return mixed
+     * @return ResponseInterface
      */
-    public function create_app( Request $request, Response $response )
+    public function create()
     {
         $tab = "app";
         $link = 'admin.php?page=dt_home&tab=';
@@ -138,26 +142,25 @@ class AppSettingsController
     }
 
     /**
-     * Store a new app.
+     * Store a new app in the database.
      *
-     * @param Request $request
-     * @param Response $response
-     *
-     * @return RedirectResponse
+     * @param Request $request The request object containing the form data.
+     * @return ResponseInterface
      */
-    public function store( Request $request, Response $response, Apps $apps )
+    public function store( Request $request )
     {
         // Retrieve form data
-        $name = $request->input( 'name' );
-        $type = $request->input( 'type' );
-        $creation_type = $request->input( 'creation_type' );
-        $icon = $request->input( 'icon' );
-        $url = $request->input( 'url' );
-        $slug = $request->input( 'slug' );
-        $sort = $request->input( 'sort' );
-        $is_hidden = $request->input( 'is_hidden' );
-        $open_in_new_tab = $request->input( 'open_in_new_tab' );
+        $input = extract_request_input( $request );
 
+        $name = sanitize_text_field( $input['name'] ?? '' );
+        $type = sanitize_text_field( $input['type'] ?? '' );
+        $creation_type = sanitize_text_field( $input['creation_type'] ?? '' );
+        $icon = sanitize_text_field( $input['icon'] ?? '' );
+        $url = sanitize_text_field( $input['url'] ?? '' );
+        $slug = sanitize_text_field( $input['slug'] ?? '' );
+        $sort = sanitize_text_field( $input['sort'] ?? '' );
+        $is_hidden = filter_var( $input['is_hidden'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
+        $open_in_new_tab = filter_var( $input['open_in_new_tab'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
 
         // Prepare the data to be stored
         $app_data = [
@@ -172,6 +175,7 @@ class AppSettingsController
             'open_in_new_tab' => $open_in_new_tab,
         ];
 
+        $apps = container()->get( Apps::class );
         // Get the existing apps array
         $apps_array = $apps->all(); // Default to an empty array if the option does not exist
 
@@ -189,23 +193,26 @@ class AppSettingsController
         $apps_array[] = $app_data;
 
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
-        $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
-
-        return $response;
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
 
     /**
-     * Unhide an app by ID.
+     * Unhide an app.
      *
-     * @param int $slug
-     *
-     * @return RedirectResponse
+     * @param Request $request The request object.
+     * @param mixed $params Additional parameters.
+     * @return ResponseInterface
      */
-    public function unhide( Apps $apps, $slug )
+    public function unhide( Request $request, $params )
     {
         // Retrieve the existing array of apps
+        $slug = $params['slug'] ?? '';
+        if ( empty( $slug ) ) {
+            return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
+        }
+        $apps = container()->get( Apps::class );
         $apps_array = $apps->all();
         // Find the app with the specified ID and update its 'is_hidden' status
         foreach ( $apps_array as $key => $app ) {
@@ -215,24 +222,26 @@ class AppSettingsController
             }
         }
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
-        // Redirect to the page with a success message
-        $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
-
-        return $response;
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
 
     /**
-     * Hide an app by ID.
+     * Hide an app based on its slug.
      *
-     * @param int $slug
-     *
-     * @return RedirectResponse
+     * @param Request $request The request instance.
+     * @param array $params The route parameters.
+     * @return ResponseInterface The redirect response.
      */
-    public function hide( Apps $apps, $slug )
+    public function hide( Request $request, $params )
     {
         // Retrieve the existing array of apps
+        $slug = $params['slug'] ?? '';
+        if ( empty( $slug ) ) {
+            return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
+        }
+        $apps = container()->get( Apps::class );
         $apps_array = $apps->all();
 
         // Find the app with the specified ID and update its 'is_hidden' status
@@ -244,25 +253,29 @@ class AppSettingsController
         }
 
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
-        // Redirect to the page with a success message
-        $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
-
-        return $response;
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
 
     /**
-     * Move an app up in the list by ID.
+     * Updates the sort order of an app.
      *
-     * @param int $slug
+     * @param Request $request The request instance.
+     * @param array $params The route parameters.
      *
-     * @return RedirectResponse
+     * @return ResponseInterface The RedirectResponse instance.
      */
 
-    public function up( Apps $apps, $slug )
+    public function up( Request $request, $params )
     {
+        $slug = $params['slug'] ?? '';
+        if ( empty( $slug ) ) {
+            return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
+        }
+
         // Retrieve the existing array of apps
+        $apps = container()->get( Apps::class );
         $apps_array = $apps->all();
 
         // Find the index of the app and its current sort value
@@ -299,25 +312,28 @@ class AppSettingsController
         }
 
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
-        // Redirect to the page with a success message
-        $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
-
-        return $response;
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
 
 
     /**
-     * Move an app down in the list by ID.
+     * Move an app down in the list of apps.
      *
-     * @param int $slug
+     * @param Request $request The request instance.
+     * @param array $params The route parameters.
      *
-     * @return RedirectResponse
+     * @return ResponseInterface The RedirectResponse instance.
      */
-    public function down( Apps $apps, $slug )
+    public function down( Request $request, $params )
     {
         // Retrieve the existing array of apps
+        $slug = $params['slug'] ?? '';
+        if ( empty( $slug ) ) {
+            return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
+        }
+        $apps = container()->get( Apps::class );
         $apps_array = $apps->all();
 
         // Find the index of the app and its current sort value
@@ -356,37 +372,37 @@ class AppSettingsController
             }
 
             // Save the updated array back to the option
-            update_option( 'dt_home_apps', $apps_array );
+            set_plugin_option( 'apps', $apps_array );
 
         }
 
-        // Redirect to the page with a success message
-        $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
-
-        return $response;
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
 
     /**
-     * Update an existing app.
+     * Update an app.
      *
-     * @param Request $request
-     * @param Response $response
-     *
-     * @return RedirectResponse
+     * @param Request $request The request instance.
+     * @param array $params The route parameters.
+     * @return ResponseInterface
      */
-    public function update( Request $request, Response $response, Apps $apps, $slug )
+    public function update( Request $request, $params )
     {
-        $name = $request->input( 'name' );
-        $type = $request->input( 'type' );
-        $creation_type = $request->input( 'creation_type' );
-        $icon_url = $request->input( 'icon' );
-        $url = $request->input( 'url' );
-        $sort = $request->input( 'sort' );
-        $new_slug = $request->input( 'slug' );
-        $is_hidden = $request->input( 'is_hidden' );
-        $open_in_new_tab = $request->input( 'open_in_new_tab' );
+
+        $slug = $params['slug'] ?? '';
+        $input = extract_request_input( $request );
+        $name = sanitize_text_field( $input['name'] ?? '' );
+        $type = sanitize_text_field( $input['type'] ?? '' );
+        $creation_type = sanitize_text_field( $input['creation_type'] ?? '' );
+        $icon_url = sanitize_text_field( $input['icon'] ?? '' );
+        $url = sanitize_text_field( $input['url'] ?? '' );
+        $sort = sanitize_text_field( $input['sort'] ?? '' );
+        $new_slug = sanitize_text_field( $input['slug'] ?? '' );
+        $is_hidden = filter_var( $input['is_hidden'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
+        $open_in_new_tab = filter_var( $input['open_in_new_tab'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
 
         // Retrieve the existing array of apps
+        $apps = container()->get( Apps::class );
         $apps_array = $apps->all();
 
         // Find and update the app in the array
@@ -408,21 +424,21 @@ class AppSettingsController
         }
 
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
-        // Redirect to the page with a success message
-        return new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
 
     /**
-     * Show the form to edit an existing app by ID.
+     * Show the form to edit an existing app.
      *
-     * @param int $slug
-     *
-     * @return mixed
+     * @param Request $request The request instance.
+     * @param array $params The route parameters.
+     *@return ResponseInterface
      */
-    public function edit_app( Response $response, $slug )
+    public function edit( Request $request, $params )
     {
+        $slug = $params['slug'] ?? '';
         $svg_service = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
 
         $existing_data = $this->get_data_by_slug( $slug );
@@ -432,7 +448,7 @@ class AppSettingsController
         $page_title = "Home Settings";
 
         if ( !$existing_data ) {
-            return $response->setStatusCode( 404 );
+            return response( __( "App not found", "dt_home" ), 404 );
         }
 
         // Load the edit form view and pass the existing data
@@ -444,11 +460,11 @@ class AppSettingsController
      *
      * @param int $slug
      *
-     * @return mixed
+     * @return ResponseInterface
      */
     protected function get_data_by_slug( $slug )
     {
-        $apps_array = container()->make( Apps::class )->all();
+        $apps_array = container()->get( Apps::class )->all();
 
         foreach ( $apps_array as $app ) {
             if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
@@ -462,42 +478,53 @@ class AppSettingsController
     /**
      * Delete an app by its slug.
      *
-     * This function removes an app from the list of home apps based on its slug.
-     *
-     * @param string $slug The slug of the app to be deleted.
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse Redirects to the admin page with a success message.
+     * @param Request $request The request instance.
+     * @param array $params The route parameters.
+     * @return ResponseInterface
      */
-    public function delete( $slug )
+    public function delete( Request $request, $params )
     {
+        $slug = $params['slug'] ?? '';
+
+        if ( empty( $slug ) ) {
+            return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
+        }
+
         // Retrieve the existing array of trainings
-        $appss_array = get_option( 'dt_home_apps', [] );
+        $apps_array = get_plugin_option( 'apps' );
 
         // Find the app with the specified ID and remove it from the array
-        foreach ( $appss_array as $key => $app ) {
+        foreach ( $apps_array as $key => $app ) {
             if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
-                unset( $appss_array[$key] ); // Remove the app from the array
+                unset( $apps_array[$key] ); // Remove the app from the array
                 break; // Exit the loop once the app is found and removed
             }
         }
 
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $appss_array );
+        set_plugin_option( 'apps', $apps_array );
 
-        // Redirect to the page with a success message
-        $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
-
-        return $response;
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
 
     /** Soft delete an app by its slug.
      * This function marks an app as soft deleted based on its slug.
-     *  @param string $slug The slug of the app to be soft deleted.
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse Redirects to the admin page with a success message.
+     *
+     * @param Request $request The request instance.
+     * @param array $params The route parameters.
+     * @return ResponseInterface
      */
-	public function soft_delete_app( $slug )
+	public function soft_delete_app( Request $request, $params )
     {
+        $slug = $params['slug'] ?? '';
+
+        if ( empty( $slug ) ) {
+            return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
+        }
+
         // Retrieve the existing array of apps
-		$apps_array = container()->make( Apps::class )->all();
+        $apps = container()->get( Apps::class );
+		$apps_array = $apps->all();
 
         // Find the app with the specified slug and mark it as soft deleted
         foreach ( $apps_array as $key => $app ) {
@@ -508,24 +535,28 @@ class AppSettingsController
             }
         }
         // Save the updated array back to the option
-        update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
-        // Redirect to the page with a success message
-        $response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&updated=true', 302 );
-
-        return $response;
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
 
-        /**
-        * Restore an app by its slug.
-        *
-        * This function restores a soft deleted app based on its slug.
-        *
-        * @param string $slug The slug of the app to be restored.
-        * @return \Symfony\Component\HttpFoundation\RedirectResponse Redirects to the admin page with a success message.
-        */
-	public function restore_app( $slug )
+    /**
+    * Restore an app by its slug.
+    *
+    * This function restores a soft deleted app based on its slug.
+    *
+     * @param Request $request The request instance.
+     * @param array $params The route parameters.
+     * @return ResponseInterface
+     */
+	public function restore_app( Request $request, $params )
         {
+        $slug = $params['slug'] ?? '';
+
+        if ( empty( $slug ) ) {
+            return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
+        }
+
 		// Retrieve the existing array of apps
 		$apps_array = get_option( 'dt_home_apps', [] );
 
@@ -538,11 +569,9 @@ class AppSettingsController
 		}
 
 		// Save the updated array back to the option
-		update_option( 'dt_home_apps', $apps_array );
+        set_plugin_option( 'apps', $apps_array );
 
-		// Redirect to the page with a success message
-		$response = new RedirectResponse( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true', 302 );
-
-		return $response;
+        // Redirect to the page with a success message
+        return redirect( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true' );
 	}
 }

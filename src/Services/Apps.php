@@ -2,8 +2,6 @@
 
 namespace DT\Home\Services;
 
-use DT\Home\Illuminate\Support\Arr;
-use function DT\Home\container;
 use function DT\Home\get_magic_url;
 
 class Apps {
@@ -47,7 +45,7 @@ class Apps {
         }
 		// Sort the array based on the 'sort' key
 		usort($apps, function ( $a, $b ) {
-			return ( $a['sort'] ?? 0 ) - ( $b['sort'] ?? 0 );
+			return ( (int) $a['sort'] ?? 0 ) - ( (int) $b['sort'] ?? 0 );
 		});
 
 		return $this->format( $apps );
@@ -75,16 +73,23 @@ class Apps {
 			} );
 
 			if ( ! empty( $matching_user_apps ) ) {
+                $user_app = $matching_user_apps[0] ?? [];
+
 				$apps[ $idx ] = array_merge(
 					$app,
-					Arr::only( Arr::first( $matching_user_apps ), [ 'sort' , 'is_hidden' ] )
+					[
+                        'is_hidden' => $user_app['is_hidden'] ?? false,
+                        'sort' => $user_app['sort'] ?? 0,
+                    ]
 				);
 			}
 		}
-        $apps = collect( $apps )->where( 'is_deleted', false )->toArray();
+        $apps = array_filter( $apps, function ( $app ) {
+            return ( $app['is_deleted'] ?? false ) === false;
+        });
 		// Sort the array based on the 'sort' key
 		usort($apps, function ( $a, $b ) {
-			return ( $a['sort'] ?? 0 ) - ( $b['sort'] ?? 0 );
+			return ( (int) $a['sort'] ?? 0 ) - ( (int) $b['sort'] ?? 0 );
 		});
 
 		return $apps;
@@ -105,4 +110,25 @@ class Apps {
 
 		return $apps;
 	}
+
+    /**
+     * Find an app by slug.
+     *
+     * @param string $slug The slug of the app.
+     * @return array|null The app with matching slug, or null if not found.
+     */
+    public function find( $slug ) {
+        $apps = $this->all();
+
+        // Filter the $apps array to find the item with matching slug.
+        $filtered_apps = array_filter($apps, function ( $app ) use ( $slug ) {
+            return $app['slug'] === $slug;
+        });
+
+        // array_filter preserves array keys, so use array_values to reindex it
+        $filtered_apps = array_values( $filtered_apps );
+
+        // Return the first app if one was found, otherwise return null
+        return !empty( $filtered_apps ) ? $filtered_apps[0] : null;
+    }
 }

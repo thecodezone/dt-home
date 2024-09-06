@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 if [ $# -lt 3 ]; then
 	echo "usage: $0 <db-name> <db-user> <db-pass>, [db-host] --wp-version=<version> --skip-database-creation"
 	exit 1
@@ -34,6 +32,7 @@ WP_TESTS_DIR=${WP_TESTS_DIR-$TMPDIR/wordpress-tests-lib}
 WP_CORE_DIR=${WP_CORE_DIR-$TMPDIR/wordpress}
 WP_THEME_DIR=${WP_THEME_DIR-$TMPDIR/wordpress/wp-content/themes}
 WP_PLUGINS_DIR=${WP_PLUGINS_DIR-$TMPDIR/wordpress/wp-content/plugins}
+
 download() {
     if [ `which curl` ]; then
         curl -s "$1" > "$2";
@@ -51,7 +50,7 @@ elif [[ $WP_VERSION =~ ^[0-9]+\.[0-9]+$ ]]; then
 elif [[ $WP_VERSION =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
 	if [[ $WP_VERSION =~ [0-9]+\.[0-9]+\.[0] ]]; then
 		# version x.x.0 means the first release of the major version, so strip off the .0 and download version x.x
-		WP_TESTS_TAG="tags/${WP_VERSIOdb-hostN%??}"
+		WP_TESTS_TAG="tags/${WP_VERSION%??}"
 	else
 		WP_TESTS_TAG="tags/$WP_VERSION"
 	fi

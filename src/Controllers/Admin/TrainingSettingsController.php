@@ -2,17 +2,22 @@
 
 namespace DT\Home\Controllers\Admin;
 
-use DT\Home\Illuminate\Http\RedirectResponse;
-use DT\Home\Illuminate\Http\Request;
-use DT\Home\Illuminate\Http\Response;
+use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
+use DT\Home\Psr\Http\Message\ResponseInterface;
+use function DT\Home\extract_request_input;
+use function DT\Home\get_plugin_option;
+use function DT\Home\redirect;
+use function DT\Home\set_plugin_option;
 use function DT\Home\view;
 
 class TrainingSettingsController {
 
-	/**
-	 * Show the general settings app tab
-	 */
-	public function show_training_tab( Request $request, Response $response ) {
+    /**
+     * Show the training settings page
+     *
+     * @return ResponseInterface
+     */
+	public function show() {
 
 		$tab        = "training";
 		$link       = 'admin.php?page=dt_home&tab=';
@@ -23,9 +28,14 @@ class TrainingSettingsController {
 		return view( "settings/training", compact( 'tab', 'link', 'page_title', 'data' ) );
 	}
 
-	protected function get_all_trainings_data() {
+    /**
+     * Retrieves all training data from the plugin option and sorts it based on the 'sort' key.
+     *
+     * @return array The sorted training data.
+     */
+    protected function get_all_trainings_data() {
 		// Get the apps array from the option
-		$trainings_array = get_option( 'dt_home_trainings', [] );
+		$trainings_array = get_plugin_option( 'trainings' );
 
 		// Sort the array based on the 'sort' key
 		usort( $trainings_array, function ( $a, $b ) {
@@ -36,7 +46,12 @@ class TrainingSettingsController {
 	}
 
 
-	public function create_training( Request $request, Response $response ) {
+    /**
+     * Creates a new training and returns a view with the necessary data.
+     *
+     * @return ResponseInterface The view with the necessary data.
+     */
+    public function create() {
 		$tab        = "training";
 		$link       = 'admin.php?page=dt_home&tab=';
 		$page_title = "Home Settings";
@@ -44,12 +59,89 @@ class TrainingSettingsController {
 		return view( "settings/training/create", compact( 'tab', 'link', 'page_title' ) );
 	}
 
-	public function store( Request $request, Response $response ) {
+    /**
+     * Edit method for the TrainingController.
+     *
+     * Retrieves the existing training data based on the provided ID and displays the edit page.
+     * If the ID is null or no existing data is found, it redirects back to the training tab in the admin panel.
+     *
+     * @param Request $request The request object.
+     * @param array $params The parameters (including the ID) passed to the route.
+     *
+     * @return ResponseInterface The response object.
+     */
+    public function edit( Request $request, $params ) {
+        $id = $params['id'] ?? null;
+        $edit_id = isset( $id ) ? intval( $id ) : 0;
+
+        if ( !$edit_id ) {
+            return redirect( 'admin.php?page=dt_home&tab=training' );
+        }
+
+        // Retrieve the existing data based on $edit_id
+        $existing_data = $this->get_data_by_id( $edit_id );
+
+        if ( !$existing_data ) {
+            return redirect( 'admin.php?page=dt_home&tab=training' );
+        }
+
+        $tab        = "training";
+        $link       = 'admin.php?page=dt_home&tab=';
+        $page_title = "Home Settings";
+
+        return view( "settings/training/edit", compact( 'existing_data', 'link', 'tab', 'page_title' ) );
+    }
+
+    /**
+     * Updates a training entry based on the input data.
+     *
+     * @param Request $request The HTTP request object.
+     * @return ResponseInterface The HTTP response object.
+     */
+    public function update( Request $request, $params ) {
+        $input       = extract_request_input( $request );
+        $name        = sanitize_text_field( $input['name'] ?? '' );
+        $embed_video = sanitize_text_field( $input['embed_video'] ?? '' );
+        $anchor      = sanitize_text_field( $input['anchor'] ?? '' );
+        $sort        = intval( $input['sort'] ?? 0 );
+        $edit_id     = intval( $params['id'] ?? 0 );
+        $trainings_array = get_plugin_option( 'trainings' );
+
+        // Find and update the app in the array
+        foreach ( $trainings_array as $key => $training ) {
+            if ( $training['id'] == $edit_id ) {
+                $trainings_array[ $key ] = [
+                    'id'          => $edit_id,
+                    'name'        => $name,
+                    'embed_video' => $embed_video,
+                    'anchor'      => $anchor,
+                    'sort'        => $sort,
+                ];
+                break; // Stop the loop once the app is found and updated
+            }
+        }
+
+        // Save the updated array back to the option
+        set_plugin_option( 'trainings', $trainings_array );
+
+        return redirect( 'admin.php?page=dt_home&tab=training&updated=true' );
+    }
+
+
+    /**
+     * Stores a new training record in the database.
+     *
+     * @param Request $request The HTTP request.
+     *
+     * @return ResponseInterface
+     */
+    public function store( Request $request ) {
 		// Retrieve form data
-		$name        = $request->input( 'name' );
-		$embed_video = $request->input( 'embed_video' );
-		$anchor      = $request->input( 'anchor' );
-		$sort        = $request->input( 'sort' );
+        $input       = extract_request_input( $request );
+		$name        = sanitize_text_field( $input['name'] ?? '' );
+		$embed_video = sanitize_text_field( $input['embed_video'] ?? '' );
+		$anchor      = sanitize_text_field( $input['anchor'] ?? '' );
+		$sort        = intval( $input['sort'] ?? 0 );
 
 		// Prepare the data to be stored
 		$training_data = [
@@ -76,33 +168,20 @@ class TrainingSettingsController {
 		$trainings_array[] = $training_data;
 
 		// Save the updated array back to the option
-		update_option( 'dt_home_trainings', $trainings_array );
+		set_plugin_option( 'trainings', $trainings_array );
 
-		$response = new RedirectResponse( 'admin.php?page=dt_home&tab=training&updated=true', 302 );
-
-		return $response;
-	}
-
-	public function edit_training( $id ) {
-		$edit_id = isset( $id ) ? intval( $id ) : 0;
-
-		if ( $edit_id ) {
-			// Retrieve the existing data based on $edit_id
-			$existing_data = $this->get_data_by_id( $edit_id );
-
-			$tab        = "training";
-			$link       = 'admin.php?page=dt_home&tab=';
-			$page_title = "Home Settings";
-
-			if ( $existing_data ) {
-				// Load the edit form view and pass the existing data
-				return view( "settings/training/edit", compact( 'existing_data', 'link', 'tab', 'page_title' ) );
-			}
-		}
+		return redirect( 'admin.php?page=dt_home&tab=training&updated=true' );
 	}
 
 
-	public function get_data_by_id( $id ) {
+    /**
+     * Retrieves the training data with the specified ID from the plugin option array.
+     *
+     * @param int $id The ID of the training data to retrieve.
+     *
+     * @return array|null The training data with the specified ID, or null if not found.
+     */
+    public function get_data_by_id( $id ) {
 		$trainings_array = get_option( 'dt_home_trainings', [] );
 		foreach ( $trainings_array as $training ) {
 			if ( isset( $training['id'] ) && $training['id'] == $id ) {
@@ -113,9 +192,22 @@ class TrainingSettingsController {
 		return null; // Return null if no app is found with the given ID
 	}
 
-	public function delete( $id ) {
+    /**
+     * Deletes a training from the plugin option based on the specified ID.
+     *
+     * @param Request $request The server request object.
+     * @param array $params An array of parameters passed to the method.
+     * @return ResponseInterface The redirect response.
+     */
+    public function delete( Request $request, $params ) {
+        $id = $params['id'] ?? null;
+
+        if ( !$id ) {
+            return redirect( 'admin.php?page=dt_home&tab=training' );
+        }
+
 		// Retrieve the existing array of trainings
-		$trainings_array = get_option( 'dt_home_trainings', [] );
+		$trainings_array = get_plugin_option( 'trainings' );
 
 		// Find the app with the specified ID and remove it from the array
 		foreach ( $trainings_array as $key => $training ) {
@@ -126,17 +218,30 @@ class TrainingSettingsController {
 		}
 
 		// Save the updated array back to the option
-		update_option( 'dt_home_trainings', $trainings_array );
+		set_plugin_option( 'trainings', $trainings_array );
 
 		// Redirect to the page with a success message
-		$response = new RedirectResponse( 'admin.php?page=dt_home&tab=training&updated=true', 302 );
-
-		return $response;
+		return redirect( 'admin.php?page=dt_home&tab=training&updated=true' );
 	}
 
-	public function up( $id ) {
+    /**
+     * Retrieves the training data from the plugin option, finds the specified training by its ID, and moves it up in the sort order.
+     * If successful, it saves the updated array to the plugin option and redirects to the training page.
+     * If the specified ID is not found or the training is already at the top, it redirects back to the training page without making any changes.
+     *
+     * @param Request $request The current server request object.
+     * @param array $params An array of parameters passed to the method.
+     * @return ResponseInterface A redirect response to the training page with an "updated" parameter set to "true".
+     */
+    public function up( Request $request, $params ) {
+        $id = $params['id'] ?? null;
+
+        if ( !$id ) {
+            return redirect( 'admin.php?page=dt_home&tab=training' );
+        }
+
 		// Retrieve the existing array of apps
-		$trainings_array = get_option( 'dt_home_trainings', [] );
+		$trainings_array = get_plugin_option( 'trainings' );
 
 		// Find the index of the app and its current sort value
 		$current_index = null;
@@ -167,18 +272,25 @@ class TrainingSettingsController {
 			} );
 
 			// Save the updated array back to the option
-			update_option( 'dt_home_trainings', $trainings_array );
+			set_plugin_option( 'trainings', $trainings_array );
 		}
 
-		// Redirect to the page with a success message
-		$response = new RedirectResponse( 'admin.php?page=dt_home&tab=training&updated=true', 302 );
-
-		return $response;
+		return redirect( 'admin.php?page=dt_home&tab=training&updated=true' );
 	}
 
-	public function down( $id ) {
+    /**
+     * Handles the request to move the training down in the list.
+     *
+     * @param Request $request The HTTP Request object.
+     * @param array $params The request parameters.
+     *
+     * @return ResponseInterface The redirect response to the admin page.
+     */
+    public function down( Request $request, $params ) {
+        $id = $params['id'] ?? null;
+
 		// Retrieve the existing array of apps
-		$trainings_array = get_option( 'dt_home_trainings', [] );
+		$trainings_array = get_plugin_option( 'trainings' );
 
 		// Find the index of the app and its current sort value
 		$current_index = null;
@@ -212,50 +324,9 @@ class TrainingSettingsController {
 			} );
 
 			// Save the updated array back to the option
-			update_option( 'dt_home_trainings', $trainings_array );
+			set_plugin_option( 'trainings', $trainings_array );
 		}
 
-		// Redirect to the page with a success message
-		$response = new RedirectResponse( 'admin.php?page=dt_home&tab=training&updated=true', 302 );
-
-		return $response;
-	}
-
-
-	public function update( Request $request, Response $response ) {
-		if ( isset( $_POST['submit'] ) ) {
-			$name        = $request->input( 'name' );
-			$embed_video = $request->input( 'embed_video' );
-			$anchor      = $request->input( 'anchor' );
-			$sort        = $request->input( 'sort' );
-
-			// Get the ID of the item being edited
-			$edit_id = $request->input( 'edit_id' );
-
-			// Retrieve the existing array of apps
-			$trainings_array = get_option( 'dt_home_trainings', [] );
-
-			// Find and update the app in the array
-			foreach ( $trainings_array as $key => $training ) {
-				if ( $training['id'] == $edit_id ) {
-					$trainings_array[ $key ] = [
-						'id'          => $edit_id,
-						'name'        => $name,
-						'embed_video' => $embed_video,
-						'anchor'      => $anchor,
-						'sort'        => $sort,
-					];
-					break; // Stop the loop once the app is found and updated
-				}
-			}
-
-			// Save the updated array back to the option
-			update_option( 'dt_home_trainings', $trainings_array );
-
-			// Redirect to the page with a success message
-			$response = new RedirectResponse( 'admin.php?page=dt_home&tab=training&updated=true', 302 );
-
-			return $response;
-		}
+		return redirect( 'admin.php?page=dt_home&tab=training&updated=true' );
 	}
 }

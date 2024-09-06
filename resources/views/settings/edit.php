@@ -4,6 +4,7 @@
  * @var string $tab
  * @var string $link
  * @var string $page_title
+ * @var array $existing_data
  */
 $this->layout('layouts/settings', compact('tab', 'link', 'page_title'));
 ?>

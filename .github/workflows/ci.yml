@@ -1,19 +1,82 @@
-name: Tests
+name: CI
 
 on:
   push:
     branches:
-      - "*"
+      - '*'
   pull_request:
     branches:
-      - "*"
+      - '*'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 18.x
+
+      - name: Build project
+        run: |
+          npm install
+          npm run build
+
+      - name: Install PHP
+        uses: shivammathur/setup-php@master
+        with:
+          php-version: '8.1'
+
+      - name: Add Composer Global to PATH
+        run: echo "$(composer global config bin-dir --absolute --quiet)" >> $GITHUB_PATH
+
+      - name: Install Scoper
+        run: |
+          ./bin/setup-scoper.sh
+
+      - name: Install dependencies
+        run: composer install --no-interaction --ignore-platform-reqs
+
+      - name: Test syntax
+        run: ./bin/test-for-syntax-errors.sh
+
+      - name: Zip vendor directories
+        run: |
+          tar -czf vendor.tar.gz vendor
+          tar -czf vendor-scoped.tar.gz vendor-scoped
+
+      - name: Upload vendor directory
+        uses: actions/upload-artifact@v2
+        with:
+          name: vendor
+          path: vendor.tar.gz
+
+      - name: Upload vendor-scoped directory
+        uses: actions/upload-artifact@v2
+        with:
+          name: vendor-scoped
+          path: vendor-scoped.tar.gz
+
+      - name: Package release
+        run: |
+          mkdir dt-home
+          cp -r dt-home.php config dist languages resources routes src vendor vendor-scoped composer.json composer.lock composer.scoped.json composer.scoped.lock LICENSE package.json package-lock.json phpcs.xml dt-home/
+          zip -r dt-home.zip dt-home
+
+      - name: Upload release
+        uses: actions/upload-artifact@v2
+        with:
+          name: dt-home.zip
+          path: dt-home.zip
+
   tests:
+    needs: build
     runs-on: ubuntu-latest
 
     services:
@@ -31,15 +94,11 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: [ '8.1', '8.2' ]
+        php: [ '7.4', '8.3' ]
 
     name: PHP ${{ matrix.php }}
     steps:
       - uses: actions/checkout@v2
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 18.x
 
       - name: Install PHP
         uses: shivammathur/setup-php@master
@@ -49,12 +108,46 @@ jobs:
       - name: Add Composer Global to PATH
         run: echo "$(composer global config bin-dir --absolute --quiet)" >> $GITHUB_PATH
 
-      - name: Install Scoper
+      - name: Download vendor directory
+        uses: actions/download-artifact@v2
+        with:
+          name: vendor
+          path: .
+
+      - name: Download vendor-scoped directory
+        uses: actions/download-artifact@v2
+        with:
+          name: vendor-scoped
+          path: .
+
+      - name: Unzip vendor directories
         run: |
-          ./bin/setup-scoper.sh
+          tar -xzf vendor.tar.gz
+          tar -xzf vendor-scoped.tar.gz
+          export PATH="$HOME/.composer/vendor/bin:$PATH"
+          export PATH="$HOME/.composer/vendor-scoped/bin:$PATH"
 
-      - name: Install dependencies
-        run: composer install --no-interaction --ignore-platform-reqs
+      - name: Download release
+        uses: actions/download-artifact@v2
+        with:
+          name: dt-home.zip
+          path: .
 
-      - name: Test syntax
-        run: ./tests/test_for_syntax_errors.sh
+      - name: Test phpcs
+        run: ./bin/test-phpcs.sh
+
+      - name: Install WP Tests
+        run: ./bin/install-wp-tests.sh wordpress_test root rootpassword 127.0.0.0 latest
+        shell: bash
+
+      - name: PHPunit
+        run: |
+          vendor/bin/phpunit
+
+      - name: Google Chat Notification
+        uses: Co-qn/google-chat-notification@releases/v1
+        with:
+          name: CI
+          url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+          status: ${{ job.status }}
+        if: always()

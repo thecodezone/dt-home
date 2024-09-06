@@ -2,6 +2,8 @@
 
 namespace DT\Home\Apps;
 
+use DT\Home\CodeZone\WPSupport\Assets\AssetQueue;
+use DT\Home\CodeZone\WPSupport\Assets\AssetQueueInterface;
 use DT\Home\Services\Assets;
 use function DT\Home\container;
 use function DT\Home\namespace_string;
@@ -24,7 +26,7 @@ class BiblePlugin extends App {
 	}
 
 	public function allowed_scripts( $scripts ) {
-		$assets = container()->make( Assets::class );
+		$assets = container()->get( AssetQueueInterface::class );
 		$scripts[] = "bible-plugin";
 
 		foreach ( $scripts as $idx => $script ) {

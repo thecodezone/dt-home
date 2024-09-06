@@ -2,24 +2,32 @@
 
 namespace DT\Home\Middleware;
 
-use DT\Home\CodeZone\Router\Middleware\Middleware;
 use DT\Home\Illuminate\Http\RedirectResponse;
-use DT\Home\Illuminate\Http\Request;
-use DT\Home\Symfony\Component\HttpFoundation\Response;
+use DT\Home\Psr\Http\Message\ResponseInterface;
+use DT\Home\Psr\Http\Message\ServerRequestInterface;
+use DT\Home\Psr\Http\Server\MiddlewareInterface;
+use DT\Home\Psr\Http\Server\RequestHandlerInterface;
+use function DT\Home\redirect;
 use function DT\Home\route_url;
 
-class LoggedIn implements Middleware
+class LoggedIn implements MiddlewareInterface
 {
-    public function handle( Request $request, Response $response, $next )
+    /**
+     * If the user is not logged in, redirect to the login page.
+     *
+     * @param ServerRequestInterface $request The HTTP request.
+     * @param RequestHandlerInterface $handler The request handler.
+     * @return ResponseInterface The HTTP response.
+     */
+    public function process( ServerRequestInterface $request, RequestHandlerInterface $handler ): ResponseInterface
     {
 
         $require_login = get_option( 'dt_home_require_login', true );
 
         if ( !is_user_logged_in() && ( $require_login == " " || $require_login == 1 ) ) {
-            $response = new RedirectResponse( route_url( "/login" ), 302 );
-
+            return redirect( route_url( "/login" ) );
         }
 
-        return $next( $request, $response );
+        return $handler->handle( $request );
     }
 }

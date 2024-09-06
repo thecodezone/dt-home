@@ -2,36 +2,47 @@
 
 namespace DT\Home\Controllers\MagicLink;
 
-use DT\Home\CodeZone\Router\Factories\RedirectResponseFactory;
-use DT\Home\Illuminate\Http\Request;
-use DT\Home\Illuminate\Http\Response;
-use function DT\Home\container;
-use function DT\Home\magic_url;
+use DT\Home\Psr\Http\Message\ResponseInterface;
+use function DT\Home\config;
 use function DT\Home\redirect;
 use function DT\Home\route_url;
 
 class ShareController
 {
-    public function show( Request $request, Response $response, $key )
+    /**
+     * Show method.
+     *
+     * This method retrieves the current user ID and fetches the contact associated
+     * with that user. If a contact is found, it sets a cookie with the contact information
+     * that expires after 30 days. Finally, it redirects the user to the route URL.
+     *
+     * @return ResponseInterface The redirect response.
+     */
+    public function show()
     {
         $user_id = get_current_user_id();
         $contact = \Disciple_Tools_Users::get_contact_for_user( $user_id );
 
-        if ( $contact !== null ) {
-            setcookie( 'dt_home_share', $contact, time() + ( 86400 * 30 ), "/" );
-        }
+        $this->set_cookie( $contact );
 
         return redirect( route_url() );
     }
 
-    public function data( Request $request, Response $response, $key )
-    {
-        $user = wp_get_current_user();
-        $data = [
-            'user_login' => $user->user_login,
-        ];
-        $response->setContent( $data );
+    /**
+     * Set Cookie method.
+     *
+     * This method sets a cookie with the provided contact information. The cookie is set to expire
+     * after 30 days. If the contact information is empty, the method will return without setting the cookie.
+     *
+     * @param mixed $contact The contact information to be set in the cookie.
+     *
+     * @return void
+     */
+    public function set_cookie( $contact ): void {
+        if ( ! $contact ) {
+            return;
+        }
 
-        return $response;
+        setcookie( config( 'plugin.share_cookie' ), $contact, time() + ( 86400 * 30 ), "/" );
     }
 }

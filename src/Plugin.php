@@ -2,227 +2,158 @@
 
 namespace DT\Home;
 
-use DT\Home\CodeZone\Router\Middleware\Stack;
-use DT\Home\Illuminate\Container\Container;
-use DT\Home\Providers\PluginServiceProvider;
+use DT\Home\CodeZone\WPSupport\Config\ConfigInterface;
+use DT\Home\CodeZone\WPSupport\Rewrites\RewritesInterface;
+use DT\Home\League\Container\Container;
 
 /**
  * This is the entry-object for the plugin.
  * Handle any setup and bootstrapping here.
  */
 class Plugin {
-	/**
-	 * The minimum required version of DT
-	 * @var string
-	 */
-	const REQUIRED_DT_VERSION = '1.19';
+    public Container $container;
+    public ConfigInterface $config;
+    public RewritesInterface $rewrites;
+    public static $instance;
 
-	/**
-	 * The route for the plugin's home page
-	 * @var string
-	 */
-	const HOME_ROUTE = 'dt-home';
-
-	/**
-	 * The route query parameter for the plugin
-	 *
-	 * This constant represents the query parameter used to define
-	 * the route for the plugin. Used in the WP Rewrite system.
-	 *
-	 * @var string
-	 */
-	const ROUTE_QUERY_PARAM = 'dt-home';
-
-	/**
-	 * The instance of the plugin
-	 * @var Plugin
-	 */
-	public static Plugin $instance;
-
-	/**
-	 * The container
-	 * @see https://laravel.com/docs/10.x/container
-	 * @var Container
-	 */
-	public Container $container;
-
-	/**
-	 * The service provider
-	 * @see https://laravel.com/docs/10.x/providers
-	 * @var PluginServiceProvider
-	 */
-	public PluginServiceProvider $provider;
-
-	/**
-	 * Plugin constructor.
-	 *
-	 * @param Container $container
-	 */
-	public function __construct( Container $container ) {
-		$this->container = $container;
-		$this->provider  = $container->make( PluginServiceProvider::class );
-	}
-
-	/**
-	 * Get the instance of the plugin
-	 * @return void
-	 */
-	public function init() {
-		static::$instance = $this;
-		$this->provider->register();
-
-		register_activation_hook( plugin_path( 'bible-plugin.php' ), [ $this, 'activation_hook' ] );
-		register_deactivation_hook( plugin_path( 'bible-plugin.php' ), [ $this, 'deactivation_hook' ] );
-		add_action( 'wp_loaded', [ $this, 'wp_loaded' ], 20 );
-		add_filter( 'dt_plugins', [ $this, 'dt_plugins' ] );
-		add_action( 'init', [ $this, 'rewrite_rules' ], 9 );
-		add_action( 'query_vars', [ $this, 'query_vars' ], 9, 1 );
-		add_action( 'template_redirect', [ $this, 'template_redirect' ], 9, 0 );
+    /**
+     * Plugin constructor.
+     *
+     * @param Container $container
+     * @param RewritesInterface $rewrites
+     * @param ConfigInterface $config
+     */
+    public function __construct( Container $container, RewritesInterface $rewrites, ConfigInterface $config ) {
+        $this->config = $config;
+        $this->container = $container;
+        $this->rewrites = $rewrites;
     }
 
-	/**
-	 * Activate the plugin.
-	 *
-	 * This method is a hook that is triggered when the plugin is activated.
-	 * It calls the `rewrite_rules()` method to add or modify rewrite rules
-	 * and then flushes the rewrite rules to update them.
-	 */
-	public function activation_hook() {
-		$this->rewrite_rules();
-		flush_rewrite_rules();
-	}
+    /**
+     * Get the instance of the plugin
+     * @return void
+     */
+    public function init() {
+        register_activation_hook( plugin_path( 'dt-home.php' ), [ $this, 'activation_hook' ] );
+        register_deactivation_hook( plugin_path( 'dt-home.php' ), [ $this, 'deactivation_hook' ] );
 
-	/**
-	 * Flush rewrite rules after deactivating the plugin.
-	 *
-	 * @return void
-	 */
-	public function deactivation_hook() {
-		flush_rewrite_rules();
-	}
+		static::$instance = $this;
 
-	/**
-	 * Rewrite rules method.
-	 *
-	 * This method is responsible for adding any custom rewrite rules to the plugin.
-	 * We'll use this method to add a custom rewrite rule for the all routes prefixed
-	 * with the plugin's home route. Subsequent routes will be handled by the plugin's
-	 * router.
-	 *
-	 * @return void
-	 */
-	public function rewrite_rules(): void {
-		add_rewrite_rule(
-			'^' . self::HOME_ROUTE . '/?$',
-			'index.php?' . self::ROUTE_QUERY_PARAM .  '=/', 'top'
-		);
-		add_rewrite_rule(
-			'^' . self::HOME_ROUTE . '/(.+)/?',
-			'index.php?' . self::ROUTE_QUERY_PARAM .  '=$matches[1]', 'top'
-		);
-	}
+        add_action( 'init', [ $this, 'wp_init' ] );
+        add_action( 'wp_loaded', [ $this, 'wp_loaded' ], 20 );
+        add_filter( 'dt_plugins', [ $this, 'dt_plugins' ] );
+        add_action( 'activated_plugin', [ $this, 'activation_hook' ] );
 
-	/**
-	 * Add query vars
-	 *
-	 * @param array $vars
-	 *
-	 * @return array
-	 */
-	public function query_vars( array $vars ): array {
-		$vars[] = self::ROUTE_QUERY_PARAM;
+        foreach ( $this->config->get( 'services.providers' ) as $provider ) {
+            $this->container->addServiceProvider( $this->container->get( $provider ) );
+        }
+    }
 
-		return $vars;
-	}
+    /**
+     * Get the directory path of the plugin.
+     *
+     * This method returns the absolute directory path of the plugin, excluding the "/src" directory
+     *
+     * @return string The directory path of the plugin.
+     */
+    public static function dir_path() {
+        return '/' . trim( str_replace( '/src', '', plugin_dir_path( __FILE__ ) ), '/' );
+    }
 
-	/**
-	 * Runs after_theme_setup
-	 * @return void
-	 */
-	public function wp_loaded(): void {
-		if ( ! $this->is_dt_version() ) {
-			add_action( 'admin_notices', [ $this, 'admin_notices' ] );
-			add_action( 'wp_ajax_dismissed_notice_handler', [ $this, 'ajax_notice_handler' ] );
+    /**
+     * Initialize the WordPress plugin.
+     *
+     * This method is a hook that is triggered when WordPress is initialized.
+     * It calls the `sync()` method to synchronize any necessary changes
+     * or updates with the plugin's rewrites. This can include adding, modifying
+     * or removing rewrite rules.
+     *
+     * @return void
+     */
+    public function wp_init() {
+        $this->rewrites->sync();
+    }
 
-			return;
-		}
+    /**
+     * Activate the plugin.
+     *
+     * This method is a hook that is triggered when the plugin is activated.
+     * It calls the `rewrite_rules()` method to add or modify rewrite rules
+     * and then flushes the rewrite rules to update them.
+     */
+    public function activation_hook() {
+        $this->rewrites->refresh();
+    }
 
-		if ( ! $this->is_dt_theme() ) {
-			return;
-		}
+    /**
+     * Deactivate the plugin.
+     *
+     * This method is a hook that is triggered when the plugin is deactivated.
+     * It calls the `rewrite_rules()` method to add or modify rewrite rules
+     * and then flushes the rewrite rules to update them.
+     */
+    public function deactivation_hook() {
+        $this->rewrites->flush();
+    }
 
-		if ( ! defined( 'DT_FUNCTIONS_READY' ) ) {
-			require_once get_template_directory() . '/dt-core/global-functions.php';
-		}
+    /**
+     * Runs after wp_loaded
+     * @return void
+     */
+    public function wp_loaded(): void {
+        if ( ! $this->is_dt_version() ) {
+            add_action( 'admin_notices', [ $this, 'admin_notices' ] );
+            add_action( 'wp_ajax_dismissed_notice_handler', [ $this, 'ajax_notice_handler' ] );
 
-		$this->provider->boot();
-	}
+            return;
+        }
 
-	/**
-	 * is DT up-to-date?
-	 * @return bool
-	 */
-	public function is_dt_version(): bool {
-		if ( ! $this->is_dt_theme() ) {
-			return false;
-		}
-		$wp_theme = wp_get_theme();
+        if ( ! $this->is_dt_theme() ) {
+            return;
+        }
 
-		return version_compare( $wp_theme->version, self::REQUIRED_DT_VERSION, '>=' );
-	}
+        if ( ! defined( 'DT_FUNCTIONS_READY' ) ) {
+            require_once get_template_directory() . '/dt-core/global-functions.php';
+        }
+    }
 
-	/**
-	 * Is the DT Theme installed?
-	 * @return bool
-	 */
-	protected function is_dt_theme(): bool {
-		return class_exists( 'Disciple_Tools' );
-	}
+    /**
+     * is DT up-to-date?
+     * @return bool
+     */
+    public function is_dt_version(): bool {
+        if ( ! $this->is_dt_theme() ) {
+            return false;
+        }
 
-	/**
-	 * Perform template redirect based on query var 'dt_autolink'.
-	 *
-	 * @return void
-	 */
-	public function template_redirect(): void {
-		if ( ! get_query_var( self::ROUTE_QUERY_PARAM ) ) {
-			return;
-		}
+        $wp_theme = wp_get_theme();
 
-		$response = apply_filters( namespace_string( 'middleware' ), $this->container->make( Stack::class ) )
-			->run();
+        return version_compare( $wp_theme->version, $this->config->get( 'plugin.dt_version' ), '>=' );
+    }
 
-		if ( ! $response ) {
-			wp_die( esc_attr( __( "The page could not be found.", 'dt-home' ) ), 404 );
-		}
+    /**
+     * Is the DT Theme installed?
+     * @return bool
+     */
+    protected function is_dt_theme(): bool {
+        return class_exists( 'Disciple_Tools' );
+    }
+    /**
+     * Register the plugin with disciple.tools
+     * @return array
+     */
+    public function dt_plugins(): array {
+        $plugin_data = get_file_data( __FILE__, [
+            'Version'     => '0.0',
+            'Plugin Name' => 'DT Plugin',
+        ], false );
 
-		if ( ! $response->isSuccessful() ) {
-			wp_die( esc_attr( $response->statusText() ), esc_attr( $response->getStatusCode() ) );
-		}
+        $plugins['dt-plugin'] = [
+            'plugin_url' => trailingslashit( plugin_dir_url( __FILE__ ) ),
+            'version'    => $plugin_data['Version'] ?? null,
+            'name'       => $plugin_data['Plugin Name'] ?? null,
+        ];
 
-		$path = get_theme_file_path( 'template-blank.php' );
-		include $path;
-
-		die();
-	}
-
-
-	/**
-	 * Register the plugin with disciple.tools
-	 * @return array
-	 */
-	public function dt_plugins(): array {
-		$plugin_data = get_file_data( __FILE__, [
-			'Version'     => '0.0',
-			'Plugin Name' => 'DT Home',
-		], false );
-
-		$plugins['dt-home'] = [
-			'plugin_url' => trailingslashit( plugin_dir_url( __FILE__ ) ),
-			'version'    => $plugin_data['Version'] ?? null,
-			'name'       => $plugin_data['Plugin Name'] ?? null,
-		];
-
-		return $plugins;
-	}
+        return $plugins;
+    }
 }

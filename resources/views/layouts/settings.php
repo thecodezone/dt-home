@@ -9,17 +9,17 @@ $nav = apply_filters( namespace_string( 'settings_tabs' ), [] );
 ?>
 
 <hr class="wrap">
-<h1><?php $this->esc_html_e( 'Home Screen', 'dt_home' ) ?></h1>
+<h1><?php esc_html_e( 'Home Screen', 'dt_home' ) ?></h1>
 
 <p class="tagline">
-    <?php $this->esc_html_e( 'Part of the DT Toolbox', 'dt_home' ) ?>
+    <?php esc_html_e( 'Part of the DT Toolbox', 'dt_home' ) ?>
 </p>
 
 <h2 class="nav-tab-wrapper">
     <?php foreach ( $nav as $index => $item ): ?>
-        <a href="admin.php?page=dt_home&tab=<?php echo $this->e( $item['tab'] ) ?>"
-           class="nav-tab <?php echo $this->esc_html( ( $tab == $item['tab'] || !isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
-            <?php echo $this->e( $item['label'] ) ?>
+        <a href="admin.php?page=dt_home&tab=<?php echo esc_attr( $item['tab'] ) ?>"
+           class="nav-tab <?php echo esc_html( ( $tab == $item['tab'] || !isset( $tab ) ) ? 'nav-tab-active' : '' ); ?>">
+            <?php echo esc_attr( $item['label'] ) ?>
         </a>
     <?php endforeach; ?>
 </h2>
@@ -40,14 +40,19 @@ $nav = apply_filters( namespace_string( 'settings_tabs' ), [] );
                 <?php endif; ?>
 
 
-                <?php echo $this->section( 'content' ) ?>
+
+                <?php
+                // phpcs:ignore
+                echo $this->section( 'content' ) ?>
 
                 <!-- End Main Column -->
             </div><!-- end post-body-content -->
             <div id="postbox-container-1" class="postbox-container">
                 <!-- Right Column -->
 
-                <?php echo $this->section( 'right' ) ?>
+                <?php
+                // phpcs:ignore
+                echo $this->section( 'right' ) ?>
                 <!-- End Right Column -->
             </div><!-- postbox-container 1 -->
             <div id="postbox-container-2" class="postbox-container">
