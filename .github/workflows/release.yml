@@ -19,6 +19,7 @@ jobs:
       - name: Build project
         run: |
           npm install
+          npm run build
 
       - name: Install PHP
         uses: shivammathur/setup-php@master
@@ -32,9 +33,17 @@ jobs:
         run: |
           ./bin/setup-scoper.sh
 
+      - name: Install dependencies
+        run: composer install --no-dev --no-interaction --ignore-platform-reqs
+
+      - name: Patch Scoper Bug
+        run: node patch-scoper-autoload.js
+
       - name: Package release
         run: |
-          ./bin/package.sh
+          mkdir dt-home
+          cp -r dt-home.php config dist languages resources routes src vendor vendor-scoped composer.json composer.lock composer.scoped.json composer.scoped.lock LICENSE package.json package-lock.json dt-home/
+          zip -r dt-home.zip dt-home
 
       - name: Create Release
         id: create_release
@@ -46,13 +55,22 @@ jobs:
           release_name: Release ${{ github.ref }}
           draft: false
           prerelease: false
+
       - name: Upload Release Asset
         id: upload-release-asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
           asset_path: ./dt-home.zip
           asset_name: dt-home.zip
           asset_content_type: application/zip
+
+      - name: Google Chat Notification
+        uses: Co-qn/google-chat-notification@releases/v1
+        with:
+          name: Release
+          url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+          status: ${{ job.status }}
+        if: always()
