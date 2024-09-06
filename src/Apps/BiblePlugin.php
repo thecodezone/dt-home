@@ -15,11 +15,13 @@ class BiblePlugin extends App {
 	public function config(): array {
 		return [
 			"name" => "Bible",
-		    "type" => "custom",
-		    "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/bible.svg",
+		    "type" => "Web View",
+            'creation_type' => 'code',
+            "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/bible.svg",
 		    "sort" => 0,
 		    "slug" => "the-bible-plugin",
 		    "is_hidden" => false,
+            'open_in_new_tab' => false
 		];
 	}
 

@@ -8,7 +8,8 @@
       "DT\\Home\\": "src/"
     },
     "files": [
-      "src/helpers.php"
+      "src/helpers.php",
+      "src/globals.php"
     ]
   },
   "autoload-dev": {

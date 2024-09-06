@@ -25,11 +25,11 @@ $this->layout( 'layouts/plugin' );
     </div>
 
     <b>
-        Name: <?php echo esc_html( $user->user_nicename ); ?>
+        <?php esc_html_e( 'Name:', 'dt_home' ); ?> <?php echo esc_html( $user->user_nicename ); ?>
     </b>
 
     <a href="<?php echo esc_url( $subpage_url ); ?>">
-		<?php esc_html_e( 'Visit subpage', 'dt_home' ); ?>
+        <?php esc_html_e( 'Visit subpage', 'dt_home' ); ?>
     </a>
 
     <dt-home-footer></dt-home-footer>

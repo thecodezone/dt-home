@@ -94,7 +94,7 @@ class Apps {
 		$apps = array_map(function ( $app ) {
 			return array_merge([
 				'name' => '',
-				'type' => 'Web view',
+				'type' => 'Web View',
 				'icon' => '',
 				'url' => '',
 				'sort' => 0,

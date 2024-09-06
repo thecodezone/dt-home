@@ -111,7 +111,8 @@ class AppSettingsController
         $apps_array = array_map(function ( $app ) {
             return array_merge([
                 'name' => '',
-                'type' => 'webview',
+                'type' => 'Web View',
+                'creation_type' => '',
                 'icon' => '',
                 'url' => '',
                 'sort' => 0,
@@ -152,6 +153,7 @@ class AppSettingsController
 
         $name = sanitize_text_field( $input['name'] ?? '' );
         $type = sanitize_text_field( $input['type'] ?? '' );
+        $creation_type = sanitize_text_field( $input['creation_type'] ?? '' );
         $icon = sanitize_text_field( $input['icon'] ?? '' );
         $url = sanitize_text_field( $input['url'] ?? '' );
         $slug = sanitize_text_field( $input['slug'] ?? '' );
@@ -163,6 +165,7 @@ class AppSettingsController
         $app_data = [
             'name' => $name,
             'type' => $type,
+            'creation_type' => $creation_type,
             'icon' => $icon,
             'url' => $url,
             'sort' => $sort,
@@ -386,14 +389,10 @@ class AppSettingsController
     {
 
         $slug = $params['slug'] ?? '';
-
-        if ( empty( $slug ) ) {
-            return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
-        }
-
         $input = $request->getParsedBody();
         $name = sanitize_text_field( $input['name'] ?? '' );
         $type = sanitize_text_field( $input['type'] ?? '' );
+        $creation_type = sanitize_text_field( $input['creation_type'] ?? '' );
         $icon_url = sanitize_text_field( $input['icon'] ?? '' );
         $url = sanitize_text_field( $input['url'] ?? '' );
         $sort = sanitize_text_field( $input['sort'] ?? '' );
@@ -411,6 +410,7 @@ class AppSettingsController
                 $apps_array[$key] = [
                     'name' => $name,
                     'type' => $type,
+                    'creation_type' => $creation_type,
                     'icon' => $icon_url,
                     'url' => $url,
                     'slug' => $new_slug,
