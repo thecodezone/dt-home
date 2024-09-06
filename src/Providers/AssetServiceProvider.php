@@ -9,6 +9,7 @@ use DT\Home\CodeZone\WPSupport\Assets\AssetQueueInterface;
 use function DT\Home\magic_url;
 use function DT\Home\namespace_string;
 use function DT\Home\config;
+use function DT\Home\route_url;
 
 class AssetServiceProvider extends AbstractServiceProvider
 {
@@ -44,7 +45,10 @@ class AssetServiceProvider extends AbstractServiceProvider
 
         add_filter( namespace_string( 'javascript_globals' ), function ( $data ) {
             return array_merge( $data, config( 'assets.javascript_globals' ), [
-                'magic_url' => magic_url()
+                'magic_url' => magic_url(),
+                'nonce' => wp_create_nonce( 'dt_home' ),
+                'admin_nonce' => wp_create_nonce( 'dt_admin_form_nonce' ),
+                'route_url' => route_url(),
             ] );
         });
 

@@ -7,6 +7,7 @@ use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Services\Apps;
 use DT\Home\Services\SVGIconService;
 use function DT\Home\container;
+use function DT\Home\extract_request_input;
 use function DT\Home\get_plugin_option;
 use function DT\Home\redirect;
 use function DT\Home\set_plugin_option;
@@ -149,7 +150,7 @@ class AppSettingsController
     public function store( Request $request )
     {
         // Retrieve form data
-        $input = $request->getParsedBody();
+        $input = extract_request_input( $request );
 
         $name = sanitize_text_field( $input['name'] ?? '' );
         $type = sanitize_text_field( $input['type'] ?? '' );
@@ -389,7 +390,7 @@ class AppSettingsController
     {
 
         $slug = $params['slug'] ?? '';
-        $input = $request->getParsedBody();
+        $input = extract_request_input( $request );
         $name = sanitize_text_field( $input['name'] ?? '' );
         $type = sanitize_text_field( $input['type'] ?? '' );
         $creation_type = sanitize_text_field( $input['creation_type'] ?? '' );

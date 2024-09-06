@@ -5,6 +5,7 @@ namespace DT\Home\Controllers;
 use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
+use function DT\Home\extract_request_input;
 use function DT\Home\redirect;
 use function DT\Home\route_url;
 use function DT\Home\template;
@@ -24,7 +25,7 @@ class LoginController {
      * @return ResponseInterface The response object containing the login form template.
      */
     public function show( Request $request ) {
-        $params = $request->getParsedBody();
+        $params       = extract_request_input( $request );
         $register_url = route_url( 'register' );
         $form_action  = route_url( 'login' );
         $username     = sanitize_text_field( $params['username'] ?? '' );
@@ -53,7 +54,7 @@ class LoginController {
 	public function process( Request $request ) {
 		global $errors;
 
-		$params = $request->getParsedBody();
+		$params = extract_request_input( $request );
 		$user = wp_authenticate( $params['username'] ?? '', $params['password'] ?? '' );
 
 		if ( is_wp_error( $user ) ) {

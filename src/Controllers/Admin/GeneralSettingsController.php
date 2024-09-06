@@ -4,6 +4,7 @@ namespace DT\Home\Controllers\Admin;
 
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
+use function DT\Home\extract_request_input;
 use function DT\Home\get_plugin_option;
 use function DT\Home\set_plugin_option;
 use function DT\Home\view;
@@ -31,7 +32,7 @@ class GeneralSettingsController {
      * @return ResponseInterface The redirect response
      */
     public function update( Request $request ) {
-        $input = $request->getParsedBody();
+        $input = extract_request_input( $request );
 		$require_user = $input['dt_home_require_login'] ?? 'off';
 
 		set_plugin_option( 'require_login', $require_user === 'on' );

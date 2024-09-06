@@ -6,6 +6,7 @@ use DT\Home\CodeZone\WPSupport\Options\OptionsInterface;
 use DT\Home\CodeZone\WPSupport\Rewrites\RewritesInterface;
 use DT\Home\CodeZone\WPSupport\Router\ResponseFactory;
 use DT\Home\League\Plates\Engine;
+use DT\Home\Psr\Http\Message\RequestInterface;
 use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Psr\Http\Message\ServerRequestInterface;
 use DT\Home\Services\Template;
@@ -464,4 +465,36 @@ function site_uri( $url ) {
     }
 
     return $uri;
+}
+
+/**
+ * Extracts data from a request and returns it as an array.
+ *
+ * Works with JSON requests, GET requests
+ *
+ * @param RequestInterface $request The request object from which to
+ */
+function extract_request_input( RequestInterface $request ): array {
+    $content_type = $request->getHeaderLine( 'Content-Type' );
+
+    if ( strpos( $content_type, 'application/json' ) !== false ) {
+        // Handle JSON content type.
+        $body = (string) $request->getBody();
+
+        return json_decode( $body, true );
+    } elseif ( 'GET' === $request->getMethod() ) {
+        // Handle GET queries.
+        return $request->getQueryParams();
+    }
+
+    // Handle other content types.
+    if ( strpos( $content_type, 'application/x-www-form-urlencoded' ) !== false ) {
+        $body = (string) $request->getBody();
+        $data = [];
+        parse_str( $body, $data );
+
+        return $data;
+    } else {
+        return $request->getParsedBody();
+    }
 }

@@ -1,4 +1,10 @@
 <?php
+/**
+ * @var string $tab
+ * @var string $link
+ * @var string $page_title
+ * @var array $data
+ */
 $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
 
@@ -33,7 +39,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                         <?php foreach ( $data as $training ) : ?>
                             <tr>
                                 <td style="border: 1px solid #ddd;"><?php echo esc_html( $training['name'] ); ?></td>
-                                <td style="border: 1px solid #ddd;"><?php echo stripslashes( $training['embed_video'] ); ?></td>
+                                <td style="border: 1px solid #ddd;"><?php echo stripslashes( $training['embed_video'] ); //phpcs:ignore ?></td>
                                 <td style="border: 1px solid #ddd;"><?php echo esc_html( $training['anchor'] ); ?></td>
                                 <td style="border: 1px solid #ddd;">
                                     <a href="admin.php?page=dt_home&tab=training&action=up/<?php echo esc_attr( $training['id'] ); ?>"><?php esc_html_e( 'Up', 'dt_home' ); ?></a>&nbsp;|&nbsp;

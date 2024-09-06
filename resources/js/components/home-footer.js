@@ -6,6 +6,7 @@ import '@spectrum-web-components/overlay/overlay-trigger.js'
 import { customElement } from 'lit-element'
 import './app-menu.js'
 import './app-menu-item.js'
+import { magic_url } from '../helpers.js'
 
 @customElement('dt-home-footer')
 class HomeFooter extends LitElement {
@@ -233,7 +234,7 @@ class HomeFooter extends LitElement {
     }
 
     postAppDataToServer(appSlug) {
-        const url = this.appUrl + '/un-hide-app'
+        const url = magic_url('unhide')
         const appToHide = this.appData.find((app) => app.slug === appSlug)
 
         if (!appToHide) {
@@ -250,6 +251,7 @@ class HomeFooter extends LitElement {
         })
             .then((response) => {
                 if (response.ok) {
+                    console.log(response)
                     window.location.reload()
                 } else {
                     // Handle error

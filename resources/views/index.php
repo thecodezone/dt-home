@@ -8,6 +8,7 @@
  */
 $this->layout( 'layouts/plugin' );
 ?>
+
 <header id="app-header">
     <overlay-trigger placement="right">
         <div slot="trigger">

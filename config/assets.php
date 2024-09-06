@@ -5,7 +5,6 @@
  */
 
 use function DT\Home\plugin_path;
-use function DT\Home\route_url;
 
 $config->merge( [
     'assets' => [
@@ -29,13 +28,3 @@ $config->merge( [
         'manifest_dir' => plugin_path( '/dist' )
     ]
 ] );
-
-
-
-add_action('wp_loaded', function () use ( $config ) {
-    $config->set( 'assets.javascript_globals', [
-        'nonce' => wp_create_nonce( 'dt_home' ),
-        'admin_nonce' => wp_create_nonce( 'dt_admin_form_nonce' ),
-        'route_url' => route_url(),
-    ]);
-});

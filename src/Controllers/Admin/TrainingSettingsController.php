@@ -4,6 +4,7 @@ namespace DT\Home\Controllers\Admin;
 
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
+use function DT\Home\extract_request_input;
 use function DT\Home\get_plugin_option;
 use function DT\Home\redirect;
 use function DT\Home\set_plugin_option;
@@ -98,7 +99,7 @@ class TrainingSettingsController {
      * @return ResponseInterface The HTTP response object.
      */
     public function update( Request $request, $params ) {
-        $input = $request->getParsedBody();
+        $input       = extract_request_input( $request );
         $name        = sanitize_text_field( $input['name'] ?? '' );
         $embed_video = sanitize_text_field( $input['embed_video'] ?? '' );
         $anchor      = sanitize_text_field( $input['anchor'] ?? '' );
@@ -136,7 +137,7 @@ class TrainingSettingsController {
      */
     public function store( Request $request ) {
 		// Retrieve form data
-        $input = $request->getParsedBody();
+        $input       = extract_request_input( $request );
 		$name        = sanitize_text_field( $input['name'] ?? '' );
 		$embed_video = sanitize_text_field( $input['embed_video'] ?? '' );
 		$anchor      = sanitize_text_field( $input['anchor'] ?? '' );

@@ -2,48 +2,68 @@
 
 namespace DT\Home\Controllers\MagicLink;
 
-use DT\Home\CodeZone\WPSupport\Router\ResponseFactory;
+use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
-use DT\Home\Psr\Http\Message\ServerRequestInterface as Request;
 use DT\Home\Services\Apps;
 use function DT\Home\container;
-use function DT\Home\magic_url;
-use function DT\Home\redirect;
+use function DT\Home\extract_request_input;
+use function DT\Home\namespace_string;
 use function DT\Home\response;
-use function DT\Home\route_url;
 use function DT\Home\template;
 
 /**
+ * Class AppController
  *
+ * Controls the display of application details.
  */
-class HomeController
+class AppController
 {
     /**
-     * Shows the index page with user data and magic link.
+     * Displays the app based on the provided slug.
      *
      * @param Request $request The request object.
-     * @param mixed $params The parameters containing the key.
-     *
-     * @return ResponseInterface The response containing the rendered template.
+     * @param array $params
+     * @return ResponseInterface The response object.
      */
     public function show( Request $request, $params )
     {
-        $key = $params['key'];
+        //Fetch the app
+        $slug = $params['slug'];
         $apps = container()->get( Apps::class );
-        $user = get_current_user_id();
-        $apps_array = $apps->for_user( $user );
-        $data = json_encode( $apps_array );
-        $hidden_data = json_encode( $apps_array );
-        $app_url = magic_url( '', $key );
-        $magic_link = $app_url . '/share';
+        $app = $apps->find( $slug );
 
-        return template('index', compact(
-            'user',
-            'data',
-            'app_url',
-            'magic_link',
-            'hidden_data'
-        ));
+        if ( !$app ) {
+            return response( __( 'Not Found', 'dt_home' ), 404 );
+        }
+
+        //Check if there is a custom action to render the app
+        $action = has_action( 'dt_home_render' );
+        if ( $action ) {
+            add_action(namespace_string( 'filter_asset_queue' ), function ( $queue ) use ( $app ) {
+                //Don't filter assets
+            });
+            do_action( 'dt_home_app_render', $app );
+        }
+
+        //Check if the app has a custom template
+        $html = apply_filters( 'dt_home_app_template', "", $app );
+
+        if ( $html ) {
+            if ( $html instanceof ResponseInterface ) {
+                return $html;
+            }
+            return response( $html );
+        }
+
+        //Check to see if the app has an iframe URL
+        $url = apply_filters( 'dt_home_webview_url', $app['url'] ?? '', $app );
+
+        if ( !$url ) {
+            //No URL found 404
+            return response( __( 'Not Found', 'dt_home' ), 404 );
+        }
+
+        return template( 'web-view', compact( 'app', 'url' ) );
     }
 
     /**
@@ -53,10 +73,10 @@ class HomeController
      *
      * @return ResponseInterface The response containing the rendered template.
      */
-    public function update_hide_app( Request $request )
+    public function hide( Request $request )
     {
         $apps = container()->get( Apps::class );
-        $data = $request->getParsedBody();
+        $data = extract_request_input( $request );
 
         $apps_array = $apps->for_user( get_current_user_id() );
 
@@ -110,13 +130,12 @@ class HomeController
      *
      * @return ResponseInterface
      */
-    public function update_unhide_app( Request $request )
+    public function unhide( Request $request )
     {
         $apps = container()->get( Apps::class );
-        $data = $request->getParsedBody();
+        $data = extract_request_input( $request );
 
         $apps_array = $apps->for_user( get_current_user_id() );
-
 
         // Find the app with the specified ID and update its 'is_hidden' status
         foreach ( $apps_array as $key => $app ) {
@@ -157,7 +176,7 @@ class HomeController
         // Save the updated array back to the option
         update_user_option( get_current_user_id(), 'dt_home_apps', $visible_apps );
 
-       return response( [ 'message' => 'App visibility updated' ] );
+        return response( [ 'message' => 'App visibility updated' ] );
     }
 
     /**
@@ -168,9 +187,9 @@ class HomeController
      * @return ResponseInterface
      *
      */
-    public function update_app_order( Request $request )
+    public function reorder( Request $request )
     {
-        $data = $request->getParsedBody();
+        $data = extract_request_input( $request );
 
         // Iterate through each app in the data
         foreach ( $data as $key => $app ) {

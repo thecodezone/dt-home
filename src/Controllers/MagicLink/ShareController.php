@@ -23,15 +23,4 @@ class ShareController
 
         return redirect( route_url() );
     }
-
-    public function data( Request $request, Response $response, $key )
-    {
-        $user = wp_get_current_user();
-        $data = [
-            'user_login' => $user->user_login,
-        ];
-        $response->setContent( $data );
-
-        return $response;
-    }
 }

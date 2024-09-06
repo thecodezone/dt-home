@@ -38,16 +38,16 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                     <?php foreach ( $data as $app ) : ?>
                         <?php
                             $app_type_label_prefix = '';
-                            switch ( $app['creation_type'] ?? '' ) {
-                                case 'code':
-                                    $app_type_label_prefix = 'Code / ';
-                                    break;
-                                case 'custom':
-                                    $app_type_label_prefix = 'Custom / ';
-                                    break;
-                                default:
-                                    break;
-                            }
+						switch ( $app['creation_type'] ?? '' ) {
+							case 'code':
+								$app_type_label_prefix = 'Code / ';
+								break;
+							case 'custom':
+								$app_type_label_prefix = 'Custom / ';
+								break;
+							default:
+								break;
+						}
                             $app_type_label_prefix .= $app['type'];
                         ?>
                         <tr>

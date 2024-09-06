@@ -282,7 +282,7 @@ class AppGrid extends LitElement {
      * Posts the new order of apps to the server.
      */
     postNewOrderToServer() {
-        const url = this.appUrl + '/update-app-order' // Your API endpoint
+        const url = magic_url('reorder')
         fetch(url, {
             method: 'POST',
             headers: {
@@ -319,7 +319,7 @@ class AppGrid extends LitElement {
      * @param {string} appId - The ID of the app to be hidden.
      */
     postAppDataToServer(slug) {
-        const url = this.appUrl + '/update-hide-apps'
+        const url = magic_url('hide')
         const appToHide = this.appData.find((app) => app.slug === slug)
 
         if (!appToHide) {
@@ -337,6 +337,7 @@ class AppGrid extends LitElement {
         })
             .then((response) => {
                 if (response.ok) {
+                    console.log(response)
                     window.location.reload()
                 } else {
                     // Handle error

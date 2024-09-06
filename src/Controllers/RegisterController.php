@@ -5,6 +5,7 @@ namespace DT\Home\Controllers;
 use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
+use function DT\Home\extract_request_input;
 use function DT\Home\plugin_url;
 use function DT\Home\redirect;
 use function DT\Home\template;
@@ -50,7 +51,7 @@ class RegisterController {
      */
 	public function process( Request $request ) {
 
-		$input = $request->getParsedBody();
+		$input = extract_request_input( $request );
 
 		$username         = sanitize_text_field( $input['username'] ?? '' );
 		$email            = sanitize_email( $input['email'] ?? '' );
