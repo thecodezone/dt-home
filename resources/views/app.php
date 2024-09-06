@@ -13,7 +13,7 @@
 </style>
 
 <div class="container">
-	<?php echo $html; ?>
+	<?php echo $html; // phpcs:ignore ?>
 </div>
 
 <?php

@@ -23,7 +23,7 @@ class AppServiceProvider extends AbstractServiceProvider implements BootableServ
 		}
 	}
 
-    public function provides(string $id): bool
+    public function provides( string $id ): bool
     {
         return false;
     }

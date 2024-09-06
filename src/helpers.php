@@ -459,7 +459,7 @@ function site_uri( $url ) {
     $uri = str_replace( site_url(), '', $url );
 
     // Ensure leading slash
-    if ($uri[0] !== '/') {
+    if ( $uri[0] !== '/' ) {
         $uri = '/' . $uri;
     }
 

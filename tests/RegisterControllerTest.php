@@ -28,9 +28,9 @@ class RegisterControllerTest extends TestCase
     {
         $data = registration_factory();
         $request = ServerRequestFactory::request( 'POST', 'apps/register', $data );
-        $controller = container()->get(RegisterController::class);
-        $response = $controller->process($request);
-        $this->assertEquals(302, $response->getStatusCode());
+        $controller = container()->get( RegisterController::class );
+        $response = $controller->process( $request );
+        $this->assertEquals( 302, $response->getStatusCode() );
     }
 
     /**
@@ -42,9 +42,9 @@ class RegisterControllerTest extends TestCase
             'email' => '',
         ]);
         $request = ServerRequestFactory::request( 'POST', 'apps/register', $data );
-        $controller = container()->get(RegisterController::class);
-        $response = $controller->process($request);
-        $this->assertEquals(200, $response->getStatusCode());
+        $controller = container()->get( RegisterController::class );
+        $response = $controller->process( $request );
+        $this->assertEquals( 200, $response->getStatusCode() );
     }
 
     /**
@@ -57,8 +57,8 @@ class RegisterControllerTest extends TestCase
             'confirm_password' => 'ding',
         ]);
         $request = ServerRequestFactory::request( 'POST', 'apps/register', $data );
-        $controller = container()->get(RegisterController::class);
-        $response = $controller->process($request);
-        $this->assertEquals(200, $response->getStatusCode());
+        $controller = container()->get( RegisterController::class );
+        $response = $controller->process( $request );
+        $this->assertEquals( 200, $response->getStatusCode() );
     }
 }

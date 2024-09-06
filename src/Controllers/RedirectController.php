@@ -19,7 +19,7 @@ class RedirectController
      * the login page if they are not logged in.
      *
      * @param Request $request The HTTP request object.
-     * @param ResponseInterface $response The HTTP response object.
+     * @return ResponseInterface $response
      */
     public function show( Request $request )
     {
@@ -48,7 +48,7 @@ class RedirectController
      *
      * @return bool True if the user is activated, false otherwise.
      */
-    public function is_activated()
+    public function is_activated(): bool
     {
         global $wpdb;
         $preference_key = 'dt-home_launcher_magic_key';

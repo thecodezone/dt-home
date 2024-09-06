@@ -48,7 +48,7 @@ class AppSettingsControllerTest extends TestCase
     {
         $app = app_factory();
         set_plugin_option( 'require_login', 'off' );
-        $request = ServerRequestFactory::request('POST', '/admin.php?page=dt_home&tab=app&action=create', $app );
+        $request = ServerRequestFactory::request( 'POST', '/admin.php?page=dt_home&tab=app&action=create', $app );
         $controller = container()->get( AppSettingsController::class );
         $response = $controller->store( $request );
         $this->assertEquals( 302, $response->getStatusCode() );

@@ -30,7 +30,7 @@ class GeneralSettingsController {
      * @param Request $request The Request object containing the parsed body data
      * @return ResponseInterface The redirect response
      */
-    public function update(Request $request ) {
+    public function update( Request $request ) {
         $input = $request->getParsedBody();
 		$require_user = $input['dt_home_require_login'] ?? 'off';
 

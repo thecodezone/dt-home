@@ -59,10 +59,15 @@ class TrainingSettingsController {
 	}
 
     /**
-     * Edit function for modifying existing training data.
+     * Edit method for the TrainingController.
      *
-     * @param int $id The ID of the data to be edited.
-     * @return ResponseInterface The response or null if ID is not provided or data does not exist.
+     * Retrieves the existing training data based on the provided ID and displays the edit page.
+     * If the ID is null or no existing data is found, it redirects back to the training tab in the admin panel.
+     *
+     * @param Request $request The request object.
+     * @param array $params The parameters (including the ID) passed to the route.
+     *
+     * @return ResponseInterface The response object.
      */
     public function edit( Request $request, $params ) {
         $id = $params['id'] ?? null;
@@ -227,7 +232,7 @@ class TrainingSettingsController {
      * @param array $params An array of parameters passed to the method.
      * @return ResponseInterface A redirect response to the training page with an "updated" parameter set to "true".
      */
-    public function up(Request $request, $params ) {
+    public function up( Request $request, $params ) {
         $id = $params['id'] ?? null;
 
         if ( !$id ) {
@@ -280,7 +285,7 @@ class TrainingSettingsController {
      *
      * @return ResponseInterface The redirect response to the admin page.
      */
-    public function down(Request $request, $params ) {
+    public function down( Request $request, $params ) {
         $id = $params['id'] ?? null;
 
 		// Retrieve the existing array of apps

@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * Factory functions for tests
+ * @phpcs:disable WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
+ */
 namespace Tests;
 
 use Faker\Factory as Faker;
@@ -13,7 +16,7 @@ function app_factory( $params = [] ) {
         'creation_type' => $faker->randomElement( [ 'Custom', 'Code' ] ),
         'icon' => $faker->imageUrl(),
         'url' => $faker->url,
-        'sort' => $faker->numberBetween(0, 50),
+        'sort' => $faker->numberBetween( 0, 50 ),
         'slug' => $faker->slug,
         'is_hidden' => $faker->boolean,
     ], $params );
@@ -26,7 +29,7 @@ function training_factory( $params = [] ) {
         'name' => $faker->name,
         'embed_video' => $faker->url,
         'anchor' => $faker->slug,
-        'sort' => $faker->numberBetween(0, 50),
+        'sort' => $faker->numberBetween( 0, 50 ),
     ], $params );
 }
 
@@ -39,11 +42,10 @@ function wp_user_factory( $params = [] ) {
         'user_nicename' => $faker->name,
         'user_email' => $faker->email,
         'user_url' => $faker->url,
-        'user_registered' => $faker->dateTimeThisYear->format('Y-m-d H:i:s'),
+        'user_registered' => $faker->dateTimeThisYear->format( 'Y-m-d H:i:s' ),
         'user_status' => 0,
         'display_name' => $faker->name,
-        'user_activation_key' => '',
-        'user_status' => 0,
+        'user_activation_key' => ''
     ], $params );
 }
 
