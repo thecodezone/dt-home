@@ -2,11 +2,9 @@
 
 namespace DT\Home;
 
-use DT\Home\CodeZone\Router\Middleware\Stack;
 use DT\Home\CodeZone\WPSupport\Config\ConfigInterface;
 use DT\Home\CodeZone\WPSupport\Rewrites\RewritesInterface;
 use DT\Home\League\Container\Container;
-use DT\Home\Providers\PluginServiceProvider;
 
 /**
  * This is the entry-object for the plugin.

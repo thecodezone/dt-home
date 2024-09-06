@@ -2,8 +2,6 @@
 
 namespace DT\Home\Services;
 
-use DT\Home\Illuminate\Support\Arr;
-use function DT\Home\container;
 use function DT\Home\get_magic_url;
 
 class Apps {
@@ -75,13 +73,20 @@ class Apps {
 			} );
 
 			if ( ! empty( $matching_user_apps ) ) {
+                $user_app = $matching_user_apps[0] ?? [];
+
 				$apps[ $idx ] = array_merge(
 					$app,
-					Arr::only( Arr::first( $matching_user_apps ), [ 'sort' , 'is_hidden' ] )
+					[
+                        'is_hidden' => $user_app['is_hidden'] ?? false,
+                        'sort' => $user_app['sort'] ?? 0,
+                    ]
 				);
 			}
 		}
-        $apps = collect( $apps )->where( 'is_deleted', false )->toArray();
+        $apps = array_filter( $apps, function ( $app ) {
+            return ($app['is_deleted'] ?? false) === false;
+        });
 		// Sort the array based on the 'sort' key
 		usort($apps, function ( $a, $b ) {
 			return ( (int) $a['sort'] ?? 0 ) - ( (int) $b['sort'] ?? 0 );

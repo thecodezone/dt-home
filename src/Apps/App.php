@@ -2,10 +2,6 @@
 
 namespace DT\Home\Apps;
 
-use DT\Home\Illuminate\Support\Arr;
-use DT\Home\Illuminate\Support\Collection;
-use function DT\Home\collect;
-
 /**
  * Base class for custom apps.
  *
@@ -50,7 +46,6 @@ abstract class App {
 	 * @return array The modified home apps array.
 	 */
 	public function dt_home_apps( $apps ) {
-		$apps = collect( $apps );
 		$slug = $this->config()['slug'];
 		if ( ! $slug ) {
 			return $apps;
@@ -61,23 +56,21 @@ abstract class App {
 	/**
 	 * Registers an app in the collection.
 	 *
-	 * @param Collection $apps The collection of apps.
+	 * @param array $apps The collection of apps.
 	 *
 	 * @return array The updated collection of apps as an array.
 	 */
-	protected function register( Collection $apps ) {
+	protected function register( array $apps ) {
 		$slug = $this->config()['slug'];
-		$app = $apps->where( 'slug', '=', $slug )->first() ?? [];
-		$apps = $apps->reject( function ( $item ) use ( $slug ) {
-			return $item['slug'] === $slug;
-		} );
-		$app = array_merge( $this->config(), $app, Arr::only($this->config(), [
-			'type',
-			'slug',
-			'url'
-		]) );
-		$apps->push( $app );
-		return $apps->values()->toArray();
+        $app = current(array_filter($apps, function ( $app ) use ( $slug ) {
+            return $app['slug'] === $slug;
+        })) ?? [];
+        $apps = array_filter($apps, function ( $item ) use ( $slug ) {
+            return $item['slug'] !== $slug;
+        });
+		$app = array_merge( $this->config(), $app, array_intersect_key( $this->config(), array_fill_keys( [ 'type', 'slug', 'url' ], '' ) ) );
+		$apps[] = $app;
+		return $apps;
 	}
 
 	/**

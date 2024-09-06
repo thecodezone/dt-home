@@ -7,7 +7,6 @@
 use DT\Home\Providers\AdminServiceProvider;
 use DT\Home\Providers\AppServiceProvider;
 use DT\Home\Providers\MagicLinkServiceProvider;
-use DT\Home\Providers\MiddlewareServiceProvider;
 use DT\Home\Providers\OptionsServiceProvider;
 use DT\Home\Providers\RouteServiceProvider;
 use DT\Home\Providers\ViewServiceProvider;
@@ -19,7 +18,6 @@ $config->merge( [
             AdminServiceProvider::class,
             MagicLinkServiceProvider::class,
             AppServiceProvider::class,
-            MiddlewareServiceProvider::class,
             OptionsServiceProvider::class,
             RouteServiceProvider::class,
             AssetServiceProvider::class,
