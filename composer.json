@@ -32,7 +32,10 @@
     ]
   },
   "require": {
-    "ext-json": "*"
+    "php": "7.4.27",
+    "ext-json": "*",
+    "ext-zip": "*",
+    "composer-plugin-api": "^1.0 || ^2.0"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
@@ -44,6 +47,9 @@
     "phpunit/phpunit": "^9"
   },
   "extra": {
+    "composer-runtime-api": {
+      "platform_check": false
+    },
     "wpify-scoper": {
       "prefix": "DT\\Home",
       "folder": "vendor-scoped",
@@ -57,6 +63,9 @@
   },
   "config": {
     "autoloader-suffix": "dt_home",
+    "platform": {
+      "php": "7.4.27"
+    },
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "bamarni/composer-bin-plugin": true,

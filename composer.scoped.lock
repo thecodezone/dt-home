@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "506a82c81eb7d7074982c2a23bc17862",
+    "content-hash": "bd3d7ba50017ade9feddce83c8872fb6",
     "packages": [
         {
             "name": "codezone/wp-support",
@@ -941,7 +941,12 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "7.4.27"
+    },
     "platform-dev": [],
+    "platform-overrides": {
+        "php": "7.4.27"
+    },
     "plugin-api-version": "2.2.0"
 }
