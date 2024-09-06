@@ -29,8 +29,9 @@ class RedirectController
             return redirect( route_url( "login" ) );
         }
 
-        $preference_key = 'dt-home_launcher_magic_key';
-        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key( 'home', 'launcher' );
+        $preference_key = 'dt-apps_launcher_magic_key';
+        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key( 'apps', 'launcher' );
+
 
         if ( !$this->is_activated() ) {
             delete_user_meta( get_current_user_id(), $meta_key );
@@ -51,8 +52,8 @@ class RedirectController
     public function is_activated(): bool
     {
         global $wpdb;
-        $preference_key = 'dt-home_launcher_magic_key';
-        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key( 'home', 'launcher' );
+        $preference_key = 'dt-apps_launcher_magic_key';
+        $meta_key = $wpdb->prefix . DT_Magic_URL::get_public_key_meta_key( 'apps', 'launcher' );
 
         $public = get_user_meta( get_current_user_id(), $meta_key, true );
         $secret = get_user_option( $preference_key );

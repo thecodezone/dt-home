@@ -2,14 +2,11 @@
 
 namespace DT\Home\Middleware;
 
-use DT\Home\CodeZone\Router\Middleware\Middleware;
-use DT\Home\Illuminate\Http\RedirectResponse;
-use DT\Home\Illuminate\Http\Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Psr\Http\Message\ServerRequestInterface;
 use DT\Home\Psr\Http\Server\MiddlewareInterface;
 use DT\Home\Psr\Http\Server\RequestHandlerInterface;
-use DT\Home\Symfony\Component\HttpFoundation\Response;
+use function DT\Home\config;
 
 class CheckShareCookie implements MiddlewareInterface {
 
@@ -30,8 +27,8 @@ class CheckShareCookie implements MiddlewareInterface {
             return $handler->handle( $request );
         }
 
-        if ( isset( $_COOKIE['dt_home_share'] ) ) {
-            $leader_id = sanitize_text_field( wp_unslash( $_COOKIE['dt_home_share'] ) );
+        if ( isset( $_COOKIE[ config( 'plugin.share_cookie' ) ] ) ) {
+            $leader_id = sanitize_text_field( wp_unslash( $_COOKIE[ config( 'plugin.share_cookie' ) ] ) );
         } else {
             $leader_id = null;
         }
@@ -98,8 +95,8 @@ class CheckShareCookie implements MiddlewareInterface {
 	 * @return void
 	 */
 	public function remove_cookie() {
-		if ( isset( $_COOKIE['dt_home_share'] ) ) {
-			unset( $_COOKIE['dt_home_share'] );
+		if ( isset( $_COOKIE[ config( 'plugin.share_cookie' ) ] ) ) {
+			unset( $_COOKIE[ config( 'plugin.share_cookie' ) ] );
 			setcookie( 'dt_home_share', '', time() - 3600, '/' );
 		};
 	}

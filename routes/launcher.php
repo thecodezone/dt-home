@@ -23,13 +23,16 @@ $r->group( '/apps/launcher/{key}', function ( RouteCollectionInterface $r ) {
 	$r->get( '/', [ LauncherController::class, 'show' ] );
 	$r->get( '/training', [ TrainingController::class, 'show' ] );
 	$r->get( '/logout', [ LoginController::class, 'logout' ] );
-})->middleware( new LoggedIn(), new CheckShareCookie() );
+})->middleware( new LoggedIn() )
+    ->middleware( new CheckShareCookie() );
 
 $r->group( '/apps/launcher/{key}', function ( RouteCollectionInterface $r ) {
 	$r->post( '/hide', [ AppController::class, 'hide' ] );
 	$r->post( '/unhide', [ AppController::class, 'unhide' ] );
 	$r->post( '/reorder', [ AppController::class, 'reorder' ] );
-})->middleware( new LoggedIn(), new CheckShareCookie(), new Nonce( config( 'plugin.nonce_name' ) ) );
+})->middleware( new LoggedIn() )
+    ->middleware( new CheckShareCookie() )
+    ->middleware( new Nonce( config( 'plugin.nonce_name' ) ) );
 
 $r->group( '/apps/launcher/{key}', function ( RouteCollectionInterface $r ) {
     $r->get( '/share', [ ShareController::class, 'show' ] );

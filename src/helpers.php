@@ -401,7 +401,7 @@ function magic_url( $action = "", $key = "" ): string
         return $url;
     }
 
-    return DT_Magic_URL::get_link_url( 'dt-home', 'launcher', $key, $action );
+    return DT_Magic_URL::get_link_url( 'apps', 'launcher', $key, $action );
 }
 
 /**

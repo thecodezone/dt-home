@@ -51,4 +51,5 @@ $r->group( '/wp-admin', function ( RouteCollectionInterface $r ) {
 	$r->post( '/admin.php?page=dt_home&tab=app&action=edit/{slug}', [ AppSettingsController::class, 'update' ] );
 	$r->post( '/admin.php?page=dt_home&tab=training&action=create', [ TrainingSettingsController::class, 'store' ] );
 	$r->post( '/admin.php?page=dt_home&tab=training&action=edit/{id}', [ TrainingSettingsController::class, 'update' ] );
-} )->middleware( new Nonce( 'dt_admin_form_nonce' ), new HasCap( 'manage_dt' ) );
+} )->middleware( new Nonce( 'dt_admin_form_nonce' ) )
+    ->middleware( new HasCap( 'manage_dt' ) );
