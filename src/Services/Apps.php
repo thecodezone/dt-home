@@ -85,7 +85,7 @@ class Apps {
 			}
 		}
         $apps = array_filter( $apps, function ( $app ) {
-            return ($app['is_deleted'] ?? false) === false;
+            return ( $app['is_deleted'] ?? false ) === false;
         });
 		// Sort the array based on the 'sort' key
 		usort($apps, function ( $a, $b ) {
