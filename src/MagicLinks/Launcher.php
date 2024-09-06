@@ -3,8 +3,6 @@
 namespace DT\Home\MagicLinks;
 
 use DT\Home\League\Route\RouteCollectionInterface;
-use function DT\Home\config;
-use function DT\Home\magic_url;
 use function DT\Home\routes_path;
 
 /**
@@ -59,7 +57,7 @@ class Launcher extends MagicLink {
      * @param RouteCollectionInterface $r The RouteCollection object
      * @return void
      */
-    public function routes(RouteCollectionInterface $r ) {
+    public function routes( RouteCollectionInterface $r ) {
         require_once routes_path( 'launcher.php' );
     }
 

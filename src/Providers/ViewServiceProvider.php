@@ -4,7 +4,6 @@ namespace DT\Home\Providers;
 
 use DT\Home\League\Container\ServiceProvider\AbstractServiceProvider;
 use DT\Home\League\Plates\Engine;
-use DT\Home\Services\Plates\Escape;
 use function DT\Home\views_path;
 
 /**

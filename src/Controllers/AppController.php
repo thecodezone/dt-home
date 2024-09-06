@@ -6,6 +6,7 @@ use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Services\Apps;
 use function DT\Home\container;
+use function DT\Home\namespace_string;
 use function DT\Home\template;
 use function DT\Home\response;
 
@@ -37,6 +38,9 @@ class AppController
         //Check if there is a custom action to render the app
         $action = has_action( 'dt_home_render' );
         if ( $action ) {
+            add_action(namespace_string( 'filter_asset_queue' ), function ( $queue ) use ( $app ) {
+                //Don't filter assets
+            });
             do_action( 'dt_home_app_render', $app );
         }
 
@@ -44,7 +48,7 @@ class AppController
         $html = apply_filters( 'dt_home_app_template', "", $app );
 
         if ( $html ) {
-            if ($html instanceof ResponseInterface) {
+            if ( $html instanceof ResponseInterface ) {
                 return $html;
             }
             return response( $html );

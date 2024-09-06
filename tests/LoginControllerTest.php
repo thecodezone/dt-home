@@ -38,9 +38,9 @@ class LoginControllerTest extends TestCase
     {
         $credentials = wp_credentials_factory();
         wp_create_user( $credentials['username'], $credentials['password'], $credentials['email'] );
-        $request = ServerRequestFactory::request('POST', 'apps/login', $credentials);
-        $controller = container()->get(LoginController::class);
-        $response = $controller->process($request);
-        $this->assertEquals(302, $response->getStatusCode());
+        $request = ServerRequestFactory::request( 'POST', 'apps/login', $credentials );
+        $controller = container()->get( LoginController::class );
+        $response = $controller->process( $request );
+        $this->assertEquals( 302, $response->getStatusCode() );
     }
 }

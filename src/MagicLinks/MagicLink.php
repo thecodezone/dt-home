@@ -108,21 +108,15 @@ abstract class MagicLink extends DT_Magic_Url_Base {
         // Extend this function to add custom endpoints
     }
 
-    public function url() {
-        $url = \DT_Magic_URL::get_link_url( $this->root, $this->type, $this->parts['public_key'] );
-        return str_replace( site_url(), '', $url );
-    }
-
     /**
      * Renders the response for the current request using the router and renderer actions
      *
      * @return void
      */
     public function render() {
-        $url = \DT_Magic_URL::get_link_url( $this->root, $this->type, $this->parts['public_key'] );
         $route = container()->get( RouteInterface::class );
         $route
-            ->routes( function ( RouteCollectionInterface $r )  {
+            ->routes( function ( RouteCollectionInterface $r ) {
                 $this->routes( $r );
             } );
 

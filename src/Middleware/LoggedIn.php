@@ -12,7 +12,14 @@ use function DT\Home\route_url;
 
 class LoggedIn implements MiddlewareInterface
 {
-	public function process( ServerRequestInterface $request, RequestHandlerInterface $handler ): ResponseInterface
+    /**
+     * If the user is not logged in, redirect to the login page.
+     *
+     * @param ServerRequestInterface $request The HTTP request.
+     * @param RequestHandlerInterface $handler The request handler.
+     * @return ResponseInterface The HTTP response.
+     */
+    public function process( ServerRequestInterface $request, RequestHandlerInterface $handler ): ResponseInterface
     {
 
         $require_login = get_option( 'dt_home_require_login', true );
