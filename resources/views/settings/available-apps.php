@@ -52,7 +52,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                             <td style="border: 1px solid #ddd;"><?php echo esc_attr( $app['slug'] ); ?></td>
 
                             <td style="border: 1px solid #ddd;">
-                                <?php if ( $app['type'] == 'custom' ) : ?>
+                                <?php if ( isset( $app['creation_type'] ) && $app['creation_type'] == 'code' ) : ?>
                                     &nbsp;
                                     <a href="#" onclick="restore_app('<?php echo esc_attr( $app['slug'] ); ?>')" class="delete-apps">
                                         <?php esc_html_e( 'Restore', 'dt_home' ); ?>

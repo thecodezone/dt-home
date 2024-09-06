@@ -18,12 +18,14 @@ add_filter( 'dt_home_apps', function( $apps ) {
 
     $custom_app_config = [
         "name" => "Home Screen Docs [Filter]",
-        "type" => "custom",
+        "type" => "Link",
+        'creation_type' => 'code',
         "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg",
-        'url' => '/docs',
+        'url' => 'https://disciple.tools',
         "sort" => 0,
         "slug" => "home-screen-docs-filter",
         "is_hidden" => false,
+        'open_in_new_tab' => true
     ];
 
     /**
@@ -52,17 +54,23 @@ add_filter( 'dt_home_apps', function( $apps ) {
   - __name__
     - A unique name to be used as custom app label.
   - __type__
-    - Always set to `custom` type.
+    - Set to any of the following types:
+      - Link: Direct URL based apps.
+      - Web View: Magic Link based apps.
+  - __creation_type__
+    - Set to `code`, to ensure app is processed accordingly as a code-based app.
   - __icon__
     - Relative uri or mdi font-icon value.
   - __url__
-    - URL to be assigned to custom app.
+    - URL to be assigned to app.
   - __sort__
-    - Sort order to be assigned to custom app.
+    - Sort order to be assigned to app.
   - __slug__
-    - A unique slug id to be assigned to custom app.
+    - A unique slug id to be assigned to app.
   - __is_hidden__
-    - Determine if app is hidden or displayed.
+    - Boolean value to determine if app should be hidden or displayed.
+  - __open_in_new_tab__
+    - Boolean value to determine if app should be displayed in situ or within a new tab.
 
 Assuming the filter successfully registers the new custom app; with a unique slug; you should then see the app listed within the Admin Apps Tab.
 
@@ -89,12 +97,14 @@ class HomeScreenDocs extends App
 
         return [
             "name" => "Home Screen Docs [Extend]",
-            "type" => "custom",
+            "type" => "Web View",
+            'creation_type' => 'code',
             "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg",
             'url' => '/docs',
             "sort" => 0,
             "slug" => "home-screen-docs-extend",
             "is_hidden" => false,
+            'open_in_new_tab' => true
         ];
     }
 

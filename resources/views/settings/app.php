@@ -36,9 +36,23 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                     </thead>
                     <tbody>
                     <?php foreach ( $data as $app ) : ?>
+                        <?php
+                            $app_type_label_prefix = '';
+                            switch ( $app['creation_type'] ?? '' ) {
+                                case 'code':
+                                    $app_type_label_prefix = 'Code / ';
+                                    break;
+                                case 'custom':
+                                    $app_type_label_prefix = 'Custom / ';
+                                    break;
+                                default:
+                                    break;
+                            }
+                            $app_type_label_prefix .= $app['type'];
+                        ?>
                         <tr>
                             <td style="border: 1px solid #ddd;"><?php echo esc_html( $app['name'] ); ?></td>
-                            <td style="border: 1px solid #ddd;"><?php echo esc_html( $app['type'] ); ?></td>
+                            <td style="border: 1px solid #ddd;"><?php echo esc_html( $app_type_label_prefix ); ?></td>
                             <td style="border: 1px solid #ddd;">
                                 <?php if ( !empty( $app['icon'] ) ) : ?>
                                     <?php if ( filter_var( $app['icon'], FILTER_VALIDATE_URL ) || strpos( $app['icon'], '/wp-content/' ) === 0 ) : ?>
@@ -58,7 +72,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                                 <?php } ?>
                                 <a href="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr( $app['slug'] ); ?>"><?php esc_html_e( 'Edit', 'dt_home' ); ?></a>&nbsp;|&nbsp;
                                 <a href="admin.php?page=dt_home&tab=app&action=down/<?php echo esc_attr( $app['slug'] ); ?>"><?php esc_html_e( 'Down', 'dt_home' ); ?></a>&nbsp;
-                                <?php if ( $app['type'] != 'custom' ) { ?>
+                                <?php if ( !isset( $app['creation_type'] ) || ( $app['creation_type'] != 'code' ) ) { ?>
                                     |&nbsp;
                                     <a href="#" onclick="deleteApp('<?php echo esc_attr( $app['slug'] ); ?>')" class="delete-apps">
                                         <?php esc_html_e( 'Delete', 'dt_home' ); ?>

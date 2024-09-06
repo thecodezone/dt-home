@@ -56,6 +56,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                     <?php esc_html_e('Link', 'dt_home') ?>
                 </option>
             </select>
+            <input name="creation_type" id="creation_type" type="hidden" value="<?php echo esc_attr( $existing_data['creation_type'] ?? '' ) ?>" />
         </td>
     </tr>
     <tr>

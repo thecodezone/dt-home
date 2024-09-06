@@ -196,15 +196,6 @@ class AppGrid extends LitElement {
                         selectedApp
                     )
                     break
-                case 'custom':
-                    if (selectedApp.url) {
-                        this.visitApp(selectedApp.url, selectedApp)
-                    } else if (selectedApp.slug) {
-                        this.visitApp(
-                            magic_url(`/app/${selectedApp.slug}`),
-                            selectedApp
-                        )
-                    }
             }
         }
     }
