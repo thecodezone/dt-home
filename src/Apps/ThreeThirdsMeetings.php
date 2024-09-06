@@ -8,12 +8,14 @@ class ThreeThirdsMeetings extends App {
 	public function config(): array {
 		return [
 			"name" => "3/3 Meetings",
-		    "type" => "custom",
-		    "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/calendar-clock.svg",
+		    "type" => "Web View",
+            'creation_type' => 'code',
+            "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/calendar-clock.svg",
 			'url' => '/3/3',
 		    "sort" => 0,
 		    "slug" => "three-thirds-meetings",
 		    "is_hidden" => false,
+            'open_in_new_tab' => false
 		];
 	}
 

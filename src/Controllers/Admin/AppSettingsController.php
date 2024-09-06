@@ -105,7 +105,8 @@ class AppSettingsController
         $apps_array = array_map(function ( $app ) {
             return array_merge([
                 'name' => '',
-                'type' => 'webview',
+                'type' => 'Web View',
+                'creation_type' => '',
                 'icon' => '',
                 'url' => '',
                 'sort' => 0,
@@ -149,6 +150,7 @@ class AppSettingsController
         // Retrieve form data
         $name = $request->input( 'name' );
         $type = $request->input( 'type' );
+        $creation_type = $request->input( 'creation_type' );
         $icon = $request->input( 'icon' );
         $url = $request->input( 'url' );
         $slug = $request->input( 'slug' );
@@ -161,6 +163,7 @@ class AppSettingsController
         $app_data = [
             'name' => $name,
             'type' => $type,
+            'creation_type' => $creation_type,
             'icon' => $icon,
             'url' => $url,
             'sort' => $sort,
@@ -375,6 +378,7 @@ class AppSettingsController
     {
         $name = $request->input( 'name' );
         $type = $request->input( 'type' );
+        $creation_type = $request->input( 'creation_type' );
         $icon_url = $request->input( 'icon' );
         $url = $request->input( 'url' );
         $sort = $request->input( 'sort' );
@@ -391,6 +395,7 @@ class AppSettingsController
                 $apps_array[$key] = [
                     'name' => $name,
                     'type' => $type,
+                    'creation_type' => $creation_type,
                     'icon' => $icon_url,
                     'url' => $url,
                     'slug' => $new_slug,

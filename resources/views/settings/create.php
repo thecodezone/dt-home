@@ -49,6 +49,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                 <option value="Web View"><?php esc_html_e('Web View', 'dt_home') ?></option>
                 <option value="Link"><?php esc_html_e('Link', 'dt_home') ?></option>
             </select>
+            <input name="creation_type" id="creation_type" type="hidden" value="custom" />
         </td>
     </tr>
     <tr>
