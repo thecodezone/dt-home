@@ -12,6 +12,8 @@ $config->merge( [
         'rewrites' => [
             '^apps/?$' => 'index.php?dt-home=/',
             '^apps/(.+)/?' => 'index.php?dt-home=$matches[1]',
+            '^dt-home/?$' => 'index.php?dt-home-redirect=/',
+            '^dt-home/(.+)/?' => 'index.php?dt-home-redirect=$matches[1]',
         ],
         'files' => [
             'web' => [

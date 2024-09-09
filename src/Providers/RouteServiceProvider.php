@@ -8,6 +8,7 @@ use DT\Home\League\Container\ServiceProvider\BootableServiceProviderInterface;
 use DT\Home\League\Container\Exception\NotFoundException;
 use function DT\Home\config;
 use function DT\Home\namespace_string;
+use function DT\Home\route_url;
 use function DT\Home\routes_path;
 
 /**
@@ -27,6 +28,41 @@ class RouteServiceProvider extends RouteProvider implements BootableServiceProvi
      * @var array $config An associative array containing the configuration settings
      */
     protected $config;
+
+    public function boot(): void
+    {
+        parent::boot();
+
+        //Redirecting any /dt-home route to /apps
+        add_action( 'query_vars', [ $this, 'add_query_vars' ], 1, 1 );
+        add_action( 'template_redirect', [ $this, 'dt_home_path_redirect' ], 1, 0 );
+    }
+
+    /**
+     * Adds redirect query variables to the list of query variables.
+     *
+     * @param array $vars The query variables.
+     */
+    public function add_query_vars( $vars ) {
+        $vars[] = 'dt-home-redirect';
+        return $vars;
+    }
+
+
+    /**
+     * Redirects user to the route as if they had visited apps/ instead of dt-home/
+     *
+     */
+    public function dt_home_path_redirect() {
+        $path = get_query_var( 'dt-home-redirect' );
+        if ( $path ) {
+            wp_redirect(route_url(
+                $path
+            ));
+            exit;
+        }
+    }
+
 
     /**
      * Retrieves the files configuration from the config object.
