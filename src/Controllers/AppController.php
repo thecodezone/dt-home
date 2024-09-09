@@ -28,43 +28,43 @@ class AppController
      *
      * @return Response The response object containing the rendered application details.
      */
-    public function show(Request $request, Response $response, Apps $apps, $key, $slug)
+    public function show( Request $request, Response $response, Apps $apps, $key, $slug )
     {
         // Fetch the app
-        $app = collect($apps->all())->where('slug', $slug)->first();
+        $app = collect( $apps->all() )->where( 'slug', $slug )->first();
 
-        if (!$app) {
-            return $response->setStatusCode(404)->setContent('Not Found');
+        if ( !$app ) {
+            return $response->setStatusCode( 404 )->setContent( 'Not Found' );
         }
 
         // Check if there is a custom action to render the app
-        $action = has_action('dt_home_app_render');
-        if ($action) {
-            add_action(namespace_string('filter_asset_queue'), function ($queue) use ($app) {
+        $action = has_action( 'dt_home_app_render' );
+        if ( $action ) {
+            add_action(namespace_string( 'filter_asset_queue' ), function ( $queue ) use ( $app ) {
                 // Don't filter assets
             });
-            do_action('dt_home_app_render', $app);
+            do_action( 'dt_home_app_render', $app );
             exit;
         }
 
         // Check if the app has a custom template
-        $html = apply_filters('dt_home_app_template', "", $app);
+        $html = apply_filters( 'dt_home_app_template', "", $app );
 
-        if ($html) {
-            return $response->setContent($html);
+        if ( $html ) {
+            return $response->setContent( $html );
         }
 
         // Check to see if the app has an iframe URL
-        $url = apply_filters('dt_home_webview_url', $app['url'] ?? '', $app);
-                $url = $this->addOrUpdateQueryParam($url, 'dt_home', 'true');
+        $url = apply_filters( 'dt_home_webview_url', $app['url'] ?? '', $app );
+                $url = $this->addOrUpdateQueryParam( $url, 'dt_home', 'true' );
 
-        if (!$url) {
+        if ( !$url ) {
             // No URL found 404
-            return $response->setStatusCode(404)->setContent('Not Found');
+            return $response->setStatusCode( 404 )->setContent( 'Not Found' );
         }
 
         return $response->setContent(
-            template('web-view', compact('app', 'url'))
+            template( 'web-view', compact( 'app', 'url' ) )
         );
     }
 
@@ -77,22 +77,22 @@ class AppController
      *
      * @return string The updated URL.
      */
-    private function addOrUpdateQueryParam($url, $key, $value)
+    private function addOrUpdateQueryParam( $url, $key, $value )
     {
         // Split the URL into the base and the query string
-        $url_parts = explode('?', $url, 2);
+        $url_parts = explode( '?', $url, 2 );
         $base_url = $url_parts[0];
         $query_string = $url_parts[1] ?? '';
 
         // Parse the query string into an associative array
-        parse_str($query_string, $query_params);
+        parse_str( $query_string, $query_params );
 
         // Update the query parameters
         $query_params[$key] = $value;
 
         // Rebuild the query string
-        $new_query_string = http_build_query($query_params);
-        
+        $new_query_string = http_build_query( $query_params );
+
         return $base_url . '?' . $new_query_string;
     }
 }
