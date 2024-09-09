@@ -192,7 +192,7 @@ class AppGrid extends LitElement {
                     break
                 case 'Web View':
                     this.visitApp(
-                        magic_url(`/app/${selectedApp.slug}`),
+                        this.addOrUpdateQueryParam(magic_url(`/app/${selectedApp.slug}`), 'dt_home', 'true'),
                         selectedApp
                     )
                     break
@@ -201,7 +201,7 @@ class AppGrid extends LitElement {
                         this.visitApp(selectedApp.url, selectedApp)
                     } else if (selectedApp.slug) {
                         this.visitApp(
-                            magic_url(`/app/${selectedApp.slug}`),
+                            this.addOrUpdateQueryParam(magic_url(`/app/${selectedApp.slug}`), 'dt_home', 'true'),
                             selectedApp
                         )
                     }
@@ -217,6 +217,18 @@ class AppGrid extends LitElement {
         }
     }
 
+  /**
+   * Adds or updates a query parameter in a URL.
+   * @param {string} url - The original URL.
+   * @param {string} key - The query parameter key.
+   * @param {string} value - The query parameter value.
+   * @return {string} - The updated URL.
+   */
+  addOrUpdateQueryParam(url, key, value) {
+    let urlObj = new URL(url)
+    urlObj.searchParams.set(key, value)
+    return urlObj.toString()
+  }
     /**
      * Handles a double click event on an app.
      * @param event
@@ -423,7 +435,6 @@ class AppGrid extends LitElement {
         clearTimeout(this.longPressTimer)
         this.longPressTimer = null
     }
-
     /**
      * Renders the AppGrid element.
      * @returns {TemplateResult} HTML template result.

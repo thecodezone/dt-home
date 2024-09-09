@@ -32,6 +32,7 @@ class Plugin {
 	 * @var string
 	 */
 	const ROUTE_QUERY_PARAM = 'dt-home';
+    const RETURN_TO_HOME_PARAM = 'dt_home';
 
 	/**
 	 * The instance of the plugin
@@ -130,8 +131,8 @@ class Plugin {
 	 * @return array
 	 */
 	public function query_vars( array $vars ): array {
-		$vars[] = self::ROUTE_QUERY_PARAM;
-
+    	$vars[] = self::ROUTE_QUERY_PARAM;
+        $vars[] = self::RETURN_TO_HOME_PARAM;
 		return $vars;
 	}
 

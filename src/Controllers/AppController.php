@@ -8,6 +8,7 @@ use DT\Home\Services\Apps;
 use function DT\Home\collect;
 use function DT\Home\namespace_string;
 use function DT\Home\template;
+use function dt_home_back_button;
 
 /**
  * Class AppController
@@ -28,42 +29,74 @@ class AppController
      *
      * @return Response The response object containing the rendered application details.
      */
-    public function show( Request $request, Response $response, Apps $apps, $key, $slug )
+    public function show(Request $request, Response $response, Apps $apps, $key, $slug)
     {
-        //Fetch the app
-        $app = collect( $apps->all() )->where( 'slug', $slug )->first();
+        // Fetch the app
+        $app = collect($apps->all())->where('slug', $slug)->first();
 
-        if ( !$app ) {
-            return $response->setStatusCode( 404 )->setContent( 'Not Found' );
+        if (!$app) {
+            return $response->setStatusCode(404)->setContent('Not Found');
         }
 
-        //Check if there is a custom action to render the app
-        $action = has_action( 'dt_home_app_render' );
-        if ( $action ) {
-			add_action(namespace_string( 'filter_asset_queue' ), function ( $queue ) use ( $app ) {
-				//Don't filter assets
-			});
-            do_action( 'dt_home_app_render', $app );
+        // Check if there is a custom action to render the app
+        $action = has_action('dt_home_app_render');
+        if ($action) {
+            add_action(namespace_string('filter_asset_queue'), function ($queue) use ($app) {
+                // Don't filter assets
+            });
+            do_action('dt_home_app_render', $app);
             exit;
         }
 
-        //Check if the app has a custom template
-        $html = apply_filters( 'dt_home_app_template', "", $app );
+        // Check if the app has a custom template
+        $html = apply_filters('dt_home_app_template', "", $app);
 
-        if ( $html ) {
-            return $response->setContent( $html );
+        if ($html) {
+            return $response->setContent($html);
         }
 
-        //Check to see if the app has an iframe URL
-        $url = apply_filters( 'dt_home_webview_url', $app['url'] ?? '', $app );
+        // Check to see if the app has an iframe URL
+        $url = apply_filters('dt_home_webview_url', $app['url'] ?? '', $app);
+                $url = $this->addOrUpdateQueryParam($url, 'dt_home', 'true');
 
-        if ( !$url ) {
-            //No URL found 404
-            return $response->setStatusCode( 404 )->setContent( 'Not Found' );
+        if (!$url) {
+            // No URL found 404
+            return $response->setStatusCode(404)->setContent('Not Found');
         }
+
+        // Call the global function
+            $launcherButton = dt_home_back_button();
 
         return $response->setContent(
-            template( 'web-view', compact( 'app', 'url' ) )
+            template('web-view', compact('app', 'url', 'launcherButton'))
         );
+    }
+
+    /**
+     * Adds or updates a query parameter in a URL.
+     *
+     * @param string $url The original URL.
+     * @param string $key The query parameter key.
+     * @param string $value The query parameter value.
+     *
+     * @return string The updated URL.
+     */
+    private function addOrUpdateQueryParam($url, $key, $value)
+    {
+        // Split the URL into the base and the query string
+        $url_parts = explode('?', $url, 2);
+        $base_url = $url_parts[0];
+        $query_string = $url_parts[1] ?? '';
+
+        // Parse the query string into an associative array
+        parse_str($query_string, $query_params);
+
+        // Update the query parameters
+        $query_params[$key] = $value;
+
+        // Rebuild the query string
+        $new_query_string = http_build_query($query_params);
+dd($base_url . '?' . $new_query_string);
+        return $base_url . '?' . $new_query_string;
     }
 }
