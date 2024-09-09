@@ -8,7 +8,6 @@ use DT\Home\Services\Apps;
 use function DT\Home\collect;
 use function DT\Home\namespace_string;
 use function DT\Home\template;
-use function dt_home_back_button;
 
 /**
  * Class AppController
@@ -64,11 +63,8 @@ class AppController
             return $response->setStatusCode(404)->setContent('Not Found');
         }
 
-        // Call the global function
-            $launcherButton = dt_home_back_button();
-
         return $response->setContent(
-            template('web-view', compact('app', 'url', 'launcherButton'))
+            template('web-view', compact('app', 'url'))
         );
     }
 
