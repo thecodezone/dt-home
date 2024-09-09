@@ -115,7 +115,6 @@ class AppController
             $hidden_app['sort'] = count( $visible_apps ) + 1;
             $visible_apps[] = $hidden_app;
         }
-
         // Save the updated array back to the option
         update_user_option( get_current_user_id(), 'dt_home_apps', $visible_apps );
 
