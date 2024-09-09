@@ -1,7 +1,7 @@
 {
   "require": {
     "php": "7.4.27",
-    "codezone/wp-support": "1.0.0"
+    "codezone/wp-support": "1.0.1"
   },
   "config": {
     "autoloader-suffix": "dt_home_scoped",

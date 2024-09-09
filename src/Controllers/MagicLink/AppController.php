@@ -196,6 +196,7 @@ class AppController
             // Update the 'sort' field for each app based on its position in the array
             $data[$key]['sort'] = $key + 1;
         }
+
         // Save the updated app order back to the database or storage
         update_user_option( get_current_user_id(), 'dt_home_apps', $data );
 
