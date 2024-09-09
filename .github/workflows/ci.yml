@@ -52,13 +52,13 @@ jobs:
           tar -czf vendor-scoped.tar.gz vendor-scoped
 
       - name: Upload vendor directory
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: vendor
           path: vendor.tar.gz
 
       - name: Upload vendor-scoped directory
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v4
         with:
           name: vendor-scoped
           path: vendor-scoped.tar.gz
@@ -109,13 +109,13 @@ jobs:
         run: echo "$(composer global config bin-dir --absolute --quiet)" >> $GITHUB_PATH
 
       - name: Download vendor directory
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4
         with:
           name: vendor
           path: .
 
       - name: Download vendor-scoped directory
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4
         with:
           name: vendor-scoped
           path: .
@@ -128,7 +128,7 @@ jobs:
           export PATH="$HOME/.composer/vendor-scoped/bin:$PATH"
 
       - name: Download release
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v4
         with:
           name: dt-home.zip
           path: .
