@@ -92,7 +92,7 @@ class AppController
 
         // Rebuild the query string
         $new_query_string = http_build_query($query_params);
-dd($base_url . '?' . $new_query_string);
+        
         return $base_url . '?' . $new_query_string;
     }
 }
