@@ -68,6 +68,12 @@ abstract class App {
         $apps = array_filter($apps, function ( $item ) use ( $slug ) {
             return $item['slug'] !== $slug;
         });
+
+        // Avoid incorrect type exceptions.
+        if ( gettype( $app ) !== 'array' ) {
+            $app = [];
+        }
+
 		$app = array_merge( $this->config(), $app, array_intersect_key( $this->config(), array_fill_keys( [ 'type', 'slug', 'url' ], '' ) ) );
 		$apps[] = $app;
 		return $apps;
