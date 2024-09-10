@@ -6,7 +6,6 @@ import '@spectrum-web-components/overlay/overlay-trigger.js'
 import { customElement } from 'lit-element'
 import './app-menu.js'
 import './app-menu-item.js'
-import { magic_url } from '../helpers.js'
 
 @customElement('dt-home-footer')
 class HomeFooter extends LitElement {
@@ -37,17 +36,16 @@ class HomeFooter extends LitElement {
                 );
                 --mod-dialog-confirm-padding-grid: 0px;
                 --spectrum-dialog-confirm-padding-grid: 0px;
-                --spectrum-spacing-50: 0px;
-                --spectrum-dialog-confirm-description-padding: var(
-                    --spectrum-spacing-50
-                );
+                //--spectrum-spacing-50: 0px;
+                //--spectrum-dialog-confirm-description-padding: var(
+                //--spectrum-spacing-50);
             }
 
             .footer-container {
                 padding: 5px;
                 display: flex;
                 justify-content: right;
-                bottom: 10px;
+                bottom: 20px;
             }
 
             .trigger-button {
@@ -68,27 +66,29 @@ class HomeFooter extends LitElement {
                 height: 36px; /* Icon height */
             }
 
-            .custom-dialog-overlay {
-                position: fixed;
-                bottom: 18px;
-                top: 380px; /* Adjusted for better height */
-                right: 25px;
-                left: 570px;
-                transform: none;
-                z-index: 9999;
-                border: none; /* Remove any border */
-                height: 200px; /* Let the content dictate the height */
-                max-height: 500px; /* Set max height to avoid overflow */
-                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Optional: Add a subtle shadow */
-            }
+            //.custom-dialog-overlay {
+            //    position: fixed;
+            //    bottom: 18px;
+            //    top: 380px; /* Adjusted for better height */
+            //    right: 25px;
+            //    left: 570px;
+            //    transform: none;
+            //    z-index: 9999;
+            //    border: none; /* Remove any border */
+            //    height: 200px; /* Let the content dictate the height */
+            //    max-height: 500px; /* Set max height to avoid overflow */
+            //    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Optional: Add a subtle shadow */
+            //}
 
             sp-dialog {
                 background-color: white;
                 border: none; /* Remove any border */
                 box-shadow: none; /* Remove any shadow */
-                height: auto; /* Let the content dictate the height */
+                height: 200px; /* Let the content dictate the height */
                 padding: 0; /* Remove default padding */
                 overflow: hidden; /* Hide overflow */
+                margin-right: -24px;
+                margin-bottom: -41px;
             }
 
             .app-row {
@@ -121,6 +121,19 @@ class HomeFooter extends LitElement {
                 color: hsla(216, 100%, 50%, 1);
             }
 
+            .reset-apps {
+                color: #ffffff;
+
+                background-color: #e94f54;
+                --system-spectrum-actionbutton-background-color-default: var(
+                    --background-color
+                );
+                --spectrum-component-height-100: 15px;
+                --spectrum-font-size-100: 10px;
+                left: -264px;
+                top: 204px;
+            }
+
             /* Mobile */
             @media (max-width: 600px) {
                 .footer-container {
@@ -142,7 +155,8 @@ class HomeFooter extends LitElement {
 
                 sp-dialog {
                     background-color: white;
-                    height: auto; /* Let the content dictate the height */
+                    //  height: auto; /* Let the content dictate the height */
+                    height: 200px;
                 }
             }
 
@@ -234,7 +248,7 @@ class HomeFooter extends LitElement {
     }
 
     postAppDataToServer(appSlug) {
-        const url = magic_url('unhide')
+        const url = this.appUrl + '/un-hide-app'
         const appToHide = this.appData.find((app) => app.slug === appSlug)
 
         if (!appToHide) {
@@ -251,7 +265,6 @@ class HomeFooter extends LitElement {
         })
             .then((response) => {
                 if (response.ok) {
-                    console.log(response)
                     window.location.reload()
                 } else {
                     // Handle error
@@ -278,8 +291,37 @@ class HomeFooter extends LitElement {
         return /^(https?:\/\/|data:image|\/|\.\/|\.\.\/)/.test(icon)
     }
 
+    reset_apps() {
+        const confirmDelete = confirm(
+            'Are you sure you want to reset all apps?'
+        )
+
+        if (confirmDelete) {
+            fetch(this.appUrl + '/reset-apps', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-WP-Nonce': $home.nonce,
+                },
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        console.log(response)
+                        window.location.reload()
+                    } else {
+                        // Handle error
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error)
+                })
+        } else {
+            return false
+        }
+    }
+
     renderAppItems() {
-      const hiddenApps = this.hiddenApps.sort((a, b) => b.sort - a.sort);
+        const hiddenApps = this.hiddenApps.sort((a, b) => b.sort - a.sort)
         if (hiddenApps.length === 0) {
             return html` <dt-app-menu-item class="no-data"
                 >No hidden apps available.
@@ -315,7 +357,7 @@ class HomeFooter extends LitElement {
                 @import url('https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css');
             </style>
             <div class="footer-container">
-                <overlay-trigger type="modal">
+                <overlay-trigger placement="top">
                     <button slot="trigger" class="trigger-button">
                         <sp-icon-add></sp-icon-add>
                     </button>
@@ -329,6 +371,13 @@ class HomeFooter extends LitElement {
                             ${this.renderAppItems()}
                         </dt-app-menu>
                     </sp-dialog>
+                    <div slot="click-content">
+                        <sp-action-button
+                            class="reset-apps"
+                            @click="${this.reset_apps}"
+                            >Reset Apps
+                        </sp-action-button>
+                    </div>
                 </overlay-trigger>
             </div>
         `
