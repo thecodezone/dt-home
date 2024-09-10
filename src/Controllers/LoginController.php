@@ -6,10 +6,10 @@ use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
 use function DT\Home\extract_request_input;
+use function DT\Home\plugin_url;
 use function DT\Home\redirect;
 use function DT\Home\route_url;
 use function DT\Home\template;
-use function DT\Home\plugin_url;
 
 /**
  * Class LoginController
@@ -30,7 +30,7 @@ class LoginController {
         $form_action  = route_url( 'login' );
         $username     = sanitize_text_field( $params['username'] ?? '' );
         $password     = sanitize_text_field( $params['password'] ?? '' );
-        $error        = sanitize_text_field( $params['error'] ?? '' );
+        $error        = $request->getQueryParams()['error'] ?? '';
         $logo_path    = plugin_url( 'resources/img/logo-color.png' );
         $reset_url    = wp_lostpassword_url( plugin_url() );
 
