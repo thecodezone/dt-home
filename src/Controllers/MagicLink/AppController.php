@@ -57,7 +57,7 @@ class AppController
 
         //Check to see if the app has an iframe URL
         $url = apply_filters( 'dt_home_webview_url', $app['url'] ?? '', $app );
-        $url = $this->addOrUpdateQueryParam( $url, 'dt_home', 'true' );
+        $url = $this->add_or_update_query_param( $url, 'dt_home', 'true' );
         if ( !$url ) {
             //No URL found 404
             return response( __( 'Not Found', 'dt_home' ), 404 );
@@ -74,7 +74,7 @@ class AppController
      *
      * @return string The updated URL.
      */
-    private function addOrUpdateQueryParam( $url, $key, $value )
+    private function add_or_update_query_param( $url, $key, $value )
     {
         // Split the URL into the base and the query string
         $url_parts = explode( '?', $url, 2 );
