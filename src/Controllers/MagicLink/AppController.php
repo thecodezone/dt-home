@@ -214,11 +214,8 @@ class AppController
      *
      *
      */
-
     public function reset_apps(Apps $apps, $key, Response $response)
     {
-
-
         $reset_app = update_user_option(get_current_user_id(), 'dt_home_apps', []);
 
         $response_data = ['message' => $reset_app];
