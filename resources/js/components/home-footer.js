@@ -128,7 +128,7 @@ class HomeFooter extends LitElement {
                 --system-spectrum-actionbutton-background-color-default: var(
                     --background-color
                 );
-                --spectrum-component-height-100: 15px;
+                --spectrum-component-height-100: 19px;
                 --spectrum-font-size-100: 10px;
                 left: -264px;
                 top: 204px;
