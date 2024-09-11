@@ -9,17 +9,7 @@
 >
     <testsuites>
         <testsuite name="all">
-            <file>./tests/AppControllerTest.php</file>
-            <file>./tests/AppSettingsControllerTest.php</file>
-            <file>./tests/GeneralSettingsControllerTest.php</file>
-            <file>./tests/LauncherControllerTest.php</file>
-            <file>./tests/LoginControllerTest.php</file>
-            <file>./tests/RedirectControllerTest.php</file>
-            <file>./tests/RegisterControllerTest.php</file>
-            <file>./tests/ShareControllerTest.php</file>
-            <file>./tests/ShareCookieTest.php</file>
-            <file>./tests/TrainingSettingsControllerTest.php</file>
-            <file>./tests/CleanUp.php</file>
+            <directory suffix=".php">./tests/</directory>
             <exclude>./tests/PluginTest.php</exclude>
         </testsuite>
     </testsuites>
