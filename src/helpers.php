@@ -479,18 +479,9 @@ function extract_request_input( RequestInterface $request ): array {
 
 	if ( strpos( $content_type, 'application/json' ) !== false ) {
 		// Handle JSON content type.
-		$body = (string) $request->getBody();
+		$body = $request->getBody()->getContents();
 
 		return json_decode( $body, true );
-	}
-
-	// Handle other content types.
-	if ( strpos( $content_type, 'application/x-www-form-urlencoded' ) !== false ) {
-		$body = (string) $request->getBody();
-		$data = [];
-		parse_str( $body, $data );
-
-		return $data;
 	}
 
 	switch ( strtoupper( $request->getMethod() ) ) {

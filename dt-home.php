@@ -33,6 +33,8 @@ require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/scoper-autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
+
+
 // Create the IOC container
 $container = ContainerFactory::singleton();
 
