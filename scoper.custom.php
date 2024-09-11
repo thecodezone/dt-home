@@ -10,8 +10,7 @@
  * @return array
  */
 function customize_php_scoper_config( array $config ): array {
-	$config['expose-functions'] = array_merge( $config['expose-functions'] ?? [], [
-	] );
+	$config['expose-functions'] = array_merge( $config['expose-functions'] ?? [], [] );
 
 	return $config;
 }
