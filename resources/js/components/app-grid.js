@@ -1,7 +1,7 @@
-import { css, html, LitElement } from 'lit'
-import { customElement } from 'lit-element'
-import { property, queryAll } from 'lit/decorators.js'
-import { magic_url } from '../helpers.js'
+import {css, html, LitElement} from 'lit'
+import {customElement} from 'lit-element'
+import {property, queryAll} from 'lit/decorators.js'
+import {magic_url} from '../helpers.js'
 
 /**
  * Custom element representing an application grid.
@@ -192,7 +192,11 @@ class AppGrid extends LitElement {
                     break
                 case 'Web View':
                     this.visitApp(
-                        magic_url(`/app/${selectedApp.slug}`),
+                        this.addOrUpdateQueryParam(
+                            magic_url(`/app/${selectedApp.slug}`),
+                            'dt_home',
+                            'true'
+                        ),
                         selectedApp
                     )
                     break
@@ -206,6 +210,20 @@ class AppGrid extends LitElement {
         } else {
             window.location.href = url
         }
+    }
+
+    /**
+     * Adds or updates a query parameter in the given URL.
+     *
+     * @param {string} url - The URL to modify.
+     * @param {string} key - The query parameter key.
+     * @param {string} value - The query parameter value.
+     * @returns {string} - The updated URL with the new or updated query parameter.
+     */
+    addOrUpdateQueryParam(url, key, value) {
+        const urlObj = new URL(url)
+        urlObj.searchParams.set(key, value)
+        return urlObj.toString()
     }
 
     /**
