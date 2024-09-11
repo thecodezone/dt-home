@@ -66,11 +66,3 @@ jobs:
           asset_path: ./dt-home.zip
           asset_name: dt-home.zip
           asset_content_type: application/zip
-
-      - name: Google Chat Notification
-        uses: Co-qn/google-chat-notification@releases/v1
-        with:
-          name: Release
-          url: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
-          status: ${{ job.status }}
-        if: always()
