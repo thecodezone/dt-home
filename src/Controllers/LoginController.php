@@ -66,13 +66,13 @@ class LoginController {
 			//If the error links to lost password, inject the 3/3rds redirect
 			$error = str_replace( '?action=lostpassword', '?action=lostpassword?&redirect_to=/', $error );
 
-			return $this->show( ServerRequestFactory::with_query_params( [ 'error' => $error ] ) );
+			return $this->show_error( $error );
 		}
 
 		wp_set_auth_cookie( $user->ID );
 
 		if ( ! $user ) {
-			return $this->login( ServerRequestFactory::with_query_params( [ 'error' => esc_html_e( 'An unexpected error has occurred.', 'dt_home' ) ] ) );
+			return $this->show_error( __( 'An unexpected error has occurred.', 'dt_home' ) );
 		}
 
 		wp_set_current_user( $user->ID );
@@ -90,4 +90,24 @@ class LoginController {
 
 		return redirect( route_url( 'login' ) );
 	}
+
+    /**
+     * Show the login page with an error.
+     *
+     * @param string $error The error message.
+     * @param array $params Additional parameters for the request.
+     * @param string $method The HTTP method for the request.
+     * @param string $endpoint The endpoint to send the request to.
+     * @param array $headers The headers for the request.
+     * @return ResponseInterface The response of the request.
+     */
+    private function show_error( $error, $params = [], $method = "GET", $endpoint = "", $headers = [
+        'Content-Type' => 'application/HTML',
+    ]): ResponseInterface {
+        $params = array_merge( $params, [ 'error' => $error ] );
+        if ( ! empty( $endpoint ) ) {
+            $endpoint = route_url( 'login' );
+        }
+        return $this->show( ServerRequestFactory::request( $method, $endpoint, $params, $headers ) );
+    }
 }

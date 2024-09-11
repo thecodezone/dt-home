@@ -57,37 +57,24 @@ class RegisterController {
 		$email            = sanitize_email( $input['email'] ?? '' );
 		$password         = $input['password'] ?? '';
 		$confirm_password = $input['confirm_password'] ?? '';
+        $old_input = [
+            'username' => $username,
+            'email'    => $email,
+        ];
 
 		if ( ! $username || ! $password || ! $email ) {
-			return $this->show(
-				ServerRequestFactory::with_query_params([
-					'error'    => 'Please fill out all fields.',
-					'username' => $username,
-					'email'    => $email,
-				])
-			);
+			return $this->show_error( __( 'Please fill out all fields.', 'dt_home' ), $old_input );
 		}
 
 		if ( $confirm_password !== $password ) {
-			return $this->show(
-				ServerRequestFactory::with_query_params([
-					'error'    => 'Passwords do not match',
-					'username' => $username,
-					'email'    => $email,
-				])
-			);
+            return $this->show_error( __( 'Passwords do not match.', 'dt_home' ), $old_input );
 		}
 
 		$user = wp_create_user( $username, $password, $email );
 
 		if ( is_wp_error( $user ) ) {
 			$error = $user->get_error_message();
-
-			return $this->show(ServerRequestFactory::with_query_params([
-				'error'    => $error,
-				'username' => $username,
-				'email'    => $email,
-			]));
+            return $this->show_error( $error, $old_input );
 		}
 
 		$user_obj = get_user_by( 'id', $user );
@@ -95,13 +82,30 @@ class RegisterController {
 		wp_set_auth_cookie( $user_obj->ID );
 
 		if ( ! $user ) {
-			return $this->show(ServerRequestFactory::with_query_params([
-				'error'    => __( 'An unexpected error has occurred.', 'dt_home' ),
-				'username' => $username,
-				'email'    => $email,
-			]));
+            return $this->show_error( __( 'An unexpected error has occurred.', 'dt_home' ), $old_input );
 		}
 
 		return redirect( route_url() );
 	}
+
+    /**
+     * Show the register page with an error.
+     *
+     * @param string $error The error message to display.
+     * @param array $params Additional parameters to include in the request.
+     * @param string $method The HTTP method to use for the request. Default is "GET".
+     * @param string $endpoint The endpoint for the request. If empty, it will default to the "register" route URL.
+     * @param array $headers Additional headers to include in the request. Default is '[ "Content-Type" => "application/HTML" ]'.
+     *
+     * @return ResponseInterface The response from showing the error message.
+     */
+    private function show_error( $error, $params = [], $method = "GET", $endpoint = "", $headers = [
+        'Content-Type' => 'application/HTML',
+    ]): ResponseInterface {
+        $params = array_merge( $params, [ 'error' => $error ] );
+        if ( ! empty( $endpoint ) ) {
+            $endpoint = route_url( 'register' );
+        }
+        return $this->show( ServerRequestFactory::request( $method, $endpoint, $params, $headers ) );
+    }
 }
