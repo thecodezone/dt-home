@@ -42,14 +42,5 @@ jobs:
       - name: Check status
         run: git status
 
-      - name: push changes
-        uses: github-actions-x/commit@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          push-branch: master
-          commit-message: 'Update .pot translation file'
-          name: ${{ github.actor }}
-          email: ${{github.actor}}@users.noreply.github.com
-
       - name: Check git config
         run: git config --list --show-origin

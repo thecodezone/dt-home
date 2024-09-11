@@ -73,7 +73,7 @@ class Apps {
 			} );
 
 			if ( ! empty( $matching_user_apps ) ) {
-                $user_app = $matching_user_apps[0] ?? [];
+                $user_app = reset( $matching_user_apps );
 
 				$apps[ $idx ] = array_merge(
 					$app,
