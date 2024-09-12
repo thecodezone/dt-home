@@ -14,10 +14,7 @@ $menu_items[] = [ 'label' => __( 'Training', 'dt_home' ), 'href' => magic_url( '
 $menu_items[] = [ 'label' => __( 'Log Out', 'dt_home' ), 'href' => magic_url( 'logout' ) ];
 //}
 
-// Adding additional menu item based on user capability
-//if ( $user->has_cap( 'access_disciple_tools' ) ) {
-//    $menu_items[] = [ 'label' => __( 'Disciple.Tools', 'dt_home' ), 'href' => $dashboard ];
-//}
+
 $menu_items_json = wp_json_encode( $menu_items );
 ?>
 
