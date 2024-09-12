@@ -15,9 +15,9 @@ $menu_items[] = [ 'label' => __( 'Log Out', 'dt_home' ), 'href' => magic_url( 'l
 //}
 
 // Adding additional menu item based on user capability
-if ( $user->has_cap( 'access_disciple_tools' ) ) {
-    $menu_items[] = [ 'label' => __( 'Disciple.Tools', 'dt_home' ), 'href' => $dashboard ];
-}
+//if ( $user->has_cap( 'access_disciple_tools' ) ) {
+//    $menu_items[] = [ 'label' => __( 'Disciple.Tools', 'dt_home' ), 'href' => $dashboard ];
+//}
 $menu_items_json = wp_json_encode( $menu_items );
 ?>
 
@@ -33,7 +33,7 @@ $menu_items_json = wp_json_encode( $menu_items );
 
                 <?php
                 // phpcs:ignore
-                echo $this->section( 'content' ) ?>
+                echo $this->section('content') ?>
             </div>
         </div>
 
@@ -41,7 +41,7 @@ $menu_items_json = wp_json_encode( $menu_items );
             <div class="container">
                 <?php
                 // phpcs:ignore
-                echo $this->section( 'footer' ) ?>
+                echo $this->section('footer') ?>
             </div>
         </div>
     </div>

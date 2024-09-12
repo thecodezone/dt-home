@@ -75,9 +75,11 @@ body {
     transform: translateY(0); /* Smooth appearance */
 
 }
-.tooltip:hover{
+
+.tooltip:hover {
     z-index: auto !important;
 }
+
 .tooltip .tooltiptext::after {
     z-index: auto;
     content: '';
@@ -88,4 +90,19 @@ body {
     border-width: 5px;
     border-style: solid;
     border-color: #333 transparent transparent transparent; /* Creates a small triangle pointing downwards */
+}
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+    .tooltip .tooltiptext {
+        /* Adjust width for smaller screens */
+        left: 0%; /* Center the tooltip */
+        margin-left: 0; /* Remove negative margin */
+        bottom: 120%; /* Adjust position above the text */
+    }
+
+    .tooltip .tooltiptext::after {
+        left: 10%;
+        margin-left: -5px; /* Center the arrow */
+    }
 }
