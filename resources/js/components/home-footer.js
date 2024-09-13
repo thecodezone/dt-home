@@ -116,7 +116,6 @@ class HomeFooter extends LitElement {
         );
         --spectrum-component-height-100: 19px;
         --spectrum-font-size-100: 10px;
-        margin-right: -77px;
         margin-left: -335px;
         top: 204px;
       }
