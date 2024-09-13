@@ -229,4 +229,26 @@ class AppController
 
         return response( [ 'message' => 'App order updated' ] );
     }
+
+    /**
+     * Resets the user's apps by clearing the 'dt_home_apps' option.
+     *
+     * @param Apps $apps Instance of the Apps class.
+     * @param string $key Identifier associated with the operation.
+     * @param Response $response Response object to return the result.
+     *
+     * @return Response The updated response with a JSON message indicating success.
+     *
+     *
+     */
+    public function reset_apps( Apps $apps, $key, Response $response )
+    {
+        $reset_app = update_user_option( get_current_user_id(), 'dt_home_apps', [] );
+
+        $response_data = [ 'message' => $reset_app ];
+
+        $response->setContent( json_encode( $response_data ) );
+
+        return $response;
+    }
 }
