@@ -2,7 +2,6 @@
 
 namespace DT\Home\MagicLinks;
 
-use DT\Home\CodeZone\WPSupport\Router\Route;
 use DT\Home\CodeZone\WPSupport\Router\RouteInterface;
 use DT\Home\League\Route\Http\Exception\NotFoundException;
 use DT\Home\League\Route\RouteCollectionInterface;

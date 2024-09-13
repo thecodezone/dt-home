@@ -5,7 +5,7 @@ namespace DT\Home\Providers;
 use DT\Home\CodeZone\WPSupport\Router\RouteInterface;
 use DT\Home\CodeZone\WPSupport\Router\RouteServiceProvider as RouteProvider;
 use DT\Home\League\Container\ServiceProvider\BootableServiceProviderInterface;
-use DT\Home\League\Container\Exception\NotFoundException;
+use DT\Home\League\Route\Http\Exception\NotFoundException;
 use function DT\Home\config;
 use function DT\Home\namespace_string;
 use function DT\Home\route_url;
@@ -108,14 +108,10 @@ class RouteServiceProvider extends RouteProvider implements BootableServiceProvi
             ->file( routes_path( $file['file'] ) )
             ->rewrite( $file['query'] );
 
-        if ( WP_DEBUG ) {
+        try {
             $route->dispatch();
-        } else {
-            try {
-                $route->dispatch();
-            } catch ( NotFoundException $e ) {
-                return;
-            }
+        } catch ( NotFoundException $e ) {
+            return;
         }
 
         $renderer = $this->get_renderer();
