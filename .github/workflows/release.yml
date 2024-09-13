@@ -36,9 +36,6 @@ jobs:
       - name: Install dependencies
         run: composer install --no-dev --no-interaction --ignore-platform-reqs
 
-      - name: Patch Scoper Bug
-        run: node patch-scoper-autoload.js
-
       - name: Package release
         run: |
           mkdir dt-home
