@@ -289,13 +289,13 @@ class AppSettingsController {
         foreach ( $apps_array as $key => &$app ) {
             if ( $app['sort'] == $current_sort - 1 ) {
                 // Increment the sort value of the app that's currently one position above
-                $app['sort'] ++;
+                $app['sort']++;
             }
         }
 
         // Decrement the sort value of the current app
         if ( $current_sort > 0 ) {
-            $apps_array[ $current_index ]['sort'] --;
+            $apps_array[ $current_index ]['sort']--;
         }
 
         // Normalize the sort values to ensure they are positive and sequential
@@ -351,11 +351,11 @@ class AppSettingsController {
             foreach ( $apps_array as $key => &$app ) {
                 if ( $app['sort'] == (int) $current_sort + 1 ) {
                     // Decrement the sort value of the app that's currently one position below
-                    $app['sort'] --;
+                    $app['sort']--;
                 }
             }
             // Increment the sort value of the current app
-            $apps_array[ $current_index ]['sort'] ++;
+            $apps_array[ $current_index ]['sort']++;
 
             // Re-sort the array
             usort( $apps_array, function ( $a, $b ) {
