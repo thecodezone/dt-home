@@ -12,6 +12,7 @@ import { magic_url } from '../helpers.js'
 class HomeFooter extends LitElement {
     static properties = {
         appUrl: { type: String },
+        resetApps: { type: Boolean },
     }
 
     @property({ type: Object })
@@ -73,7 +74,7 @@ class HomeFooter extends LitElement {
         height: 200px; /* Let the content dictate the height */
         padding: 0; /* Remove default padding */
         overflow: hidden; /* Hide overflow */
-        margin-right: -24px;
+        margin-right: 50px;
         margin-bottom: -41px;
       }
 
@@ -109,14 +110,14 @@ class HomeFooter extends LitElement {
 
       .reset-apps {
         color: #ffffff;
-
         background-color: #e94f54;
         --system-spectrum-actionbutton-background-color-default: var(
           --background-color
         );
         --spectrum-component-height-100: 19px;
         --spectrum-font-size-100: 10px;
-        left: -264px;
+        margin-right: -77px;
+        margin-left: -335px;
         top: 204px;
       }
 
@@ -227,6 +228,7 @@ class HomeFooter extends LitElement {
     loadAppData() {
         const jsonData = this.getAttribute('hidden-data')
         this.appUrl = this.getAttribute('app-url-unhide')
+        this.resetApps = this.getAttribute('reset-apps') === '1'
         if (jsonData) {
             this.appData = JSON.parse(jsonData)
         }
@@ -326,11 +328,7 @@ class HomeFooter extends LitElement {
                                   class="app-icon"
                                   alt="icon"
                               />`
-                            : html`<span
-                                  id="app-icon"
-                                  class="app-icon material-icons ${app.icon}"
-                              ></span>`}
-                        <span class="app-name">${app.name}</span>
+                            : null}
                     </div>
                 </dt-app-menu-item>
             `
@@ -357,12 +355,20 @@ class HomeFooter extends LitElement {
                             ${this.renderAppItems()}
                         </dt-app-menu>
                     </sp-dialog>
-                    <div slot="click-content">
-                        <sp-action-button
-                            class="reset-apps"
-                            @click="${this.reset_apps}"
-                            >Reset Apps
-                        </sp-action-button>
+
+                    <div
+                        slot="click-content"
+                        class="custom-app custom-dialog-overlay-button"
+                    >
+                        ${this.resetApps
+                            ? html`
+                                  <sp-action-button
+                                      class="reset-apps"
+                                      @click="${this.reset_apps}"
+                                      >Reset Apps
+                                  </sp-action-button>
+                              `
+                            : null}
                     </div>
                 </overlay-trigger>
             </div>

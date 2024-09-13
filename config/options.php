@@ -6,11 +6,12 @@
 
 $config->merge( [
     'options' => [
-        'prefix' => 'dt_home',
+        'prefix'   => 'dt_home',
         'defaults' => [
             'require_login' => true,
-            'apps' => [],
-            'trainings' => [],
+            'reset_apps'    => false,
+            'apps'          => [],
+            'trainings'     => [],
         ],
     ]
 ] );
