@@ -193,7 +193,7 @@ class AppGrid extends LitElement {
                 case 'Web View':
                     this.visitApp(
                         this.addOrUpdateQueryParam(
-                            magic_url(`/app/${selectedApp.slug}`),
+                            magic_url(`/app/${selectedApp.slug}/`),
                             'dt_home',
                             'true'
                         ),
