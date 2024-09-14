@@ -327,7 +327,11 @@ class HomeFooter extends LitElement {
                                   class="app-icon"
                                   alt="icon"
                               />`
-                            : null}
+                            : html`<span
+                                  id="app-icon"
+                                  class="app-icon material-icons ${app.icon}"
+                              ></span>`}
+                        <span class="app-name">${app.name}</span>
                     </div>
                 </dt-app-menu-item>
             `
