@@ -28,50 +28,49 @@ class AppController
      *
      * @return ResponseInterface The response object.
      */
-    public function show(Request $request, $params)
+    public function show( Request $request, $params )
     {
         // Fetch the app
         $slug = $params['slug'];
-        $apps = container()->get(Apps::class);
-        $app  = $apps->find($slug);
+        $apps = container()->get( Apps::class );
+        $app  = $apps->find( $slug );
 
-        if (! $app) {
-            return response(__('Not Found', 'dt_home'), 404);
+        if ( ! $app ) {
+            return response( __( 'Not Found', 'dt_home' ), 404 );
         }
 
         // Check if there is a custom action to render the app
-        $action = has_action('dt_home_render');
-        if ($action) {
+        $action = has_action( 'dt_home_render' );
+        if ( $action ) {
             add_action(
-                namespace_string('filter_asset_queue'),
-                function ($queue) use ($app) {
+                namespace_string( 'filter_asset_queue' ),
+                function ( $queue ) use ( $app ) {
                     // Don't filter assets
                 }
             );
-            do_action('dt_home_app_render', $app);
+            do_action( 'dt_home_app_render', $app );
         }
 
         // Check if the app has a custom template
-        $html = apply_filters('dt_home_app_template', '', $app);
+        $html = apply_filters( 'dt_home_app_template', '', $app );
 
-        if ($html) {
-            if ($html instanceof ResponseInterface) {
+        if ( $html ) {
+            if ( $html instanceof ResponseInterface ) {
                 return $html;
             }
 
-            return response($html);
+            return response( $html );
         }
 
         // Check to see if the app has an iframe URL
-        $url = apply_filters('dt_home_webview_url', ( $app['url'] ?? '' ), $app);
-        $url = $this->add_or_update_query_param($url, 'dt_home', 'true');
-        if (! $url) {
+        $url = apply_filters( 'dt_home_webview_url', ( $app['url'] ?? '' ), $app );
+        $url = $this->add_or_update_query_param( $url, 'dt_home', 'true' );
+        if ( ! $url ) {
             // No URL found 404
-            return response(__('Not Found', 'dt_home'), 404);
+            return response( __( 'Not Found', 'dt_home' ), 404 );
         }
 
-        return template('web-view', compact('app', 'url'));
-
+        return template( 'web-view', compact( 'app', 'url' ) );
     }//end show()
 
 
@@ -84,24 +83,23 @@ class AppController
      *
      * @return string The updated URL.
      */
-    private function add_or_update_query_param($url, $key, $value)
+    private function add_or_update_query_param( $url, $key, $value )
     {
         // Split the URL into the base and the query string
-        $url_parts    = explode('?', $url, 2);
+        $url_parts    = explode( '?', $url, 2 );
         $base_url     = $url_parts[0];
         $query_string = ( $url_parts[1] ?? '' );
 
         // Parse the query string into an associative array
-        parse_str($query_string, $query_params);
+        parse_str( $query_string, $query_params );
 
         // Update the query parameters
         $query_params[$key] = $value;
 
         // Rebuild the query string
-        $new_query_string = http_build_query($query_params);
+        $new_query_string = http_build_query( $query_params );
 
         return $base_url.'?'.$new_query_string;
-
     }//end add_or_update_query_param()
 
 
@@ -112,16 +110,16 @@ class AppController
      *
      * @return ResponseInterface The response containing the rendered template.
      */
-    public function hide(Request $request)
+    public function hide( Request $request )
     {
-        $apps = container()->get(Apps::class);
-        $data = extract_request_input($request);
+        $apps = container()->get( Apps::class );
+        $data = extract_request_input( $request );
 
-        $apps_array = $apps->for_user(get_current_user_id());
+        $apps_array = $apps->for_user( get_current_user_id() );
 
         // Find the app with the specified slug and update its 'is_hidden' status
-        foreach ($apps_array as $key => $app) {
-            if (isset($app['slug']) && $app['slug'] == $data['slug']) {
+        foreach ( $apps_array as $key => $app ) {
+            if ( isset( $app['slug'] ) && $app['slug'] == $data['slug'] ) {
                 $apps_array[$key]['is_hidden'] = 1;
                 // Set 'is_hidden' to 1 (hide)
                 break;
@@ -133,8 +131,8 @@ class AppController
         $hidden_apps  = [];
         $visible_apps = [];
 
-        foreach ($apps_array as $app) {
-            if ($app['is_hidden'] == 1) {
+        foreach ( $apps_array as $app ) {
+            if ( $app['is_hidden'] == 1 ) {
                 $hidden_apps[] = $app;
             } else {
                 $visible_apps[] = $app;
@@ -144,27 +142,26 @@ class AppController
         // Sort visible apps by the 'sort' field
         usort(
             $visible_apps,
-            function ($a, $b) {
+            function ( $a, $b ) {
                 return ( $a['sort'] <=> $b['sort'] );
             }
         );
 
         // Reset sort values for visible apps
-        foreach ($visible_apps as $index => $app) {
+        foreach ( $visible_apps as $index => $app ) {
             $visible_apps[$index]['sort'] = ( $index + 1 );
         }
 
         // Add hidden apps back to the end
-        foreach ($hidden_apps as $hidden_app) {
-            $hidden_app['sort'] = ( count($visible_apps) + 1 );
+        foreach ( $hidden_apps as $hidden_app ) {
+            $hidden_app['sort'] = ( count( $visible_apps ) + 1 );
             $visible_apps[]     = $hidden_app;
         }
 
         // Save the updated array back to the option
-        update_user_option(get_current_user_id(), 'dt_home_apps', $visible_apps);
+        update_user_option( get_current_user_id(), 'dt_home_apps', $visible_apps );
 
-        return response([ 'message' => 'App visibility and order updated' ]);
-
+        return response( [ 'message' => 'App visibility and order updated' ] );
     }//end hide()
 
 
@@ -175,16 +172,16 @@ class AppController
      *
      * @return ResponseInterface
      */
-    public function unhide(Request $request)
+    public function unhide( Request $request )
     {
-        $apps = container()->get(Apps::class);
-        $data = extract_request_input($request);
+        $apps = container()->get( Apps::class );
+        $data = extract_request_input( $request );
 
-        $apps_array = $apps->for_user(get_current_user_id());
+        $apps_array = $apps->for_user( get_current_user_id() );
 
         // Find the app with the specified ID and update its 'is_hidden' status
-        foreach ($apps_array as $key => $app) {
-            if (isset($app['slug']) && $app['slug'] == $data['slug']) {
+        foreach ( $apps_array as $key => $app ) {
+            if ( isset( $app['slug'] ) && $app['slug'] == $data['slug'] ) {
                 $apps_array[$key]['is_hidden'] = 0;
                 // Set 'is_hidden' to 1 (hide)
                 break;
@@ -196,8 +193,8 @@ class AppController
         $hidden_apps  = [];
         $visible_apps = [];
 
-        foreach ($apps_array as $app) {
-            if ($app['is_hidden'] == 1) {
+        foreach ( $apps_array as $app ) {
+            if ( $app['is_hidden'] == 1 ) {
                 $hidden_apps[] = $app;
             } else {
                 $visible_apps[] = $app;
@@ -207,27 +204,26 @@ class AppController
         // Sort visible apps by the 'sort' field
         usort(
             $visible_apps,
-            function ($a, $b) {
+            function ( $a, $b ) {
                 return ( $a['sort'] <=> $b['sort'] );
             }
         );
 
         // Reset sort values for visible apps
-        foreach ($visible_apps as $index => $app) {
+        foreach ( $visible_apps as $index => $app ) {
             $visible_apps[$index]['sort'] = ( $index + 1 );
         }
 
         // Add hidden apps back to the end
-        foreach ($hidden_apps as $hidden_app) {
-            $hidden_app['sort'] = ( count($visible_apps) + 1 );
+        foreach ( $hidden_apps as $hidden_app ) {
+            $hidden_app['sort'] = ( count( $visible_apps ) + 1 );
             $visible_apps[]     = $hidden_app;
         }
 
         // Save the updated array back to the option
-        update_user_option(get_current_user_id(), 'dt_home_apps', $visible_apps);
+        update_user_option( get_current_user_id(), 'dt_home_apps', $visible_apps );
 
-        return response([ 'message' => 'App visibility updated' ]);
-
+        return response( [ 'message' => 'App visibility updated' ] );
     }//end unhide()
 
 
@@ -238,43 +234,37 @@ class AppController
      *
      * @return ResponseInterface
      */
-    public function reorder(Request $request)
+    public function reorder( Request $request )
     {
-        $data = extract_request_input($request);
+        $data = extract_request_input( $request );
 
         // Iterate through each app in the data
-        foreach ($data as $key => $app) {
+        foreach ( $data as $key => $app ) {
             // Update the 'sort' field for each app based on its position in the array
             $data[$key]['sort'] = ( $key + 1 );
         }
 
         // Save the updated app order back to the database or storage
-        update_user_option(get_current_user_id(), 'dt_home_apps', $data);
+        update_user_option( get_current_user_id(), 'dt_home_apps', $data );
 
-        return response([ 'message' => 'App order updated' ]);
-
+        return response( [ 'message' => 'App order updated' ] );
     }//end reorder()
 
 
     /**
-     * Resets the user's apps by clearing the 'dt_home_apps' option.
+     * Resets the user's apps by clearing the 'dt_home_apps' option
      *
-     * @param Apps     $apps     Instance of the Apps class.
-     * @param string   $key      Identifier associated with the operation.
-     * @param Response $response Response object to return the result.
+     * @param Request $request The request object.
      *
-     * @return Response The updated response with a JSON message indicating success.
+     * @return ResponseInterface The response containing a success message.
      */
-    public function reset_apps(Request $request)
+    public function reset_apps( Request $request )
     {
-        $apps       = container()->get(Apps::class);
+        $apps       = container()->get( Apps::class );
         $admin_apps = $apps->all();
 
-        update_user_option(get_current_user_id(), 'dt_home_apps', $admin_apps);
+        update_user_option( get_current_user_id(), 'dt_home_apps', $admin_apps );
 
-        return response([ 'message' => 'App order updated' ]);
-
+        return response( [ 'message' => 'App order updated' ] );
     }//end reset_apps()
-
-
 }//end class
