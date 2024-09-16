@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e3187f2dc65ab9c4fd6fb99b42b48e87",
+    "content-hash": "f0cb49d97bd00d58674118f72952f3f6",
     "packages": [
         {
             "name": "codezone/wp-support",
-            "version": "1.1.1",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thecodezone/wp-support.git",
-                "reference": "cbbc3af7e7a6069228788e89b266549712e0bcab"
+                "reference": "44ccd25d83d32a0fbf873892cef4b4a74b0c9097"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thecodezone/wp-support/zipball/cbbc3af7e7a6069228788e89b266549712e0bcab",
-                "reference": "cbbc3af7e7a6069228788e89b266549712e0bcab",
+                "url": "https://api.github.com/repos/thecodezone/wp-support/zipball/44ccd25d83d32a0fbf873892cef4b4a74b0c9097",
+                "reference": "44ccd25d83d32a0fbf873892cef4b4a74b0c9097",
                 "shasum": ""
             },
             "require": {
@@ -56,9 +56,9 @@
             "description": "Support utilities for building WordPress plugins.",
             "support": {
                 "issues": "https://github.com/thecodezone/wp-support/issues",
-                "source": "https://github.com/thecodezone/wp-support/tree/1.1.1"
+                "source": "https://github.com/thecodezone/wp-support/tree/1.1.3"
             },
-            "time": "2024-09-11T16:12:22+00:00"
+            "time": "2024-09-13T23:48:19+00:00"
         },
         {
             "name": "guzzlehttp/psr7",

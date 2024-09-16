@@ -5,7 +5,7 @@
  * Description: An app home screen for disciple.tools. Part of the DT Toolbox.
  * Text Domain: dt_home
  * Domain Path: /languages
- * Version:  1.0.0-rc2
+ * Version:  1.0.0-rc6
  * Author URI: https://github.com/TheCodeZone
  * GitHub Plugin URI: https://github.com/TheCodeZone/dt_home
  * Requires at least: 4.7.0

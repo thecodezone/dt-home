@@ -10,8 +10,8 @@
 $this->layout('layouts/plugin');
 ?>
 
-    <header id="app-header">
-        <dt-home-tooltip translations='
+<header id="app-header">
+    <dt-home-tooltip translations='
         <?php
         echo wp_json_encode(
             [
@@ -22,37 +22,31 @@ $this->layout('layouts/plugin');
         ?>
         '
         ></dt-home-tooltip>
-        <dt-copy-text value="<?php echo esc_url($magic_link); ?>"></dt-copy-text>
-    </header>
+    <dt-copy-text value="<?php echo esc_url( $magic_link ); ?>"></dt-copy-text>
+</header>
 
-    <dt-home-app-grid id="appGrid" app-data='<?php echo esc_attr(htmlspecialchars($data)); ?>'
-                      app-url='<?php echo esc_url($app_url); ?>'>
-        <!-- Add more app icons as needed -->
-    </dt-home-app-grid>
+<dt-home-app-grid id="appGrid" app-data='<?php echo esc_attr( htmlspecialchars( $data ) ); ?>'
+                  app-url='<?php echo esc_url( $app_url ); ?>'>
+    <!-- Add more app icons as needed -->
+</dt-home-app-grid>
 
-    <div>
-        <?php
-        // phpcs:ignore
-        echo $this->section( 'content' ) ?>
-    </div>
+<div>
+    <?php
+    // phpcs:ignore
+    echo $this->section( 'content' ) ?>
+</div>
 
-<?php $this->start('footer'); ?>
+<?php $this->start( 'footer' ); ?>
 
-    <dt-home-footer id="hiddenApps"
-                    translations='
-                <?php
-                echo wp_json_encode(
-                    [
-                        'hiddenAppsLabel' => __('Hidden Apps', 'dt_home'),
-                        'buttonLabel'     => __('Ok', 'dt_home'),
-                    ]
-                )
-                ?>
-                '
-                    hidden-data='<?php echo esc_attr(htmlspecialchars($data)); ?>'
-                    app-url-unhide='<?php echo esc_url($app_url); ?>'
-                    reset-apps='<?php echo esc_attr($reset_apps); ?>'>
-    </dt-home-footer>
+<dt-home-footer id="hiddenApps"
+                translations='<?php echo wp_json_encode( [
+                    "hiddenAppsLabel" => __( "Hidden Apps", 'dt_home' ),
+                    "buttonLabel"     => __( "Ok", 'dt_home' )
+                ] ) ?>'
+                hidden-data='<?php echo esc_attr( htmlspecialchars( $data ) ); ?>'
+                app-url-unhide='<?php echo esc_url( $app_url ); ?>'
+                reset-apps='<?php echo esc_attr( $reset_apps ); ?>'>
+</dt-home-footer>
 
-<?php
-$this->stop();
+<?php $this->stop(); ?>
+

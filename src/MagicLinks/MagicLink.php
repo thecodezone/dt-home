@@ -2,7 +2,6 @@
 
 namespace DT\Home\MagicLinks;
 
-use DT\Home\CodeZone\WPSupport\Router\Route;
 use DT\Home\CodeZone\WPSupport\Router\RouteInterface;
 use DT\Home\League\Route\Http\Exception\NotFoundException;
 use DT\Home\League\Route\RouteCollectionInterface;
@@ -92,18 +91,38 @@ abstract class MagicLink extends DT_Magic_Url_Base {
         return self::$_instance;
     }
 
+    /**
+     * Adds the current route to the whitelist of route types
+     *
+     * @return void
+     */
     public function whitelist_current_route() {
         $this->type_actions[ $this->get_current_action() ] = 'Current Route';
     }
 
+    /**
+     * Retrieves the current action from the request URI
+     *
+     * @return string|null The current action from the request URI or null if not found
+     */
     public function get_current_action() {
-        $current_action = request()->getUri()->getPath();
-        $current_action = trim( $current_action, '/' );
-        $url_parts = explode( '/', $current_action );
+        $request = request();
+        $site_url = site_url();
+        $site_url_parts = parse_url( site_url() );
+        $site_uri = $site_url_parts['path'] ?? '';
+        $uri = str_replace( [ $site_url, $site_uri ], '', $request->getUri()->__toString() );
+        $uri = explode( '?', $uri )[0];
+        $uri = trim( $uri, '/' );
+        $url_parts = explode( '/', $uri );
         $required_parts = array_slice( $url_parts, 3, 1 );
         return implode( '/', $required_parts );
     }
 
+    /**
+     * Adds custom routes to the magic link
+     *
+     * @return void
+     */
     public function add_endpoints() {
         // Extend this function to add custom endpoints
     }
@@ -121,14 +140,10 @@ abstract class MagicLink extends DT_Magic_Url_Base {
             } );
 
 
-        if ( WP_DEBUG ) {
+        try {
             $route->dispatch();
-        } else {
-            try {
-                $route->dispatch();
-            } catch ( NotFoundException $e ) {
-                wp_die( esc_html( $e->getMessage() ), esc_attr( $e->getCode() ) );
-            }
+        } catch ( NotFoundException $e ) {
+            wp_die( esc_html( $e->getMessage() ), esc_attr( $e->getCode() ) );
         }
 
         $renderer = apply_filters( namespace_string( 'response_renderer' ), false );
