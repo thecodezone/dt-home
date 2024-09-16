@@ -6,45 +6,54 @@
  * @var string $subpage_url
  * @var WP_User $user
  */
-$this->layout( 'layouts/plugin' );
+$this->layout('layouts/plugin');
 ?>
 
-<header id="app-header">
-    <overlay-trigger placement="right">
-        <div slot="trigger">
-            <sp-icon-help></sp-icon-help>
-        </div>
+    <header id="app-header">
 
-        <sp-tooltip slot="hover-content" open placement="right" class="spl-text">
-			<?php
-            // phpcs:ignore
-            echo wordwrap( esc_attr( __( "Copy this link and share it with people you are coaching.", "dt_home" ) ), 40, "<br />\n" ); ?>
-        </sp-tooltip>
-    </overlay-trigger>
+        <dt-home-tooltip translations='
+        <?php
+        echo wp_json_encode(
+            [
+                'helpText' => __('Copy this link and share it with people you are coaching', 'dt_home'),
 
-    <dt-copy-text value="<?php echo esc_url( $magic_link ); ?>"></dt-copy-text>
-</header>
+            ]
+        )
+        ?>
+        '
+        ></dt-home-tooltip>
 
-<dt-home-app-grid id="appGrid" app-data='<?php echo esc_attr( htmlspecialchars( $data ) ); ?>'
-                  app-url='<?php echo esc_url( $app_url ); ?>'>
-    <!-- Add more app icons as needed -->
-</dt-home-app-grid>
 
-<div>
-    <?php
-    // phpcs:ignore
-    echo $this->section( 'content' ) ?>
-</div>
+        <dt-copy-text value="<?php echo esc_url($magic_link); ?>"></dt-copy-text>
+    </header>
 
-<?php $this->start( 'footer' ) ?>
+    <dt-home-app-grid id="appGrid" app-data='<?php echo esc_attr(htmlspecialchars($data)); ?>'
+                      app-url='<?php echo esc_url($app_url); ?>'>
+        <!-- Add more app icons as needed -->
+    </dt-home-app-grid>
+
+    <div>
+        <?php
+        // phpcs:ignore
+        echo $this->section( 'content' ) ?>
+    </div>
+
+<?php $this->start('footer'); ?>
 
     <dt-home-footer id="hiddenApps"
-                    translations='<?php echo wp_json_encode([
-                        "hiddenAppsLabel" => __( "Hidden Apps", 'dt_home' ),
-                        "buttonLabel" => __( "Ok", 'dt_home' )
-                    ]) ?>'
-                    hidden-data='<?php echo esc_attr( htmlspecialchars( $data ) ); ?>'
-                    app-url-unhide='<?php echo esc_url( $app_url ); ?>'>
+                    translations='
+                <?php
+                echo wp_json_encode(
+                    [
+                        'hiddenAppsLabel' => __('Hidden Apps', 'dt_home'),
+                        'buttonLabel'     => __('Ok', 'dt_home'),
+                    ]
+                )
+                ?>
+                '
+                    hidden-data='<?php echo esc_attr(htmlspecialchars($data)); ?>'
+                    app-url-unhide='<?php echo esc_url($app_url); ?>'>
     </dt-home-footer>
 
-<?php $this->stop() ?>
+<?php
+$this->stop();
