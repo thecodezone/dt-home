@@ -7,7 +7,7 @@
  * @var WP_User $user
  * @var string $reset_apps
  */
-$this->layout('layouts/plugin');
+$this->layout( 'layouts/plugin' );
 ?>
 
 <header id="app-header">
@@ -15,8 +15,7 @@ $this->layout('layouts/plugin');
         <?php
         echo wp_json_encode(
             [
-                'helpText' => __('Copy this link and share it with people you are coaching', 'dt_home'),
-
+                'helpText' => __( 'Copy this link and share it with people you are coaching', 'dt_home' ),
             ]
         )
         ?>
