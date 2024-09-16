@@ -38,6 +38,7 @@ import './components/home-footer.js'
 import './components/menu.js'
 import './components/training-video.js'
 import './components/app-icon.js'
+import './components/tool-tip.js'
 
 /**
  * CSS
@@ -47,7 +48,7 @@ import '../css/plugin.css'
 /**
  * Imports
  */
-import {loaded} from './helpers.js'
+import { loaded } from './helpers.js'
 import handleDomLoaded from './dom-hooks/handle-dom-loaded.js'
 import decloak from './dom-hooks/decloak.js'
 import submitFormOnEnter from './dom-hooks/submit-form-on-enter.js'
