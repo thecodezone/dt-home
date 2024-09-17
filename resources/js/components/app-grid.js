@@ -186,6 +186,7 @@ class AppGrid extends LitElement {
     handleSingleClick(event, slug) {
         const selectedApp = this.appData.find((app) => app.slug === slug)
         if (selectedApp) {
+            console.log( selectedApp );
             switch (selectedApp.type) {
                 case 'Link':
                     this.visitApp(selectedApp.url, selectedApp)
@@ -205,7 +206,7 @@ class AppGrid extends LitElement {
     }
 
     visitApp(url, options) {
-        if (options.open_in_new_tab) {
+        if ( Boolean( JSON.parse( options.open_in_new_tab ) ) ) {
             window.open(url, '_blank')
         } else {
             window.location.href = url
