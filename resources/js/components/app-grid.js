@@ -1,7 +1,7 @@
-import {css, html, LitElement} from 'lit'
-import {customElement} from 'lit-element'
-import {property, queryAll} from 'lit/decorators.js'
-import {magic_url} from '../helpers.js'
+import { css, html, LitElement } from 'lit'
+import { customElement } from 'lit-element'
+import { property, queryAll } from 'lit/decorators.js'
+import { magic_url } from '../helpers.js'
 
 /**
  * Custom element representing an application grid.
@@ -205,7 +205,7 @@ class AppGrid extends LitElement {
     }
 
     visitApp(url, options) {
-        if (options.open_in_new_tab) {
+        if (options.open_in_new_tab != '0') {
             window.open(url, '_blank')
         } else {
             window.location.href = url
