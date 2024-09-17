@@ -186,7 +186,6 @@ class AppGrid extends LitElement {
     handleSingleClick(event, slug) {
         const selectedApp = this.appData.find((app) => app.slug === slug)
         if (selectedApp) {
-            console.log( selectedApp );
             switch (selectedApp.type) {
                 case 'Link':
                     this.visitApp(selectedApp.url, selectedApp)
