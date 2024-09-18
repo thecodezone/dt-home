@@ -190,7 +190,7 @@ class AppGrid extends LitElement {
                 case 'Link':
                     this.visitApp(selectedApp.url, selectedApp)
                     break
-                case 'Web View':
+                default:
                     this.visitApp(
                         this.addOrUpdateQueryParam(
                             magic_url(`/app/${selectedApp.slug}/`),
