@@ -52,7 +52,7 @@ class HomeFooter extends LitElement {
         border: none;
         color: white;
         cursor: pointer;
-        background-color: #1a73e8; /* Blue background */
+        background-color: #3fab3f; /* Green background */
         border-radius: 50%; /* Make the button circular */
         width: 40px; /* Set width */
         height: 40px; /* Set height */
