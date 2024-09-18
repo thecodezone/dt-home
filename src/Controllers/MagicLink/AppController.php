@@ -64,7 +64,9 @@ class AppController
 
         // Check to see if the app has an iframe URL
         $url = apply_filters( 'dt_home_webview_url', ( $app['url'] ?? '' ), $app );
+        if ( $app['slug'] != 'three-thirds-meetings' ) {
         $url = $this->add_or_update_query_param( $url, 'dt_home', 'true' );
+        }
         if ( ! $url ) {
             // No URL found 404
             return response( __( 'Not Found', 'dt_home' ), 404 );
