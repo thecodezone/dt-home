@@ -13,7 +13,8 @@ class AppSettingsControllerTest extends TestCase
     /**
      * @test
      */
-    public function it_renders() {
+    public function it_renders()
+    {
         $request = ServerRequestFactory::from_globals();
         $controller = container()->get( AppSettingsController::class );
         $response = $controller->show( $request );
@@ -23,7 +24,8 @@ class AppSettingsControllerTest extends TestCase
     /**
      * @test
      */
-    public function it_renders_available_apps() {
+    public function it_renders_available_apps()
+    {
         $request = ServerRequestFactory::from_globals();
         $controller = container()->get( AppSettingsController::class );
         $response = $controller->show_available_apps( $request );
@@ -33,7 +35,8 @@ class AppSettingsControllerTest extends TestCase
     /**
      * @test
      */
-    public function it_renders_create() {
+    public function it_renders_create()
+    {
         $request = ServerRequestFactory::from_globals();
         $controller = container()->get( AppSettingsController::class );
         $response = $controller->create( $request );
@@ -88,7 +91,7 @@ class AppSettingsControllerTest extends TestCase
         $response = $controller->hide( $request, [ 'slug' => $app['slug'] ] );
         $this->assertEquals( 302, $response->getStatusCode() );
         $apps = container()->get( Apps::class )->all();
-        $this->assertEquals( 1, $apps[0]['is_hidden'] );
+        $this->assertEquals( 1, $apps[1]['is_hidden'] );
     }
 
     /**
@@ -105,13 +108,14 @@ class AppSettingsControllerTest extends TestCase
         $response = $controller->unhide( $request, [ 'slug' => $app['slug'] ] );
         $this->assertEquals( 302, $response->getStatusCode() );
         $apps = container()->get( Apps::class )->all();
-        $this->assertEquals( 0, $apps[0]['is_hidden'] );
+        $this->assertEquals( 0, $apps[1]['is_hidden'] );
     }
 
     /**
      * @test
      */
-    public function it_renders_update() {
+    public function it_renders_update()
+    {
         $app = app_factory([
             'is_hidden' => true
         ]);

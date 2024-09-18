@@ -2,17 +2,17 @@
 
 namespace DT\Home;
 
+use DT\Home\CodeZone\WPSupport\Config\ConfigInterface;
+use DT\Home\CodeZone\WPSupport\Container\ContainerFactory;
 use DT\Home\CodeZone\WPSupport\Options\OptionsInterface;
 use DT\Home\CodeZone\WPSupport\Rewrites\RewritesInterface;
 use DT\Home\CodeZone\WPSupport\Router\ResponseFactory;
+use DT\Home\League\Container\Container;
 use DT\Home\League\Plates\Engine;
 use DT\Home\Psr\Http\Message\RequestInterface;
 use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Psr\Http\Message\ServerRequestInterface;
 use DT\Home\Services\Template;
-use DT\Home\CodeZone\WPSupport\Container\ContainerFactory;
-use DT\Home\League\Container\Container;
-use DT\Home\CodeZone\WPSupport\Config\ConfigInterface;
 use DT_Magic_URL;
 
 
@@ -25,7 +25,8 @@ use DT_Magic_URL;
  * @return mixed The ConfigInterface object if no key is provided, or the value of the specified configuration key.
  * @see https://config.thephpleague.com/
  */
-function config( $key = null, $value = null ) {
+function config( $key = null, $value = null )
+{
     $service = container()->get( ConfigInterface::class );
 
     if ( $key ) {
@@ -44,7 +45,8 @@ function config( $key = null, $value = null ) {
  *
  * @return Plugin The singleton instance of the Plugin class.
  */
-function plugin(): Plugin {
+function plugin(): Plugin
+{
     return container()->get( Plugin::class );
 }
 
@@ -54,7 +56,8 @@ function plugin(): Plugin {
  * @return Container The container instance.
  * @see https://container.thephpleague.com/4.x/
  */
-function container(): Container {
+function container(): Container
+{
     return ContainerFactory::singleton();
 }
 
@@ -65,7 +68,8 @@ function container(): Container {
  * @global WP_Rewrite $wp_rewrite The main WordPress rewrite rules object.
  *
  */
-function has_route_rewrite(): bool {
+function has_route_rewrite(): bool
+{
     $rewrites = container()->get( RewritesInterface::class );
     return $rewrites->exists(
         array_key_first( config()->get( 'routes.rewrites' ) )
@@ -79,7 +83,8 @@ function has_route_rewrite(): bool {
  *
  * @return string The URL of the specified file or directory within the Bible Plugin directory.
  */
-function plugin_url( string $path = '' ): string {
+function plugin_url( string $path = '' ): string
+{
     return plugins_url( 'dt-home' ) . '/' . ltrim( $path, '/' );
 }
 
@@ -90,10 +95,11 @@ function plugin_url( string $path = '' ): string {
  * @param string $key The key of the route file in the configuration. Defaults to 'web'.
  * @return string The URL for the given route.
  */
-function route_url( string $path = '', $key = 'web' ): string {
-    $file = config()->get( 'routes.files' )[ $key ];
+function route_url( string $path = '', $key = 'web' ): string
+{
+    $file = config()->get( 'routes.files' )[$key];
 
-    if ( ! has_route_rewrite() ) {
+    if ( !has_route_rewrite() ) {
         return site_url() . '?' . http_build_query( [ $file['query'] => $path ] );
     } else {
         return site_url( $file['path'] . '/' . ltrim( $path, '/' ) );
@@ -106,7 +112,8 @@ function route_url( string $path = '', $key = 'web' ): string {
  * @param string $path The web path to generate the URL for.
  * @return string The generated URL.
  */
-function web_url( string $path ) {
+function web_url( string $path )
+{
     return route_url( $path, 'web' );
 }
 
@@ -118,7 +125,8 @@ function web_url( string $path ) {
  * @return string The full path of the file or directory, relative to the plugin directory.
  * @see https://developer.wordpress.org/reference/functions/plugin_dir_path/
  */
-function plugin_path( string $path = '' ): string {
+function plugin_path( string $path = '' ): string
+{
     return Plugin::dir_path() . '/' . trim( $path, '/' );
 }
 
@@ -129,7 +137,8 @@ function plugin_path( string $path = '' ): string {
  *
  * @return string The complete source path.
  */
-function src_path( string $path = '' ): string {
+function src_path( string $path = '' ): string
+{
     return plugin_path( config( 'plugin.paths.src' ) . '/' . $path );
 }
 
@@ -140,7 +149,8 @@ function src_path( string $path = '' ): string {
  *
  * @return string The path to the resources directory, with optional subdirectory appended.
  */
-function resources_path( string $path = '' ): string {
+function resources_path( string $path = '' ): string
+{
     return plugin_path( config( 'plugin.paths.resources' ) . '/' . $path );
 }
 
@@ -151,7 +161,8 @@ function resources_path( string $path = '' ): string {
  *
  * @return string The path to the routes directory, with optional subdirectory appended.
  */
-function routes_path( string $path = '' ): string {
+function routes_path( string $path = '' ): string
+{
     return plugin_path( config( 'plugin.paths.routes' ) . '/' . $path );
 }
 
@@ -162,7 +173,8 @@ function routes_path( string $path = '' ): string {
  *
  * @return string The path to the views directory, with optional subdirectory appended.
  */
-function views_path( string $path = '' ): string {
+function views_path( string $path = '' ): string
+{
     return plugin_path( config( 'plugin.paths.views' ) . '/' . $path );
 }
 
@@ -175,9 +187,10 @@ function views_path( string $path = '' ): string {
  * @return ResponseInterface The rendered view if a view name is provided, otherwise the view engine object.
  * @see https://platesphp.com/v3/
  */
-function view( string $view = "", array $args = [] ) {
+function view( string $view = "", array $args = [] )
+{
     $engine = container()->get( Engine::class );
-    if ( ! $view ) {
+    if ( !$view ) {
         return $engine;
     }
 
@@ -195,9 +208,10 @@ function view( string $view = "", array $args = [] ) {
  * @return mixed If $template is not specified, an instance of the Template service is returned.
  *               If $template is specified, the rendered template is returned.
  */
-function template( string $template = "", array $args = [] ) {
+function template( string $template = "", array $args = [] )
+{
     $service = container()->get( Template::class );
-    if ( ! $template ) {
+    if ( !$template ) {
         return $service;
     }
 
@@ -210,7 +224,8 @@ function template( string $template = "", array $args = [] ) {
  * Returns the Request object.
  * @see https://github.com/guzzle/psr7
  */
-function request(): ServerRequestInterface {
+function request(): ServerRequestInterface
+{
     return container()->get( ServerRequestInterface::class );
 }
 
@@ -223,7 +238,8 @@ function request(): ServerRequestInterface {
  * @return ResponseInterface A new RedirectResponse instance.
  * @see https://github.com/guzzle/psr7
  */
-function redirect( string $url, int $status = 302, $headers = [] ): ResponseInterface {
+function redirect( string $url, int $status = 302, $headers = [] ): ResponseInterface
+{
     return ResponseFactory::redirect( $url, $status, $headers );
 }
 
@@ -237,7 +253,8 @@ function redirect( string $url, int $status = 302, $headers = [] ): ResponseInte
  * @return ResponseInterface The response object with the specified content, status, and headers.
  * @see https://github.com/guzzle/psr7
  */
-function response( $content, $status = 200, $headers = [] ) {
+function response( $content, $status = 200, $headers = [] )
+{
     return ResponseFactory::make( $content, $status, $headers );
 }
 
@@ -253,7 +270,8 @@ function response( $content, $status = 200, $headers = [] ) {
  * @see https://developer.wordpress.org/reference/functions/add_option/
  * @see https://developer.wordpress.org/reference/functions/update_option/
  */
-function set_option( string $option_name, $value ): bool {
+function set_option( string $option_name, $value ): bool
+{
     if ( get_option( $option_name ) === false ) {
         return add_option( $option_name, $value );
     } else {
@@ -300,7 +318,8 @@ function set_plugin_option( $option, $value ): bool
  *
  * @throws Exception If there is a database error before starting the transaction.
  */
-function transaction( $callback ) {
+function transaction( $callback )
+{
     global $wpdb;
     if ( $wpdb->last_error ) {
         return $wpdb->last_error;
@@ -326,7 +345,7 @@ function transaction( $callback ) {
  */
 function namespace_string( string $string ): string
 {
-    return config( 'plugin.text_domain' ) . '.' .  $string;
+    return config( 'plugin.text_domain' ) . '.' . $string;
 }
 
 /**
@@ -338,11 +357,12 @@ function namespace_string( string $string ): string
  * @return array|bool The registered magic apps for the given root and type.
  *                  Returns an array if found, otherwise returns false.
  */
-function magic_app( $root, $type ) {
+function magic_app( $root, $type )
+{
     $magic_apps = apply_filters( 'dt_magic_url_register_types', [] );
-    $root_apps  = $magic_apps[ $root ] ?? [];
+    $root_apps = $magic_apps[$root] ?? [];
 
-    return $root_apps[ $type ] ?? false;
+    return $root_apps[$type] ?? false;
 }
 
 /**
@@ -456,7 +476,8 @@ function is_plugin_active_for_network( $plugin )
  *
  * @return string The relative URI generated from the given URL.
  */
-function site_uri( $url ) {
+function site_uri( $url )
+{
     $uri = str_replace( site_url(), '', $url );
 
     // Ensure leading slash
@@ -474,20 +495,47 @@ function site_uri( $url ) {
  *
  * @param RequestInterface $request The request object from which to
  */
-function extract_request_input( RequestInterface $request ): array {
-	$content_type = $request->getHeaderLine( 'Content-Type' );
+function extract_request_input( RequestInterface $request ): array
+{
+    $content_type = $request->getHeaderLine( 'Content-Type' );
 
-	if ( strpos( $content_type, 'application/json' ) !== false ) {
-		// Handle JSON content type.
-		$body = $request->getBody()->getContents();
+    if ( strpos( $content_type, 'application/json' ) !== false ) {
+        // Handle JSON content type.
+        $body = $request->getBody()->getContents();
 
-		return json_decode( $body, true );
-	}
+        return json_decode( $body, true );
+    }
 
-	switch ( strtoupper( $request->getMethod() ) ) {
-		case 'GET':
-			return $request->getQueryParams();
-		default:
-			return $request->getParsedBody();
-	}
+    switch ( strtoupper( $request->getMethod() ) ) {
+        case 'GET':
+            return $request->getQueryParams();
+        default:
+            return $request->getParsedBody();
+    }
+}
+
+/**
+ * Sanitizes the YouTube iframe HTML to ensure it is safe for use.
+ *
+ * This function uses `wp_kses` to allow only specific HTML attributes for the iframe element.
+ * The allowed attributes are: src, width, height, frameborder, allow, allowfullscreen, referrerpolicy, and title.
+ *
+ * @param string $iframe The iframe HTML to sanitize.
+ * @return string The sanitized iframe HTML.
+ */
+function sanitize_youtube_iframe( $iframe ): string
+{
+    $allowed_html = [
+        'iframe' => [
+            'src' => [],
+            'width' => [],
+            'height' => [],
+            'frameborder' => [],
+            'allow' => [],
+            'allowfullscreen' => [],
+            'referrerpolicy' => [],
+            'title' => [],
+        ],
+    ];
+    return wp_kses( $iframe, $allowed_html );
 }

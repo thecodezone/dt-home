@@ -11,21 +11,16 @@ $this->layout( 'layouts/plugin' );
 ?>
 
 <header id="app-header">
-    <my-tooltip>
-
-    </my-tooltip>
-
-    <overlay-trigger placement="right">
-        <div slot="trigger">
-            <sp-icon-help></sp-icon-help>
-        </div>
-
-        <sp-tooltip slot="hover-content" open placement="right" class="spl-text">
-            <?php
-            // phpcs:ignore
-            echo wordwrap( esc_attr( __( "Copy this link and share it with people you are coaching.", "dt_home" ) ), 40, "<br />\n" ); ?>
-        </sp-tooltip>
-    </overlay-trigger>
+    <dt-home-tooltip translations='
+        <?php
+        echo wp_json_encode(
+            [
+                'helpText' => __( 'Copy this link and share it with people you are coaching', 'dt_home' ),
+            ]
+        )
+        ?>
+        '
+        ></dt-home-tooltip>
     <dt-copy-text value="<?php echo esc_url( $magic_link ); ?>"></dt-copy-text>
 </header>
 
@@ -53,3 +48,4 @@ $this->layout( 'layouts/plugin' );
 </dt-home-footer>
 
 <?php $this->stop(); ?>
+
