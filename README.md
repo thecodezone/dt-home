@@ -42,10 +42,6 @@ system for git. For a more details on contribution see the
 
 ## Screenshots
 
-![image](./documentation/admin/apps/imgs/apps-tab-list.png)
-
-![image](./documentation/admin/train/imgs/train-tab-list.png)
-
-![image](./documentation/apps/imgs/user-login.png)
-
 ![image](./documentation/apps/imgs/home-screen.png)
+
+![image](./documentation/admin/apps/imgs/apps-tab-list.png)
