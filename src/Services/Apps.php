@@ -65,30 +65,23 @@ class Apps {
                 if ( empty( $app['meta']['show_in_home_apps'] ) ){
                     continue;
                 }
-                if ( $app['post_type'] === 'user' ){
-                    $app_link = get_magic_url( $app['root'], $app['type'], get_current_user_id(), false );
-                }
-                if ( $app['post_type'] === 'contacts' ){
-                    $app_link = get_magic_url( $app['root'], $app['type'], \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ), false );
-                }
-                if ( !empty( $app_link ) ) {
-                    $apps[$app['type']] = array_merge( [
-                        'name' => $app['label'],
-                        'type' => 'Link',
-                        'creation_type' => 'code',
-                        'icon' => $app['meta']['icon'] ?? '/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg',
-                        'url' => $app_link,
-                        'slug' => $app['type'],
-                        'sort' => $app['sort'] ?? 10,
-                        'is_hidden' => false,
-                        'open_in_new_tab' => true,
-                        'magic_link_meta' => [
-                            'post_type' => $app['post_type'],
-                            'root' => $app['root'],
-                            'type' => $app['type']
-                        ]
-                    ], $apps[$app['type']] ?? [] );
-                }
+
+                $apps[$app['type']] = array_merge( [
+                    'name' => $app['label'],
+                    'type' => 'Link',
+                    'creation_type' => 'code',
+                    'icon' => $app['meta']['icon'] ?? '/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg',
+                    'url' => trailingslashit( trailingslashit( site_url() ) . $app['url_base'] ),
+                    'slug' => $app['type'],
+                    'sort' => $app['sort'] ?? 10,
+                    'is_hidden' => false,
+                    'open_in_new_tab' => true,
+                    'magic_link_meta' => [
+                        'post_type' => $app['post_type'],
+                        'root' => $app['root'],
+                        'type' => $app['type']
+                    ]
+                ], $apps[$app['type']] ?? [] );
             }
         }
 		// Sort the array based on the 'sort' key
