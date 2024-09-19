@@ -33,7 +33,8 @@ class AppController
         // Fetch the app
         $slug = $params['slug'];
         $apps = container()->get( Apps::class );
-        $app  = $apps->find( $slug );
+        $user_id = get_current_user_id();
+        $app  = $apps->find_for_user( $user_id, $slug );
 
         if ( ! $app ) {
             return response( __( 'Not Found', 'dt_home' ), 404 );
