@@ -65,20 +65,22 @@ class Apps {
                 if ( empty( $app['meta']['show_in_home_apps'] ) ){
                     continue;
                 }
-                if ( $app['post_type'] === 'user' ){
-                    $app_link = get_magic_url( $app['root'], $app['type'], get_current_user_id() );
-                }
-                if ( $app['post_type'] === 'contacts' ){
-                    $app_link = get_magic_url( $app['root'], $app['type'], \Disciple_Tools_Users::get_contact_for_user( get_current_user_id() ) );
-                }
+
                 $apps[$app['type']] = array_merge( [
                     'name' => $app['label'],
                     'type' => 'Web View',
+                    'creation_type' => 'code',
                     'icon' => $app['meta']['icon'] ?? '/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg',
-                    'url' => $app_link,
+                    'url' => trailingslashit( trailingslashit( site_url() ) . $app['url_base'] ),
                     'slug' => $app['type'],
                     'sort' => $app['sort'] ?? 10,
                     'is_hidden' => false,
+                    'open_in_new_tab' => false,
+                    'magic_link_meta' => [
+                        'post_type' => $app['post_type'],
+                        'root' => $app['root'],
+                        'type' => $app['type']
+                    ]
                 ], $apps[$app['type']] ?? [] );
             }
         }
@@ -100,7 +102,8 @@ class Apps {
 	 * @return array The apps array for the user.
 	 */
 	public function for_user( $user_id ) {
-		$user_apps = get_user_option( 'dt_home_apps', $user_id );
+
+        $user_apps = get_user_option( 'dt_home_apps', $user_id );
 		if ( ! $user_apps ) {
 			$user_apps = [];
 		}
@@ -122,7 +125,19 @@ class Apps {
                     ]
 				);
 			}
-		}
+
+            // If required, source correct user keys for magic link app urls.
+            if ( !empty( $app['magic_link_meta'] ) && isset( $app['magic_link_meta']['post_type'], $app['magic_link_meta']['root'], $app['magic_link_meta']['type'] ) ) {
+                switch ( $app['magic_link_meta']['post_type'] ) {
+                    case 'user':
+                        $apps[ $idx ]['url'] = get_magic_url( $app['magic_link_meta']['root'], $app['magic_link_meta']['type'], $user_id );
+                        break;
+                    case 'contacts':
+                        $apps[ $idx ]['url'] = get_magic_url( $app['magic_link_meta']['root'], $app['magic_link_meta']['type'], \Disciple_Tools_Users::get_contact_for_user( $user_id ) );
+                        break;
+                }
+            }
+        }
         $apps = array_filter( $apps, function ( $app ) {
             return ( $app['is_deleted'] ?? false ) === false;
         });
@@ -149,6 +164,28 @@ class Apps {
 
 		return $apps;
 	}
+
+    /**
+     * Find an app for a specific user by the app's slug.
+     *
+     * @param int $user_id The ID of the user.
+     * @param string $slug The slug of the app.
+     * @return array|null The app with matching slug for the user, or null if not found.
+     */
+    public function find_for_user( $user_id, $slug ) {
+        $apps = $this->for_user( $user_id );
+
+        // Filter the $apps array to find the item with matching slug.
+        $filtered_apps = array_filter($apps, function ( $app ) use ( $slug ) {
+            return $app['slug'] === $slug;
+        });
+
+        // array_filter preserves array keys, so use array_values to reindex it
+        $filtered_apps = array_values( $filtered_apps );
+
+        // Return the first app if one was found, otherwise return null
+        return !empty( $filtered_apps ) ? $filtered_apps[0] : null;
+    }
 
     /**
      * Find an app by slug.

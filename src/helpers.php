@@ -371,10 +371,11 @@ function magic_app( $root, $type )
  * @param string $root The root of the magic URL.
  * @param string $type The type of the magic URL.
  * @param int $id The ID of the post to generate the magic URL for.
+ * @param bool $inc_ml_key Flag to indicate if magic link key should be appended to URL.
  *
  * @return string The generated magic URL.
  */
-function get_magic_url( $root, $type, $id ): string
+function get_magic_url( $root, $type, $id, $inc_ml_key = true ): string
 {
     $app = magic_app( $root, $type );
     if ( !$app ) {
@@ -382,19 +383,30 @@ function get_magic_url( $root, $type, $id ): string
     }
     if ( $app['post_type'] === 'user' ) {
         $app_user_key = get_user_option( $app['meta_key'] );
+
+        // Auto generated new key if required.
         if ( empty( $app_user_key ) ) {
             $app_user_key = dt_create_unique_key();
             update_user_option( $id, $app['meta_key'], $app_user_key );
         }
         $app_url_base = trailingslashit( trailingslashit( site_url() ) . $app['url_base'] );
-        return $app_url_base . $app_user_key;
+        return $app_url_base . ( $inc_ml_key ? $app_user_key : '' );
     } else {
-        return DT_Magic_URL::get_link_url_for_post(
+        $url = DT_Magic_URL::get_link_url_for_post(
             $app["post_type"],
             $id,
             $app["root"],
             $app["type"]
         );
+
+        // If specified, remove trailing magic-link key from url.
+        if ( !$inc_ml_key ) {
+            $url_base = $app["root"] . '/' . $app["type"] . '/';
+            $url_base_offset = strrpos( $url, $url_base );
+            $url = substr( $url, 0, ( $url_base_offset + strlen( $url_base ) ) );
+        }
+
+        return $url;
     }
 }
 
