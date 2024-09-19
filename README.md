@@ -49,5 +49,3 @@ system for git. For a more details on contribution see the
 ![image](./documentation/apps/imgs/user-login.png)
 
 ![image](./documentation/apps/imgs/home-screen.png)
-
-![image](./documentation/train/imgs/training-view.png)
