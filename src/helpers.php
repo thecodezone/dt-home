@@ -381,8 +381,11 @@ function get_magic_url( $root, $type, $id ): string
         return "";
     }
     if ( $app['post_type'] === 'user' ) {
-
         $app_user_key = get_user_option( $app['meta_key'] );
+        if ( empty( $app_user_key ) ) {
+            $app_user_key = dt_create_unique_key();
+            update_user_option( $id, $app['meta_key'], $app_user_key );
+        }
         $app_url_base = trailingslashit( trailingslashit( site_url() ) . $app['url_base'] );
         return $app_url_base . $app_user_key;
     } else {
