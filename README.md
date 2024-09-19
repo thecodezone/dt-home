@@ -26,7 +26,7 @@ Follow the links below for detailed descriptions of the functionality offered by
 
 ## Framework
 
-See [dt-plugin](https://github.com/thecodezone/dt-plugin) documentation, for a detailed description of the implemented Laravel framework; which the Disciple.Tools Home Screen plugin has been built upon.
+See [dt-plugin](https://github.com/thecodezone/dt-plugin) for developer documentation.
 
 ## Contribution
 
