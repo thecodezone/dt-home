@@ -49,23 +49,22 @@ class HomeFooter extends LitElement {
       }
 
       .trigger-button {
-        border: none;
+        --mod-button-min-width: 41px;
+        --mod-button-border-width: 6px 3px 2.5px 3px;
+        --spectrum-border-width-200: 12px;
+        --spectrum-button-bottom-to-text-medium: 0px;
+        --spectrum-button-top-to-text-medium: 0px;
+        --spectrum-workflow-icon-size-100: 26px;
+        --spectrum-button-edge-to-text: 0px;
+        --system-spectrum-button-accent-background-color-hover: #3fab3f;
+        --system-spectrum-button-accent-background-color-down: #3fab3f;
+        --spectrum-focus-indicator-color: transparent;
+        border-radius: 50%;
+      }
+
+      sp-icon-add {
         color: white;
-        cursor: pointer;
-        background-color: #3fab3f; /* Green background */
-        border-radius: 50%; /* Make the button circular */
-        width: 40px; /* Set width */
-        height: 40px; /* Set height */
-        display: flex; /* Center the icon */
-        justify-content: center; /* Center the icon horizontally */
-        align-items: center; /* Center the icon vertically */
       }
-
-      .trigger-button sp-icon-add {
-        width: 36px; /* Icon width */
-        height: 36px; /* Icon height */
-      }
-
 
       sp-dialog {
         background-color: white;
@@ -344,11 +343,13 @@ class HomeFooter extends LitElement {
                 @import url('https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css');
             </style>
             <div class="footer-container">
-                <overlay-trigger type="modal" placement="top">
-                    <button slot="trigger" class="trigger-button">
+                <overlay-trigger type="replace" placement="top">
+                    <sp-button slot="trigger" class="trigger-button">
                         <sp-icon-add></sp-icon-add>
-                    </button>
-
+                    </sp-button>
+                    <!--                    <button slot="trigger" class="trigger-button1">-->
+                    <!--                        <sp-icon-add></sp-icon-add>-->
+                    <!--                    </button>-->
                     <sp-dialog
                         slot="click-content"
                         class="custom-dialog-overlay"
