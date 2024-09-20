@@ -7,7 +7,7 @@ class DiscipleTools extends App
     public function config(): array
     {
         return [
-            "name" => "Disciple Tools",
+            "name" => "Disciple.Tools",
             "type" => "Web View",
             'creation_type' => 'code',
             "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/dt-caret.png",
