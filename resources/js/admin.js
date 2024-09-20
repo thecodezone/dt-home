@@ -37,6 +37,10 @@ document.addEventListener('DOMContentLoaded', function () {
         return
     }
 
+    if (slugInput.readOnly) {
+        return
+    }
+
     if (nameInput && slugInput.value || !slugInput.value) {
         nameInput.addEventListener('input', function () {
             // Convert to lowercase and replace spaces with underscores
