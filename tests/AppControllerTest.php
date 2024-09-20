@@ -26,7 +26,9 @@ class AppControllerTest extends TestCase
      */
     public function it_renders() {
         $request = ServerRequestFactory::from_globals();
-        $app = app_factory();
+        $app = app_factory([
+            'creation_type' => 'custom',
+        ]);
         $apps = container()->get( Apps::class );
         $data = $apps->all();
         $data[] = $app;

@@ -7,8 +7,6 @@ use DT\Home\League\Container\ServiceProvider\BootableServiceProviderInterface;
 use DT\Home\Psr\Container\ContainerExceptionInterface;
 use DT\Home\Psr\Container\NotFoundExceptionInterface;
 use function DT\Home\config;
-use function DT\Home\container;
-use function DT\Home\magic_url;
 use function DT\Home\namespace_string;
 
 /**
@@ -46,7 +44,6 @@ class MagicLinkServiceProvider extends AbstractServiceProvider implements Bootab
     {
 
         add_action( 'wp_loaded', [ $this, 'wp_loaded' ], 20 );
-
 
         $this->getContainer()->add( namespace_string( 'magic_links' ), function () {
             return apply_filters( namespace_string( 'magic_links' ), config( 'magic.links' ) );

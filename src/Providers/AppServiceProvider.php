@@ -9,6 +9,7 @@ use DT\Home\Apps\ThreeThirdsMeetings;
 use DT\Home\Conditions\Plugin as IsPlugin;
 use DT\Home\League\Container\ServiceProvider\AbstractServiceProvider;
 use DT\Home\League\Container\ServiceProvider\BootableServiceProviderInterface;
+use DT\Home\Services\MagicApps;
 
 class AppServiceProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
@@ -21,6 +22,9 @@ class AppServiceProvider extends AbstractServiceProvider implements BootableServ
 
     public function boot(): void
     {
+        $this->getContainer()->addShared( MagicApps::class );
+        $this->getContainer()->get( MagicApps::class );
+
         foreach ( $this->apps as $app ) {
             $this->getContainer()->add( $app );
             $this->getContainer()->get( $app );

@@ -528,8 +528,8 @@ class AppSettingsController {
                 break; // Exit the loop once the app is found and marked
             }
         }
-        // Save the updated array back to the option
-        set_plugin_option( 'apps', $apps_array );
+
+        $apps->save( $apps_array );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }

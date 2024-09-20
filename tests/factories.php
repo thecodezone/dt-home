@@ -11,14 +11,15 @@ function app_factory( $params = [] ) {
     $faker = Faker::create();
 
     return array_merge( [
-        'name' => $faker->name,
+        'name' => $faker->words( 3, true ),
         'type' => $faker->randomElement( [ 'Webview', 'Link' ] ),
-        'creation_type' => $faker->randomElement( [ 'Custom', 'Code' ] ),
+        'creation_type' => $faker->randomElement( [ 'custom', 'code' ] ),
         'icon' => $faker->imageUrl(),
         'url' => $faker->url,
         'sort' => $faker->numberBetween( 0, 50 ),
         'slug' => $faker->slug,
         'is_hidden' => $faker->boolean,
+        'is_deleted' => false,
     ], $params );
 }
 
@@ -26,7 +27,7 @@ function training_factory( $params = [] ) {
     $faker = Faker::create();
 
     return array_merge( [
-        'name' => $faker->name,
+        'name' => $faker->words( 3, true ),
         'embed_video' => $faker->url,
         'anchor' => $faker->slug,
         'sort' => $faker->numberBetween( 0, 50 ),

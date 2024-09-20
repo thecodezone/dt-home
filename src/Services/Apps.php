@@ -3,8 +3,19 @@
 namespace DT\Home\Services;
 
 use function DT\Home\get_magic_url;
+use function DT\Home\set_plugin_option;
 
 class Apps {
+    /**
+     * Save apps.
+     *
+     * @param array $apps The apps to be saved.
+     * @return bool Whether the saving was successful or not.
+     */
+    public function save( $apps ): bool {
+        return set_plugin_option( 'apps', array_values( $apps ) );
+    }
+
 	/**
 	 * Retrieve all apps from the option and sort them based on the 'sort' key.
 	 *
@@ -43,7 +54,7 @@ class Apps {
             }
 
             // Reindex array elements and persist changes to db.
-            update_option( 'dt_home_apps', array_values( $db_apps ) );
+            $this->save( $db_apps );
         }
 
         // Merge updated apps; for further downstream processing.
@@ -55,35 +66,6 @@ class Apps {
             $apps[ $app['slug'] ] = $app;
         }
 
-        /**
-         * Proceed with apps retrieval; once all stale coded-apps have been purged.
-         */
-
-        $magic_apps = apply_filters( 'dt_magic_url_register_types', [] );
-        foreach ( $magic_apps as $root_key => $root_value ){
-            foreach ( $root_value as $type_key => $app ){
-                if ( empty( $app['meta']['show_in_home_apps'] ) ){
-                    continue;
-                }
-
-                $apps[$app['type']] = array_merge( [
-                    'name' => $app['label'],
-                    'type' => 'Web View',
-                    'creation_type' => 'code',
-                    'icon' => $app['meta']['icon'] ?? '/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg',
-                    'url' => trailingslashit( trailingslashit( site_url() ) . $app['url_base'] ),
-                    'slug' => $app['type'],
-                    'sort' => $app['sort'] ?? 10,
-                    'is_hidden' => false,
-                    'open_in_new_tab' => false,
-                    'magic_link_meta' => [
-                        'post_type' => $app['post_type'],
-                        'root' => $app['root'],
-                        'type' => $app['type']
-                    ]
-                ], $apps[$app['type']] ?? [] );
-            }
-        }
 		// Sort the array based on the 'sort' key
 		usort($apps, function ( $a, $b ) {
 			return ( (int) $a['sort'] ?? 0 ) - ( (int) $b['sort'] ?? 0 );
