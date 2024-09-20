@@ -65,7 +65,7 @@ class MagicApps {
                     'icon' => $app['meta']['icon'] ?? '/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg',
                     'url' => trailingslashit( trailingslashit( site_url() ) . $app['url_base'] ),
                     'slug' => $app['type'],
-                    'sort' => $app['sort'] ?? null,
+                    'sort' => $app['sort'] ?? 10,
                     'is_hidden' => false,
                     'open_in_new_tab' => false,
                     'magic_link_meta' => [
