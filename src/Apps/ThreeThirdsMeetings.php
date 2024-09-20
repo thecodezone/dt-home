@@ -11,7 +11,7 @@ class ThreeThirdsMeetings extends App {
 		    "type" => "Web View",
             'creation_type' => 'code',
             "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/calendar-clock.svg",
-			'url' => '/3/3',
+			'url' => site_url( '/3/3' ),
 		    "sort" => 0,
 		    "slug" => "three-thirds-meetings",
 		    "is_hidden" => false,

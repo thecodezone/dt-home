@@ -14,7 +14,7 @@ class Autolink extends App
             "type" => "Web View",
             'creation_type' => 'code',
             "icon" => "/wp-content/themes/disciple-tools-theme/dt-assets/images/link.svg",
-            'url' => '/autolink',
+            'url' => site_url( '/autolink' ),
             "sort" => 0,
             "slug" => "disciple-tools-autolink",
             "is_hidden" => false,
