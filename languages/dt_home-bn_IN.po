@@ -4,21 +4,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DT Home 0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dt-home\n"
-"POT-Creation-Date: 2024-03-23 15:23-0500\n"
-"PO-Revision-Date: 2024-03-23 15:25-0500\n"
+"POT-Creation-Date: 2024-09-20 12:56-0500\n"
+"PO-Revision-Date: 2024-09-20 12:57-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: bn_IN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Poedit 3.4.4\n"
 "X-Domain: dt_home\n"
 "X-Poedit-Mapping: php=gettext:PHP\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: dt-home.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
@@ -31,482 +33,559 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-8: includes\n"
 "X-Poedit-SearchPathExcluded-9: bible-plugin.php\n"
 
-#: resources/views/auth/login.php:34
-#, fuzzy
+#: config/assets.php:22
+msgid "Are you sure you want to remove this app?"
+msgstr ""
+
+#: resources/views/auth/login.php:37
 msgid "Username or Email Address"
 msgstr "ব্যবহারকারীর নাম বা ইমেল ঠিকানা"
 
-#: resources/views/auth/login.php:40 resources/views/auth/register.php:43
-#, fuzzy
+#: resources/views/auth/login.php:43 resources/views/auth/register.php:43
 msgid "Password"
 msgstr "পাসওয়ার্ড"
 
-#: resources/views/auth/login.php:49
-#, fuzzy
+#: resources/views/auth/login.php:52
 msgid "Login"
 msgstr "লগইন"
 
-#: resources/views/auth/login.php:55 resources/views/auth/login.php:56
-#, fuzzy
+#: resources/views/auth/login.php:60 resources/views/auth/login.php:61
 msgid "Create Account"
 msgstr "অ্যাকাউন্ট তৈরি করুন"
 
-#: resources/views/auth/login.php:68
-#, fuzzy
+#: resources/views/auth/login.php:73
 msgid "Forgot Password?"
 msgstr "পাসওয়ার্ড ভুলে গেছেন?"
 
 #: resources/views/auth/register.php:35
-#, fuzzy
 msgid "Username"
 msgstr "ব্যবহারকারীর নাম"
 
 #: resources/views/auth/register.php:39
-#, fuzzy
 msgid "Email"
 msgstr "ইমেল"
 
 #: resources/views/auth/register.php:48
-#, fuzzy
 msgid "Confirm Password"
 msgstr "পাসওয়ার্ড নিশ্চিত করুন"
 
 #: resources/views/auth/register.php:57
-#, fuzzy
 msgid "Register"
 msgstr "নিবন্ধন"
 
 #: resources/views/auth/register.php:67
-#, fuzzy
 msgid "Back to Login"
 msgstr "লগইন এ ফিরে যান"
 
-#: resources/views/hidden-apps.php:30
-#, fuzzy
+#: resources/views/hidden-apps.php:28
+msgid "Name:"
+msgstr "নাম:"
+
+#: resources/views/hidden-apps.php:32
 msgid "Visit subpage"
 msgstr "উপপাতা দেখুন"
 
 #: resources/views/index.php:18
-#, fuzzy
-msgid "learn more"
-msgstr "আরও শেখো"
+msgid "Copy this link and share it with people you are coaching"
+msgstr "এই লিঙ্কটি অনুলিপি করুন এবং আপনি যাদের প্রশিক্ষণ দিচ্ছেন তাদের সাথে এটি ভাগ করুন"
 
-#: resources/views/index.php:43
-#, fuzzy
+#: resources/views/index.php:42
 msgid "Hidden Apps"
 msgstr "লুকানো অ্যাপস"
 
+#: resources/views/index.php:43
+msgid "Ok"
+msgstr "ঠিক আছে"
+
 #: resources/views/layouts/plugin.php:11 resources/views/settings/create.php:24
-#: resources/views/settings/edit.php:25
-#: src/Providers/AdminServiceProvider.php:43
-#, fuzzy
+#: resources/views/settings/edit.php:23 src/Services/Settings.php:51
 msgid "Apps"
 msgstr "অ্যাপস"
 
 #: resources/views/layouts/plugin.php:12 resources/views/training.php:8
-#, fuzzy
 msgid "Training"
 msgstr "প্রশিক্ষণ"
 
-#: resources/views/layouts/plugin.php:13
-#, fuzzy
+#: resources/views/layouts/plugin.php:14
 msgid "Log Out"
 msgstr "লগ আউট করুন"
 
-#: resources/views/layouts/plugin.php:17
-#, fuzzy
-msgid "Disciple.Tools"
-msgstr "শিষ্য.সরঞ্জাম"
-
-#: resources/views/layouts/settings.php:12
-#: src/Providers/AdminServiceProvider.php:30
-#: src/Providers/AdminServiceProvider.php:31
-#, fuzzy
+#: resources/views/layouts/settings.php:12 src/Services/Settings.php:38
+#: src/Services/Settings.php:39
 msgid "Home Screen"
 msgstr "হোম স্ক্রিন"
 
 #: resources/views/layouts/settings.php:15
-#, fuzzy
 msgid "Part of the DT Toolbox"
 msgstr "ডিটি টুলবক্সের অংশ"
 
 #: resources/views/settings/app.php:17
-#, fuzzy
+msgid "Available Apps"
+msgstr "উপলভ্য অ্যাপস"
+
+#: resources/views/settings/app.php:23
 msgid "Add App"
 msgstr "অ্যাপ যোগ করুন"
 
-#: resources/views/settings/app.php:25 resources/views/settings/create.php:31
-#: resources/views/settings/edit.php:33
-#: resources/views/settings/training.php:25
-#, fuzzy
+#: resources/views/settings/app.php:30
+#: resources/views/settings/available-apps.php:26
+#: resources/views/settings/create.php:31 resources/views/settings/edit.php:31
+#: resources/views/settings/training.php:32
+#: resources/views/settings/training/create.php:18
+#: resources/views/settings/training/edit.php:27
 msgid "Name"
 msgstr "নাম"
 
-#: resources/views/settings/app.php:26 resources/views/settings/create.php:37
-#: resources/views/settings/edit.php:40
-#, fuzzy
+#: resources/views/settings/app.php:31
+#: resources/views/settings/available-apps.php:27
+#: resources/views/settings/create.php:41 resources/views/settings/edit.php:43
 msgid "Type"
 msgstr "টাইপ"
 
-#: resources/views/settings/app.php:27
-#, fuzzy
+#: resources/views/settings/app.php:32 resources/views/settings/app.php:59
+#: resources/views/settings/available-apps.php:28
+#: resources/views/settings/available-apps.php:46
+#: resources/views/settings/edit.php:83
 msgid "Icon"
 msgstr "আইকন"
 
-#: resources/views/settings/app.php:28 resources/views/settings/create.php:63
-#: resources/views/settings/edit.php:85
-#, fuzzy
+#: resources/views/settings/app.php:33
+#: resources/views/settings/available-apps.php:29
+#: resources/views/settings/create.php:90 resources/views/settings/edit.php:118
 msgid "Slug"
 msgstr "স্লাগ"
 
-#: resources/views/settings/app.php:29 resources/views/settings/training.php:28
-#, fuzzy
+#: resources/views/settings/app.php:34
+#: resources/views/settings/available-apps.php:30
+#: resources/views/settings/training.php:35
 msgid "Action"
 msgstr "ক্রিয়া"
 
-#: resources/views/settings/app.php:46 resources/views/settings/training.php:41
-#, fuzzy
+#: resources/views/settings/app.php:67 resources/views/settings/training.php:45
 msgid "Up"
 msgstr "আপ"
 
-#: resources/views/settings/app.php:49
-#, fuzzy
+#: resources/views/settings/app.php:69
 msgid "Unhide"
 msgstr "লুকিয়ে রাখুন"
 
-#: resources/views/settings/app.php:51
-#, fuzzy
+#: resources/views/settings/app.php:71
 msgid "Hide"
 msgstr "লুকান"
 
-#: resources/views/settings/app.php:53 resources/views/settings/training.php:42
-#, fuzzy
+#: resources/views/settings/app.php:73 resources/views/settings/training.php:46
 msgid "Edit"
 msgstr "সম্পাদনা"
 
-#: resources/views/settings/app.php:55 resources/views/settings/training.php:45
-#, fuzzy
+#: resources/views/settings/app.php:74 resources/views/settings/training.php:48
 msgid "Down"
 msgstr "ডাউন"
 
-#: resources/views/settings/create.php:40 resources/views/settings/edit.php:44
-#, fuzzy
-msgid "Please select"
-msgstr "দয়া করে নির্বাচন করুন"
-
-#: resources/views/settings/create.php:41 resources/views/settings/edit.php:47
-#, fuzzy
-msgid "Web View"
-msgstr "ওয়েব ভিউ"
-
-#: resources/views/settings/create.php:47 resources/views/settings/edit.php:58
-#, fuzzy
-msgid "Icon (File Upload)"
-msgstr "আইকন (ফাইল আপলোড)"
-
-#: resources/views/settings/create.php:52 resources/views/settings/edit.php:71
-#, fuzzy
-msgid "Change Icon"
-msgstr "আইকন পরিবর্তন করুন"
-
-#: resources/views/settings/create.php:57 resources/views/settings/edit.php:77
-#, fuzzy
-msgid "URL"
-msgstr "ইউআরএল"
-
-#: resources/views/settings/create.php:69 resources/views/settings/edit.php:93
-#, fuzzy
-msgid "Is Hidden"
-msgstr "লুকানো আছে"
-
-#: resources/views/settings/create.php:82 resources/views/settings/edit.php:106
-#: resources/views/settings/training/create.php:50
-#: resources/views/settings/training/edit.php:55
-#, fuzzy
-msgid "Cancel"
-msgstr "বাতিল"
-
-#: resources/views/settings/create.php:84
-#: resources/views/settings/training/create.php:52
-#, fuzzy
-msgid "Submit"
-msgstr "জমা"
-
-#: resources/views/settings/create.php:95 resources/views/settings/edit.php:119
-#, fuzzy
-msgid "Close"
-msgstr "বন্ধ"
-
-#: resources/views/settings/edit.php:50
-#, fuzzy
-msgid "Custom"
-msgstr "কাস্টম"
-
-#: resources/views/settings/edit.php:108
-#: resources/views/settings/general.php:35
-#: resources/views/settings/training/edit.php:57
-#, fuzzy
-msgid "Update"
-msgstr "আধুনিকীকরণ"
-
-#: resources/views/settings/general.php:15
-#, fuzzy
-msgid "Require users to login to access the home screen?"
-msgstr "হোম স্ক্রিন অ্যাক্সেস করতে ব্যবহারকারীদের লগইন করতে হবে?"
-
-#: resources/views/settings/training.php:17
-#, fuzzy
-msgid "Add Training"
-msgstr "প্রশিক্ষণ যোগ করুন"
-
-#: resources/views/settings/training.php:26
-#, fuzzy
-msgid "Embed Code"
-msgstr "কোড এম্বেড করুন"
-
-#: resources/views/settings/training.php:27
-#, fuzzy
-msgid "Anchor"
-msgstr "নোঙ্গর"
-
-#: resources/views/settings/training.php:44
-#, fuzzy
+#: resources/views/settings/app.php:78 resources/views/settings/app.php:83
+#: resources/views/settings/training.php:47
 msgid "Delete"
 msgstr "বিলোপ"
 
-#: resources/views/subpage.php:15
-#, fuzzy
-msgid "Visit home"
-msgstr "বাড়িতে যান"
+#: resources/views/settings/app.php:97 resources/views/settings/app.php:105
+msgid "Are you sure you want to delete this app?"
+msgstr "তুমি কি নিশ্চিত যে তুমি এই অ্যাপটি মুছতে চাও?"
 
-#: src/Controllers/LoginController.php:49
-#: src/Controllers/RegisterController.php:55
-#, fuzzy
-msgid "An unexpected error has occurred."
-msgstr "একটি অপ্রত্যাশিত ত্রুটি সংঘটিত হয়েছে।"
+#: resources/views/settings/available-apps.php:17
+msgid "Go Back"
+msgstr "ফিরে যাও"
 
-#: src/Middleware/Nonce.php:20
-#, fuzzy
-msgid "Could not verify request."
-msgstr "অনুরোধ যাচাই করা যায়নি।"
+#: resources/views/settings/available-apps.php:36
+msgid "No apps found"
+msgstr "কোনও অ্যাপ খুঁজে পাওয়া যায়নি"
 
-#: src/PostTypes/StarterPostType.php:106
-#, fuzzy
-msgid "Assigned to me"
-msgstr "আমাকে অর্পণ করা হয়েছে"
+#: resources/views/settings/available-apps.php:58
+msgid "Restore"
+msgstr "পুনঃস্থাপন"
 
-#: src/PostTypes/StarterPostType.php:114 src/PostTypes/StarterPostType.php:158
-#, fuzzy
-msgid "All"
-msgstr "সকল"
+#: resources/views/settings/available-apps.php:73
+msgid "Are you sure you want to restore this app?"
+msgstr "আপনি কি নিশ্চিত যে আপনি এই অ্যাপটি পুনর্বহাল করতে চান?"
 
-#: src/PostTypes/StarterPostType.php:150
-#, fuzzy
-msgid "All By Status"
-msgstr "সব স্ট্যাটাস অনুযায়ী"
+#: resources/views/settings/create.php:33 resources/views/settings/edit.php:33
+msgid "Enter the name of the app."
+msgstr "অ্যাপটির নাম লিখুন।"
 
-#: src/PostTypes/StarterPostType.php:257 src/PostTypes/StarterPostType.php:273
-#: src/Providers/PostTypeServiceProvider.php:42
-#, fuzzy
-msgid "Starter"
-msgstr "স্টার্টার"
+#: resources/views/settings/create.php:37 resources/views/settings/create.php:71
+#: resources/views/settings/create.php:96 resources/views/settings/edit.php:38
+#: resources/views/settings/edit.php:92
+#: resources/views/settings/training/create.php:24
+#: resources/views/settings/training/edit.php:34
+#: resources/views/settings/training/edit.php:60
+msgid "The name cannot be empty or just whitespace."
+msgstr "নাম ফাঁকা বা শুধু হোয়াইটস্পেস হতে পারে না।"
 
-#: src/PostTypes/StarterPostType.php:258 src/PostTypes/StarterPostType.php:274
-#, fuzzy
-msgid "Starters"
-msgstr "প্রারম্ভিক"
+#: resources/views/settings/create.php:43 resources/views/settings/edit.php:45
+msgid "Select the type of the app."
+msgstr "অ্যাপের ধরন নির্বাচন করুন।"
 
-#: src/PostTypes/StarterPostType.php:289
-#, fuzzy
-msgid "My Starter Role"
-msgstr "আমার স্টার্টার রোল"
+#: resources/views/settings/create.php:48 resources/views/settings/edit.php:51
+msgid "Please select"
+msgstr "দয়া করে নির্বাচন করুন"
 
-#: src/PostTypes/StarterPostType.php:327
-#, fuzzy
-msgid "Status"
-msgstr "স্থিতি"
+#: resources/views/settings/create.php:49 resources/views/settings/edit.php:54
+msgid "Web View"
+msgstr "ওয়েব ভিউ"
 
-#: src/PostTypes/StarterPostType.php:328
-#, fuzzy
-msgid "Set the current status."
-msgstr "বর্তমান স্থিতি সেট করুন।"
+#: resources/views/settings/create.php:50 resources/views/settings/edit.php:57
+msgid "Link"
+msgstr "যোগসূত্র"
 
-#: src/PostTypes/StarterPostType.php:332
-#, fuzzy
-msgid "Inactive"
-msgstr "নিষ্ক্রিয়"
+#: resources/views/settings/create.php:56 resources/views/settings/edit.php:64
+msgid "Open link in new tab"
+msgstr "নতুন ট্যাবে লিঙ্ক খুলুন"
 
-#: src/PostTypes/StarterPostType.php:333
-#, fuzzy
-msgid "No longer active."
-msgstr "এখন আর সক্রিয় নেই।"
+#: resources/views/settings/create.php:58 resources/views/settings/edit.php:66
+msgid "Check this box to open the link in a new tab."
+msgstr "একটি নতুন ট্যাবে লিঙ্কটি খুলতে এই বাক্সটি চেক করুন।"
 
-#: src/PostTypes/StarterPostType.php:337
-#, fuzzy
-msgid "Active"
-msgstr "সক্রিয়"
+#: resources/views/settings/create.php:66 resources/views/settings/edit.php:75
+msgid "Icon (File Upload)"
+msgstr "আইকন (ফাইল আপলোড)"
 
-#: src/PostTypes/StarterPostType.php:338
-#, fuzzy
-msgid "Is active."
-msgstr "সক্রিয় আছে।"
+#: resources/views/settings/create.php:68 resources/views/settings/edit.php:77
+msgid "Upload an icon for the app."
+msgstr "অ্যাপটির জন্য একটি আইকন আপলোড করুন।"
 
-#: src/PostTypes/StarterPostType.php:348
-#, fuzzy
-msgid "Assigned To"
-msgstr "অর্পণ করা হয়েছে"
+#: resources/views/settings/create.php:75 resources/views/settings/edit.php:98
+msgid "Change Icon"
+msgstr "আইকন পরিবর্তন করুন"
 
-#: src/PostTypes/StarterPostType.php:349
-#, fuzzy
-msgid "Select the main person who is responsible for reporting on this record."
-msgstr "এই রেকর্ডে প্রতিবেদন করার জন্য দায়বদ্ধ প্রধান ব্যক্তিকে নির্বাচন করুন।"
+#: resources/views/settings/create.php:80 resources/views/settings/edit.php:105
+msgid "URL"
+msgstr "ইউআরএল"
 
-#: src/PostTypes/StarterPostType.php:362
-#, fuzzy
-msgid "Start Date"
-msgstr "শুরুর তারিখ"
+#: resources/views/settings/create.php:82 resources/views/settings/edit.php:107
+msgid "Enter the URL for the app."
+msgstr "অ্যাপটির ইউআরএল লিখুন।"
 
-#: src/PostTypes/StarterPostType.php:370
-#, fuzzy
-msgid "End Date"
-msgstr "সমাপ্তির তারিখ"
+#: resources/views/settings/create.php:92 resources/views/settings/edit.php:120
+msgid "Enter a slug for the app."
+msgstr "অ্যাপটির জন্য একটি স্লাগ লিখুন।"
 
-#: src/PostTypes/StarterPostType.php:378
-#, fuzzy
-msgid "Multi-Select"
-msgstr "মাল্টি-সিলেক্ট করুন"
+#: resources/views/settings/create.php:100 resources/views/settings/edit.php:130
+msgid "Is Hidden"
+msgstr "লুকানো আছে"
 
-#: src/PostTypes/StarterPostType.php:379
-#, fuzzy
-msgid "Multi Select Field"
-msgstr "মাল্টি সিলেক্ট ফিল্ড"
+#: resources/views/settings/create.php:102 resources/views/settings/edit.php:132
+msgid "Check this box to hide the app."
+msgstr "অ্যাপটি লুকাতে এই বাক্সটি চেক করুন।"
 
-#: src/PostTypes/StarterPostType.php:383
-#, fuzzy
-msgid "Item 1"
-msgstr "আইটেম 1"
+#: resources/views/settings/create.php:116 resources/views/settings/edit.php:146
+#: resources/views/settings/training/create.php:69
+#: resources/views/settings/training/edit.php:82
+msgid "Cancel"
+msgstr "বাতিল"
 
-#: src/PostTypes/StarterPostType.php:384
-#, fuzzy
-msgid "Item 1."
-msgstr "আইটেম 1."
+#: resources/views/settings/create.php:118
+#: resources/views/settings/training/create.php:71
+msgid "Submit"
+msgstr "জমা"
 
-#: src/PostTypes/StarterPostType.php:387
-#, fuzzy
-msgid "Item 2"
-msgstr "আইটেম 2"
+#: resources/views/settings/create.php:123
+msgid "Search for icons..."
+msgstr "আইকনগুলি অনুসন্ধান করুন..."
 
-#: src/PostTypes/StarterPostType.php:388
-#, fuzzy
-msgid "Item 2."
-msgstr "আইটেম 2."
+#: resources/views/settings/create.php:129
+msgid "Close"
+msgstr "বন্ধ"
 
-#: src/PostTypes/StarterPostType.php:391
-#, fuzzy
-msgid "Item 3"
-msgstr "আইটেম 3"
+#: resources/views/settings/edit.php:148 resources/views/settings/general.php:55
+#: resources/views/settings/training/edit.php:84
+msgid "Update"
+msgstr "আধুনিকীকরণ"
 
-#: src/PostTypes/StarterPostType.php:392
-#, fuzzy
-msgid "Item 3."
-msgstr "আইটেম 3."
+#: resources/views/settings/general.php:24
+msgid "Require users to login to access the home screen magic link?"
+msgstr "হোম স্ক্রিন ম্যাজিক লিঙ্কটি অ্যাক্সেস করতে ব্যবহারকারীদের লগইন করতে হবে?"
 
-#: src/PostTypes/StarterPostType.php:408 src/PostTypes/StarterPostType.php:417
-#, fuzzy
-msgid "Locations"
-msgstr "অবস্থান"
+#: resources/views/settings/general.php:35
+msgid "Allow users to reset their apps?"
+msgstr "ব্যবহারকারীদের তাদের অ্যাপগুলি রিসেট করার অনুমতি দেবেন?"
 
-#: src/PostTypes/StarterPostType.php:409
-#, fuzzy
-msgid "The general location where this contact is located."
-msgstr "সাধারণ অবস্থান যেখানে এই পরিচিতিটি অবস্থিত।"
+#: resources/views/settings/training.php:23
+msgid "Add Training"
+msgstr "প্রশিক্ষণ যোগ করুন"
 
-#: src/PostTypes/StarterPostType.php:419
-#, fuzzy
-msgid "The general location where this record is located."
-msgstr "সাধারণ অবস্থান যেখানে এই রেকর্ডটি অবস্থিত।"
+#: resources/views/settings/training.php:33
+#: resources/views/settings/training/create.php:29
+#: resources/views/settings/training/edit.php:39
+msgid "Embed Video"
+msgstr "ভিডিও এম্বেড করুন"
 
-#: src/PostTypes/StarterPostType.php:427
-#, fuzzy
-msgid "Address"
-msgstr "ঠিকানা"
+#: resources/views/settings/training.php:34
+#: resources/views/settings/training/create.php:41
+#: resources/views/settings/training/edit.php:53
+msgid "Anchor"
+msgstr "নোঙ্গর"
 
-#: src/PostTypes/StarterPostType.php:451
-#, fuzzy
-msgid "Parents"
-msgstr "বাবা-মা"
+#: resources/views/settings/training.php:61
+msgid "Are you sure you want to delete this entry?"
+msgstr "আপনি কি নিশ্চিত যে আপনি এই এন্ট্রিটি মুছে ফেলতে চান?"
 
-#: src/PostTypes/StarterPostType.php:462
-#, fuzzy
-msgid "Peers"
-msgstr "সহকর্মী"
-
-#: src/PostTypes/StarterPostType.php:473
-#, fuzzy
-msgid "Children"
-msgstr "ছেলেমেয়েদের"
-
-#: src/PostTypes/StarterPostType.php:490
-#, fuzzy
-msgid "People Groups"
-msgstr "পিপল গ্রুপ"
-
-#: src/PostTypes/StarterPostType.php:491
-#, fuzzy
-msgid "The people groups connected to this record."
-msgstr "এই রেকর্ডের সঙ্গে যুক্ত ব্যক্তি গোষ্ঠী।"
-
-#: src/PostTypes/StarterPostType.php:501
-#, fuzzy
-msgid "Contacts"
-msgstr "যোগাযোগ"
-
-#: src/PostTypes/StarterPostType.php:561
-#, fuzzy
-msgid "Connections"
-msgstr "কানেকশন"
-
-#: src/PostTypes/StarterPostType.php:562
-#, fuzzy
-msgid "Other"
-msgstr "অন্যান্য"
-
-#: src/PostTypes/StarterPostType.php:583
-#, fuzzy
-msgid "Custom Section Contact"
-msgstr "কাস্টম বিভাগ যোগাযোগ"
-
-#: src/Providers/AdminServiceProvider.php:39
-#, fuzzy
-msgid "General"
-msgstr "সাধারণ"
-
-#: src/Providers/AdminServiceProvider.php:47
-#, fuzzy
+#: resources/views/settings/training/create.php:10
+#: resources/views/settings/training/edit.php:18 src/Services/Settings.php:55
 msgid "Training Videos"
 msgstr "প্রশিক্ষণ ভিডিও"
 
-#: src/Providers/PostTypeServiceProvider.php:47
-#, fuzzy
-msgid "Default starter functionality"
-msgstr "ডিফল্ট স্টার্টার কার্যকারিতা"
+#: resources/views/settings/training/create.php:20
+#: resources/views/settings/training/edit.php:29
+msgid "Enter the name of the training video."
+msgstr "প্রশিক্ষণের ভিডিওর নাম লিখুন।"
+
+#: resources/views/settings/training/create.php:31
+#: resources/views/settings/training/edit.php:41
+msgid "Paste the embed code for the video."
+msgstr "ভিডিওর জন্য এম্বেড কোডটি আটকান।"
+
+#: resources/views/settings/training/create.php:36
+msgid "The embed Video cannot be empty or just whitespace."
+msgstr "এম্বেড করা ভিডিওটি খালি বা কেবল হোয়াইটস্পেস হতে পারে না।"
+
+#: resources/views/settings/training/create.php:43
+#: resources/views/settings/training/edit.php:55
+msgid "Specify the anchor text for the video."
+msgstr "ভিডিওর জন্য অ্যাঙ্কর পাঠ্য নির্দিষ্ট করুন।"
+
+#: resources/views/settings/training/create.php:48
+msgid "The anchor text cannot be empty or just whitespace."
+msgstr "অ্যাঙ্কর পাঠ্যটি খালি বা কেবল হোয়াইটস্পেস হতে পারে না।"
+
+#: resources/views/settings/training/create.php:53
+#: resources/views/settings/training/edit.php:65
+msgid "Sort"
+msgstr "বাছাই"
+
+#: resources/views/settings/training/create.php:55
+#: resources/views/settings/training/edit.php:67
+msgid "Set the sort order for the video."
+msgstr "ভিডিওর জন্য বাছাই ক্রম সেট করুন।"
+
+#: resources/views/settings/training/edit.php:46
+msgid "The video embed cannot be empty or just whitespace."
+msgstr "ভিডিও এম্বেড খালি বা শুধু হোয়াইটস্পেস হতে পারে না।"
+
+#: src/Controllers/Admin/AppSettingsController.php:446
+msgid "App not found"
+msgstr "অ্যাপ খুঁজে পাওয়া যায়নি"
+
+#: src/Controllers/LoginController.php:75 src/Controllers/RegisterController.php:85
+msgid "An unexpected error has occurred."
+msgstr "একটি অপ্রত্যাশিত ত্রুটি সংঘটিত হয়েছে।"
+
+#: src/Controllers/MagicLink/AppController.php:40
+#: src/Controllers/MagicLink/AppController.php:70
+msgid "Not Found"
+msgstr "পাওয়া যায়নি"
+
+#: src/Controllers/RegisterController.php:66
+msgid "Please fill out all fields."
+msgstr "দয়া করে সমস্ত ক্ষেত্রগুলি পূরণ করুন।"
+
+#: src/Controllers/RegisterController.php:70
+msgid "Passwords do not match."
+msgstr "পাসওয়ার্ড মিলছে না।"
+
+#: src/Services/Assets.php:342
+msgid "Upload Icon"
+msgstr "আইকন আপলোড করুন"
+
+#: src/Services/Assets.php:343
+msgid "Upload"
+msgstr "আপলোড"
+
+#: src/Services/Settings.php:47
+msgid "General"
+msgstr "সাধারণ"
 
 #. Plugin Name of the plugin/theme
-#, fuzzy
 msgid "DT Home"
 msgstr "ডিটি হোম"
 
 #. Plugin URI of the plugin/theme
-#, fuzzy
 msgid "https://github.com/TheCodeZone/dt_home"
 msgstr "https://github.com/TheCodeZone/dt_home"
 
 #. Description of the plugin/theme
-#, fuzzy
 msgid "An app home screen for disciple.tools. Part of the DT Toolbox."
 msgstr "শিষ্য.সরঞ্জামগুলির জন্য একটি অ্যাপ্লিকেশন হোম স্ক্রিন। ডিটি টুলবক্সের অংশ।"
 
 #. Author URI of the plugin/theme
-#, fuzzy
 msgid "https://github.com/TheCodeZone"
 msgstr "https://github.com/TheCodeZone"
+
+#, fuzzy
+#~ msgid "learn more"
+#~ msgstr "আরও শেখো"
+
+#, fuzzy
+#~ msgid "Disciple.Tools"
+#~ msgstr "শিষ্য.সরঞ্জাম"
+
+#, fuzzy
+#~ msgid "Custom"
+#~ msgstr "কাস্টম"
+
+#, fuzzy
+#~ msgid "Visit home"
+#~ msgstr "বাড়িতে যান"
+
+#, fuzzy
+#~ msgid "Could not verify request."
+#~ msgstr "অনুরোধ যাচাই করা যায়নি।"
+
+#, fuzzy
+#~ msgid "Assigned to me"
+#~ msgstr "আমাকে অর্পণ করা হয়েছে"
+
+#, fuzzy
+#~ msgid "All"
+#~ msgstr "সকল"
+
+#, fuzzy
+#~ msgid "All By Status"
+#~ msgstr "সব স্ট্যাটাস অনুযায়ী"
+
+#, fuzzy
+#~ msgid "Starter"
+#~ msgstr "স্টার্টার"
+
+#, fuzzy
+#~ msgid "Starters"
+#~ msgstr "প্রারম্ভিক"
+
+#, fuzzy
+#~ msgid "My Starter Role"
+#~ msgstr "আমার স্টার্টার রোল"
+
+#, fuzzy
+#~ msgid "Status"
+#~ msgstr "স্থিতি"
+
+#, fuzzy
+#~ msgid "Set the current status."
+#~ msgstr "বর্তমান স্থিতি সেট করুন।"
+
+#, fuzzy
+#~ msgid "Inactive"
+#~ msgstr "নিষ্ক্রিয়"
+
+#, fuzzy
+#~ msgid "No longer active."
+#~ msgstr "এখন আর সক্রিয় নেই।"
+
+#, fuzzy
+#~ msgid "Active"
+#~ msgstr "সক্রিয়"
+
+#, fuzzy
+#~ msgid "Is active."
+#~ msgstr "সক্রিয় আছে।"
+
+#, fuzzy
+#~ msgid "Assigned To"
+#~ msgstr "অর্পণ করা হয়েছে"
+
+#, fuzzy
+#~ msgid "Select the main person who is responsible for reporting on this record."
+#~ msgstr "এই রেকর্ডে প্রতিবেদন করার জন্য দায়বদ্ধ প্রধান ব্যক্তিকে নির্বাচন করুন।"
+
+#, fuzzy
+#~ msgid "Start Date"
+#~ msgstr "শুরুর তারিখ"
+
+#, fuzzy
+#~ msgid "End Date"
+#~ msgstr "সমাপ্তির তারিখ"
+
+#, fuzzy
+#~ msgid "Multi-Select"
+#~ msgstr "মাল্টি-সিলেক্ট করুন"
+
+#, fuzzy
+#~ msgid "Multi Select Field"
+#~ msgstr "মাল্টি সিলেক্ট ফিল্ড"
+
+#, fuzzy
+#~ msgid "Item 1"
+#~ msgstr "আইটেম 1"
+
+#, fuzzy
+#~ msgid "Item 1."
+#~ msgstr "আইটেম 1."
+
+#, fuzzy
+#~ msgid "Item 2"
+#~ msgstr "আইটেম 2"
+
+#, fuzzy
+#~ msgid "Item 2."
+#~ msgstr "আইটেম 2."
+
+#, fuzzy
+#~ msgid "Item 3"
+#~ msgstr "আইটেম 3"
+
+#, fuzzy
+#~ msgid "Item 3."
+#~ msgstr "আইটেম 3."
+
+#, fuzzy
+#~ msgid "Locations"
+#~ msgstr "অবস্থান"
+
+#, fuzzy
+#~ msgid "The general location where this contact is located."
+#~ msgstr "সাধারণ অবস্থান যেখানে এই পরিচিতিটি অবস্থিত।"
+
+#, fuzzy
+#~ msgid "The general location where this record is located."
+#~ msgstr "সাধারণ অবস্থান যেখানে এই রেকর্ডটি অবস্থিত।"
+
+#, fuzzy
+#~ msgid "Address"
+#~ msgstr "ঠিকানা"
+
+#, fuzzy
+#~ msgid "Parents"
+#~ msgstr "বাবা-মা"
+
+#, fuzzy
+#~ msgid "Peers"
+#~ msgstr "সহকর্মী"
+
+#, fuzzy
+#~ msgid "Children"
+#~ msgstr "ছেলেমেয়েদের"
+
+#, fuzzy
+#~ msgid "People Groups"
+#~ msgstr "পিপল গ্রুপ"
+
+#, fuzzy
+#~ msgid "The people groups connected to this record."
+#~ msgstr "এই রেকর্ডের সঙ্গে যুক্ত ব্যক্তি গোষ্ঠী।"
+
+#, fuzzy
+#~ msgid "Contacts"
+#~ msgstr "যোগাযোগ"
+
+#, fuzzy
+#~ msgid "Connections"
+#~ msgstr "কানেকশন"
+
+#, fuzzy
+#~ msgid "Other"
+#~ msgstr "অন্যান্য"
+
+#, fuzzy
+#~ msgid "Custom Section Contact"
+#~ msgstr "কাস্টম বিভাগ যোগাযোগ"
+
+#, fuzzy
+#~ msgid "Default starter functionality"
+#~ msgstr "ডিফল্ট স্টার্টার কার্যকারিতা"
