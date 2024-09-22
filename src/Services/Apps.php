@@ -60,10 +60,10 @@ class Apps {
         // Merge updated apps; for further downstream processing.
         $apps = [];
         foreach ( $filtered_apps as $app ) {
-            $apps[ $app['slug'] ] = $app;
+            $this->merge_coded_app( $apps, $app );
         }
         foreach ( $db_apps as $app ) {
-            $apps[ $app['slug'] ] = $app;
+            $this->merge_db_app( $apps, $app );
         }
 
 		// Sort the array based on the 'sort' key
@@ -120,6 +120,7 @@ class Apps {
                 }
             }
         }
+
         $apps = array_filter( $apps, function ( $app ) {
             return ( $app['is_deleted'] ?? false ) === false;
         });
@@ -136,6 +137,7 @@ class Apps {
 			return array_merge([
 				'name' => '',
 				'type' => 'Web View',
+                'creation_type' => 'custom',
 				'icon' => '',
 				'url' => '',
 				'sort' => 0,
@@ -188,5 +190,48 @@ class Apps {
 
         // Return the first app if one was found, otherwise return null
         return !empty( $filtered_apps ) ? $filtered_apps[0] : null;
+    }
+
+    /**
+     * Merge a coded app into the apps array.
+     * It should take precedence over any existing app with the same slug.
+     * @param array $apps
+     * @param array $app
+     * @return void
+     */
+    private function merge_coded_app( array &$apps, array $app ) {
+        $existing = $apps[ $app['slug'] ] ?? [];
+        $apps[ $app['slug'] ] = array_merge( $existing, $app );
+    }
+
+    /**
+     * Merge a db app into the apps array.
+     * We need to be sure not to overwrite any existing coded app urls
+     * and magic link meta
+     * @param array $apps
+     * @param array $app
+     * @return void
+     */
+    private function merge_db_app( &$apps, $app ) {
+        $existing = $apps[ $app['slug'] ] ?? [];
+        $type = $existing['creation_type'] ?? 'custom';
+
+        //If there is no existing app or the existing app is not a coded app, just merge the app
+        if ( ( ! isset( $apps[ $app['slug'] ] ) )
+            || ( $type !== 'code' ) ) {
+            $apps[ $app['slug'] ] = array_merge( $existing, $app );
+            return;
+        }
+
+        //If the existing app is a coded app, we need to keep the url and magic link meta
+        $overrides = [
+            'url' => $existing['url'] ?? ''
+        ];
+        if ( isset( $app['magic_link_meta'] ) ) {
+            $overrides['magic_link_meta'] = $app['magic_link_meta'];
+        }
+
+        //Merge the app with the overrides
+        $apps[ $app['slug'] ] = array_merge( $existing, $app, $overrides );
     }
 }
