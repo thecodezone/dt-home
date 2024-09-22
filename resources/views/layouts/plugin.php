@@ -8,10 +8,10 @@ $dashboard = '/';
 $menu_items = [];
 
 // Adding default menu items
-$menu_items[] = [ 'label' => __( 'Apps', 'dt_home' ), 'href' => $home ];
-$menu_items[] = [ 'label' => __( 'Training', 'dt_home' ), 'href' => magic_url( 'training' ) ];
+$menu_items[] = [ 'label' => __( 'Apps', 'dt-home' ), 'href' => $home ];
+$menu_items[] = [ 'label' => __( 'Training', 'dt-home' ), 'href' => magic_url( 'training' ) ];
 //if ( get_option( 'dt_home_require_login', true ) ) {
-$menu_items[] = [ 'label' => __( 'Log Out', 'dt_home' ), 'href' => magic_url( 'logout' ) ];
+$menu_items[] = [ 'label' => __( 'Log Out', 'dt-home' ), 'href' => magic_url( 'logout' ) ];
 //}
 
 

@@ -35,8 +35,8 @@ class Settings {
      */
     public function register_menu(): void {
         $menu = add_submenu_page( 'dt_extensions',
-            __( 'Home Screen', 'dt_home' ),
-            __( 'Home Screen', 'dt_home' ),
+            __( 'Home Screen', 'dt-home' ),
+            __( 'Home Screen', 'dt-home' ),
             'manage_dt',
             'dt_home',
             [ $this, 'route' ]
@@ -44,15 +44,15 @@ class Settings {
 
         add_filter(namespace_string( 'settings_tabs' ), function ( $menu ) {
             $menu[] = [
-                'label' => __( 'General', 'dt_home' ),
+                'label' => __( 'General', 'dt-home' ),
                 'tab' => 'general'
             ];
             $menu[] = [
-                'label' => __( 'Apps', 'dt_home' ),
+                'label' => __( 'Apps', 'dt-home' ),
                 'tab' => 'app'
             ];
             $menu[] = [
-                'label' => __( 'Training Videos', 'dt_home' ),
+                'label' => __( 'Training Videos', 'dt-home' ),
                 'tab' => 'training'
             ];
 

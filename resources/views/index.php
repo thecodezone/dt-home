@@ -15,7 +15,7 @@ $this->layout( 'layouts/plugin' );
         <?php
         echo wp_json_encode(
             [
-                'helpText' => __( 'Copy this link and share it with people you are coaching', 'dt_home' ),
+                'helpText' => __( 'Copy this link and share it with people you are coaching', 'dt-home' ),
             ]
         )
         ?>
@@ -39,8 +39,8 @@ $this->layout( 'layouts/plugin' );
 
 <dt-home-footer id="hiddenApps"
                 translations='<?php echo wp_json_encode( [
-                    "hiddenAppsLabel" => __( "Hidden Apps", 'dt_home' ),
-                    "buttonLabel"     => __( "Ok", 'dt_home' )
+                    "hiddenAppsLabel" => __( "Hidden Apps", 'dt-home' ),
+                    "buttonLabel"     => __( "Ok", 'dt-home' )
                 ] ) ?>'
                 hidden-data='<?php echo esc_attr( htmlspecialchars( $data ) ); ?>'
                 app-url-unhide='<?php echo esc_url( $app_url ); ?>'

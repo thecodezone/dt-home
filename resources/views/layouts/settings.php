@@ -9,10 +9,10 @@ $nav = apply_filters( namespace_string( 'settings_tabs' ), [] );
 ?>
 
 <hr class="wrap">
-<h1><?php esc_html_e( 'Home Screen', 'dt_home' ) ?></h1>
+<h1><?php esc_html_e( 'Home Screen', 'dt-home' ) ?></h1>
 
 <p class="tagline">
-    <?php esc_html_e( 'Part of the DT Toolbox', 'dt_home' ) ?>
+    <?php esc_html_e( 'Part of the DT Toolbox', 'dt-home' ) ?>
 </p>
 
 <h2 class="nav-tab-wrapper">
