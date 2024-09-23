@@ -37,7 +37,7 @@ class AppController
         $app  = $apps->find_for_user( $user_id, $slug );
 
         if ( ! $app ) {
-            return response( __( 'Not Found', 'dt_home' ), 404 );
+            return response( __( 'Not Found', 'dt-home' ), 404 );
         }
 
         // Check if there is a custom action to render the app
@@ -67,7 +67,7 @@ class AppController
         $url = apply_filters( 'dt_home_webview_url', ( $app['url'] ?? '' ), $app );
         if ( ! $url ) {
             // No URL found 404
-            return response( __( 'Not Found', 'dt_home' ), 404 );
+            return response( __( 'Not Found', 'dt-home' ), 404 );
         }
 
         return template( 'web-view', compact( 'app', 'url' ) );

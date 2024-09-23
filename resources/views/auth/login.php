@@ -34,13 +34,13 @@ $this->layout( 'layouts/auth' );
                 <?php endif; ?>
 
                 <dt-text name="username"
-                         placeholder="<?php esc_attr_e( 'Username or Email Address', 'dt_home' ); ?>"
+                         placeholder="<?php esc_attr_e( 'Username or Email Address', 'dt-home' ); ?>"
                          value="<?php echo esc_attr( $username ); ?>"
                          required
                          tabindex="1"
                 ></dt-text>
                 <dt-text name="password"
-                         placeholder="<?php esc_attr_e( 'Password', 'dt_home' ); ?>"
+                         placeholder="<?php esc_attr_e( 'Password', 'dt-home' ); ?>"
                          value="<?php echo esc_attr( $password ); ?>"
                          type="password"
                          tabindex="2"
@@ -49,7 +49,7 @@ $this->layout( 'layouts/auth' );
                 <sp-button-group>
                     <sp-button tabindex="3" class="login-sp-button-radius"
                                type="submit">
-                        <span><?php esc_html_e( 'Login', 'dt_home' ) ?></span>
+                        <span><?php esc_html_e( 'Login', 'dt-home' ) ?></span>
 
                     </sp-button>
 

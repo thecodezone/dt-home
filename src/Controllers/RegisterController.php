@@ -63,11 +63,11 @@ class RegisterController {
         ];
 
 		if ( ! $username || ! $password || ! $email ) {
-			return $this->show_error( __( 'Please fill out all fields.', 'dt_home' ), $old_input );
+			return $this->show_error( __( 'Please fill out all fields.', 'dt-home' ), $old_input );
 		}
 
 		if ( $confirm_password !== $password ) {
-            return $this->show_error( __( 'Passwords do not match.', 'dt_home' ), $old_input );
+            return $this->show_error( __( 'Passwords do not match.', 'dt-home' ), $old_input );
 		}
 
 		$user = wp_create_user( $username, $password, $email );
@@ -82,7 +82,7 @@ class RegisterController {
 		wp_set_auth_cookie( $user_obj->ID );
 
 		if ( ! $user ) {
-            return $this->show_error( __( 'An unexpected error has occurred.', 'dt_home' ), $old_input );
+            return $this->show_error( __( 'An unexpected error has occurred.', 'dt-home' ), $old_input );
 		}
 
 		return redirect( route_url() );

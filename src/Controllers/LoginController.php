@@ -72,7 +72,7 @@ class LoginController {
 		wp_set_auth_cookie( $user->ID );
 
 		if ( ! $user ) {
-			return $this->show_error( __( 'An unexpected error has occurred.', 'dt_home' ) );
+			return $this->show_error( __( 'An unexpected error has occurred.', 'dt-home' ) );
 		}
 
 		wp_set_current_user( $user->ID );

@@ -5,7 +5,7 @@ code that will be used in or with D.T.
 
 D.T is already being used in multiple languages. Please help us make D.T translable by taking full advantage of
 Wordpress’ translatable strings. Any string that will be read by the user must be marked as translatable. Ex:
-`<label class="section-header"><?php esc_html_e( 'Other', 'dt_home' )?></label>`
+`<label class="section-header"><?php esc_html_e( 'Other', 'dt-home' )?></label>`
 
 Make sure you look for these in PHP, HTML and JavaScript code.
 

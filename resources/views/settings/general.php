@@ -21,7 +21,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 					<input type="checkbox" id="dt_home_require_login"
 							name="dt_home_require_login" <?php checked( $dt_home_require_login ); ?>
 					>
-					<?php esc_html_e( 'Require users to login to access the home screen magic link?', 'dt_home' ); ?>
+					<?php esc_html_e( 'Require users to login to access the home screen magic link?', 'dt-home' ); ?>
 				</label>
 			</td>
 
@@ -32,7 +32,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 					<input type="checkbox" id="dt_home_reset_apps"
 							name="dt_home_reset_apps" <?php checked( $dt_home_reset_apps ); ?>
 					>
-					<?php esc_html_e( 'Allow users to reset their apps?', 'dt_home' ); ?>
+					<?php esc_html_e( 'Allow users to reset their apps?', 'dt-home' ); ?>
 				</label>
 			</td>
 		</tr>
@@ -52,7 +52,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 		<tr>
 			<td>
 				<button type="submit" id="ml_email_main_col_update_but" class="button float-right">
-					<?php esc_html_e( 'Update', 'dt_home' ); ?>
+					<?php esc_html_e( 'Update', 'dt-home' ); ?>
 				</button>
 			</td>
 		</tr>

@@ -54,7 +54,7 @@ $this->layout( 'layouts/auth' );
                            tabindex="3"
                            treatment="fill"
                            type="submit">
-                    <span><?php esc_html_e( 'Register', 'dt_home' ) ?></span>
+                    <span><?php esc_html_e( 'Register', 'dt-home' ) ?></span>
                 </sp-button>
             </form>
         </div>
@@ -64,7 +64,7 @@ $this->layout( 'layouts/auth' );
                    variant="secondary"
                    treatment="link"
         >
-            <span><?php esc_html_e( 'Back to Login', 'dt_home' ); ?></span>
+            <span><?php esc_html_e( 'Back to Login', 'dt-home' ); ?></span>
         </sp-button>
     </div>
 </div>
