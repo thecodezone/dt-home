@@ -443,7 +443,7 @@ class AppSettingsController {
         $page_title = "Home Settings";
 
         if ( ! $existing_data ) {
-            return response( __( "App not found", "dt_home" ), 404 );
+            return response( __( 'App not found', 'dt-home' ), 404 );
         }
 
         // Load the edit form view and pass the existing data
