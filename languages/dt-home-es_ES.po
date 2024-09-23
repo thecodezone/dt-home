@@ -1,24 +1,26 @@
-# Copyright (C) 2022 
+# Copyright (C) 2022
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: DT Home 0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dt-home\n"
-"POT-Creation-Date: 2024-09-20 12:57-0500\n"
-"PO-Revision-Date: 2024-09-20 13:02-0500\n"
+"POT-Creation-Date: 2024-09-23 10:59-0500\n"
+"PO-Revision-Date: 2024-09-23 10:59-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: hi_IN\n"
+"Language: es_ES\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.4.4\n"
-"X-Domain: dt_home\n"
+"X-Domain: dt-home\n"
 "X-Poedit-Mapping: php=gettext:PHP\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: dt-home.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
@@ -33,97 +35,98 @@ msgstr ""
 
 #: config/assets.php:22
 msgid "Are you sure you want to remove this app?"
-msgstr "क्या आप वाकई यह अनुप्रयोग निकालना चाहते हैं?"
+msgstr ""
 
 #: resources/views/auth/login.php:37
 msgid "Username or Email Address"
-msgstr "उपयोगकर्ता नाम या ईमेल पता"
+msgstr "Nombre de usuario o correo electrónico"
 
 #: resources/views/auth/login.php:43 resources/views/auth/register.php:43
 msgid "Password"
-msgstr "पासवर्ड"
+msgstr "Contraseña"
 
 #: resources/views/auth/login.php:52
 msgid "Login"
-msgstr "लॉगिन"
+msgstr "Iniciar sesión"
 
 #: resources/views/auth/login.php:60 resources/views/auth/login.php:61
 msgid "Create Account"
-msgstr "खाता बनाएँ"
+msgstr "Crear cuenta"
 
 #: resources/views/auth/login.php:73
 msgid "Forgot Password?"
-msgstr "पासवर्ड भूल गए?"
+msgstr "¿Se te olvidó tu contraseña?"
 
 #: resources/views/auth/register.php:35
 msgid "Username"
-msgstr "उपयोगकर्ता नाम"
+msgstr "Nombre de usuario"
 
 #: resources/views/auth/register.php:39
 msgid "Email"
-msgstr "ईमेल"
+msgstr "Email"
 
 #: resources/views/auth/register.php:48
 msgid "Confirm Password"
-msgstr "पासवर्ड पुनः दर्ज करें"
+msgstr "Confirmar contraseña"
 
 #: resources/views/auth/register.php:57
 msgid "Register"
-msgstr "रजिस्टर"
+msgstr "Registrarse"
 
 #: resources/views/auth/register.php:67
 msgid "Back to Login"
-msgstr "लॉगिन पर वापस जाएं"
+msgstr "Atrás para iniciar sesión"
 
 #: resources/views/hidden-apps.php:28
 msgid "Name:"
-msgstr "नाम:"
+msgstr "Nombre:"
 
 #: resources/views/hidden-apps.php:32
 msgid "Visit subpage"
-msgstr "उपपृष्ठ पर जाएँ"
+msgstr "Visitar la subpágina"
 
 #: resources/views/index.php:18
 msgid "Copy this link and share it with people you are coaching"
-msgstr "इस लिंक को कॉपी करें और इसे उन लोगों के साथ साझा करें जिन्हें आप कोचिंग दे रहे हैं"
+msgstr ""
+"Copie este enlace y compártalo con las personas a las que está entrenando"
 
 #: resources/views/index.php:42
 msgid "Hidden Apps"
-msgstr "छिपे हुए ऐप्स"
+msgstr "Aplicaciones ocultas"
 
 #: resources/views/index.php:43
 msgid "Ok"
-msgstr "ठीक"
+msgstr "Ok"
 
 #: resources/views/layouts/plugin.php:11 resources/views/settings/create.php:24
 #: resources/views/settings/edit.php:23 src/Services/Settings.php:51
 msgid "Apps"
-msgstr "ऐप्स"
+msgstr "Aplicaciones"
 
 #: resources/views/layouts/plugin.php:12 resources/views/training.php:8
 msgid "Training"
-msgstr "प्रशिक्षण"
+msgstr "Formación"
 
 #: resources/views/layouts/plugin.php:14
 msgid "Log Out"
-msgstr "लॉग आउट"
+msgstr "Cerrar sesión"
 
 #: resources/views/layouts/settings.php:12 src/Services/Settings.php:38
 #: src/Services/Settings.php:39
 msgid "Home Screen"
-msgstr "होम स्क्रीन"
+msgstr "Pantalla de inicio"
 
 #: resources/views/layouts/settings.php:15
 msgid "Part of the DT Toolbox"
-msgstr "डीटी टूलबॉक्स का हिस्सा"
+msgstr "Parte de la caja de herramientas de DT"
 
 #: resources/views/settings/app.php:17
 msgid "Available Apps"
-msgstr "उपलब्ध ऐप्स"
+msgstr "Aplicaciones disponibles"
 
 #: resources/views/settings/app.php:23
 msgid "Add App"
-msgstr "ऐप जोड़ें"
+msgstr "Agregar App"
 
 #: resources/views/settings/app.php:30
 #: resources/views/settings/available-apps.php:26
@@ -132,81 +135,81 @@ msgstr "ऐप जोड़ें"
 #: resources/views/settings/training/create.php:18
 #: resources/views/settings/training/edit.php:27
 msgid "Name"
-msgstr "नाम"
+msgstr "Nombre"
 
 #: resources/views/settings/app.php:31
 #: resources/views/settings/available-apps.php:27
 #: resources/views/settings/create.php:41 resources/views/settings/edit.php:43
 msgid "Type"
-msgstr "टाइप"
+msgstr "Tipo"
 
 #: resources/views/settings/app.php:32 resources/views/settings/app.php:59
 #: resources/views/settings/available-apps.php:28
 #: resources/views/settings/available-apps.php:46
 #: resources/views/settings/edit.php:83
 msgid "Icon"
-msgstr "मूर्ति"
+msgstr "Icono"
 
 #: resources/views/settings/app.php:33
 #: resources/views/settings/available-apps.php:29
 #: resources/views/settings/create.php:90 resources/views/settings/edit.php:118
 msgid "Slug"
-msgstr "अलसाना"
+msgstr "Slug"
 
 #: resources/views/settings/app.php:34
 #: resources/views/settings/available-apps.php:30
 #: resources/views/settings/training.php:35
 msgid "Action"
-msgstr "कार्य"
+msgstr "Acción"
 
 #: resources/views/settings/app.php:67 resources/views/settings/training.php:45
 msgid "Up"
-msgstr "ऊपर"
+msgstr "Arriba"
 
 #: resources/views/settings/app.php:69
 msgid "Unhide"
-msgstr "सामने लाएँ"
+msgstr "Mostrar"
 
 #: resources/views/settings/app.php:71
 msgid "Hide"
-msgstr "छिपाना"
+msgstr "Ocultar"
 
 #: resources/views/settings/app.php:73 resources/views/settings/training.php:46
 msgid "Edit"
-msgstr "संपादित करें"
+msgstr "Editar"
 
 #: resources/views/settings/app.php:74 resources/views/settings/training.php:48
 msgid "Down"
-msgstr "नीचे"
+msgstr "Abajo"
 
 #: resources/views/settings/app.php:78 resources/views/settings/app.php:83
 #: resources/views/settings/training.php:47
 msgid "Delete"
-msgstr "हटाएं"
+msgstr "Borrar"
 
 #: resources/views/settings/app.php:97 resources/views/settings/app.php:105
 msgid "Are you sure you want to delete this app?"
-msgstr "क्या आप वाकई इस ऐप को हटाना चाहते हैं?"
+msgstr "¿Estás seguro de que quieres eliminar esta aplicación?"
 
 #: resources/views/settings/available-apps.php:17
 msgid "Go Back"
-msgstr "पस जाओ"
+msgstr "Regresar"
 
 #: resources/views/settings/available-apps.php:36
 msgid "No apps found"
-msgstr "कोई ऐप्लिकेशन नहीं मिला"
+msgstr "No se han encontrado aplicaciones"
 
 #: resources/views/settings/available-apps.php:58
 msgid "Restore"
-msgstr "फिर से प्राप्त करना"
+msgstr "Restaurar"
 
 #: resources/views/settings/available-apps.php:73
 msgid "Are you sure you want to restore this app?"
-msgstr "क्या आप वाकई इस अनुप्रयोग को पुनर्स्थापित करना चाहते हैं?"
+msgstr "¿Estás seguro de que quieres restaurar esta aplicación?"
 
 #: resources/views/settings/create.php:33 resources/views/settings/edit.php:33
 msgid "Enter the name of the app."
-msgstr "ऐप का नाम दर्ज करें।"
+msgstr "Introduzca el nombre de la aplicación."
 
 #: resources/views/settings/create.php:37
 #: resources/views/settings/create.php:71
@@ -216,43 +219,43 @@ msgstr "ऐप का नाम दर्ज करें।"
 #: resources/views/settings/training/edit.php:34
 #: resources/views/settings/training/edit.php:60
 msgid "The name cannot be empty or just whitespace."
-msgstr "नाम खाली या सिर्फ व्हाइटस्पेस नहीं हो सकता।"
+msgstr "El nombre no puede estar vacío o ser solo un espacio en blanco."
 
 #: resources/views/settings/create.php:43 resources/views/settings/edit.php:45
 msgid "Select the type of the app."
-msgstr "अनुप्रयोग के प्रकार का चयन करें."
+msgstr "Seleccione el tipo de aplicación."
 
 #: resources/views/settings/create.php:48 resources/views/settings/edit.php:51
 msgid "Please select"
-msgstr "कृपया चुनें"
+msgstr "Por favor, seleccione"
 
 #: resources/views/settings/create.php:49 resources/views/settings/edit.php:54
 msgid "Web View"
-msgstr "वेब दृश्य"
+msgstr "Vista web"
 
 #: resources/views/settings/create.php:50 resources/views/settings/edit.php:57
 msgid "Link"
-msgstr "लिंक"
+msgstr "Enlace"
 
 #: resources/views/settings/create.php:56 resources/views/settings/edit.php:64
 msgid "Open link in new tab"
-msgstr "लिंक को नए टैब में खोलें"
+msgstr "Abrir enlace en una nueva pestaña"
 
 #: resources/views/settings/create.php:58 resources/views/settings/edit.php:66
 msgid "Check this box to open the link in a new tab."
-msgstr "लिंक को नए टैब में खोलने के लिए इस बॉक्स को चेक करें."
+msgstr "Marque esta casilla para abrir el enlace en una nueva pestaña."
 
 #: resources/views/settings/create.php:66 resources/views/settings/edit.php:75
 msgid "Icon (File Upload)"
-msgstr "आइकन (फ़ाइल अपलोड)"
+msgstr "Icono (Carga de archivos)"
 
 #: resources/views/settings/create.php:68 resources/views/settings/edit.php:77
 msgid "Upload an icon for the app."
-msgstr "ऐप के लिए एक आइकन अपलोड करें।"
+msgstr "Cargue un icono para la aplicación."
 
 #: resources/views/settings/create.php:75 resources/views/settings/edit.php:98
 msgid "Change Icon"
-msgstr "परिवर्तन चिह्न"
+msgstr "Cambiar ícono"
 
 #: resources/views/settings/create.php:80 resources/views/settings/edit.php:105
 msgid "URL"
@@ -260,164 +263,320 @@ msgstr "URL"
 
 #: resources/views/settings/create.php:82 resources/views/settings/edit.php:107
 msgid "Enter the URL for the app."
-msgstr "ऐप्लिकेशन के लिए URL डालें."
+msgstr "Introduzca la dirección URL de la aplicación."
 
 #: resources/views/settings/create.php:92 resources/views/settings/edit.php:120
 msgid "Enter a slug for the app."
-msgstr "ऐप के लिए एक स्लग दर्ज करें।"
+msgstr "Introduzca un slug para la aplicación."
 
 #: resources/views/settings/create.php:100
 #: resources/views/settings/edit.php:130
 msgid "Is Hidden"
-msgstr "छिपा हुआ है"
+msgstr "Está oculto"
 
 #: resources/views/settings/create.php:102
 #: resources/views/settings/edit.php:132
 msgid "Check this box to hide the app."
-msgstr "ऐप को छिपाने के लिए इस बॉक्स को चेक करें।"
+msgstr "Marque esta casilla para ocultar la aplicación."
 
 #: resources/views/settings/create.php:116
 #: resources/views/settings/edit.php:146
 #: resources/views/settings/training/create.php:69
 #: resources/views/settings/training/edit.php:82
 msgid "Cancel"
-msgstr "कैंसिल करें"
+msgstr "Cancelar"
 
 #: resources/views/settings/create.php:118
 #: resources/views/settings/training/create.php:71
 msgid "Submit"
-msgstr "जमा करें"
+msgstr "Enviar"
 
 #: resources/views/settings/create.php:123
 msgid "Search for icons..."
-msgstr "आइकन खोजें..."
+msgstr "Buscar iconos..."
 
 #: resources/views/settings/create.php:129
 msgid "Close"
-msgstr "बंद"
+msgstr "Cerrar"
 
 #: resources/views/settings/edit.php:148
 #: resources/views/settings/general.php:55
 #: resources/views/settings/training/edit.php:84
 msgid "Update"
-msgstr "अपडेट करें"
+msgstr "Actualizar"
 
 #: resources/views/settings/general.php:24
 msgid "Require users to login to access the home screen magic link?"
-msgstr "होम स्क्रीन मैजिक लिंक तक पहुंचने के लिए उपयोगकर्ताओं को लॉगिन करने की आवश्यकता है?"
+msgstr ""
+"¿Requiere que los usuarios inicien sesión para acceder al enlace mágico de "
+"la pantalla de inicio?"
 
 #: resources/views/settings/general.php:35
 msgid "Allow users to reset their apps?"
-msgstr "उपयोगकर्ताओं को अपने ऐप्स रीसेट करने की अनुमति दें?"
+msgstr "¿Permitir que los usuarios restablezcan sus aplicaciones?"
 
 #: resources/views/settings/training.php:23
 msgid "Add Training"
-msgstr "प्रशिक्षण जोड़ें"
+msgstr "Agregar Entrenamiento"
 
 #: resources/views/settings/training.php:33
 #: resources/views/settings/training/create.php:29
 #: resources/views/settings/training/edit.php:39
 msgid "Embed Video"
-msgstr "वीडियो एम्बेड करें"
+msgstr "Video incrustado"
 
 #: resources/views/settings/training.php:34
 #: resources/views/settings/training/create.php:41
 #: resources/views/settings/training/edit.php:53
 msgid "Anchor"
-msgstr "लंगर"
+msgstr "Ancla"
 
 #: resources/views/settings/training.php:61
 msgid "Are you sure you want to delete this entry?"
-msgstr "क्या आप वाकई इस प्रविष्टि को हटाना चाहते हैं?"
+msgstr "¿Está seguro de que desea eliminar esta entrada?"
 
 #: resources/views/settings/training/create.php:10
 #: resources/views/settings/training/edit.php:18 src/Services/Settings.php:55
 msgid "Training Videos"
-msgstr "प्रशिक्षण वीडियो"
+msgstr "Videos de capacitación"
 
 #: resources/views/settings/training/create.php:20
 #: resources/views/settings/training/edit.php:29
 msgid "Enter the name of the training video."
-msgstr "प्रशिक्षण वीडियो का नाम दर्ज करें."
+msgstr "Introduzca el nombre del vídeo de formación."
 
 #: resources/views/settings/training/create.php:31
 #: resources/views/settings/training/edit.php:41
 msgid "Paste the embed code for the video."
-msgstr "वीडियो के लिए एम्बेड कोड पेस्ट करें."
+msgstr "Pega el código de inserción del vídeo."
 
 #: resources/views/settings/training/create.php:36
 msgid "The embed Video cannot be empty or just whitespace."
-msgstr "एम्बेड वीडियो खाली या सिर्फ व्हाइटस्पेस नहीं हो सकता।"
+msgstr ""
+"El video incrustado no puede estar vacío o solo ser un espacio en blanco."
 
 #: resources/views/settings/training/create.php:43
 #: resources/views/settings/training/edit.php:55
 msgid "Specify the anchor text for the video."
-msgstr "वीडियो के लिए एंकर टेक्स्ट निर्दिष्ट करें।"
+msgstr "Especifique el texto de anclaje del vídeo."
 
 #: resources/views/settings/training/create.php:48
 msgid "The anchor text cannot be empty or just whitespace."
-msgstr "एंकर टेक्स्ट खाली या सिर्फ व्हाइटस्पेस नहीं हो सकता।"
+msgstr ""
+"El texto de anclaje no puede estar vacío o ser solo un espacio en blanco."
 
 #: resources/views/settings/training/create.php:53
 #: resources/views/settings/training/edit.php:65
 msgid "Sort"
-msgstr "जाति"
+msgstr "Ordenar"
 
 #: resources/views/settings/training/create.php:55
 #: resources/views/settings/training/edit.php:67
 msgid "Set the sort order for the video."
-msgstr "वीडियो के लिए सॉर्ट क्रम सेट करें।"
+msgstr "Establezca el orden de clasificación del vídeo."
 
 #: resources/views/settings/training/edit.php:46
 msgid "The video embed cannot be empty or just whitespace."
-msgstr "वीडियो एम्बेड खाली या सिर्फ व्हाइटस्पेस नहीं हो सकता।"
+msgstr ""
+"La inserción del video no puede estar vacía o solo ser un espacio en blanco."
 
 #: src/Controllers/Admin/AppSettingsController.php:446
 msgid "App not found"
-msgstr "ऐप नहीं मिला"
+msgstr "Aplicación encontrado"
 
 #: src/Controllers/LoginController.php:75
 #: src/Controllers/RegisterController.php:85
 msgid "An unexpected error has occurred."
-msgstr "कोई अनपेक्षित त्रुटि उत्पन्न हुई."
+msgstr "Ha ocurrido un error inesperado."
 
 #: src/Controllers/MagicLink/AppController.php:40
 #: src/Controllers/MagicLink/AppController.php:70
 msgid "Not Found"
-msgstr "नहीं मिला"
+msgstr "No encontrado"
 
 #: src/Controllers/RegisterController.php:66
 msgid "Please fill out all fields."
-msgstr "कृपया सभी फ़ील्ड भरें।"
+msgstr "Por favor rellene todos los campos."
 
 #: src/Controllers/RegisterController.php:70
 msgid "Passwords do not match."
-msgstr "पासवर्ड मेल नहीं खाते."
+msgstr "Las contraseñas no coinciden."
 
 #: src/Services/Assets.php:342
 msgid "Upload Icon"
-msgstr "अपलोड आइकन"
+msgstr "Subir ícono"
 
 #: src/Services/Assets.php:343
 msgid "Upload"
-msgstr "अपलोड"
+msgstr "Subir"
 
 #: src/Services/Settings.php:47
 msgid "General"
-msgstr "सामान्य"
+msgstr "General"
 
 #. Plugin Name of the plugin/theme
 msgid "DT Home"
-msgstr "डीटी होम"
+msgstr "DT Inicio"
 
 #. Plugin URI of the plugin/theme
-msgid "https://github.com/TheCodeZone/dt_home"
-msgstr "https://github.com/TheCodeZone/dt_home"
+msgid "https://github.com/thecodezone/dt-home"
+msgstr "https://github.com/thecodezone/dt-home"
 
 #. Description of the plugin/theme
 msgid "An app home screen for disciple.tools. Part of the DT Toolbox."
-msgstr "disciple.tools के लिए एक ऐप होम स्क्रीन। डीटी टूलबॉक्स का हिस्सा।"
+msgstr ""
+"Una pantalla de inicio de la aplicación para disciple.tools. Parte de la "
+"caja de herramientas de DT."
 
 #. Author URI of the plugin/theme
-msgid "https://github.com/TheCodeZone"
-msgstr "https://github.com/TheCodeZone"
+msgid "https://github.com/thecodezone"
+msgstr "https://github.com/thecodezone"
+
+#~ msgid "learn more"
+#~ msgstr "descubre más"
+
+#, fuzzy
+#~ msgid "Disciple.Tools"
+#~ msgstr "Discípulo.Herramientas"
+
+#~ msgid "Custom"
+#~ msgstr "Personalizado"
+
+#, fuzzy
+#~ msgid "Visit home"
+#~ msgstr "Visita a casa"
+
+#, fuzzy
+#~ msgid "Could not verify request."
+#~ msgstr "No se pudo verificar la solicitud."
+
+#~ msgid "Assigned to me"
+#~ msgstr "Asignado a mí"
+
+#~ msgid "All"
+#~ msgstr "Todo"
+
+#, fuzzy
+#~ msgid "All By Status"
+#~ msgstr "Todo por estado"
+
+#~ msgid "Starter"
+#~ msgstr "Plan Inicial"
+
+#~ msgid "Starters"
+#~ msgstr "Entrantes"
+
+#, fuzzy
+#~ msgid "My Starter Role"
+#~ msgstr "Mi rol inicial"
+
+#~ msgid "Status"
+#~ msgstr "Estado"
+
+#, fuzzy
+#~ msgid "Set the current status."
+#~ msgstr "Establezca el estado actual."
+
+#~ msgid "Inactive"
+#~ msgstr "Inactivo"
+
+#, fuzzy
+#~ msgid "No longer active."
+#~ msgstr "Ya no está activo."
+
+#~ msgid "Active"
+#~ msgstr "Activo"
+
+#, fuzzy
+#~ msgid "Is active."
+#~ msgstr "Está activo."
+
+#~ msgid "Assigned To"
+#~ msgstr "Asignado a"
+
+#, fuzzy
+#~ msgid ""
+#~ "Select the main person who is responsible for reporting on this record."
+#~ msgstr ""
+#~ "Seleccione la persona principal responsable de informar sobre este "
+#~ "registro."
+
+#~ msgid "Start Date"
+#~ msgstr "Fecha de inicio"
+
+#~ msgid "End Date"
+#~ msgstr "Fecha de finalización"
+
+#~ msgid "Multi-Select"
+#~ msgstr "Multiselección"
+
+#, fuzzy
+#~ msgid "Multi Select Field"
+#~ msgstr "Campo de selección múltiple"
+
+#~ msgid "Item 1"
+#~ msgstr "Elemento 1"
+
+#, fuzzy
+#~ msgid "Item 1."
+#~ msgstr "Tema 1."
+
+#~ msgid "Item 2"
+#~ msgstr "Elemento 2"
+
+#, fuzzy
+#~ msgid "Item 2."
+#~ msgstr "Tema 2."
+
+#~ msgid "Item 3"
+#~ msgstr "Elemento 3"
+
+#, fuzzy
+#~ msgid "Item 3."
+#~ msgstr "Tema 3."
+
+#~ msgid "Locations"
+#~ msgstr "Ubicaciones"
+
+#~ msgid "The general location where this contact is located."
+#~ msgstr "La ubicación general donde se encuentra este contacto."
+
+#, fuzzy
+#~ msgid "The general location where this record is located."
+#~ msgstr "Ubicación general en la que se encuentra este registro."
+
+#~ msgid "Address"
+#~ msgstr "Dirección"
+
+#~ msgid "Parents"
+#~ msgstr "Padres"
+
+#~ msgid "Peers"
+#~ msgstr "Peers"
+
+#~ msgid "Children"
+#~ msgstr "Niños"
+
+#~ msgid "People Groups"
+#~ msgstr "Grupos Étnicos"
+
+#, fuzzy
+#~ msgid "The people groups connected to this record."
+#~ msgstr "Los grupos de personas conectados a este registro."
+
+#~ msgid "Contacts"
+#~ msgstr "Contactos"
+
+#~ msgid "Connections"
+#~ msgstr "Conexiones"
+
+#~ msgid "Other"
+#~ msgstr "Otro"
+
+#, fuzzy
+#~ msgid "Custom Section Contact"
+#~ msgstr "Contacto de la sección personalizada"
+
+#, fuzzy
+#~ msgid "Default starter functionality"
+#~ msgstr "Funcionalidad de inicio predeterminada"

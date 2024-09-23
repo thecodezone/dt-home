@@ -1,10 +1,10 @@
-# Copyright (C) 2022 
+# Copyright (C) 2022
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: DT Home 0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dt-home\n"
-"POT-Creation-Date: 2024-09-20 12:57-0500\n"
+"POT-Creation-Date: 2024-09-23 10:57-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.4.4\n"
-"X-Domain: dt_home\n"
+"X-Domain: dt-home\n"
 "X-Poedit-Mapping: php=gettext:PHP\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: dt-home.php\n"
@@ -432,7 +432,7 @@ msgid "DT Home"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "https://github.com/TheCodeZone/dt_home"
+msgid "https://github.com/thecodezone/dt-home"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -440,5 +440,5 @@ msgid "An app home screen for disciple.tools. Part of the DT Toolbox."
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://github.com/TheCodeZone"
+msgid "https://github.com/thecodezone"
 msgstr ""
