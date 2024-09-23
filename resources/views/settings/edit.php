@@ -109,7 +109,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             </td>
             <td colspan="3">
                 <input style="min-width: 100%;" type="text" name="url" id="url" class="form-control"
-                       value="<?php echo esc_url(isset($existing_data['url']) ? $existing_data['url'] : ''); ?>">
+                       value="<?php echo esc_attr(isset($existing_data['url']) ? $existing_data['url'] : ''); ?>">
             </td>
         </tr>
     <?php } ?>
