@@ -32,7 +32,7 @@ class LauncherController {
 		$app_url     = magic_url( '', $key );
 		$magic_link  = $app_url . '/share';
 		$reset_apps  = get_plugin_option( 'reset_apps' );
-        $button_color  = get_plugin_option( 'button_color' ) ?? '#3fab3f';
+        $button_color  = get_plugin_option( 'button_color' );
 		return template(
 			'index',
 			compact(
