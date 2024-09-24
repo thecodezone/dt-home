@@ -22,7 +22,7 @@ class GeneralSettingsController {
 		$page_title            = 'Home Settings';
 		$dt_home_require_login = get_plugin_option( 'require_login' );
 		$dt_home_reset_apps    = get_plugin_option( 'reset_apps' );
-        $dt_home_button_color  = get_plugin_option( 'button_color' ) ?? '#3fab3f';
+        $dt_home_button_color  = get_plugin_option( 'button_color' );
 
 		return view( 'settings/general', compact( 'tab', 'link', 'page_title', 'dt_home_require_login', 'dt_home_reset_apps', 'dt_home_button_color' ) );
 	}
