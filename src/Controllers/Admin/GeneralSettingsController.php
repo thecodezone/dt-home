@@ -4,6 +4,7 @@ namespace DT\Home\Controllers\Admin;
 
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
+use function DT\Home\config;
 use function DT\Home\extract_request_input;
 use function DT\Home\get_plugin_option;
 use function DT\Home\redirect;
@@ -38,7 +39,7 @@ class GeneralSettingsController {
 		$input        = extract_request_input( $request );
 		$require_user = $input['dt_home_require_login'] ?? 'off';
 		$reset_apps   = $input['dt_home_reset_apps'] ?? 'off';
-        $button_color = $input['dt_home_button_color'] ?? '#3fab3f';
+        $button_color = $input['dt_home_button_color'] ?? config( 'options.defaults.button_color' );
 
 		set_plugin_option( 'require_login', $require_user === 'on' );
 		set_plugin_option( 'reset_apps', $reset_apps === 'on' );
