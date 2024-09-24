@@ -23,8 +23,9 @@ class GeneralSettingsController {
 		$dt_home_require_login = get_plugin_option( 'require_login' );
 		$dt_home_reset_apps    = get_plugin_option( 'reset_apps' );
         $dt_home_button_color  = get_plugin_option( 'button_color' ) ?? '#3fab3f';
+        $dt_home_show_in_menu = get_plugin_option( 'show_in_menu' );
 
-		return view( 'settings/general', compact( 'tab', 'link', 'page_title', 'dt_home_require_login', 'dt_home_reset_apps', 'dt_home_button_color' ) );
+		return view( 'settings/general', compact( 'tab', 'link', 'page_title', 'dt_home_require_login', 'dt_home_reset_apps', 'dt_home_button_color', 'dt_home_show_in_menu' ) );
 	}
 
 	/**
@@ -39,10 +40,12 @@ class GeneralSettingsController {
 		$require_user = $input['dt_home_require_login'] ?? 'off';
 		$reset_apps   = $input['dt_home_reset_apps'] ?? 'off';
         $button_color = $input['dt_home_button_color'] ?? '#3fab3f';
+        $dt_home_show_in_menu = $input['dt_home_show_in_menu'] ?? 'off';
 
 		set_plugin_option( 'require_login', $require_user === 'on' );
 		set_plugin_option( 'reset_apps', $reset_apps === 'on' );
         set_plugin_option( 'button_color', $button_color );
+        set_plugin_option( 'show_in_menu', $dt_home_show_in_menu === 'on' );
 
 		$redirect_url = add_query_arg( 'message', 'updated', admin_url( 'admin.php?page=dt_home' ) );
 
