@@ -43,7 +43,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                 <label for="reset_app">
                     <input type="checkbox" id="dt_home_show_in_menu"
                            name="dt_home_show_in_menu" <?php checked( $dt_home_show_in_menu ); ?>>
-                    <?php esc_html_e('Add "Apps" link to Disciple.Tools main menu?', 'dt-home'); ?>
+                    <?php esc_html_e( 'Add "Apps" link to Disciple.Tools main menu?', 'dt-home' ); ?>
                 </label>
             </td>
         </tr>
