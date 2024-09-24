@@ -8,6 +8,7 @@
  * @var string $dt_home_require_login
  * @var string $dt_home_reset_apps
  * @var string $dt_home_button_color
+ * @var string $dt_home_show_in_menu
  */
 $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
@@ -37,6 +38,15 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 				</label>
 			</td>
 		</tr>
+        <tr>
+            <td>
+                <label for="reset_app">
+                    <input type="checkbox" id="dt_home_show_in_menu"
+                           name="dt_home_show_in_menu" <?php checked( $dt_home_show_in_menu ); ?>>
+                    <?php esc_html_e( 'Add "Apps" link to Disciple.Tools main menu?', 'dt-home' ); ?>
+                </label>
+            </td>
+        </tr>
         <tr>
             <td>
             <label for="dt_home_button_color">
