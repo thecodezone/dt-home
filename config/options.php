@@ -10,6 +10,7 @@ $config->merge( [
         'defaults' => [
             'require_login' => true,
             'reset_apps'    => false,
+            'button_color'  => '#3fab3f',
             'apps'          => [],
             'trainings'     => [],
         ],

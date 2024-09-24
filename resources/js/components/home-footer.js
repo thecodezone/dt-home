@@ -13,6 +13,7 @@ class HomeFooter extends LitElement {
     static properties = {
         appUrl: { type: String },
         resetApps: { type: Boolean },
+        buttonColor: { type: String },
     }
 
     @property({ type: Object })
@@ -56,8 +57,9 @@ class HomeFooter extends LitElement {
         --spectrum-button-top-to-text-medium: 0px;
         --spectrum-workflow-icon-size-100: 26px;
         --spectrum-button-edge-to-text: 0px;
-        --system-spectrum-button-accent-background-color-hover: #3fab3f;
-        --system-spectrum-button-accent-background-color-down: #3fab3f;
+        --system-spectrum-button-accent-background-color-hover: var(--button-color);
+        --system-spectrum-button-accent-background-color-down: var(--button-color);
+        --system-spectrum-button-accent-background-color-default: var(--button-color);
         --spectrum-focus-indicator-color: transparent;
         border-radius: 50%;
       }
@@ -221,12 +223,14 @@ class HomeFooter extends LitElement {
     connectedCallback() {
         super.connectedCallback()
         this.loadAppData()
+        this.style.setProperty('--button-color', this.buttonColor)
     }
 
     loadAppData() {
         const jsonData = this.getAttribute('hidden-data')
         this.appUrl = this.getAttribute('app-url-unhide')
         this.resetApps = this.getAttribute('reset-apps') === '1'
+        this.buttonColor = this.getAttribute('button-color')
         if (jsonData) {
             this.appData = JSON.parse(jsonData)
         }

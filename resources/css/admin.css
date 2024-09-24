@@ -106,3 +106,10 @@ body {
         margin-left: -5px; /* Center the arrow */
     }
 }
+/* Color Picker */
+    .color-picker{
+        width: 25px;
+        height: 25px;
+        border: none !important;
+        cursor: pointer;
+    }

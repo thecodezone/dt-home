@@ -4,6 +4,7 @@ namespace DT\Home\Controllers\Admin;
 
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
+use function DT\Home\config;
 use function DT\Home\extract_request_input;
 use function DT\Home\get_plugin_option;
 use function DT\Home\redirect;
@@ -22,8 +23,9 @@ class GeneralSettingsController {
 		$page_title            = 'Home Settings';
 		$dt_home_require_login = get_plugin_option( 'require_login' );
 		$dt_home_reset_apps    = get_plugin_option( 'reset_apps' );
+        $dt_home_button_color  = get_plugin_option( 'button_color' );
 
-		return view( 'settings/general', compact( 'tab', 'link', 'page_title', 'dt_home_require_login', 'dt_home_reset_apps' ) );
+		return view( 'settings/general', compact( 'tab', 'link', 'page_title', 'dt_home_require_login', 'dt_home_reset_apps', 'dt_home_button_color' ) );
 	}
 
 	/**
@@ -37,9 +39,11 @@ class GeneralSettingsController {
 		$input        = extract_request_input( $request );
 		$require_user = $input['dt_home_require_login'] ?? 'off';
 		$reset_apps   = $input['dt_home_reset_apps'] ?? 'off';
+        $button_color = $input['dt_home_button_color'] ?? config( 'options.defaults.button_color' );
 
 		set_plugin_option( 'require_login', $require_user === 'on' );
 		set_plugin_option( 'reset_apps', $reset_apps === 'on' );
+        set_plugin_option( 'button_color', $button_color );
 
 		$redirect_url = add_query_arg( 'message', 'updated', admin_url( 'admin.php?page=dt_home' ) );
 

@@ -7,6 +7,7 @@
  * @var string $page_title
  * @var string $dt_home_require_login
  * @var string $dt_home_reset_apps
+ * @var string $dt_home_button_color
  */
 $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
@@ -36,6 +37,16 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 				</label>
 			</td>
 		</tr>
+        <tr>
+            <td>
+            <label for="dt_home_button_color">
+                <input type="color" id="dt_home_button_color" class="color-picker"
+                       name="dt_home_button_color" value="<?php echo esc_attr( $dt_home_button_color ); ?>"
+                >
+                <?php esc_html_e( 'Customize Add Button Color?', 'dt-home' ); ?>
+            </label>
+            </td>
+        </tr>
 		<!--For giving some space between the field and the button.-->
 		<tr>
 			<td></td>
