@@ -4,6 +4,7 @@ namespace Tests;
 
 use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\Controllers\Admin\GeneralSettingsController;
+use function DT\Home\config;
 use function DT\Home\container;
 use function DT\Home\get_plugin_option;
 use function DT\Home\set_plugin_option;
@@ -80,5 +81,51 @@ class GeneralSettingsControllerTest extends TestCase
         $response = $controller->update( $request );
         $this->assertEquals( 302, $response->getStatusCode() );
         $this->assertFalse( get_plugin_option( 'show_in_menu', true ) );
+    }
+    /**
+     * @test
+     */
+    public function it_updates_button_color()
+    {
+        $defaultColor = config('options.defaults.button_color');
+        set_plugin_option('button_color', 'red');
+        $request = ServerRequestFactory::request('POST', '/admin.php?page=dt_home&tab=general', [
+            'dt_home_button_color' => $defaultColor,
+        ]);
+
+        $controller = container()->get(GeneralSettingsController::class);
+        $response = $controller->update($request);
+        $this->assertEquals(302, $response->getStatusCode());
+        $this->assertEquals($defaultColor, get_plugin_option('button_color', $defaultColor));
+    }
+    /**
+     * @test
+     */
+    public function it_updates_reset_apps()
+    {
+        set_plugin_option( 'reset_apps', 'off' );
+        $request = ServerRequestFactory::request('POST', '/admin.php?page=dt_home&tab=general', [
+            'dt_home_reset_apps' => 'on',
+        ]);
+
+        $controller = container()->get( GeneralSettingsController::class );
+        $response = $controller->update( $request );
+        $this->assertEquals( 302, $response->getStatusCode() );
+        $this->assertTrue( get_plugin_option( 'reset_apps', false ) );
+    }
+    /**
+     * @test
+     */
+    public function it_updates_reset_apps_off()
+    {
+        set_plugin_option( 'reset_apps', 'on' );
+        $request = ServerRequestFactory::request('POST', '/admin.php?page=dt_home&tab=general', [
+            'dt_home_reset_apps' => 'off',
+        ]);
+
+        $controller = container()->get( GeneralSettingsController::class );
+        $response = $controller->update( $request );
+        $this->assertEquals( 302, $response->getStatusCode() );
+        $this->assertFalse( get_plugin_option( 'reset_apps', true ) );
     }
 }
