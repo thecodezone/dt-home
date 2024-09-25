@@ -87,7 +87,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                       <tbody>
                           <tr>
                               <td style="background-color:#3f729b" id="image_preview"><img height="22px" src="<?php echo esc_url( $dt_home_file_upload ); ?>"></td>
-                              <td><input type="text" id="dt_home_file_upload" name="dt_home_file_upload" value="<?php echo esc_url( $dt_home_file_upload ); ?>" pattern=".*\S+.*" title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt-home' ); ?>"></td>
+                              <td><input type="text" id="dt_home_file_upload" name="dt_home_file_upload" value="<?php echo esc_url( $dt_home_file_upload ); ?>" pattern=".*\S+.*" title="<?php esc_attr_e( 'The name cannot be empty or just whitespace.', 'dt-home' ); ?>"></td>
                               <td></td>
                               <td><button class="button file-upload-display-uploader" id="upload_image_button"  style="margin-left:1%"><?php esc_html_e('Upload', 'dt-home' ); ?></button></td>
                           </tr>

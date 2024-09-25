@@ -15,7 +15,7 @@ $this->layout( 'layouts/auth' );
         <div class="section__inner">
             <div class="logo">
                 <img
-                    src="<?php echo esc_url( !empty($custom_ministry_logo) ? $custom_ministry_logo : $logo_path ) ?>"
+                    src="<?php echo esc_url( !empty( $custom_ministry_logo ) ? $custom_ministry_logo : $logo_path ) ?>"
                     alt="Disciple.Tools"
                     class="logo__image">
             </div>
