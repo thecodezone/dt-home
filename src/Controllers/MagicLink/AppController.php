@@ -242,8 +242,6 @@ class AppController
         $apps_array = $apps->for_user( $user );
 
         return response( $apps_array );
-
-
     }//end get_apps()
 
 /**
