@@ -29,7 +29,6 @@ document.addEventListener('DOMContentLoaded', function () {
 })
 
 document.addEventListener('DOMContentLoaded', function () {
-
     var nameInput = document.getElementById('name')
     var slugInput = document.getElementById('slug')
 
@@ -41,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
         return
     }
 
-    if (nameInput && slugInput.value || !slugInput.value) {
+    if ((nameInput && slugInput.value) || !slugInput.value) {
         nameInput.addEventListener('input', function () {
             // Convert to lowercase and replace spaces with underscores
 
@@ -82,5 +81,49 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!regex.test(futureValue)) {
             event.preventDefault() // Prevent the character if it does not match
         }
+    })
+})
+
+jQuery(document).ready(function ($) {
+    var mediaUploader
+
+    $('#upload_image_button').click(function (e) {
+        e.preventDefault()
+
+        if (mediaUploader) {
+            mediaUploader.open()
+            return
+        }
+
+        mediaUploader = wp.media.frames.file_frame = wp.media({
+            title: 'Choose Image',
+            button: {
+                text: 'Choose Image',
+            },
+            multiple: false,
+            library: {
+                type: 'image', // Ensure only images are selectable
+            },
+        })
+
+        mediaUploader.on('select', function () {
+            var attachment = mediaUploader
+                .state()
+                .get('selection')
+                .first()
+                .toJSON()
+
+            if (attachment.type !== 'image') {
+                alert('Please select an image file.')
+                return
+            }
+
+            $('#dt_home_file_upload').val(attachment.url)
+            $('#image_preview').html(
+                '<img src="' + attachment.url + '" class="image-preview">'
+            )
+        })
+
+        mediaUploader.open()
     })
 })
