@@ -234,4 +234,228 @@ class Apps {
         //Merge the app with the overrides
         $apps[ $app['slug'] ] = array_merge( $existing, $app, $overrides );
     }
+
+    /**
+     * Get all apps (inc soft if specified) data from the options and
+     * ensure default values.
+     *
+     * @return array
+     */
+
+    public function get_all_apps_data( $is_soft = false ) {
+
+        // Get the apps array from the option.
+        $apps_collection = $this->all();
+
+        // Filter accordingly by specified soft type.
+        $apps_array = array_values( array_filter( $apps_collection, function ( $app ) use ( $is_soft ) {
+            if ( !isset( $app['is_deleted'] ) ) {
+                return !$is_soft;
+            }
+
+            return $is_soft === $app['is_deleted'];
+        } ) );
+
+        // Proceed with app array sort, merge and return.
+        usort( $apps_array, function ( $a, $b ) {
+            return (int) $a['sort'] - (int) $b['sort'];
+        } );
+
+        $apps_array = array_map( function ( $app ) {
+            return array_merge( [
+                'name'          => '',
+                'type'          => 'Web View',
+                'creation_type' => '',
+                'icon'          => '',
+                'url'           => '',
+                'sort'          => 0,
+                'slug'          => '',
+                'is_hidden'     => false,
+            ], $app );
+        }, $apps_array );
+
+        return $apps_array;
+    }
+
+    /**
+     * Set hidden state of an app based on its slug, within admin settings.
+     *
+     * @param bool $hide The hidden state to be adopted.
+     * @param array $params The route parameters.
+     *
+     * @return bool Boolean flag indicating whether hidden state change was successful.
+     */
+
+    public function handle_hidden_admin_state_change( $hide, $params ): bool {
+
+        // Retrieve the existing array of apps
+        $slug = $params['slug'] ?? '';
+        if ( empty( $slug ) ) {
+            return false;
+        }
+
+        $apps_array = $this->all();
+        // Find the app with the specified ID and update its 'is_hidden' status
+        foreach ( $apps_array as $key => $app ) {
+            if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
+                $apps_array[ $key ]['is_hidden'] = ( $hide ? 1 : 0 );
+                break;
+            }
+        }
+        // Save the updated array back to the option
+        set_plugin_option( 'apps', $apps_array );
+
+        return true;
+    }
+
+    /**
+     * Set hidden state of an app based on its slug, within frontend view.
+     *
+     * @param bool $hide The hidden state to be adopted.
+     * @param int $user_id The user_id to associate app updates to.
+     * @param array $data The route parameters.
+     *
+     * @return bool Boolean flag indicating whether hidden state change was successful.
+     */
+
+    public function handle_hidden_view_state_change( $hide, $user_id, $data ): bool {
+        $apps_array = $this->for_user( $user_id );
+
+        // Find the app with the specified slug and update its 'is_hidden' status
+        foreach ( $apps_array as $key => $app ) {
+            if ( isset( $app['slug'] ) && $app['slug'] == $data['slug'] ) {
+                $apps_array[$key]['is_hidden'] = ( $hide ? 1 : 0 );
+                break;
+            }
+        }
+
+        // Separate hidden and visible apps
+        $hidden_apps  = [];
+        $visible_apps = [];
+
+        foreach ( $apps_array as $app ) {
+            if ( $app['is_hidden'] == 1 ) {
+                $hidden_apps[] = $app;
+            } else {
+                $visible_apps[] = $app;
+            }
+        }
+
+        // Sort visible apps by the 'sort' field
+        usort(
+            $visible_apps,
+            function ( $a, $b ) {
+                return ( $a['sort'] <=> $b['sort'] );
+            }
+        );
+
+        // Reset sort values for visible apps
+        foreach ( $visible_apps as $index => $app ) {
+            $visible_apps[$index]['sort'] = ( $index + 1 );
+        }
+
+        // Add hidden apps back to the end
+        foreach ( $hidden_apps as $hidden_app ) {
+            $hidden_app['sort'] = ( count( $visible_apps ) + 1 );
+            $visible_apps[]     = $hidden_app;
+        }
+
+        // Save the updated array back to the option
+        update_user_option( $user_id, 'dt_home_apps', $visible_apps );
+
+        return true;
+    }
+
+    /**
+     * Handle directional movement of apps within
+     * admin list.
+     *
+     * @param string $direction The direction (up/down).
+     * @param array $params The route parameters.
+     *
+     * @return bool Boolean flag indicating whether directional change was successful.
+     */
+
+    public function move( $direction, $params ): bool {
+        $slug = $params['slug'] ?? '';
+        if ( empty( $slug ) ) {
+            return false;
+        }
+
+        // Retrieve the existing array of apps
+        $apps_array = $this->all();
+
+        // Find the index of the app and its current sort value
+        $current_index = null;
+        $current_sort  = null;
+        foreach ( $apps_array as $key => $app ) {
+            if ( $app['slug'] == $slug ) {
+                $current_index = $key;
+                $current_sort  = (int) $app['sort'];
+                break;
+            }
+        }
+
+        $save_updates = true;
+
+        // Determine the maximum sort value
+        $max_sort = count( $apps_array );
+
+        switch ( $direction ) {
+            case 'up':
+
+                // Adjust the sort values
+                foreach ( $apps_array as $key => &$app ) {
+                    if ( $app['sort'] == $current_sort - 1 ) {
+                        // Increment the sort value of the app that's currently one position above
+                        $app['sort']++;
+                    }
+                }
+
+                // Decrement the sort value of the current app
+                if ( $current_sort > 0 ) {
+                    $apps_array[ $current_index ]['sort']--;
+                }
+
+                break;
+
+            case 'down':
+
+                // Only proceed if the app was found and it's not already at the bottom
+                if ( $current_index !== null && $current_sort < $max_sort ) {
+                    // Adjust the sort values
+                    foreach ( $apps_array as $key => &$app ) {
+                        if ( $app['sort'] == (int) $current_sort + 1 ) {
+                            // Decrement the sort value of the app that's currently one position below
+                            $app['sort']--;
+                        }
+                    }
+                    // Increment the sort value of the current app
+                    $apps_array[ $current_index ]['sort']++;
+
+                } else {
+                    $save_updates = false;
+                }
+
+                break;
+        }
+
+        // Determine if changes are to be persisted.
+        if ( $save_updates ) {
+
+            // Normalize the sort values to ensure they are positive and sequential
+            usort( $apps_array, function ( $a, $b ) {
+                return (int) $a['sort'] - (int) $b['sort'];
+            } );
+
+            foreach ( $apps_array as $key => &$app ) {
+                $app['sort'] = $key;
+            }
+
+            // Save the updated array back to the option
+            set_plugin_option( 'apps', $apps_array );
+        }
+
+        return true;
+    }
 }

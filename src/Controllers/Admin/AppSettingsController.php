@@ -27,7 +27,7 @@ class AppSettingsController {
         $link       = 'admin.php?page=dt_home&tab=';
         $page_title = "Home Settings";
 
-        $data = $this->get_all_apps_data();
+        $data = container()->get( Apps::class )->get_all_apps_data();
 
         return view( "settings/app", compact( 'tab', 'link', 'page_title', 'data' ) );
     }
@@ -43,52 +43,9 @@ class AppSettingsController {
         $link       = 'admin.php?page=dt_home&tab=';
         $page_title = "Home Settings";
 
-        $data = $this->get_all_apps_data( true );
+        $data = container()->get( Apps::class )->get_all_apps_data( true );
 
         return view( "settings/available-apps", compact( 'tab', 'link', 'page_title', 'data' ) );
-    }
-
-    /**
-     * Get all apps (inc soft if specified) data from the options and
-     * ensure default values.
-     *
-     * @return array
-     */
-
-    private function get_all_apps_data( $is_soft = false ) {
-        $apps = container()->get( Apps::class );
-
-        // Get the apps array from the option.
-        $apps_collection = $apps->all();
-
-        // Filter accordingly by specified soft type.
-        $apps_array = array_values( array_filter( $apps_collection, function ( $app ) use ( $is_soft ) {
-            if ( !isset( $app['is_deleted'] ) ) {
-                return !$is_soft;
-            }
-
-            return $is_soft === $app['is_deleted'];
-        } ) );
-
-        // Proceed with app array sort, merge and return.
-        usort( $apps_array, function ( $a, $b ) {
-            return (int) $a['sort'] - (int) $b['sort'];
-        } );
-
-        $apps_array = array_map( function ( $app ) {
-            return array_merge( [
-                'name'          => '',
-                'type'          => 'Web View',
-                'creation_type' => '',
-                'icon'          => '',
-                'url'           => '',
-                'sort'          => 0,
-                'slug'          => '',
-                'is_hidden'     => false,
-            ], $app );
-        }, $apps_array );
-
-        return $apps_array;
     }
 
     /**
@@ -171,7 +128,7 @@ class AppSettingsController {
      * @return ResponseInterface
      */
     public function unhide( Request $request, $params ) {
-        return $this->handle_hidden_state( false, $params );
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( container()->get( Apps::class )->handle_hidden_admin_state_change( false, $params ) ? 'true' : 'false' ) );
     }
 
     /**
@@ -183,37 +140,7 @@ class AppSettingsController {
      * @return ResponseInterface The redirect response.
      */
     public function hide( Request $request, $params ) {
-        return $this->handle_hidden_state( true, $params );
-    }
-
-    /**
-     * Set hidden state of an app based on its slug.
-     *
-     * @param bool $hide The hidden state to be adopted.
-     * @param array $params The route parameters.
-     *
-     * @return ResponseInterface The redirect response.
-     */
-    private function handle_hidden_state( $hide, $params ) {
-
-        // Retrieve the existing array of apps
-        $slug = $params['slug'] ?? '';
-        if ( empty( $slug ) ) {
-            return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
-        }
-        $apps       = container()->get( Apps::class );
-        $apps_array = $apps->all();
-        // Find the app with the specified ID and update its 'is_hidden' status
-        foreach ( $apps_array as $key => $app ) {
-            if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
-                $apps_array[ $key ]['is_hidden'] = ( $hide ? 1 : 0 );
-                break;
-            }
-        }
-        // Save the updated array back to the option
-        set_plugin_option( 'apps', $apps_array );
-
-        return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( container()->get( Apps::class )->handle_hidden_admin_state_change( true, $params ) ? 'true' : 'false' ) );
     }
 
     /**
@@ -226,9 +153,8 @@ class AppSettingsController {
      */
 
     public function up( Request $request, $params ) {
-        return $this->handle_up_down_direction_request( 'up', $params );
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( container()->get( Apps::class )->move( 'up', $params ) ? 'true' : 'false' ) );
     }
-
 
     /**
      * Move an app down in the list of apps.
@@ -239,100 +165,7 @@ class AppSettingsController {
      * @return ResponseInterface The RedirectResponse instance.
      */
     public function down( Request $request, $params ) {
-        return $this->handle_up_down_direction_request( 'down', $params );
-    }
-
-    /**
-     * Handle directional movement of apps within
-     * admin list.
-     *
-     * @param string $direction The direction (up/down).
-     * @param array $params The route parameters.
-     *
-     * @return ResponseInterface The RedirectResponse instance.
-     */
-    private function handle_up_down_direction_request( $direction, $params ) {
-        $slug = $params['slug'] ?? '';
-        if ( empty( $slug ) ) {
-            return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
-        }
-
-        // Retrieve the existing array of apps
-        $apps       = container()->get( Apps::class );
-        $apps_array = $apps->all();
-
-        // Find the index of the app and its current sort value
-        $current_index = null;
-        $current_sort  = null;
-        foreach ( $apps_array as $key => $app ) {
-            if ( $app['slug'] == $slug ) {
-                $current_index = $key;
-                $current_sort  = (int) $app['sort'];
-                break;
-            }
-        }
-
-        $save_updates = true;
-
-        // Determine the maximum sort value
-        $max_sort = count( $apps_array );
-
-        switch ( $direction ) {
-            case 'up':
-
-                // Adjust the sort values
-                foreach ( $apps_array as $key => &$app ) {
-                    if ( $app['sort'] == $current_sort - 1 ) {
-                        // Increment the sort value of the app that's currently one position above
-                        $app['sort']++;
-                    }
-                }
-
-                // Decrement the sort value of the current app
-                if ( $current_sort > 0 ) {
-                    $apps_array[ $current_index ]['sort']--;
-                }
-
-                break;
-
-            case 'down':
-
-                // Only proceed if the app was found and it's not already at the bottom
-                if ( $current_index !== null && $current_sort < $max_sort ) {
-                    // Adjust the sort values
-                    foreach ( $apps_array as $key => &$app ) {
-                        if ( $app['sort'] == (int) $current_sort + 1 ) {
-                            // Decrement the sort value of the app that's currently one position below
-                            $app['sort']--;
-                        }
-                    }
-                    // Increment the sort value of the current app
-                    $apps_array[ $current_index ]['sort']++;
-
-                } else {
-                    $save_updates = false;
-                }
-
-                break;
-        }
-
-        // Determine if changes are to be persisted.
-        if ( $save_updates ) {
-
-            // Normalize the sort values to ensure they are positive and sequential
-            usort( $apps_array, function ( $a, $b ) {
-                return (int) $a['sort'] - (int) $b['sort'];
-            } );
-
-            foreach ( $apps_array as $key => &$app ) {
-                $app['sort'] = $key;
-            }
-
-            // Save the updated array back to the option
-            set_plugin_option( 'apps', $apps_array );
-        }
-
-        return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( container()->get( Apps::class )->move( 'down', $params ) ? 'true' : 'false' ) );
     }
 
     /**
