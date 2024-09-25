@@ -87,16 +87,16 @@ class GeneralSettingsControllerTest extends TestCase
      */
     public function it_updates_button_color()
     {
-        $default_color = config('options.defaults.button_color');
-        set_plugin_option('button_color', 'red');
-        $request = ServerRequestFactory::request('POST', '/admin.php?page=dt_home&tab=general', [
+        $default_color = config( 'options.defaults.button_color' );
+        set_plugin_option( 'button_color', 'red' );
+        $request = ServerRequestFactory::request( 'POST', '/admin.php?page=dt_home&tab=general', [
             'dt_home_button_color' => $default_color,
         ]);
 
-        $controller = container()->get(GeneralSettingsController::class);
-        $response = $controller->update($request);
-        $this->assertEquals(302, $response->getStatusCode());
-        $this->assertEquals($default_color, get_plugin_option('button_color', $default_color));
+        $controller = container()->get( GeneralSettingsController::class );
+        $response = $controller->update( $request );
+        $this->assertEquals( 302, $response->getStatusCode() );
+        $this->assertEquals( $default_color, get_plugin_option( 'button_color', $default_color ) );
     }
     /**
      * @test
