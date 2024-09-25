@@ -32,7 +32,6 @@ $r->group( '/apps/launcher/{key}', function ( RouteCollectionInterface $r ) {
     $r->post( '/unhide', [ AppController::class, 'unhide' ] );
     $r->post( '/reorder', [ AppController::class, 'reorder' ] );
     $r->post( '/reset-apps', [ AppController::class, 'reset_apps' ] );
-
 } )->middleware( new LoggedIn() )
   ->middleware( new CheckShareCookie() )
   ->middleware( new Nonce( config( 'plugin.nonce_name' ) ) );
