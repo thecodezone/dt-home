@@ -171,7 +171,7 @@ class AppGrid extends LitElement {
 
     handleAppUnhidden(event) {
         const unhiddenApp = event.detail.app
-        const url = magic_url('get-apps')
+        const url = magic_url('apps')
         fetch(url)
             .then((response) => response.json())
             .then((data) => {

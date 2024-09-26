@@ -31,10 +31,10 @@ class AppController
     public function show( Request $request, $params )
     {
         // Fetch the app
-        $slug = $params['slug'];
-        $apps = container()->get( Apps::class );
+        $slug    = $params['slug'];
+        $apps    = container()->get( Apps::class );
         $user_id = get_current_user_id();
-        $app  = $apps->find_for_user( $user_id, $slug );
+        $app     = $apps->find_for_user( $user_id, $slug );
 
         if ( ! $app ) {
             return response( __( 'Not Found', 'dt-home' ), 404 );
@@ -73,7 +73,8 @@ class AppController
         return template( 'web-view', compact( 'app', 'url' ) );
     }//end show()
 
-/**
+
+    /**
      * This method is responsible for updating the "is_hidden" status of an app.
      *
      * @param Request $request The request object.
@@ -134,7 +135,8 @@ class AppController
         return response( [ 'message' => 'App visibility and order updated' ] );
     }//end hide()
 
-/**
+
+    /**
      * This method is responsible for updating the "is_hidden" status of an app.
      *
      * @param Request $request The request object.
@@ -195,7 +197,8 @@ class AppController
         return response( [ 'message' => 'App visibility updated' ] );
     }//end unhide()
 
-/**
+
+    /**
      * Updates the app order based on the provided request data.
      *
      * @param Request $request The request object containing the app order data.
@@ -218,7 +221,8 @@ class AppController
         return response( [ 'message' => 'App order updated' ] );
     }//end reorder()
 
-/**
+
+    /**
      * Resets the user's apps by clearing the 'dt_home_apps' option
      *
      * @param Request $request The request object.
@@ -235,16 +239,19 @@ class AppController
         return response( [ 'message' => 'App order updated' ] );
     }//end reset_apps()
 
-    public function get_apps( Request $request ) {
+
+    public function all()
+    {
         // Fetch all apps
         $user       = get_current_user_id();
         $apps       = container()->get( Apps::class );
         $apps_array = $apps->for_user( $user );
 
         return response( $apps_array );
-    }//end get_apps()
+    }//end all()
 
-/**
+
+    /**
      * Adds or updates a query parameter in a URL.
      *
      * @param string $url   The original URL.
@@ -270,5 +277,5 @@ class AppController
         $new_query_string = http_build_query( $query_params );
 
         return $base_url.'?'.$new_query_string;
-    }
+    }//end add_or_update_query_param()
 }//end class

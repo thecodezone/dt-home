@@ -23,7 +23,7 @@ $r->group( '/apps/launcher/{key}', function ( RouteCollectionInterface $r ) {
     $r->get( '/', [ LauncherController::class, 'show' ] );
     $r->get( '/training', [ TrainingController::class, 'show' ] );
     $r->get( '/logout', [ LoginController::class, 'logout' ] );
-    $r->get( '/get-apps', [ AppController::class, 'get_apps' ] );
+    $r->get( '/apps', [ AppController::class, 'all' ] );
 } )->middleware( new LoggedIn() )
   ->middleware( new CheckShareCookie() );
 
