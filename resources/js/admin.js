@@ -84,46 +84,63 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 })
 
-jQuery(document).ready(function ($) {
+/**
+ * Initializes the media uploader and handles the image selection process.
+ *
+ * @function
+ * @name initializeMediaUploader
+ * @returns {void}
+ */
+document.addEventListener('DOMContentLoaded', function () {
     var mediaUploader
 
-    $('#upload_image_button').click(function (e) {
-        e.preventDefault()
+    // Add click event listener to the upload image button
+    document
+        .getElementById('upload_image_button')
+        .addEventListener('click', function (e) {
+            e.preventDefault() // Prevent the default form submission behavior
 
-        if (mediaUploader) {
-            mediaUploader.open()
-            return
-        }
-
-        mediaUploader = wp.media.frames.file_frame = wp.media({
-            title: 'Choose Image',
-            button: {
-                text: 'Choose Image',
-            },
-            multiple: false,
-            library: {
-                type: 'image', // Ensure only images are selectable
-            },
-        })
-
-        mediaUploader.on('select', function () {
-            var attachment = mediaUploader
-                .state()
-                .get('selection')
-                .first()
-                .toJSON()
-
-            if (attachment.type !== 'image') {
-                alert('Please select an image file.')
+            // If the media uploader already exists, open it
+            if (mediaUploader) {
+                mediaUploader.open()
                 return
             }
 
-            $('#dt_home_file_upload').val(attachment.url)
-            $('#image_preview').html(
-                '<img src="' + attachment.url + '" class="image-preview">'
-            )
-        })
+            // Create a new media uploader instance
+            mediaUploader = wp.media.frames.file_frame = wp.media({
+                title: 'Choose Image', // Title of the media uploader
+                button: {
+                    text: 'Choose Image', // Text of the select button
+                },
+                multiple: false, // Disable multiple file selection
+                library: {
+                    type: 'image', // Ensure only images are selectable
+                },
+            })
 
-        mediaUploader.open()
-    })
+            // Handle the image selection event
+            mediaUploader.on('select', function () {
+                var attachment = mediaUploader
+                    .state()
+                    .get('selection')
+                    .first()
+                    .toJSON() // Get the selected image details
+
+                // Check if the selected file is an image
+                if (attachment.type !== 'image') {
+                    alert('Please select an image file.')
+                    return
+                }
+
+                // Set the selected image URL to the input field
+                document.getElementById('dt_home_file_upload').value =
+                    attachment.url
+                // Display the selected image as a preview
+                document.getElementById('image_preview').innerHTML =
+                    '<img src="' + attachment.url + '" class="image-preview">'
+            })
+
+            // Open the media uploader
+            mediaUploader.open()
+        })
 })
