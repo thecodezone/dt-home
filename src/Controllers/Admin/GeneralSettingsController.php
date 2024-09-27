@@ -43,7 +43,7 @@ class GeneralSettingsController {
 		$reset_apps           = $input['dt_home_reset_apps'] ?? 'off';
         $dt_home_show_in_menu = $input['dt_home_show_in_menu'] ?? 'off';
         $button_color         = $input['dt_home_button_color'] ?? config( 'options.defaults.button_color' );
-        $dt_home_file_upload = $input['dt_home_file_upload'] ?? '';
+        $dt_home_file_upload = $input['dt_home_custom_ministry_logo'] ?? '';
 		set_plugin_option( 'require_login', $require_user === 'on' );
 		set_plugin_option( 'reset_apps', $reset_apps === 'on' );
         set_plugin_option( 'button_color', $button_color );
