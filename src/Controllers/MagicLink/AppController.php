@@ -69,41 +69,11 @@ class AppController
             // No URL found 404
             return response( __( 'Not Found', 'dt-home' ), 404 );
         }
-
-        return template( 'web-view', compact( 'app', 'url' ) );
+        $page_title = $app['name'] ?? '';
+        return template( 'web-view', compact( 'app', 'url', 'page_title' ) );
     }//end show()
 
-
-    /**
-     * Adds or updates a query parameter in a URL.
-     *
-     * @param string $url   The original URL.
-     * @param string $key   The query parameter key.
-     * @param string $value The query parameter value.
-     *
-     * @return string The updated URL.
-     */
-    private function add_or_update_query_param( $url, $key, $value )
-    {
-        // Split the URL into the base and the query string
-        $url_parts    = explode( '?', $url, 2 );
-        $base_url     = $url_parts[0];
-        $query_string = ( $url_parts[1] ?? '' );
-
-        // Parse the query string into an associative array
-        parse_str( $query_string, $query_params );
-
-        // Update the query parameters
-        $query_params[$key] = $value;
-
-        // Rebuild the query string
-        $new_query_string = http_build_query( $query_params );
-
-        return $base_url.'?'.$new_query_string;
-    }//end add_or_update_query_param()
-
-
-    /**
+/**
      * This method is responsible for updating the "is_hidden" status of an app.
      *
      * @param Request $request The request object.
@@ -164,8 +134,7 @@ class AppController
         return response( [ 'message' => 'App visibility and order updated' ] );
     }//end hide()
 
-
-    /**
+/**
      * This method is responsible for updating the "is_hidden" status of an app.
      *
      * @param Request $request The request object.
@@ -226,8 +195,7 @@ class AppController
         return response( [ 'message' => 'App visibility updated' ] );
     }//end unhide()
 
-
-    /**
+/**
      * Updates the app order based on the provided request data.
      *
      * @param Request $request The request object containing the app order data.
@@ -250,8 +218,7 @@ class AppController
         return response( [ 'message' => 'App order updated' ] );
     }//end reorder()
 
-
-    /**
+/**
      * Resets the user's apps by clearing the 'dt_home_apps' option
      *
      * @param Request $request The request object.
@@ -267,4 +234,32 @@ class AppController
 
         return response( [ 'message' => 'App order updated' ] );
     }//end reset_apps()
+
+/**
+     * Adds or updates a query parameter in a URL.
+     *
+     * @param string $url   The original URL.
+     * @param string $key   The query parameter key.
+     * @param string $value The query parameter value.
+     *
+     * @return string The updated URL.
+     */
+    private function add_or_update_query_param( $url, $key, $value )
+    {
+        // Split the URL into the base and the query string
+        $url_parts    = explode( '?', $url, 2 );
+        $base_url     = $url_parts[0];
+        $query_string = ( $url_parts[1] ?? '' );
+
+        // Parse the query string into an associative array
+        parse_str( $query_string, $query_params );
+
+        // Update the query parameters
+        $query_params[$key] = $value;
+
+        // Rebuild the query string
+        $new_query_string = http_build_query( $query_params );
+
+        return $base_url.'?'.$new_query_string;
+    }//end add_or_update_query_param()
 }//end class

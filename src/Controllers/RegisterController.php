@@ -8,39 +8,10 @@ use DT\Home\Psr\Http\Message\ResponseInterface;
 use function DT\Home\extract_request_input;
 use function DT\Home\plugin_url;
 use function DT\Home\redirect;
-use function DT\Home\template;
 use function DT\Home\route_url;
+use function DT\Home\template;
 
 class RegisterController {
-
-    /**
-     * Show the register form.
-     *
-     * @param Request $request The HTTP request.
-     *
-     * @return ResponseInterface The rendered template.
-     */
-    public function show( Request $request ) {
-        $params = $request->getQueryParams();
-        $form_action = route_url( 'register' );
-        $login_url   = route_url( 'login' );
-        $error       = sanitize_text_field( $params['error'] ?? '' );
-        $username    = sanitize_text_field( $params['username'] ?? '' );
-        $email       = sanitize_email( $params['email'] ?? '' );
-        $password    = $params['password'] ?? '';
-        $logo_path   = plugin_url( 'resources/img/logo-color.png' );
-
-        return template( 'auth/register', [
-
-            'form_action' => $form_action,
-            'login_url'   => $login_url,
-            'username'    => $username,
-            'email'       => $email,
-            'password'    => $password,
-            'logo_path'   => $logo_path,
-            'error'       => $error
-        ] );
-    }
 
     /**
      * Process the registration form.
@@ -107,5 +78,36 @@ class RegisterController {
             $endpoint = route_url( 'register' );
         }
         return $this->show( ServerRequestFactory::request( $method, $endpoint, $params, $headers ) );
+    }
+
+    /**
+     * Show the register form.
+     *
+     * @param Request $request The HTTP request.
+     *
+     * @return ResponseInterface The rendered template.
+     */
+    public function show( Request $request ) {
+        $params = $request->getQueryParams();
+        $form_action = route_url( 'register' );
+        $login_url   = route_url( 'login' );
+        $error       = sanitize_text_field( $params['error'] ?? '' );
+        $username    = sanitize_text_field( $params['username'] ?? '' );
+        $email       = sanitize_email( $params['email'] ?? '' );
+        $password    = $params['password'] ?? '';
+        $logo_path   = plugin_url( 'resources/img/logo-color.png' );
+        $page_title   = __( 'Register', 'dt-home' );
+
+        return template( 'auth/register', [
+
+            'form_action' => $form_action,
+            'login_url'   => $login_url,
+            'username'    => $username,
+            'email'       => $email,
+            'password'    => $password,
+            'logo_path'   => $logo_path,
+            'error'       => $error,
+            'page_title'  => $page_title
+        ] );
     }
 }
