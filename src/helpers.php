@@ -197,7 +197,7 @@ function view( string $view = "", array $args = [] )
     if ( !empty( $args['page_title'] ) ) {
         $page_title = $args['page_title'];
         add_filter('dt_blank_title', function () use ( $page_title ) {
-            return $page_title . ' - ' . 'Disciple.Tools';
+            return "{$page_title} - Disciple.Tools";
         });
     }
 
