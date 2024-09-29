@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DT Home 0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dt-home\n"
-"POT-Creation-Date: 2024-09-23 10:58-0500\n"
+"POT-Creation-Date: 2024-09-23 10:57-0500\n"
 "PO-Revision-Date: 2024-09-23 10:58-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -18,9 +18,9 @@ msgstr ""
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: dt-home.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;esc_attr_e;"
-"esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;_nx_noop:3c,1,2;"
-"__ngettext_noop:1,2\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.min.js\n"
 "X-Poedit-SearchPathExcluded-1: node_modules\n"
@@ -127,30 +127,36 @@ msgstr "उपलब्ध ऐप्स"
 msgid "Add App"
 msgstr "ऐप जोड़ें"
 
-#: resources/views/settings/app.php:30 resources/views/settings/available-apps.php:26
+#: resources/views/settings/app.php:30
+#: resources/views/settings/available-apps.php:26
 #: resources/views/settings/create.php:31 resources/views/settings/edit.php:31
-#: resources/views/settings/training.php:32 resources/views/settings/training/create.php:18
+#: resources/views/settings/training.php:32
+#: resources/views/settings/training/create.php:18
 #: resources/views/settings/training/edit.php:27
 msgid "Name"
 msgstr "नाम"
 
-#: resources/views/settings/app.php:31 resources/views/settings/available-apps.php:27
+#: resources/views/settings/app.php:31
+#: resources/views/settings/available-apps.php:27
 #: resources/views/settings/create.php:41 resources/views/settings/edit.php:43
 msgid "Type"
 msgstr "टाइप"
 
 #: resources/views/settings/app.php:32 resources/views/settings/app.php:59
 #: resources/views/settings/available-apps.php:28
-#: resources/views/settings/available-apps.php:46 resources/views/settings/edit.php:83
+#: resources/views/settings/available-apps.php:46
+#: resources/views/settings/edit.php:83
 msgid "Icon"
 msgstr "मूर्ति"
 
-#: resources/views/settings/app.php:33 resources/views/settings/available-apps.php:29
+#: resources/views/settings/app.php:33
+#: resources/views/settings/available-apps.php:29
 #: resources/views/settings/create.php:90 resources/views/settings/edit.php:118
 msgid "Slug"
 msgstr "अलसाना"
 
-#: resources/views/settings/app.php:34 resources/views/settings/available-apps.php:30
+#: resources/views/settings/app.php:34
+#: resources/views/settings/available-apps.php:30
 #: resources/views/settings/training.php:35
 msgid "Action"
 msgstr "कार्य"
@@ -204,9 +210,11 @@ msgstr "क्या आप वाकई इस अनुप्रयोग क�
 msgid "Enter the name of the app."
 msgstr "ऐप का नाम दर्ज करें।"
 
-#: resources/views/settings/create.php:37 resources/views/settings/create.php:71
+#: resources/views/settings/create.php:37
+#: resources/views/settings/create.php:71
 #: resources/views/settings/create.php:96 resources/views/settings/edit.php:38
-#: resources/views/settings/edit.php:92 resources/views/settings/training/create.php:24
+#: resources/views/settings/edit.php:92
+#: resources/views/settings/training/create.php:24
 #: resources/views/settings/training/edit.php:34
 #: resources/views/settings/training/edit.php:60
 msgid "The name cannot be empty or just whitespace."
@@ -260,21 +268,25 @@ msgstr "ऐप्लिकेशन के लिए URL डालें."
 msgid "Enter a slug for the app."
 msgstr "ऐप के लिए एक स्लग दर्ज करें।"
 
-#: resources/views/settings/create.php:100 resources/views/settings/edit.php:130
+#: resources/views/settings/create.php:100
+#: resources/views/settings/edit.php:130
 msgid "Is Hidden"
 msgstr "छिपा हुआ है"
 
-#: resources/views/settings/create.php:102 resources/views/settings/edit.php:132
+#: resources/views/settings/create.php:102
+#: resources/views/settings/edit.php:132
 msgid "Check this box to hide the app."
 msgstr "ऐप को छिपाने के लिए इस बॉक्स को चेक करें।"
 
-#: resources/views/settings/create.php:116 resources/views/settings/edit.php:146
+#: resources/views/settings/create.php:116
+#: resources/views/settings/edit.php:146
 #: resources/views/settings/training/create.php:69
 #: resources/views/settings/training/edit.php:82
 msgid "Cancel"
 msgstr "कैंसिल करें"
 
-#: resources/views/settings/create.php:118 resources/views/settings/training/create.php:71
+#: resources/views/settings/create.php:118
+#: resources/views/settings/training/create.php:71
 msgid "Submit"
 msgstr "जमा करें"
 
@@ -286,7 +298,8 @@ msgstr "आइकन खोजें..."
 msgid "Close"
 msgstr "बंद"
 
-#: resources/views/settings/edit.php:148 resources/views/settings/general.php:55
+#: resources/views/settings/edit.php:148
+#: resources/views/settings/general.php:55
 #: resources/views/settings/training/edit.php:84
 msgid "Update"
 msgstr "अपडेट करें"
@@ -303,12 +316,14 @@ msgstr "उपयोगकर्ताओं को अपने ऐप्स �
 msgid "Add Training"
 msgstr "प्रशिक्षण जोड़ें"
 
-#: resources/views/settings/training.php:33 resources/views/settings/training/create.php:29
+#: resources/views/settings/training.php:33
+#: resources/views/settings/training/create.php:29
 #: resources/views/settings/training/edit.php:39
 msgid "Embed Video"
 msgstr "वीडियो एम्बेड करें"
 
-#: resources/views/settings/training.php:34 resources/views/settings/training/create.php:41
+#: resources/views/settings/training.php:34
+#: resources/views/settings/training/create.php:41
 #: resources/views/settings/training/edit.php:53
 msgid "Anchor"
 msgstr "लंगर"
@@ -363,7 +378,8 @@ msgstr "वीडियो एम्बेड खाली या सिर्�
 msgid "App not found"
 msgstr "ऐप नहीं मिला"
 
-#: src/Controllers/LoginController.php:75 src/Controllers/RegisterController.php:85
+#: src/Controllers/LoginController.php:75
+#: src/Controllers/RegisterController.php:85
 msgid "An unexpected error has occurred."
 msgstr "कोई अनपेक्षित त्रुटि उत्पन्न हुई."
 
