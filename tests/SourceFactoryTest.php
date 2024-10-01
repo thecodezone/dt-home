@@ -42,7 +42,7 @@ class SourceFactoryTest extends TestCase {
     public function it_makes_from_invalid_handles()
     {
         $this->expectException( NotFoundException::class );
-        SourceFactory::make('invalid');
+        SourceFactory::make( 'invalid' );
     }
 
     /**
