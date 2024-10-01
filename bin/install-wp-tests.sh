@@ -14,7 +14,7 @@ if [ -z $DB_HOST ]; then
     then
         echo "DDEV detected. Attempting to get DB host from DDEV configuration."
 
-        DDEV_DB_HOST=127.0.0.1:$(ddev describe -j | jq -r '.raw.dbinfo.dbPort')
+        DDEV_DB_HOST=127.0.0.1:$(ddev describe -j | jq -r '.raw.dbinfo.published_port')
         DDEV_DB_USER=$(ddev describe -j | jq -r '.raw.dbinfo.username')
         DDEV_DB_PASS=$(ddev describe -j | jq -r '.raw.dbinfo.password')
 
