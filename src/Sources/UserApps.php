@@ -74,7 +74,7 @@ class UserApps extends AppSource {
         return array_merge([
             'name' => '',
             'type' => 'Web View',
-            'creation_type' => 'user',
+            'creation_type' => 'custom',
             'icon' => '',
             'url' => '',
             'sort' => 10,
