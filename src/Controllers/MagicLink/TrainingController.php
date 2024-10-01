@@ -18,11 +18,13 @@ class TrainingController
         $training_data = $this->get_all_trainings_data();
         $data = json_encode( $training_data );
         $training_data_json_escaped = htmlspecialchars( $data );
+        $page_title   = __( 'Training', 'your-text-domain' );
 
         return template( 'training', compact(
             'data',
             'training_data',
-            'training_data_json_escaped'
+            'training_data_json_escaped',
+            'page_title'
         ) );
     }
 
