@@ -69,10 +69,9 @@ class AppController
             // No URL found 404
             return response( __( 'Not Found', 'dt-home' ), 404 );
         }
-
-        return template( 'web-view', compact( 'app', 'url' ) );
+        $page_title = $app['name'] ?? '';
+        return template( 'web-view', compact( 'app', 'url', 'page_title' ) );
     }//end show()
-
 
     /**
      * This method is responsible for updating the "is_hidden" status of an app.
@@ -135,7 +134,6 @@ class AppController
         return response( [ 'message' => 'App visibility and order updated' ] );
     }//end hide()
 
-
     /**
      * This method is responsible for updating the "is_hidden" status of an app.
      *
@@ -197,7 +195,6 @@ class AppController
         return response( [ 'message' => 'App visibility updated' ] );
     }//end unhide()
 
-
     /**
      * Updates the app order based on the provided request data.
      *
@@ -220,7 +217,6 @@ class AppController
 
         return response( [ 'message' => 'App order updated' ] );
     }//end reorder()
-
 
     /**
      * Resets the user's apps by clearing the 'dt_home_apps' option

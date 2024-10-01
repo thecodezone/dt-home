@@ -5,11 +5,11 @@ namespace DT\Home\Controllers;
 use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
-use function DT\Home\extract_request_input;
+use function DT\Home\get_plugin_option;
+use function DT\Home\plugin_url;
 use function DT\Home\redirect;
 use function DT\Home\route_url;
 use function DT\Home\template;
-use function DT\Home\plugin_url;
 
 /**
  * Class LoginController
@@ -17,33 +17,6 @@ use function DT\Home\plugin_url;
  * This class handles user login and authentication.
  */
 class LoginController {
-
-    /**
-     * Display the login form.
-     *
-     * @param Request $request The request object.
-     * @return ResponseInterface The response object containing the login form template.
-     */
-    public function show( Request $request ) {
-        $params       = extract_request_input( $request );
-        $register_url = route_url( 'register' );
-        $form_action  = route_url( 'login' );
-        $username     = sanitize_text_field( $params['username'] ?? '' );
-        $password     = sanitize_text_field( $params['password'] ?? '' );
-        $error        = sanitize_text_field( $params['error'] ?? '' );
-        $logo_path    = plugin_url( 'resources/img/logo-color.png' );
-        $reset_url    = wp_lostpassword_url( plugin_url() );
-
-        return template( 'auth/login', [
-            'register_url' => $register_url,
-            'form_action'  => $form_action,
-            'username'     => $username,
-            'password'     => $password,
-            'logo_path'    => $logo_path,
-            'reset_url'    => $reset_url,
-            'error'        => $error
-        ] );
-    }
 
     /**
      * Process the login form submission.
@@ -81,17 +54,6 @@ class LoginController {
 	}
 
     /**
-     * Logout the user.
-     *
-     * @return ResponseInterface The response object redirecting to the login page.
-     */
-	public function logout() {
-		wp_logout();
-
-		return redirect( route_url( 'login' ) );
-	}
-
-    /**
      * Show the login page with an error.
      *
      * @param string $error The error message.
@@ -110,4 +72,46 @@ class LoginController {
         }
         return $this->show( ServerRequestFactory::request( $method, $endpoint, $params, $headers ) );
     }
+
+    /**
+     * Display the login form.
+     *
+     * @param Request $request The request object.
+     * @return ResponseInterface The response object containing the login form template.
+     */
+    public function show( Request $request ) {
+        $params       = extract_request_input( $request );
+        $register_url = route_url( 'register' );
+        $form_action  = route_url( 'login' );
+        $username     = sanitize_text_field( $params['username'] ?? '' );
+        $password     = sanitize_text_field( $params['password'] ?? '' );
+        $error        = sanitize_text_field( $params['error'] ?? '' );
+        $logo_path    = plugin_url( 'resources/img/logo-color.png' );
+        $reset_url    = wp_lostpassword_url( plugin_url() );
+        $page_title   = __( 'Login', 'dt-home' );
+        $dt_home_file_upload = get_plugin_option( 'custom_ministry_logo' );
+
+        return template( 'auth/login', [
+            'register_url' => $register_url,
+            'form_action'  => $form_action,
+            'username'     => $username,
+            'password'     => $password,
+            'logo_path'    => $logo_path,
+            'reset_url'    => $reset_url,
+            'error'        => $error,
+            'page_title'   => $page_title,
+            'custom_logo' => $dt_home_file_upload,
+        ] );
+    }
+
+    /**
+     * Logout the user.
+     *
+     * @return ResponseInterface The response object redirecting to the login page.
+     */
+	public function logout() {
+		wp_logout();
+
+		return redirect( route_url( 'login' ) );
+	}
 }
