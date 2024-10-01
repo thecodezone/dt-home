@@ -14,14 +14,6 @@ use function DT\Home\set_plugin_option;
  * @return array The raw array of home apps.
  */
 class SettingsApps extends AppSource {
-
-    protected function dependencies(): array
-    {
-        return [
-            FilterApps::class
-        ];
-    }
-
     /**
      * Retrieves the raw array of home apps.
      *

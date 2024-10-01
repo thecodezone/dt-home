@@ -12,15 +12,6 @@ namespace DT\Home\Sources;
  * @return array The raw array of home apps.
  */
 class UserApps extends AppSource {
-
-    protected function dependencies(): array
-    {
-        return [
-            FilterApps::class,
-            SettingsApps::class
-        ];
-    }
-
     /**
      * Retrieves the raw array of home apps.
      *
@@ -83,7 +74,7 @@ class UserApps extends AppSource {
         return array_merge([
             'name' => '',
             'type' => 'Web View',
-            'creation_type' => 'custom',
+            'creation_type' => 'user',
             'icon' => '',
             'url' => '',
             'sort' => 10,
@@ -91,12 +82,5 @@ class UserApps extends AppSource {
             'is_hidden' => false,
             'is_deleted' => false,
         ], $app);
-    }
-
-    public function merge( $existing, $app )
-    {
-        $overrides = [];
-
-        return array_merge( $existing, $app, $overrides );
     }
 }

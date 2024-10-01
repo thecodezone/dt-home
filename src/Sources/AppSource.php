@@ -349,6 +349,15 @@ abstract class AppSource
         return $this->save( $apps, $save_params );
     }
 
+    /**
+     * Soft Deletes an item.
+     *
+     * @param string $slug The slug of the item to be deleted.
+     * @param array $params Optional. Additional parameters for the deletion. Default is an empty array.
+     * @param array $save_params Optional. Additional parameters for saving the changes. Default is an empty array.
+     *
+     * @return bool Returns true if the item was successfully deleted.
+     */
     public function delete( $slug, array $params = [], $save_params = [] ) {
         return $this->set( $slug, 'is_deleted', true, $params, $save_params );
     }

@@ -35,7 +35,7 @@ class AppSettingsController {
         $link       = 'admin.php?page=dt_home&tab=';
         $page_title = "Home Settings";
 
-        $data = $this->apps->from( 'settings' ); // or $this->source or SettingsApps::class
+        $data = $this->apps->from( 'settings' ); // or $this->settings_apps->merged() or SettingsApps::class
 
         return view( "settings/app", compact( 'tab', 'link', 'page_title', 'data' ) );
     }

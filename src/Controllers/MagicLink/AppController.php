@@ -133,8 +133,6 @@ class AppController
             return response( [ 'message' => 'Failed to update visibility.' ], 500 );
         }
 
-        return response( $this->user_apps->merged() );
-
         return response( [ 'message' => 'App visibility updated' ] );
     }
 
