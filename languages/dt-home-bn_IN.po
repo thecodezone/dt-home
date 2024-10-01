@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: DT Home 0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dt-home\n"
-"POT-Creation-Date: 2024-09-23 10:59-0500\n"
+"POT-Creation-Date: 2024-09-23 10:57-0500\n"
 "PO-Revision-Date: 2024-09-23 10:59-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -87,7 +87,8 @@ msgstr "উপপাতা দেখুন"
 
 #: resources/views/index.php:18
 msgid "Copy this link and share it with people you are coaching"
-msgstr "এই লিঙ্কটি অনুলিপি করুন এবং আপনি যাদের প্রশিক্ষণ দিচ্ছেন তাদের সাথে এটি ভাগ করুন"
+msgstr ""
+"এই লিঙ্কটি অনুলিপি করুন এবং আপনি যাদের প্রশিক্ষণ দিচ্ছেন তাদের সাথে এটি ভাগ করুন"
 
 #: resources/views/index.php:42
 msgid "Hidden Apps"
@@ -210,7 +211,8 @@ msgstr "আপনি কি নিশ্চিত যে আপনি এই অ
 msgid "Enter the name of the app."
 msgstr "অ্যাপটির নাম লিখুন।"
 
-#: resources/views/settings/create.php:37 resources/views/settings/create.php:71
+#: resources/views/settings/create.php:37
+#: resources/views/settings/create.php:71
 #: resources/views/settings/create.php:96 resources/views/settings/edit.php:38
 #: resources/views/settings/edit.php:92
 #: resources/views/settings/training/create.php:24
@@ -267,15 +269,18 @@ msgstr "অ্যাপটির ইউআরএল লিখুন।"
 msgid "Enter a slug for the app."
 msgstr "অ্যাপটির জন্য একটি স্লাগ লিখুন।"
 
-#: resources/views/settings/create.php:100 resources/views/settings/edit.php:130
+#: resources/views/settings/create.php:100
+#: resources/views/settings/edit.php:130
 msgid "Is Hidden"
 msgstr "লুকানো আছে"
 
-#: resources/views/settings/create.php:102 resources/views/settings/edit.php:132
+#: resources/views/settings/create.php:102
+#: resources/views/settings/edit.php:132
 msgid "Check this box to hide the app."
 msgstr "অ্যাপটি লুকাতে এই বাক্সটি চেক করুন।"
 
-#: resources/views/settings/create.php:116 resources/views/settings/edit.php:146
+#: resources/views/settings/create.php:116
+#: resources/views/settings/edit.php:146
 #: resources/views/settings/training/create.php:69
 #: resources/views/settings/training/edit.php:82
 msgid "Cancel"
@@ -294,7 +299,8 @@ msgstr "আইকনগুলি অনুসন্ধান করুন..."
 msgid "Close"
 msgstr "বন্ধ"
 
-#: resources/views/settings/edit.php:148 resources/views/settings/general.php:55
+#: resources/views/settings/edit.php:148
+#: resources/views/settings/general.php:55
 #: resources/views/settings/training/edit.php:84
 msgid "Update"
 msgstr "আধুনিকীকরণ"
@@ -373,7 +379,8 @@ msgstr "ভিডিও এম্বেড খালি বা শুধু হ�
 msgid "App not found"
 msgstr "অ্যাপ খুঁজে পাওয়া যায়নি"
 
-#: src/Controllers/LoginController.php:75 src/Controllers/RegisterController.php:85
+#: src/Controllers/LoginController.php:75
+#: src/Controllers/RegisterController.php:85
 msgid "An unexpected error has occurred."
 msgstr "একটি অপ্রত্যাশিত ত্রুটি সংঘটিত হয়েছে।"
 
@@ -491,7 +498,8 @@ msgstr "https://github.com/thecodezone"
 #~ msgstr "অর্পণ করা হয়েছে"
 
 #, fuzzy
-#~ msgid "Select the main person who is responsible for reporting on this record."
+#~ msgid ""
+#~ "Select the main person who is responsible for reporting on this record."
 #~ msgstr "এই রেকর্ডে প্রতিবেদন করার জন্য দায়বদ্ধ প্রধান ব্যক্তিকে নির্বাচন করুন।"
 
 #, fuzzy
