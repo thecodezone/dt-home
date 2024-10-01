@@ -5,7 +5,7 @@ namespace DT\Home\Controllers;
 use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
-use function DT\Home\extract_request_input;
+use function DT\Home\get_plugin_option;
 use function DT\Home\plugin_url;
 use function DT\Home\redirect;
 use function DT\Home\route_url;
@@ -89,6 +89,7 @@ class LoginController {
         $logo_path    = plugin_url( 'resources/img/logo-color.png' );
         $reset_url    = wp_lostpassword_url( plugin_url() );
         $page_title   = __( 'Login', 'dt-home' );
+        $dt_home_file_upload = get_plugin_option( 'custom_ministry_logo' );
 
         return template( 'auth/login', [
             'register_url' => $register_url,
@@ -99,6 +100,7 @@ class LoginController {
             'reset_url'    => $reset_url,
             'error'        => $error,
             'page_title'   => $page_title,
+            'custom_logo' => $dt_home_file_upload,
         ] );
     }
 

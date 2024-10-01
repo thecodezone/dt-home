@@ -6,6 +6,7 @@ use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
 use function DT\Home\extract_request_input;
+use function DT\Home\get_plugin_option;
 use function DT\Home\plugin_url;
 use function DT\Home\redirect;
 use function DT\Home\route_url;
@@ -97,8 +98,9 @@ class RegisterController {
         $password    = $params['password'] ?? '';
         $logo_path   = plugin_url( 'resources/img/logo-color.png' );
         $page_title   = __( 'Register', 'dt-home' );
+        $dt_home_file_upload = get_plugin_option( 'custom_ministry_logo' );
 
-        return template( 'auth/register', [
+      return template( 'auth/register', [
 
             'form_action' => $form_action,
             'login_url'   => $login_url,
@@ -107,7 +109,8 @@ class RegisterController {
             'password'    => $password,
             'logo_path'   => $logo_path,
             'error'       => $error,
-            'page_title'  => $page_title
+            'page_title'  => $page_title,
+            'custom_ministry_logo' => $dt_home_file_upload,
         ] );
     }
 }
