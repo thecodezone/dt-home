@@ -6,9 +6,8 @@ use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Services\Apps;
 use DT\Home\Services\SVGIconService;
-use function DT\Home\container;
+use DT\Home\Sources\SettingsApps;
 use function DT\Home\extract_request_input;
-use function DT\Home\get_plugin_option;
 use function DT\Home\redirect;
 use function DT\Home\response;
 use function DT\Home\set_plugin_option;
@@ -16,8 +15,17 @@ use function DT\Home\view;
 
 class AppSettingsController {
 
+    private Apps $apps;
+    private SettingsApps $settings_apps;
+
+    public function __construct( Apps $apps, SettingsApps $source )
+    {
+        $this->apps = $apps;
+        $this->settings_apps = $source;
+    }
+
     /**
-     * Show the general settings app tab.
+     * Show the apps settings app tab.
      *
      * @return ResponseInterface
      */
@@ -27,7 +35,7 @@ class AppSettingsController {
         $link       = 'admin.php?page=dt_home&tab=';
         $page_title = "Home Settings";
 
-        $data = container()->get( Apps::class )->get_all_apps_data();
+        $data = $this->apps->from( 'settings' ); // or $this->source or SettingsApps::class
 
         return view( "settings/app", compact( 'tab', 'link', 'page_title', 'data' ) );
     }
@@ -43,7 +51,7 @@ class AppSettingsController {
         $link       = 'admin.php?page=dt_home&tab=';
         $page_title = "Home Settings";
 
-        $data = container()->get( Apps::class )->get_all_apps_data( true );
+        $data = $this->settings_apps->deleted();
 
         return view( "settings/available-apps", compact( 'tab', 'link', 'page_title', 'data' ) );
     }
@@ -57,7 +65,6 @@ class AppSettingsController {
         $tab         = "app";
         $link        = 'admin.php?page=dt_home&tab=';
         $page_title  = "Home Settings";
-        $svg_service = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
 
         return view( "settings/create", compact( 'tab', 'link', 'page_title' ) );
     }
@@ -96,9 +103,8 @@ class AppSettingsController {
             'open_in_new_tab' => $open_in_new_tab,
         ];
 
-        $apps = container()->get( Apps::class );
         // Get the existing apps array
-        $apps_array = $apps->all(); // Default to an empty array if the option does not exist
+        $apps_array = $this->apps->from( 'settings' ); // Default to an empty array if the option does not exist
 
         // Avoid duplicate slugs and append unique counter if required.
         $dup_apps = array_filter( $apps_array, function ( $app ) use ( $app_data ) {
@@ -113,8 +119,7 @@ class AppSettingsController {
         // Append new app data to the array
         $apps_array[] = $app_data;
 
-        // Save the updated array back to the option
-        set_plugin_option( 'apps', $apps_array );
+        $this->settings_apps->save( $apps_array );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
@@ -128,7 +133,9 @@ class AppSettingsController {
      * @return ResponseInterface
      */
     public function unhide( Request $request, $params ) {
-        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( container()->get( Apps::class )->handle_hidden_admin_state_change( false, $params ) ? 'true' : 'false' ) );
+        $result = $this->settings_apps->unhide( $params['slug'] );
+
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( $result['is_hidden'] ? 'false' : 'true' ) );
     }
 
     /**
@@ -140,7 +147,9 @@ class AppSettingsController {
      * @return ResponseInterface The redirect response.
      */
     public function hide( Request $request, $params ) {
-        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( container()->get( Apps::class )->handle_hidden_admin_state_change( true, $params ) ? 'true' : 'false' ) );
+        $result = $this->settings_apps->hide( $params['slug'] );
+
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( $result['is_hidden'] ? 'true' : 'false' ) );
     }
 
     /**
@@ -153,7 +162,7 @@ class AppSettingsController {
      */
 
     public function up( Request $request, $params ) {
-        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( container()->get( Apps::class )->move( 'up', $params ) ? 'true' : 'false' ) );
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( $this->move( 'up', $params ) ? 'true' : 'false' ) );
     }
 
     /**
@@ -165,7 +174,7 @@ class AppSettingsController {
      * @return ResponseInterface The RedirectResponse instance.
      */
     public function down( Request $request, $params ) {
-        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( container()->get( Apps::class )->move( 'down', $params ) ? 'true' : 'false' ) );
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( $this->move( 'down', $params ) ? 'true' : 'false' ) );
     }
 
     /**
@@ -191,8 +200,7 @@ class AppSettingsController {
         $open_in_new_tab = filter_var( $input['open_in_new_tab'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
 
         // Retrieve the existing array of apps
-        $apps       = container()->get( Apps::class );
-        $apps_array = $apps->all();
+        $apps_array       = $this->apps->from( $this->settings_apps );
 
         // Find and update the app in the array
         foreach ( $apps_array as $key => $app ) {
@@ -212,8 +220,7 @@ class AppSettingsController {
             }
         }
 
-        // Save the updated array back to the option
-        set_plugin_option( 'apps', $apps_array );
+        $this->settings_apps->save( $apps_array );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
@@ -228,9 +235,8 @@ class AppSettingsController {
      */
     public function edit( Request $request, $params ) {
         $slug        = $params['slug'] ?? '';
-        $svg_service = new SVGIconService( get_template_directory() . '/dt-assets/images/' );
 
-        $existing_data = $this->get_data_by_slug( $slug );
+        $existing_data = $this->apps->find( $slug );
 
         $tab        = "app";
         $link       = 'admin.php?page=dt_home&tab=';
@@ -244,24 +250,6 @@ class AppSettingsController {
         return view( "settings/edit", compact( 'existing_data', 'link', 'tab', 'page_title' ) );
     }
 
-    /**
-     * Get app data by ID.
-     *
-     * @param int $slug
-     *
-     * @return ResponseInterface
-     */
-    protected function get_data_by_slug( $slug ) {
-        $apps_array = container()->get( Apps::class )->all();
-
-        foreach ( $apps_array as $app ) {
-            if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
-                return $app;
-            }
-        }
-
-        return null; // Return null if no app is found with the given slug
-    }
 
     /**
      * Delete an app by its slug.
@@ -274,23 +262,7 @@ class AppSettingsController {
     public function delete( Request $request, $params ) {
         $slug = $params['slug'] ?? '';
 
-        if ( empty( $slug ) ) {
-            return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
-        }
-
-        // Retrieve the existing array of trainings
-        $apps_array = get_plugin_option( 'apps' );
-
-        // Find the app with the specified ID and remove it from the array
-        foreach ( $apps_array as $key => $app ) {
-            if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
-                unset( $apps_array[ $key ] ); // Remove the app from the array
-                break; // Exit the loop once the app is found and removed
-            }
-        }
-
-        // Save the updated array back to the option
-        set_plugin_option( 'apps', $apps_array );
+        $this->settings_apps->destroy( $slug );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
@@ -306,26 +278,9 @@ class AppSettingsController {
     public function soft_delete_app( Request $request, $params ) {
         $slug = $params['slug'] ?? '';
 
-        if ( empty( $slug ) ) {
-            return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
-        }
+        $is_deleted = $this->settings_apps->delete( $slug );
 
-        // Retrieve the existing array of apps
-        $apps       = container()->get( Apps::class );
-        $apps_array = $apps->all();
-
-        // Find the app with the specified slug and mark it as soft deleted
-        foreach ( $apps_array as $key => $app ) {
-            if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
-
-                $apps_array[ $key ]['is_deleted'] = true; // Mark the app as soft deleted
-                break; // Exit the loop once the app is found and marked
-            }
-        }
-
-        $apps->save( $apps_array );
-
-        return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( $is_deleted ? 'true' : 'false' ) );
     }
 
     /**
@@ -346,7 +301,9 @@ class AppSettingsController {
         }
 
         // Retrieve the existing array of apps
-        $apps_array = get_option( 'dt_home_apps', [] );
+        $apps_array = $this->apps
+            ->settings_apps
+            ->deleted();
 
         // Find the app with the specified slug and restore it
         foreach ( $apps_array as $key => $app ) {
@@ -357,9 +314,104 @@ class AppSettingsController {
         }
 
         // Save the updated array back to the option
-        set_plugin_option( 'apps', $apps_array );
+        $this->apps->settings_apps->save( $apps_array );
 
         // Redirect to the page with a success message
         return redirect( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true' );
+    }
+
+
+
+    /**
+     * Handle directional movement of apps within
+     * admin list.
+     *
+     * @param string $direction The direction (up/down).
+     * @param array $params The route parameters.
+     *
+     * @return bool Boolean flag indicating whether directional change was successful.
+     */
+
+    public function move( $direction, $params ): bool {
+        $slug = $params['slug'] ?? '';
+        if ( empty( $slug ) ) {
+            return false;
+        }
+
+        // Retrieve the existing array of apps
+        $apps_array = $this->apps->from( $this->settings_apps );
+
+        // Find the index of the app and its current sort value
+        $current_index = null;
+        $current_sort  = null;
+        foreach ( $apps_array as $key => $app ) {
+            if ( $app['slug'] == $slug ) {
+                $current_index = $key;
+                $current_sort  = (int) $app['sort'];
+                break;
+            }
+        }
+
+        $save_updates = true;
+
+        // Determine the maximum sort value
+        $max_sort = count( $apps_array );
+
+        switch ( $direction ) {
+            case 'up':
+
+                // Adjust the sort values
+                foreach ( $apps_array as $key => &$app ) {
+                    if ( $app['sort'] == $current_sort - 1 ) {
+                        // Increment the sort value of the app that's currently one position above
+                        $app['sort']++;
+                    }
+                }
+
+                // Decrement the sort value of the current app
+                if ( $current_sort > 0 ) {
+                    $apps_array[ $current_index ]['sort']--;
+                }
+
+                break;
+
+            case 'down':
+
+                // Only proceed if the app was found and it's not already at the bottom
+                if ( $current_index !== null && $current_sort < $max_sort ) {
+                    // Adjust the sort values
+                    foreach ( $apps_array as $key => &$app ) {
+                        if ( $app['sort'] == (int) $current_sort + 1 ) {
+                            // Decrement the sort value of the app that's currently one position below
+                            $app['sort']--;
+                        }
+                    }
+                    // Increment the sort value of the current app
+                    $apps_array[ $current_index ]['sort']++;
+
+                } else {
+                    $save_updates = false;
+                }
+
+                break;
+        }
+
+        // Determine if changes are to be persisted.
+        if ( $save_updates ) {
+
+            // Normalize the sort values to ensure they are positive and sequential
+            usort( $apps_array, function ( $a, $b ) {
+                return (int) $a['sort'] - (int) $b['sort'];
+            } );
+
+            foreach ( $apps_array as $key => &$app ) {
+                $app['sort'] = $key;
+            }
+
+            // Save the updated array back to the option
+            set_plugin_option( 'apps', $apps_array );
+        }
+
+        return true;
     }
 }

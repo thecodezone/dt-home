@@ -215,7 +215,7 @@ class HomeFooter extends LitElement {
     }
 
     get hiddenApps() {
-        return this.appData.filter((app) => app.is_hidden === 1)
+        return this.appData.filter((app) => app.is_hidden)
     }
 
     connectedCallback() {

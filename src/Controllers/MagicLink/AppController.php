@@ -5,8 +5,11 @@ namespace DT\Home\Controllers\MagicLink;
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Services\Apps;
+use DT\Home\Sources\UserApps;
 use function DT\Home\container;
 use function DT\Home\extract_request_input;
+use function DT\Home\get_plugin_option;
+use function DT\Home\magic_url;
 use function DT\Home\namespace_string;
 use function DT\Home\response;
 use function DT\Home\template;
@@ -19,6 +22,46 @@ use function DT\Home\template;
 class AppController
 {
 
+    private $apps;
+
+    private $user_apps;
+
+    public function __construct( Apps $apps, UserApps $user_apps )
+    {
+        $this->apps = $apps;
+        $this->user_apps = $user_apps;
+    }
+
+    /**
+     * Display the app launcher
+     *
+     * @param Request $request The request object.
+     * @param array $params The parameters.
+     */
+    public function index( Request $request, $params )
+    {
+
+        $key         = $params['key'];
+        $user        = get_current_user_id();
+        $apps_array  = $this->apps->for( $user );
+        $data        = json_encode( $apps_array );
+        $hidden_data = $data;
+        $app_url     = magic_url( '', $key );
+        $magic_link  = $app_url . '/share';
+        $reset_apps  = get_plugin_option( 'reset_apps' );
+
+        return template(
+            'index',
+            compact(
+                'user',
+                'data',
+                'app_url',
+                'magic_link',
+                'hidden_data',
+                'reset_apps'
+            )
+        );
+    }
 
     /**
      * Displays the app based on the provided slug.
@@ -34,7 +77,7 @@ class AppController
         $slug = $params['slug'];
         $apps = container()->get( Apps::class );
         $user_id = get_current_user_id();
-        $app  = $apps->find_for_user( $user_id, $slug );
+        $app  = $apps->find_for( $slug, $user_id );
 
         if ( ! $app ) {
             return response( __( 'Not Found', 'dt-home' ), 404 );
@@ -71,7 +114,7 @@ class AppController
         }
 
         return template( 'web-view', compact( 'app', 'url' ) );
-    }//end show()
+    }
 
 
     /**
@@ -83,10 +126,17 @@ class AppController
      */
     public function hide( Request $request )
     {
-        container()->get( Apps::class )->handle_hidden_view_state_change( true, get_current_user_id(), extract_request_input( $request ) );
+        $params = extract_request_input( $request );
+        $result = $this->user_apps->hide( $params['slug'] );
 
-        return response( [ 'message' => 'App visibility and order updated' ] );
-    }//end hide()
+        if ( ! $result['is_hidden'] ) {
+            return response( [ 'message' => 'Failed to update visibility.' ], 500 );
+        }
+
+        return response( $this->user_apps->merged() );
+
+        return response( [ 'message' => 'App visibility updated' ] );
+    }
 
 
     /**
@@ -98,10 +148,15 @@ class AppController
      */
     public function unhide( Request $request )
     {
-        container()->get( Apps::class )->handle_hidden_view_state_change( false, get_current_user_id(), extract_request_input( $request ) );
+        $params = extract_request_input( $request );
+        $result = $this->user_apps->unhide( $params['slug'] );
+
+        if ( $result['is_hidden'] ) {
+            return response( [ 'message' => 'Failed to update visibility.' ], 500 );
+        }
 
         return response( [ 'message' => 'App visibility updated' ] );
-    }//end unhide()
+    }
 
 
     /**
@@ -125,7 +180,7 @@ class AppController
         update_user_option( get_current_user_id(), 'dt_home_apps', $data );
 
         return response( [ 'message' => 'App order updated' ] );
-    }//end reorder()
+    }
 
 
     /**
@@ -143,5 +198,5 @@ class AppController
         update_user_option( get_current_user_id(), 'dt_home_apps', $admin_apps );
 
         return response( [ 'message' => 'App order updated' ] );
-    }//end reset_apps()
-}//end class
+    }
+}

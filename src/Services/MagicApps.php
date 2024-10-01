@@ -2,8 +2,11 @@
 
 namespace DT\Home\Services;
 
+use function DT\Home\get_magic_url;
+
 /**
- * Magic apps service provider. Handlers the automatic registration of magic apps.
+ * Magic apps service.
+ * Handels the automatic registration of magic apps.
  */
 class MagicApps {
     public function __construct()
@@ -16,8 +19,12 @@ class MagicApps {
      *
      * @return array Returns an array of magic URL register types.
      */
-    public function all() {
-        return apply_filters( 'dt_magic_url_register_types', [] );
+    public function all(): array {
+        $result = apply_filters( 'dt_magic_url_register_types', [] );
+        if ( !is_array( $result ) ){
+            return [];
+        }
+        return $result;
     }
 
     /**
@@ -78,5 +85,28 @@ class MagicApps {
         }
 
         return array_values( $magic_apps );
+    }
+
+    /**
+     * Parses an app URL and returns a magic URL based on the given parameters.
+     *
+     * @param array $app The app details.
+     * @param int $user_id The ID of the user.
+     * @return string|null Returns the magic URL or null if the app details are invalid.
+     */
+    public function parse_app_url( array $app, $user_id )
+    {
+        if ( empty( $app['magic_link_meta'] ) || !isset( $app['magic_link_meta']['post_type'], $app['magic_link_meta']['root'], $app['magic_link_meta']['type'] ) ) {
+            return false;
+        }
+
+        switch ( $app['magic_link_meta']['post_type'] ) {
+            case 'user':
+                return get_magic_url( $app['magic_link_meta']['root'], $app['magic_link_meta']['type'], $user_id );
+            case 'contacts':
+                return get_magic_url( $app['magic_link_meta']['root'], $app['magic_link_meta']['type'], \Disciple_Tools_Users::get_contact_for_user( $user_id ) );
+        }
+
+        return false;
     }
 }
