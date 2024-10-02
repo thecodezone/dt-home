@@ -31,7 +31,7 @@ class MagicApps {
      * Automatically register custom magic apps
      *
      * @param array $apps The apps to be saved.
-     * @return bool Whether the saving was successful or not.
+     * @return array Whether the saving was successful or not.
      */
     public function register( array $apps ): array {
         foreach ( $this->unregistered_magic_apps() as $app ){
@@ -88,14 +88,48 @@ class MagicApps {
     }
 
     /**
+     * Hydrates the magic URLs in the given array of apps.
+     *
+     * @param array &$apps The array of apps to hydrate.
+     * @param integer|null $user_id The ID of the user. Defaults to the current user's ID if not provided.
+     * @return void
+     */
+    public function hydrate_magic_urls( array &$apps, $user_id = null ) {
+        $user_id = $user_id ?? get_current_user_id();
+
+        foreach ( $apps as $id => $app ) {
+            $this->hydrate_magic_url( $apps[$id], $user_id );
+        }
+    }
+
+    /**
+     * Hydrates the magic URLs in the given array of apps.
+     *
+     * @param array &$app The app to hydrate.
+     * @param integer|null $user_id The ID of the user. Defaults to the current user's ID if not provided.
+     * @return void
+     */
+    public function hydrate_magic_url( array &$app, $user_id = null ) {
+        $user_id = $user_id ?? get_current_user_id();
+
+        $url = $this->parse_app_magic_link( $app, $user_id );
+        if ( ! $url ) {
+            return;
+        }
+        $app['url'] = $url;
+    }
+
+
+    /**
      * Parses an app URL and returns a magic URL based on the given parameters.
      *
      * @param array $app The app details.
      * @param int $user_id The ID of the user.
      * @return string|null Returns the magic URL or null if the app details are invalid.
      */
-    public function parse_app_url( array $app, $user_id )
-    {
+    public function parse_app_magic_link( array $app, $user_id = null ) {
+        $user_id = $user_id ?? get_current_user_id();
+
         if ( empty( $app['magic_link_meta'] ) || !isset( $app['magic_link_meta']['post_type'], $app['magic_link_meta']['root'], $app['magic_link_meta']['type'] ) ) {
             return false;
         }

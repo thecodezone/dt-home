@@ -4,11 +4,20 @@ namespace DT\Home\Services;
 
 use DT\Home\Sources\SettingsApps;
 use DT\Home\Sources\UserApps;
+use PHP_CodeSniffer\Reports\Source;
 
 /**
- * Queries apps from multiple sources.
+ * Queries apps from multiple sources,
+ * and may add business logic that the app sources do not.
  */
 class Apps {
+    private MagicApps $magic_apps;
+
+    public function __construct( MagicApps $magic_apps )
+    {
+        $this->magic_apps = $magic_apps;
+    }
+
     /**
      * Get all apps from the specified app source classname.
      *
@@ -46,7 +55,9 @@ class Apps {
             $user_id = get_current_user_id();
         }
         $params['user_id'] = $user_id;
-        return $this->from( UserApps::class, $params );
+        $apps = $this->from( UserApps::class, $params );
+        $this->magic_apps->hydrate_magic_urls( $apps, $user_id );
+        return $apps;
     }
 
     /**
@@ -59,9 +70,14 @@ class Apps {
      */
     public function find_for( string $slug, int $user_id, array $params = [] )
     {
-        $apps = $this->for( $user_id, $params );
-        $filtered_apps = $this->with_slug( $apps, $slug );
-        return $this->first( $filtered_apps );
+        if ( $user_id === 0 ) {
+            $user_id = get_current_user_id();
+        }
+        $params['user_id'] = $user_id;
+        $service = SourceFactory::make( UserApps::class );
+        $app = $service->find( $slug, $params );
+        $this->magic_apps->hydrate_magic_url( $app, $user_id );
+        return $app;
     }
 
     /**
@@ -73,7 +89,6 @@ class Apps {
     public function find( string $slug, array $params = [] ) {
         $source = $params['source'] ?? SettingsApps::class;
         $apps = $this->from( $source, $params );
-
         return $this->first_with_slug( $apps, $slug );
     }
 
