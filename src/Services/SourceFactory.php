@@ -2,6 +2,8 @@
 
 namespace DT\Home\Services;
 
+use DT\Home\League\Container\Exception\NotFoundException;
+use DT\Home\Sources\AppSource;
 use function DT\Home\config;
 use function DT\Home\container;
 
@@ -14,14 +16,18 @@ class SourceFactory {
      *
      * @param mixed $source The source to create an instance of.
      *                      Can be either an object or a string.
-     * @param array $params Additional parameters to pass to the instance.
+     * @return AppSource The created instance of the source.
      *
-     * @return object The created instance of the source.
-     *
-     * @throws \InvalidArgumentException If the source type is invalid.
      */
-    public static function make( $source, array $params = [] ) {
-        return container()->get( self::as_classname( $source ), $params );
+    public static function make( $source ): AppSource {
+        $classname = self::as_classname( $source );
+        $available_sources = array_values( config( 'apps.sources', [] ) );
+
+        if ( ! in_array( $classname, $available_sources ) ) {
+            throw new NotFoundException( 'Invalid source type' );
+        }
+
+        return container()->get( $classname );
     }
 
     /**
@@ -52,7 +58,7 @@ class SourceFactory {
      * @return string The class name associated with the handle.
      */
     public static function handle_to_classname( $handle ) {
-        $handles = config( 'apps.source_handles', [] );
+        $handles = config( 'apps.sources', [] );
         return $handles[$handle] ?? $handle;
     }
 
@@ -63,7 +69,7 @@ class SourceFactory {
      * @return string The corresponding handle.
      */
     public static function classname_to_handle( $classname ) {
-        $handles = config( 'apps.source_handles', [] );
+        $handles = config( 'apps.sources', [] );
         //phpcs:ignore
         return array_search( $classname, $handles ) ?: $classname;
     }

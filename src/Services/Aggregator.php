@@ -88,7 +88,7 @@ class Aggregator {
      */
     private function build_sources(): array
     {
-        $config_sources = config( 'apps.sources', [] );
+        $config_sources = array_values( config( 'apps.sources', [] ) );
         $matching_sources = array_intersect( $config_sources, $this->requested_sources );
         $last_match = end( $matching_sources );
         $sources = [];
