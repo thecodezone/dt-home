@@ -3,6 +3,8 @@
 namespace DT\Home\Sources;
 
 use DT\Home\Services\Aggregator;
+use DT\Home\Services\SourceFactory;
+use function DT\Home\config;
 
 /**
  * Base class for application sources.
@@ -23,6 +25,18 @@ abstract class AppSource
      * Save the applications.
      */
     abstract public function save( $apps, array $options = [] ): bool;
+
+    /**
+     * Handle the application.
+     *
+     * @return string The name of the application.
+     */
+    public static function handle(): string
+    {
+        $handles = config( 'apps.sources', [] );
+        //phpcs:ignore
+        return array_search( static::class, $handles ) ?: self::class;
+    }
 
     /**
      * Provides a place to control the way data is merged for the app source.
@@ -121,7 +135,7 @@ abstract class AppSource
      */
     protected function format( $apps ): array {
         $apps = array_map(function ( $app ) {
-            return $this->format_app( $app );
+            return apply_filters( 'dt_home_format_app', $this->format_app( $app ) );
         }, $apps);
 
         $this->sort( $apps );
@@ -142,6 +156,7 @@ abstract class AppSource
             'name' => '',
             'type' => 'Web View',
             'creation_type' => 'custom',
+            'source' => static::handle(),
             'icon' => '',
             'url' => '',
             'sort' => 10,

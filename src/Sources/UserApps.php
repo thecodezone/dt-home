@@ -2,15 +2,7 @@
 
 namespace DT\Home\Sources;
 
-/**
- * Retrieves the raw array of home apps.
- *
- * This function applies the 'dt_home_apps' filter to an empty array,
- * returning the result.
- *
- * @param array $params An array of parameters (optional).
- * @return array The raw array of home apps.
- */
+
 class UserApps extends AppSource {
     /**
      * Retrieves the raw array of home apps.
@@ -75,6 +67,7 @@ class UserApps extends AppSource {
             'name' => '',
             'type' => 'Web View',
             'creation_type' => 'custom',
+            'source' => static::handle(),
             'icon' => '',
             'url' => '',
             'sort' => 10,

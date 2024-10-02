@@ -64,7 +64,6 @@ class Aggregator {
             }
             $existing = $apps[$idx] ?? [];
             $apps[$idx] = $source->merge( $existing, $app );
-            $apps[$idx]['source'] = SourceFactory::classname_to_handle( get_class( $source ) );
         }
     }
 

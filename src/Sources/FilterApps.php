@@ -55,6 +55,7 @@ class FilterApps extends AppSource {
 
         $overrides = [
             'creation_type' => 'code',
+            'source' => static::handle(),
             'is_deleted' => false,
             'is_hidden' => false,
         ];
@@ -69,7 +70,7 @@ class FilterApps extends AppSource {
                 'icon' => '',
                 'url' => '',
                 'sort' => 10,
-                'slug' => ''
+                'slug' => '',
         ], $app, $overrides);
     }
 

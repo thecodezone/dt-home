@@ -66,13 +66,14 @@ class SettingsApps extends AppSource {
         return array_merge([
             'name' => '',
             'type' => 'Web View',
+            'creation_type' => 'custom',
+            'source' => static::handle(),
             'icon' => '',
             'url' => '',
             'sort' => 10,
             'slug' => '',
             'is_hidden' => false,
             'is_deleted' => false,
-            'creation_type' => 'custom'
         ], $app, $overrides);
     }
 }

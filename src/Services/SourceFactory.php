@@ -24,7 +24,7 @@ class SourceFactory {
         $available_sources = array_values( config( 'apps.sources', [] ) );
 
         if ( ! in_array( $classname, $available_sources ) ) {
-            throw new NotFoundException( 'Invalid source type' );
+            throw new NotFoundException( 'Invalid source type: ' .  esc_attr( $classname ) );
         }
 
         return container()->get( $classname );
