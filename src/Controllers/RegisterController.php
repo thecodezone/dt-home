@@ -100,7 +100,7 @@ class RegisterController {
         $page_title   = __( 'Register', 'dt-home' );
         $dt_home_file_upload = get_plugin_option( 'custom_ministry_logo' );
 
-      return template( 'auth/register', [
+    return template( 'auth/register', [
 
             'form_action' => $form_action,
             'login_url'   => $login_url,
@@ -111,6 +111,6 @@ class RegisterController {
             'error'       => $error,
             'page_title'  => $page_title,
             'custom_ministry_logo' => $dt_home_file_upload,
-        ] );
+    ] );
     }
 }
