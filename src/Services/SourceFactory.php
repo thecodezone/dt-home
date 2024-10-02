@@ -39,7 +39,7 @@ class SourceFactory {
 		}
 
         if ( ! is_string( $source ) ) {
-            return throw new \InvalidArgumentException( 'Invalid source type' );
+            throw new \InvalidArgumentException( 'Invalid source type' );
 		}
 
         return self::handle_to_classname( $source );
