@@ -103,7 +103,7 @@ class MagicApps {
     }
 
     /**
-     * Hydrates the magic URLs in the given array of apps.
+     * Hydrates the magic URLs in the given app.
      *
      * @param array &$app The app to hydrate.
      * @param integer|null $user_id The ID of the user. Defaults to the current user's ID if not provided.
