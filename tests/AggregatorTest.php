@@ -194,15 +194,12 @@ class AggregatorTest extends TestCase {
             return $app['source'] === 'filter';
         }));
 
-        //This may not be for the best, but all settings apps are resaved as user apps, so they will all be source user if they aggregate properly
-        $this->assertCount(0, array_filter($aggregated, function ( $app ) {
+        $this->assertCount(5, array_filter($aggregated, function ( $app ) {
             return $app['source'] === 'settings';
         }));
 
-        foreach ( $aggregated as $app ) {
-            if ( $app['source'] !== 'filter' ) {
-                $this->assertEquals( 'user', $app['source'] );
-            }
-        }
+        $this->assertCount(3, array_filter($aggregated, function ( $app ) {
+            return $app['source'] === 'user';
+        }));
     }
 }
