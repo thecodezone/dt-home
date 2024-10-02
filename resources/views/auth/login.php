@@ -73,4 +73,7 @@ $this->layout( 'layouts/auth' );
         <?php esc_html_e( 'Forgot Password?', 'disciple-tools-autolink' ); ?>
     </sp-button>
 </div>
+<br>
+<?php do_shortcode( '[dt_firebase_login_ui]' ) ?>
+
 
