@@ -18,23 +18,24 @@ use DT\Home\Middleware\CheckShareCookie;
 use DT\Home\Middleware\LoggedIn;
 use function DT\Home\config;
 
-$r->group('/apps/launcher/{key}', function ( RouteCollectionInterface $r ) {
+$r->group( '/apps/launcher/{key}', function ( RouteCollectionInterface $r ) {
     $r->get( '/app/{slug}', [ AppController::class, 'show' ] );
     $r->get( '/', [ LauncherController::class, 'show' ] );
     $r->get( '/training', [ TrainingController::class, 'show' ] );
     $r->get( '/logout', [ LoginController::class, 'logout' ] );
-})->middleware( new LoggedIn() )
-    ->middleware( new CheckShareCookie() );
+    $r->get( '/apps', [ AppController::class, 'all' ] );
+} )->middleware( new LoggedIn() )
+  ->middleware( new CheckShareCookie() );
 
-$r->group('/apps/launcher/{key}', function ( RouteCollectionInterface $r ) {
+$r->group( '/apps/launcher/{key}', function ( RouteCollectionInterface $r ) {
     $r->post( '/hide', [ AppController::class, 'hide' ] );
     $r->post( '/unhide', [ AppController::class, 'unhide' ] );
     $r->post( '/reorder', [ AppController::class, 'reorder' ] );
     $r->post( '/reset-apps', [ AppController::class, 'reset_apps' ] );
-})->middleware( new LoggedIn() )
-    ->middleware( new CheckShareCookie() )
-    ->middleware( new Nonce( config( 'plugin.nonce_name' ) ) );
+} )->middleware( new LoggedIn() )
+  ->middleware( new CheckShareCookie() )
+  ->middleware( new Nonce( config( 'plugin.nonce_name' ) ) );
 
-$r->group('/apps/launcher/{key}', function ( RouteCollectionInterface $r ) {
+$r->group( '/apps/launcher/{key}', function ( RouteCollectionInterface $r ) {
     $r->get( '/share', [ ShareController::class, 'show' ] );
-});
+} );
