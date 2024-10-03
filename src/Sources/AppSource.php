@@ -213,9 +213,11 @@ abstract class AppSource
      * @return array The filtered array containing the element(s) with the provided slug
      */
     public function find( $slug, $params = [] ) {
-        return $this->first( array_filter( $this->all( $params ), function ( $app ) use ( $slug ) {
+        $app = $this->first( array_filter( $this->all( $params ), function ( $app ) use ( $slug ) {
             return $app['slug'] === $slug;
         }) );
+
+        return !is_null( $app ) ? $app : [];
     }
 
     /**

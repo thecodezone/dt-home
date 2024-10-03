@@ -2,7 +2,6 @@
 
 namespace DT\Home\Sources;
 
-
 class UserApps extends AppSource {
     /**
      * Retrieves the raw array of home apps.
