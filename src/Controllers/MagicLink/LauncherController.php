@@ -32,8 +32,7 @@ class LauncherController {
 		$app_url     = magic_url( '', $key );
 		$magic_link  = $app_url . '/share';
 		$reset_apps  = get_plugin_option( 'reset_apps' );
-        $button_color  = get_plugin_option( 'button_color' );
-       $page_title   = __( 'Home Screen', 'dt-home' );
+
 		return template(
 			'index',
 			compact(
@@ -42,9 +41,7 @@ class LauncherController {
 				'app_url',
 				'magic_link',
 				'hidden_data',
-				'reset_apps',
-                'button_color',
-                'page_title'
+				'reset_apps'
 			)
 		);
 	}

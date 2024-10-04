@@ -4,28 +4,26 @@ namespace DT\Home\Services;
 
 use DT\Home\CodeZone\WPSupport\Assets\AssetQueue;
 use DT\Home\CodeZone\WPSupport\Assets\AssetQueueInterface;
-use function DT\Home\config;
-use function DT\Home\get_plugin_option;
 use function DT\Home\Kucrut\Vite\enqueue_asset;
-use function DT\Home\namespace_string;
 use function DT\Home\plugin_path;
-use function DT\Home\plugin_url;
-
+use function DT\Home\namespace_string;
+use function DT\Home\config;
 
 class Assets
 {
-    /**
-     * Flag indicating whether a resource has been enqueued.
-     *
-     * @var bool $enqueued False if the resource has not been enqueued, true otherwise.
-     */
-    private static bool $enqueued = false;
     /**
      * AssetQueue Service.
      *
      * @var AssetQueue $asset_queue The AssetQueue instance.
      */
     private AssetQueueInterface $asset_queue;
+
+    /**
+     * Flag indicating whether a resource has been enqueued.
+     *
+     * @var bool $enqueued False if the resource has not been enqueued, true otherwise.
+     */
+    private static bool $enqueued = false;
 
     public function __construct( AssetQueueInterface $asset_queue )
     {
@@ -49,7 +47,6 @@ class Assets
         } else {
             add_action( 'wp_enqueue_scripts', [ $this, 'wp_enqueue_scripts' ], 1000 );
             add_action( "wp_head", [ $this, 'cloak_style' ] );
-            add_action( 'wp_head', [ $this, 'add_open_graph_meta_tags' ] );
             add_action( 'wp_print_styles', [ $this, 'wp_print_styles' ] );
         }
     }
@@ -78,7 +75,7 @@ class Assets
      * @see https://github.com/kucrut/vite-for-wp
      */
     public function wp_enqueue_scripts() {
-        enqueue_asset(config( 'assets.manifest_dir' ),
+        \DT\Home\Kucrut\Vite\enqueue_asset(config( 'assets.manifest_dir' ),
             'resources/js/plugin.js',
             [
                 'handle' => 'dt-home',
@@ -86,7 +83,7 @@ class Assets
                 'css-only' => false, // Optional. Set to true to only load style assets in production mode.
                 'in-footer' => true, // Optional. Defaults to false.
         ]);
-        wp_localize_script( 'dt-home', config( 'assets.javascript_global_scope' ), apply_filters( namespace_string( 'javascript_globals' ), [] ) );
+        wp_localize_script( 'dt-home', config( 'assets.javascript_global_scope' ), apply_filters( \DT\Home\namespace_string( 'javascript_globals' ), [] ) );
     }
 
     /**
@@ -397,24 +394,6 @@ class Assets
                 visibility: hidden;
             }
         </style>
-        <?php
-    }
-    /**
-     * Outputs Open Graph meta tags.
-     *
-     * This method outputs the necessary Open Graph meta tags for the HTML document.
-     *
-     * @return void
-     */
-    public function add_open_graph_meta_tags(): void
-    {
-        $custom_logo = get_plugin_option( 'custom_ministry_logo' );
-        $default_logo = plugin_url( 'resources/img/logo-color.png' );
-        ?>
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" />
-        <meta property="og:url" content="<?php echo esc_url( get_plugin_option( 'dt_home_plugin_url' ) ); ?>" />
-        <meta property="og:image" content="<?php echo esc_url( !empty( $custom_logo ) ? $custom_logo : $default_logo ); ?>" />
         <?php
     }
 }

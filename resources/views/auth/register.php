@@ -15,7 +15,7 @@ $this->layout( 'layouts/auth' );
         <div class="section__inner">
             <div class="logo">
                 <img
-                    src="<?php echo esc_url( !empty( $custom_ministry_logo ) ? $custom_ministry_logo : $logo_path ) ?>"
+                    src="<?php echo esc_url( $logo_path ) ?>"
                     alt="Disciple.Tools"
                     class="logo__image">
             </div>
@@ -59,17 +59,12 @@ $this->layout( 'layouts/auth' );
             </form>
         </div>
     </dt-tile>
-    <div class="footer">
-        <?php if ( !empty( $custom_ministry_logo ) ) : ?>
-            <p><?php echo esc_html__( 'Powered by', 'dt-home' ); ?> <a href="https://disciple.tools/"><?php echo esc_html__( 'Disciple.Tools', 'dt-home' ); ?></a></p>
-        <?php endif; ?>
-        <div class="login__footer">
-            <sp-button href="<?php echo esc_url( $login_url ); ?>"
-                       variant="secondary"
-                       treatment="link"
-            >
-                <span><?php esc_html_e( 'Back to Login', 'dt-home' ); ?></span>
-            </sp-button>
-        </div>
+    <div class="login__footer">
+        <sp-button href="<?php echo esc_url( $login_url ); ?>"
+                   variant="secondary"
+                   treatment="link"
+        >
+            <span><?php esc_html_e( 'Back to Login', 'dt-home' ); ?></span>
+        </sp-button>
     </div>
 </div>

@@ -97,10 +97,10 @@ jQuery(document).ready(function ($) {
         })
     })
 
-    $('.change-icon-button-selector').click(function (e) {
+    $('.change-icon-button').click(function (e) {
         e.preventDefault()
-        var svgIcons = $(this).attr('data-item')
 
+        // Fetch handle to key workflow elements
         let parent_form = $(
             "form[name='" + $(e.currentTarget).data('app_form') + "']"
         )
@@ -109,55 +109,52 @@ jQuery(document).ready(function ($) {
         )
 
         // Display icon selector dialog
-        display_icon_selector_dialog(parent_form, icon_input, svgIcons)
+        display_icon_selector_dialog(parent_form, icon_input)
     })
 
     // Support DT customization icon picker requests.
-    $('.dt-admin-modal-box').on(
-        'click',
-        '.change-icon-button-selector',
-        function (e) {
-            let icon_input = $(
-                "input[name='" + $(e.currentTarget).data('icon') + "']"
-            )
-            let dialog = $('#dt_icon_selector_dialog')
+    $('.dt-admin-modal-box').on('click', '.change-icon-button', function (e) {
+        let icon_input = $(
+            "input[name='" + $(e.currentTarget).data('icon') + "']"
+        )
+        let dialog = $('#dt_icon_selector_dialog')
 
-            if (dialog) {
-                dialog.dialog({
-                    modal: false,
-                    autoOpen: false,
-                    hide: 0,
-                    show: 0,
-                    height: 'auto',
-                    width: 'auto',
-                    resizable: false,
-                    title: 'Icon Selector Dialog',
-                    buttons: [
-                        {
-                            text: 'Cancel',
-                            icon: 'ui-icon-close',
-                            click: function () {
-                                $(this).dialog('close')
-                            },
+        if (dialog) {
+            dialog.dialog({
+                modal: false,
+                autoOpen: false,
+                hide: 0,
+                show: 0,
+                height: 'auto',
+                width: 'auto',
+                resizable: false,
+                title: 'Icon Selector Dialog',
+                buttons: [
+                    {
+                        text: 'Cancel',
+                        icon: 'ui-icon-close',
+                        click: function () {
+                            $(this).dialog('close')
                         },
-                        {
-                            text: 'Save',
-                            icon: 'ui-icon-copy',
-                            click: function () {},
-                        },
-                        {
-                            text: 'Upload Custom Icon',
-                            icon: 'ui-icon-circle-zoomout',
-                            click: function () {},
-                        },
-                    ],
-                    open: function (event, ui) {
-                        let ui_dialog = $(document).find('.ui-dialog')[0]
+                    },
+                    {
+                        text: 'Save',
+                        icon: 'ui-icon-copy',
+                        click: function () {},
+                    },
+                    {
+                        text: 'Upload Custom Icon',
+                        icon: 'ui-icon-circle-zoomout',
+                        click: function () {},
+                    },
+                ],
+                open: function (event, ui) {
+                    let ui_dialog = $(document).find('.ui-dialog')[0]
 
-                        // Fetch and set font icon picker dialog contents.
-                        if (ui_dialog) {
-                            let cloned = $(ui_dialog).clone()
-                            let html = `
+                    // Fetch and set font icon picker dialog contents.
+                    if (ui_dialog) {
+                        let cloned = $(ui_dialog).clone()
+                        let html = `
               <table>
                 <tbody>
                     <tr>
@@ -181,48 +178,45 @@ jQuery(document).ready(function ($) {
               </table>
             `
 
-                            // Set some initial defaults to aid downstream processing.
-                            let content = $(
-                                '.dt-admin-modal-icon-picker-box-content'
-                            )
-                            content.html(html)
-                            content
-                                .find('button.ui-dialog-titlebar-close')
-                                .hide()
-                            content
-                                .find('span.ui-dialog-title')
-                                .css('font-weight', 'bold')
-                            content
-                                .find('button.ui-button')
-                                .data('icon-input', icon_input.attr('name'))
-                        }
+                        // Set some initial defaults to aid downstream processing.
+                        let content = $(
+                            '.dt-admin-modal-icon-picker-box-content'
+                        )
+                        content.html(html)
+                        content.find('button.ui-dialog-titlebar-close').hide()
+                        content
+                            .find('span.ui-dialog-title')
+                            .css('font-weight', 'bold')
+                        content
+                            .find('button.ui-button')
+                            .data('icon-input', icon_input.attr('name'))
+                    }
 
-                        // Force an immediate close, to draw attention to flipped content!
-                        $(this).dialog('close')
+                    // Force an immediate close, to draw attention to flipped content!
+                    $(this).dialog('close')
 
-                        // Display some initial icons
-                        execute_icon_selection_filter_query(svgIcons)
-                    },
-                    close: function (event, ui) {},
-                })
+                    // Display some initial icons
+                    execute_icon_selection_filter_query(false)
+                },
+                close: function (event, ui) {},
+            })
 
-                // Insert selection area div, within dialog button footer
-                let ui_dialog_buttonset = $('.ui-dialog-buttonset')
-                ui_dialog_buttonset.css('margin', '1.5em')
-                ui_dialog_buttonset.prepend(
-                    $('<span>')
-                        .attr('id', 'dialog_icon_selector_icon_selection_div')
-                        .css('display', 'inline-block')
-                        .css('vertical-align', 'middle')
-                        .css('padding', '0')
-                        .css('margin-right', '175px')
-                )
+            // Insert selection area div, within dialog button footer
+            let ui_dialog_buttonset = $('.ui-dialog-buttonset')
+            ui_dialog_buttonset.css('margin', '1.5em')
+            ui_dialog_buttonset.prepend(
+                $('<span>')
+                    .attr('id', 'dialog_icon_selector_icon_selection_div')
+                    .css('display', 'inline-block')
+                    .css('vertical-align', 'middle')
+                    .css('padding', '0')
+                    .css('margin-right', '175px')
+            )
 
-                // Display updated dialog
-                dialog.dialog('open')
-            }
+            // Display updated dialog
+            dialog.dialog('open')
         }
-    )
+    })
 
     $('.dt-admin-modal-box').on('click', '.ui-button', function (e) {
         // Determine action to be taken.
@@ -274,13 +268,13 @@ jQuery(document).ready(function ($) {
     /**
      * Icon selector modal dialog - Process icon selection filter queries & selections
      */
-    let svgIcons = $('.change-icon-button-selector').attr('data-item')
+
     $(document).on('keyup', '#dialog_icon_selector_filter_input', function (e) {
         let code = e.keyCode || e.which
 
         // Only get excited over specific key codes.
         if (code === 8 || code === 13 || (code >= 48 && code <= 90)) {
-            execute_icon_selection_filter_query(svgIcons)
+            execute_icon_selection_filter_query()
         }
     })
 
@@ -355,7 +349,6 @@ jQuery(document).ready(function ($) {
     function display_icon_selector_dialog(
         parent_form,
         icon_input,
-        svgIcons,
         callback = function (source) {}
     ) {
         let dialog = $('#dt_icon_selector_dialog')
@@ -387,7 +380,6 @@ jQuery(document).ready(function ($) {
                                 this,
                                 parent_form,
                                 icon_input,
-                                svgIcons,
                                 callback
                             )
                         },
@@ -400,7 +392,6 @@ jQuery(document).ready(function ($) {
                                 this,
                                 parent_form,
                                 icon_input,
-                                svgIcons,
                                 callback
                             )
                         },
@@ -408,7 +399,7 @@ jQuery(document).ready(function ($) {
                 ],
                 open: function (event, ui) {
                     // Display some initial icons
-                    execute_icon_selection_filter_query(svgIcons)
+                    execute_icon_selection_filter_query()
                 },
                 close: function (event, ui) {
                     callback('dialogclose')
@@ -480,16 +471,11 @@ jQuery(document).ready(function ($) {
     /**
      * Icon selector modal dialog - Execute Filtering Request
      */
-    function execute_icon_selection_filter_query(
-        svgIcons,
-        enable_tooltips = true
-    ) {
+
+    function execute_icon_selection_filter_query(enable_tooltips = true) {
         // Always default to a somewhat wildcard search if input text is blank
-        let query = $('#dialog_icon_selector_filter_input')
-            .val()
-            .trim()
-            .toUpperCase()
-        query = window.lodash.isEmpty(query) ? 'A' : query
+        let query = $('#dialog_icon_selector_filter_input').val().trim()
+        query = window.lodash.isEmpty(query) ? 'a' : query
 
         // Proceed with icon display refresh
         $('#dialog_icon_selector_icons_div').fadeOut('fast', function () {
@@ -500,32 +486,19 @@ jQuery(document).ready(function ($) {
                     // Clear currently displayed icons
                     $('#dialog_icon_selector_icons_table > tbody > tr').remove()
 
-                    // Obtain filtered icon list based on icon class names
+                    // Obtain filtered icon list
                     let filtered_icons = window.lodash.filter(
                         icons,
                         function (icon) {
                             return (
                                 icon['class'] &&
-                                window.lodash.includes(
-                                    icon['class'].toUpperCase(),
-                                    query
-                                )
+                                window.lodash.includes(icon['class'], query)
                             )
                         }
                     )
 
-                    filtered_icons = filtered_icons.slice(0, 200) // Truncate list for performance
-
-                    // Include SVG icons in the filtered list
-                    if (svgIcons) {
-                        let svgIconsArray = JSON.parse(svgIcons)
-
-                        svgIconsArray.forEach(function (svgUrl) {
-                            if (svgUrl.toUpperCase().indexOf(query) > -1) {
-                                filtered_icons.push({ url: svgUrl })
-                            }
-                        })
-                    }
+                    // Truncate filtered list for performance purposes
+                    filtered_icons = filtered_icons.slice(0, 200)
 
                     // Populate icons table
                     let loop_counter = 0
@@ -535,40 +508,27 @@ jQuery(document).ready(function ($) {
                     $.each(filtered_icons, function (idx, filtered_icon) {
                         loop_counter++
 
-                        if (filtered_icon['class']) {
-                            let icon_class_name = filtered_icon['class']
-                            if (
-                                icon_class_name &&
-                                is_icon_valid(icon_class_name)
-                            ) {
-                                tds +=
-                                    '<td><i title="' +
-                                    icon_class_name +
-                                    '" class="dialog-icon-selector-icon mdi ' +
-                                    icon_class_name +
-                                    '" data-icon_class="' +
-                                    icon_class_name +
-                                    '"></i></td>'
-                            }
-                        } else if (filtered_icon['url']) {
-                            let svgUrl = filtered_icon['url']
+                        let icon_class_name = filtered_icon['class']
+                        if (icon_class_name && is_icon_valid(icon_class_name)) {
                             tds +=
-                                '<td><img src="' +
-                                svgUrl +
-                                '"  data-icon_url="' +
-                                svgUrl +
-                                '" style="width: 50px; height: 50px;margin: 10px 10px 10px 10px; font-size: 50px;" class="dialog-icon-selector-icon" /></td>'
-                        }
+                                '<td><i title="' +
+                                icon_class_name +
+                                '" class="dialog-icon-selector-icon mdi ' +
+                                icon_class_name +
+                                '" data-icon_class="' +
+                                icon_class_name +
+                                '"></i></td>'
 
-                        if (
-                            ++icon_counter > 5 ||
-                            loop_counter >= filtered_icons.length
-                        ) {
-                            $(
-                                '#dialog_icon_selector_icons_table > tbody'
-                            ).append('<tr>' + tds + '</tr>')
-                            icon_counter = 0
-                            tds = ''
+                            if (
+                                ++icon_counter > 5 ||
+                                loop_counter >= filtered_icons.length
+                            ) {
+                                $(
+                                    '#dialog_icon_selector_icons_table > tbody'
+                                ).append('<tr>' + tds + '</tr>')
+                                icon_counter = 0
+                                tds = ''
+                            }
                         }
                     })
 
@@ -675,6 +635,7 @@ jQuery(document).ready(function ($) {
         if ($(selected_icon).length) {
             let icon_class = $(selected_icon).data('icon_class')
             let icon_url = $(selected_icon).data('icon_url') // Assuming the icon URL is stored in data-icon_url attribute
+
             if (icon_class) {
                 // Update form icon class input
                 icon_input.val('mdi ' + icon_class)
@@ -682,7 +643,6 @@ jQuery(document).ready(function ($) {
                 // Also update the input field with id "app_icon"
                 $('#app_icon').val('mdi ' + icon_class)
                 $('#app_icon_show').empty()
-
                 $('#app_icon_show').addClass('mdi ' + icon_class)
             } else if (icon_url) {
                 // Update form icon class input with icon URL
@@ -690,13 +650,6 @@ jQuery(document).ready(function ($) {
 
                 // Also update the input field with id "app_icon"
                 $('#app_icon').val(icon_url)
-                $('#app_icon_show')
-                    .removeAttr('class')
-                    .html(
-                        '<img src="' +
-                            icon_url +
-                            '" alt="Icon Image" style="width: 12px; height: 12px;" />'
-                    )
             }
 
             // If present, close dialog
