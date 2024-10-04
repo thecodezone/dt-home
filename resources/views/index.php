@@ -6,7 +6,6 @@
  * @var string $subpage_url
  * @var WP_User $user
  * @var string $reset_apps
- * @var string $button_color
  */
 $this->layout( 'layouts/plugin' );
 ?>
@@ -45,8 +44,7 @@ $this->layout( 'layouts/plugin' );
                 ] ) ?>'
                 hidden-data='<?php echo esc_attr( htmlspecialchars( $data ) ); ?>'
                 app-url-unhide='<?php echo esc_url( $app_url ); ?>'
-                reset-apps='<?php echo esc_attr( $reset_apps ); ?>'
-                button-color='<?php echo esc_attr( $button_color ); ?>'>
+                reset-apps='<?php echo esc_attr( $reset_apps ); ?>'>
 </dt-home-footer>
 
 <?php $this->stop(); ?>

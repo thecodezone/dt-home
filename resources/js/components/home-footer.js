@@ -13,7 +13,6 @@ class HomeFooter extends LitElement {
     static properties = {
         appUrl: { type: String },
         resetApps: { type: Boolean },
-        buttonColor: { type: String },
     }
 
     @property({ type: Object })
@@ -57,9 +56,8 @@ class HomeFooter extends LitElement {
         --spectrum-button-top-to-text-medium: 0px;
         --spectrum-workflow-icon-size-100: 26px;
         --spectrum-button-edge-to-text: 0px;
-        --system-spectrum-button-accent-background-color-hover: var(--button-color);
-        --system-spectrum-button-accent-background-color-down: var(--button-color);
-        --system-spectrum-button-accent-background-color-default: var(--button-color);
+        --system-spectrum-button-accent-background-color-hover: #3fab3f;
+        --system-spectrum-button-accent-background-color-down: #3fab3f;
         --spectrum-focus-indicator-color: transparent;
         border-radius: 50%;
       }
@@ -223,35 +221,12 @@ class HomeFooter extends LitElement {
     connectedCallback() {
         super.connectedCallback()
         this.loadAppData()
-        this.style.setProperty('--button-color', this.buttonColor)
-        document.addEventListener('app-hidden', this.handleAppHidden.bind(this))
-    }
-
-    disconnectedCallback() {
-        super.disconnectedCallback()
-        document.removeEventListener(
-            'app-hidden',
-            this.handleAppHidden.bind(this)
-        )
-    }
-
-    handleAppHidden(event) {
-        const hiddenApp = event.detail.app
-        const appIndex = this.appData.findIndex(
-            (app) => app.slug === hiddenApp.slug
-        )
-
-        if (appIndex > -1) {
-            this.appData[appIndex] = hiddenApp
-            this.requestUpdate()
-        }
     }
 
     loadAppData() {
         const jsonData = this.getAttribute('hidden-data')
         this.appUrl = this.getAttribute('app-url-unhide')
         this.resetApps = this.getAttribute('reset-apps') === '1'
-        this.buttonColor = this.getAttribute('button-color')
         if (jsonData) {
             this.appData = JSON.parse(jsonData)
         }
@@ -259,35 +234,29 @@ class HomeFooter extends LitElement {
 
     postAppDataToServer(appSlug) {
         const url = magic_url('unhide')
-        const appToUnHide = this.appData.find((app) => app.slug === appSlug)
-        if (!appToUnHide) {
+        const appToHide = this.appData.find((app) => app.slug === appSlug)
+
+        if (!appToHide) {
             console.error('App not found')
             return
         }
-        // Optimistically update the UI before making the request
-        appToUnHide.is_hidden = 0
-        this.requestUpdate()
-
         fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'X-WP-Nonce': $home.nonce,
             },
-            body: JSON.stringify(appToUnHide),
+            body: JSON.stringify(appToHide),
         })
             .then((response) => {
-                // Handle error
-                if (!response.ok) {
-                    // If the request fails, revert the UI change
-                    appToUnHide.is_hidden = 1
-                    this.requestUpdate()
-                    console.error('Failed to update the server')
+                if (response.ok) {
+                    console.log(response)
+                    window.location.reload()
+                } else {
+                    // Handle error
                 }
             })
             .catch((error) => {
-                appToUnHide.is_hidden = 1
-                this.requestUpdate()
                 console.error('Error:', error)
             })
     }
@@ -300,16 +269,8 @@ class HomeFooter extends LitElement {
             return
         }
         const appId = this.appData[appIndex].slug
-        this.appData[appIndex].is_hidden = 0
-        this.postAppDataToServer(appSlug)
-        // Dispatch a custom event that the app has been unhidden
-        this.dispatchEvent(
-            new CustomEvent('app-unhidden', {
-                detail: { app: this.appData[appIndex] },
-                bubbles: true,
-                composed: true,
-            })
-        )
+        this.postAppDataToServer(appId)
+        this.requestUpdate()
     }
 
     isIconURL(icon) {

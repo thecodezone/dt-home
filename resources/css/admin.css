@@ -106,18 +106,3 @@ body {
         margin-left: -5px; /* Center the arrow */
     }
 }
-/* Color Picker */
-    .color-picker{
-        width: 24px;
-        height: 24px;
-        border: none !important;
-        cursor: pointer;
-        margin: 0px !important;
-        background-color: transparent !important;
-    }
-    .image-preview{
-        height: 22px;
-    }
-    .color-picker-lable{
-        margin-left: -3px;
-    }

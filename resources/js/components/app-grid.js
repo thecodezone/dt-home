@@ -1,7 +1,7 @@
-import { css, html, LitElement } from 'lit'
-import { customElement } from 'lit-element'
-import { property, queryAll } from 'lit/decorators.js'
-import { magic_url } from '../helpers.js'
+import {css, html, LitElement} from 'lit'
+import {customElement} from 'lit-element'
+import {property, queryAll} from 'lit/decorators.js'
+import {magic_url} from '../helpers.js'
 
 /**
  * Custom element representing an application grid.
@@ -89,22 +89,6 @@ class AppGrid extends LitElement {
         document.addEventListener('mousedown', this.handleMouseDown)
         document.addEventListener('mouseup', this.handleMouseUp)
         document.addEventListener('mouseleave', this.handleMouseLeave)
-        document.addEventListener(
-            'app-unhidden',
-            this.handleAppUnhidden.bind(this)
-        )
-    }
-
-    disconnectedCallback() {
-        super.disconnectedCallback()
-        document.removeEventListener(
-            'app-unhidden',
-            this.handleAppUnhidden.bind(this)
-        )
-        document.removeEventListener('click', this.handleDocumentClick)
-        document.removeEventListener('mousedown', this.handleMouseDown)
-        document.removeEventListener('mouseup', this.handleMouseUp)
-        document.removeEventListener('mouseleave', this.handleMouseLeave)
     }
 
     /**
@@ -169,28 +153,6 @@ class AppGrid extends LitElement {
         this.handleDocumentClick(event)
     }
 
-    handleAppUnhidden(event) {
-        const unhiddenApp = event.detail.app
-        const url = magic_url('apps')
-        fetch(url)
-            .then((response) => response.json())
-            .then((data) => {
-                this.appData = data
-                const appIndex = this.appData.findIndex(
-                    (app) => app.slug === unhiddenApp.slug
-                )
-                if (appIndex > -1) {
-                    this.appData[appIndex] = unhiddenApp
-                    this.requestUpdate()
-                } else {
-                    console.log('App not found in appData:', unhiddenApp.slug)
-                }
-            })
-            .catch((error) => {
-                console.error('Error:', error)
-            })
-    }
-
     /**
      * Handles a single click event on an app.
      *
@@ -243,7 +205,7 @@ class AppGrid extends LitElement {
     }
 
     visitApp(url, options) {
-        if (Boolean(JSON.parse(options.open_in_new_tab ?? false))) {
+        if ( Boolean( JSON.parse( options.open_in_new_tab ?? false ) ) ) {
             window.open(url, '_blank')
         } else {
             window.location.href = url
@@ -393,17 +355,10 @@ class AppGrid extends LitElement {
         })
             .then((response) => {
                 if (response.ok) {
-                    appToHide.is_hidden = 1
-                    this.requestUpdate()
-                    this.dispatchEvent(
-                        new CustomEvent('app-hidden', {
-                            detail: { app: appToHide },
-                            bubbles: true,
-                            composed: true,
-                        })
-                    )
+                    console.log(response)
+                    window.location.reload()
                 } else {
-                    console.error('Failed to update the server')
+                    // Handle error
                 }
             })
             .catch((error) => {
