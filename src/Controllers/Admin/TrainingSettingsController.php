@@ -4,15 +4,23 @@ namespace DT\Home\Controllers\Admin;
 
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
+use DT\Home\Services\Trainings;
+use DT\Home\Sources\SettingsTrainings;
 use function DT\Home\extract_request_input;
-use function DT\Home\get_plugin_option;
 use function DT\Home\redirect;
 use function DT\Home\sanitize_youtube_iframe;
-use function DT\Home\set_plugin_option;
 use function DT\Home\view;
 
 class TrainingSettingsController
 {
+    private Trainings $trainings;
+    private SettingsTrainings $settings_trainings;
+
+    public function __construct( Trainings $trainings, SettingsTrainings $source )
+    {
+        $this->trainings = $trainings;
+        $this->settings_trainings = $source;
+    }
 
     /**
      * Show the training settings page
@@ -36,17 +44,8 @@ class TrainingSettingsController
      *
      * @return array The sorted training data.
      */
-    protected function get_all_trainings_data()
-    {
-        // Get the apps array from the option
-        $trainings_array = get_plugin_option( 'trainings' );
-
-        // Sort the array based on the 'sort' key
-        usort($trainings_array, function ( $a, $b ) {
-            return ( !empty( $a['sort'] ) && !empty( $b['sort'] ) ) ? ( $a['sort'] - $b['sort'] ) : -1;
-        });
-
-        return $trainings_array;
+    protected function get_all_trainings_data() {
+        return $this->settings_trainings->uber_sort( $this->settings_trainings->raw() );
     }
 
 
@@ -113,7 +112,7 @@ class TrainingSettingsController
         $anchor = sanitize_text_field( $input['anchor'] ?? '' );
         $sort = intval( $input['sort'] ?? 0 );
         $edit_id = intval( $params['id'] ?? 0 );
-        $trainings_array = get_plugin_option( 'trainings' );
+        $trainings_array = $this->settings_trainings->raw();
 
         // Find and update the app in the array
         foreach ( $trainings_array as $key => $training ) {
@@ -129,10 +128,8 @@ class TrainingSettingsController
             }
         }
 
-        // Save the updated array back to the option
-        set_plugin_option( 'trainings', $trainings_array );
-
-        return redirect( 'admin.php?page=dt_home&tab=training&updated=true' );
+        // Save and return updated bool result.
+        return redirect( 'admin.php?page=dt_home&tab=training&updated=' . ( $this->settings_trainings->save( $trainings_array ) ? 'true' : 'false' ) );
     }
 
 
@@ -176,10 +173,8 @@ class TrainingSettingsController
         // Append new app data to the array
         $trainings_array[] = $training_data;
 
-        // Save the updated array back to the option
-        set_plugin_option( 'trainings', $trainings_array );
-
-        return redirect( 'admin.php?page=dt_home&tab=training&updated=true' );
+        // Save and return updated bool result.
+        return redirect( 'admin.php?page=dt_home&tab=training&updated=' . ( $this->settings_trainings->save( $trainings_array ) ? 'true' : 'false' ) );
     }
 
 
@@ -218,7 +213,7 @@ class TrainingSettingsController
         }
 
         // Retrieve the existing array of trainings
-        $trainings_array = get_plugin_option( 'trainings' );
+        $trainings_array = $this->settings_trainings->raw();
 
         // Find the app with the specified ID and remove it from the array
         foreach ( $trainings_array as $key => $training ) {
@@ -228,11 +223,8 @@ class TrainingSettingsController
             }
         }
 
-        // Save the updated array back to the option
-        set_plugin_option( 'trainings', $trainings_array );
-
-        // Redirect to the page with a success message
-        return redirect( 'admin.php?page=dt_home&tab=training&updated=true' );
+        // Save and return updated bool result.
+        return redirect( 'admin.php?page=dt_home&tab=training&updated=' . ( $this->settings_trainings->save( $trainings_array ) ? 'true' : 'false' ) );
     }
 
     /**
@@ -244,50 +236,8 @@ class TrainingSettingsController
      * @param array $params An array of parameters passed to the method.
      * @return ResponseInterface A redirect response to the training page with an "updated" parameter set to "true".
      */
-    public function up( Request $request, $params )
-    {
-        $id = $params['id'] ?? null;
-
-        if ( !$id ) {
-            return redirect( 'admin.php?page=dt_home&tab=training' );
-        }
-
-        // Retrieve the existing array of apps
-        $trainings_array = get_plugin_option( 'trainings' );
-
-        // Find the index of the app and its current sort value
-        $current_index = null;
-        $current_sort = null;
-        foreach ( $trainings_array as $key => $training ) {
-            if ( $training['id'] == $id ) {
-                $current_index = $key;
-                $current_sort = $training['sort'];
-                break;
-            }
-        }
-
-        // Only proceed if the app was found and it's not already at the top
-        if ( $current_index !== null && $current_sort > 1 ) {
-            // Adjust the sort values
-            foreach ( $trainings_array as $key => &$training ) {
-                if ( $training['sort'] == $current_sort - 1 ) {
-                    // Increment the sort value of the app that's currently one position above
-                    $training['sort']++;
-                }
-            }
-            // Decrement the sort value of the current app
-            $trainings_array[$current_index]['sort']--;
-
-            // Re-sort the array
-            usort($trainings_array, function ( $a, $b ) {
-                return $a['sort'] - $b['sort'];
-            });
-
-            // Save the updated array back to the option
-            set_plugin_option( 'trainings', $trainings_array );
-        }
-
-        return redirect( 'admin.php?page=dt_home&tab=training&updated=true' );
+    public function up( Request $request, $params ) {
+        return redirect( 'admin.php?page=dt_home&tab=training&updated=' . ( $this->trainings->move( $params['id'] ?? '', 'up' ) ? 'true' : 'false' ) );
     }
 
     /**
@@ -298,48 +248,7 @@ class TrainingSettingsController
      *
      * @return ResponseInterface The redirect response to the admin page.
      */
-    public function down( Request $request, $params )
-    {
-        $id = $params['id'] ?? null;
-
-        // Retrieve the existing array of apps
-        $trainings_array = get_plugin_option( 'trainings' );
-
-        // Find the index of the app and its current sort value
-        $current_index = null;
-        $current_sort = null;
-        foreach ( $trainings_array as $key => $app ) {
-            if ( $app['id'] == $id ) {
-                $current_index = $key;
-                $current_sort = $app['sort'];
-                break;
-            }
-        }
-
-        // Determine the maximum sort value
-        $max_sort = count( $trainings_array );
-
-        // Only proceed if the app was found and it's not already at the bottom
-        if ( $current_index !== null && $current_sort < $max_sort ) {
-            // Adjust the sort values
-            foreach ( $trainings_array as $key => &$app ) {
-                if ( $app['sort'] == $current_sort + 1 ) {
-                    // Decrement the sort value of the app that's currently one position below
-                    $app['sort']--;
-                }
-            }
-            // Increment the sort value of the current app
-            $trainings_array[$current_index]['sort']++;
-
-            // Re-sort the array
-            usort($trainings_array, function ( $a, $b ) {
-                return $a['sort'] - $b['sort'];
-            });
-
-            // Save the updated array back to the option
-            set_plugin_option( 'trainings', $trainings_array );
-        }
-
-        return redirect( 'admin.php?page=dt_home&tab=training&updated=true' );
+    public function down( Request $request, $params ) {
+        return redirect( 'admin.php?page=dt_home&tab=training&updated=' . ( $this->trainings->move( $params['id'] ?? '', 'down' ) ? 'true' : 'false' ) );
     }
 }

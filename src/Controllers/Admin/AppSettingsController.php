@@ -10,7 +10,6 @@ use DT\Home\Sources\SettingsApps;
 use function DT\Home\extract_request_input;
 use function DT\Home\redirect;
 use function DT\Home\response;
-use function DT\Home\set_plugin_option;
 use function DT\Home\view;
 
 class AppSettingsController {
@@ -162,7 +161,7 @@ class AppSettingsController {
      */
 
     public function up( Request $request, $params ) {
-        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( $this->move( 'up', $params ) ? 'true' : 'false' ) );
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( $this->apps->move( $params['slug'] ?? '', 'up' ) ? 'true' : 'false' ) );
     }
 
     /**
@@ -174,7 +173,7 @@ class AppSettingsController {
      * @return ResponseInterface The RedirectResponse instance.
      */
     public function down( Request $request, $params ) {
-        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( $this->move( 'down', $params ) ? 'true' : 'false' ) );
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( $this->apps->move( $params['slug'] ?? '', 'down' ) ? 'true' : 'false' ) );
     }
 
     /**
@@ -318,100 +317,5 @@ class AppSettingsController {
 
         // Redirect to the page with a success message
         return redirect( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true' );
-    }
-
-
-
-    /**
-     * Handle directional movement of apps within
-     * admin list.
-     *
-     * @param string $direction The direction (up/down).
-     * @param array $params The route parameters.
-     *
-     * @return bool Boolean flag indicating whether directional change was successful.
-     */
-
-    public function move( $direction, $params ): bool {
-        $slug = $params['slug'] ?? '';
-        if ( empty( $slug ) ) {
-            return false;
-        }
-
-        // Retrieve the existing array of apps
-        $apps_array = $this->apps->from( $this->settings_apps );
-
-        // Find the index of the app and its current sort value
-        $current_index = null;
-        $current_sort  = null;
-        foreach ( $apps_array as $key => $app ) {
-            if ( $app['slug'] == $slug ) {
-                $current_index = $key;
-                $current_sort  = (int) $app['sort'];
-                break;
-            }
-        }
-
-        $save_updates = true;
-
-        // Determine the maximum sort value
-        $max_sort = count( $apps_array );
-
-        switch ( $direction ) {
-            case 'up':
-
-                // Adjust the sort values
-                foreach ( $apps_array as $key => &$app ) {
-                    if ( $app['sort'] == $current_sort - 1 ) {
-                        // Increment the sort value of the app that's currently one position above
-                        $app['sort']++;
-                    }
-                }
-
-                // Decrement the sort value of the current app
-                if ( $current_sort > 0 ) {
-                    $apps_array[ $current_index ]['sort']--;
-                }
-
-                break;
-
-            case 'down':
-
-                // Only proceed if the app was found and it's not already at the bottom
-                if ( $current_index !== null && $current_sort < $max_sort ) {
-                    // Adjust the sort values
-                    foreach ( $apps_array as $key => &$app ) {
-                        if ( $app['sort'] == (int) $current_sort + 1 ) {
-                            // Decrement the sort value of the app that's currently one position below
-                            $app['sort']--;
-                        }
-                    }
-                    // Increment the sort value of the current app
-                    $apps_array[ $current_index ]['sort']++;
-
-                } else {
-                    $save_updates = false;
-                }
-
-                break;
-        }
-
-        // Determine if changes are to be persisted.
-        if ( $save_updates ) {
-
-            // Normalize the sort values to ensure they are positive and sequential
-            usort( $apps_array, function ( $a, $b ) {
-                return (int) $a['sort'] - (int) $b['sort'];
-            } );
-
-            foreach ( $apps_array as $key => &$app ) {
-                $app['sort'] = $key;
-            }
-
-            // Save the updated array back to the option
-            set_plugin_option( 'apps', $apps_array );
-        }
-
-        return true;
     }
 }

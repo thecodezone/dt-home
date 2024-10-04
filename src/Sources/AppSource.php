@@ -182,6 +182,42 @@ abstract class AppSource
     }
 
     /**
+     * Sort list in ascending or descending order, with the ability
+     * to reset target key count, based on new ordering.
+     *
+     * @param array $apps
+     * @param string $key
+     * @param bool $asc
+     * @param bool $count_reset
+     * @return array
+     */
+    public function uber_sort( array $apps, string $key = 'sort',  bool $asc = true, bool $count_reset = false ): array {
+        usort( $apps, function ( $a, $b ) use ( $key, $asc ) {
+            if ( !isset( $a[ $key ], $b[ $key ] ) || ( $a[ $key ] === $b[ $key ] ) ) {
+                return 0;
+            }
+
+            if ( $asc ) {
+                return ( $a[ $key ] < $b[ $key ] ) ? -1 : 1;
+            } else {
+                return ( $a[ $key ] > $b[ $key ] ) ? -1 : 1;
+            }
+        } );
+
+        if ( $count_reset ) {
+            $count = 0;
+
+            $apps = array_map( function( $app ) use ( $key, &$count ) {
+                $app[ $key ] = $count++;
+
+                return $app;
+            }, $apps );
+        }
+
+        return $apps;
+    }
+
+    /**
      * Sets the "is_hidden" property to true for a given application.
      *
      * @param string $slug The slug of the application.

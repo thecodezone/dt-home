@@ -44,7 +44,7 @@ class SettingsApps extends AppSource {
      * @return bool Whether the saving was successful or not.
      */
     public function save( $apps, array $options = [] ): bool {
-        return set_plugin_option( 'apps', array_values( $apps ) );
+        return set_plugin_option( 'apps', $apps );
     }
 
     /**

@@ -4,7 +4,7 @@ namespace DT\Home\Services;
 
 use DT\Home\Sources\SettingsApps;
 use DT\Home\Sources\UserApps;
-use PHP_CodeSniffer\Reports\Source;
+use function DT\Home\container;
 
 /**
  * Queries apps from multiple sources,
@@ -90,6 +90,64 @@ class Apps {
         $source = $params['source'] ?? SettingsApps::class;
         $apps = $this->from( $source, $params );
         return $this->first_with_slug( $apps, $slug );
+    }
+
+    /**
+     * Confirm app slug exists.
+     *
+     * @param string $slug The slug of the app.
+     * @return bool
+     */
+    public function has( string $slug ): bool {
+        return !empty( $this->find( $slug ) );
+    }
+
+    /**
+     * Move identified app in the specified direction.
+     *
+     * @param string $slug
+     * @param string $direction
+     * @return bool
+     */
+    public function move( string $slug, string $direction ): bool {
+        if ( $this->has( $slug ) ) {
+            $key = 'sort';
+            $settings_apps = container()->get( SettingsApps::class );
+
+            // Fetch all apps in ascending order, with reset sort counts.
+            $apps = $settings_apps->uber_sort( $this->from( SettingsApps::class ), $key, true, true );
+
+            // Adjust sort count for specified app.
+            $apps = array_map( function( $app ) use ( $slug, $direction, $key ) {
+                if ( $slug === $app['slug'] ?? '' ) {
+
+                    /**
+                     * Increment or Decrement accordingly by a couple hops, to
+                     * ensure new sort position falls on the lower or upper
+                     * side of adjacent app; based on specified direction.
+                     */
+
+                    switch ( $direction ){
+                        case 'up':
+                            $app[ $key ] -= 2;
+                            break;
+                        case 'down':
+                            $app[ $key ] += 2;
+                            break;
+                    }
+                }
+
+                return $app;
+            }, $apps );
+
+            // Refresh counts following adjustments.
+            $apps = $settings_apps->uber_sort( $apps, $key, true, true );
+
+            // Save updated apps list.
+            return $settings_apps->save( $apps );
+        }
+
+        return false;
     }
 
     /**

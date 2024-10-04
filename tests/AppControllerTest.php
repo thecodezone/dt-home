@@ -36,7 +36,7 @@ class AppControllerTest extends TestCase
     /**
      * @test
      *
-     * Currently fails, as app data not persisting for ome reason...!?
+     * Currently fails, as app data not persisting for some reason...!?
     public function it_renders() {
         $this->as_user();
         $request = ServerRequestFactory::from_globals();
