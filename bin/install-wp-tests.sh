@@ -1,4 +1,3 @@
-
 if [ $# -lt 1 ]; then
 	echo "usage: $0 <db-name> <db-user> <db-pass>, [db-host] --wp-version=<version> --skip-database-creation"
 	exit 1
