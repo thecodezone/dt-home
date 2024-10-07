@@ -136,7 +136,6 @@ class AppController
         return response( [ 'message' => 'App visibility updated' ] );
     }
 
-
     /**
      * This method is responsible for updating the "is_hidden" status of an app.
      *
@@ -155,7 +154,6 @@ class AppController
 
         return response( [ 'message' => 'App visibility updated' ] );
     }
-
 
     /**
      * Updates the app order based on the provided request data.
@@ -179,7 +177,6 @@ class AppController
 
         return response( [ 'message' => 'App order updated' ] );
     }
-
 
     /**
      * Resets the user's apps by clearing the 'dt_home_apps' option
