@@ -3,15 +3,17 @@ import { property } from 'lit/decorators.js'
 import '@spectrum-web-components/dialog/sp-dialog.js'
 import '@spectrum-web-components/button/sp-button.js'
 import '@spectrum-web-components/overlay/overlay-trigger.js'
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-upload-to-cloud.js'
 import { customElement } from 'lit-element'
 import './app-menu.js'
 import './app-menu-item.js'
-import { magic_url } from '../helpers.js'
+import { magic_url, translate } from '../helpers.js'
 
 @customElement('dt-home-footer')
 class HomeFooter extends LitElement {
     static properties = {
         appUrl: { type: String },
+
         resetApps: { type: Boolean },
         buttonColor: { type: String },
     }
@@ -57,9 +59,8 @@ class HomeFooter extends LitElement {
         --spectrum-button-top-to-text-medium: 0px;
         --spectrum-workflow-icon-size-100: 26px;
         --spectrum-button-edge-to-text: 0px;
-        --system-spectrum-button-accent-background-color-hover: var(--button-color);
-        --system-spectrum-button-accent-background-color-down: var(--button-color);
-        --system-spectrum-button-accent-background-color-default: var(--button-color);
+        --system-spectrum-button-accent-background-color-hover: #3fab3f;
+        --system-spectrum-button-accent-background-color-down: #3fab3f;
         --spectrum-focus-indicator-color: transparent;
         border-radius: 50%;
       }
@@ -75,7 +76,7 @@ class HomeFooter extends LitElement {
         height: 200px; /* Let the content dictate the height */
         padding: 0; /* Remove default padding */
         overflow: hidden; /* Hide overflow */
-        margin-right: 50px;
+        margin-right: 152px;
         margin-bottom: -41px;
       }
 
@@ -117,9 +118,21 @@ class HomeFooter extends LitElement {
         );
         --spectrum-component-height-100: 19px;
         --spectrum-font-size-100: 10px;
-        margin-left: -335px;
-        top: 204px;
+        margin-left: -439px;
+        top: 238px;
       }
+
+      .custom-app {
+        margin-right: -102px;
+        margin-top: -35px;
+        --system-spectrum-actionbutton-background-color-default: #3fab3f;
+        --system-spectrum-actionbutton-background-color-hover: #3fab3f;
+        --system-spectrum-actionbutton-background-color-down: #3fab3f;
+        --highcontrast-actionbutton-content-color-default: #ffffff;
+        --spectrum-neutral-content-color-hover: #ffffff;
+        --spectrum-neutral-content-color-down: #ffffff;
+      }
+
 
       /* Mobile */
       @media (max-width: 600px) {
@@ -212,6 +225,149 @@ class HomeFooter extends LitElement {
       .no-data {
         color: gray;
         padding: 10px; /* Add padding for space */
+      }
+
+      /* CSS for the modal */
+
+      .trigger {
+        text-align: center;
+        padding: 7px 13px;
+        background: #e34b4b;
+        color: #fff;
+        font-size: 15px;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+      }
+
+      .trigger-submit {
+        text-align: center;
+        padding: 7px 13px;
+        background: #4caf50;
+        color: #fff;
+        font-size: 15px;
+        outline: none;
+        border: none;
+        border-radius: 5px;
+      }
+
+
+      .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 1rem 1.5rem;
+        width: 24rem;
+        border-radius: 0.5rem;
+      }
+
+      .close-button {
+        float: right;
+        width: 1.5rem;
+        line-height: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 0.25rem;
+        background-color: lightgray;
+      }
+
+      .close-button:hover {
+        background-color: darkgray;
+      }
+
+      .modal {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(1.1);
+        transition: visibility 0s linear 0.25s,
+        opacity 0.25s 0s,
+        transform 0.25s;
+        z-index: 10000; /* Ensure it appears above other content */
+      }
+
+
+      .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 1rem 1.5rem;
+        width: 24rem;
+        border-radius: 0.5rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .modal-close {
+        float: right;
+        width: 1.5rem;
+        line-height: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 0.25rem;
+        background-color: lightgray;
+      }
+
+      .modal-close:hover {
+        background-color: darkgray;
+      }
+
+      .show-modal {
+        background-color: unset;
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+        transition: visibility 0s linear 0s,
+        opacity 0.25s 0s,
+        transform 0.25s;
+      }
+
+      @media (max-width: 600px) {
+        .modal-content {
+          width: 90%;
+          padding: 1rem;
+        }
+      }
+
+      .error {
+        border-color: red; /* or use background-color if preferred */
+      }
+
+      #form-alert {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+
+      .modal-title > h3 {
+        display: contents;
+        font-size: 18px;
+        font-style: poppins;
+      }
+
+      .dt__icon {
+        display: flex;
+      }
+
+      .upload-icon {
+        top: 20px;
+        left: 10px;
+        --system-spectrum-actionbutton-background-color-default: #cac4c4;
+        --system-spectrum-actionbutton-background-color-hover: #cac4c4;
+        --system-spectrum-actionbutton-background-color-down: #cac4c4;
+        --highcontrast-actionbutton-content-color-default: #ffffff;
+        --spectrum-neutral-content-color-hover: #ffffff;
+        --spectrum-neutral-content-color-down: #ffffff;
+        --mod-actionbutton-height: 41px;
+        --spectrum-action-button-edge-to-hold-icon-medium: 10px;
       }
     `
     }
@@ -316,10 +472,149 @@ class HomeFooter extends LitElement {
         return /^(https?:\/\/|data:image|\/|\.\/|\.\.\/)/.test(icon)
     }
 
+    openModal() {
+        const modal = this.shadowRoot.getElementById('customModal')
+        modal.classList.add('show-modal')
+    }
+
+    closeModal() {
+        const modal = this.shadowRoot.getElementById('customModal')
+        modal.classList.remove('show-modal')
+        this.clearForm()
+    }
+
+    toggleModal() {
+        const overlayTrigger = this.shadowRoot.querySelector('overlay-trigger')
+        if (overlayTrigger && overlayTrigger.open) {
+            overlayTrigger.open = false // Close the overlay (and the dialog)
+        }
+        this.openModal()
+    }
+
+    validateForm() {
+        const form = this.shadowRoot.querySelector('form')
+        const requiredFields = form.querySelectorAll('[required]')
+        let isValid = true
+
+        // Clear previous error messages
+        this.shadowRoot.querySelector('#form-alert').innerText = ''
+
+        requiredFields.forEach((field) => {
+            const value = field.value && field.value.trim() // Ensure value exists and is trimmed
+
+            if (!value) {
+                isValid = false
+                field.setAttribute('aria-invalid', 'true')
+                field.classList.add('error') // Optionally, add an error class
+            } else {
+                field.removeAttribute('aria-invalid')
+                field.classList.remove('error')
+            }
+        })
+
+        // Show alert message if the form is invalid
+        if (!isValid) {
+            this.shadowRoot.querySelector('#form-alert').innerText =
+                'Please fill in the required fields'
+        }
+
+        return isValid
+    }
+
+    handleSubmit(e) {
+        e.preventDefault()
+        const isFormValid = this.validateForm()
+
+        if (isFormValid) {
+            // Proceed with form submission logic
+            this.handleFormSubmit(
+                e,
+                this.shadowRoot.getElementById('customModal')
+            )
+            this.clearForm()
+            this.closeModal()
+        } else {
+            console.log('Form is invalid. Please fill in the required fields.')
+        }
+    }
+
+    handleFormSubmit(event, modal) {
+        event.preventDefault() // Prevent default form submission behavior
+
+        const form = event.target // The form that was submitted
+        const formData = new FormData(form)
+
+        // Convert form data to an object
+        const formObject = {}
+        formData.forEach((value, key) => {
+            formObject[key] = value
+        })
+
+        // Post the form data using fetch (replace with your API endpoint)
+        const url = magic_url('store-app')
+        alert(url)
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': $home.nonce,
+            },
+            body: JSON.stringify(formObject),
+        })
+            .then((response) => {
+                if (response.ok) {
+                    this.closeModal()
+
+                    const event = new CustomEvent('app-unhidden', {
+                        detail: { app: this.appData[''] }, // Pass any relevant data with the event
+                        bubbles: true, // Allows the event to bubble up through the DOM
+                        composed: true, // Allows the event to cross the shadow DOM boundary
+                    })
+                    document.dispatchEvent(event)
+                } else {
+                    // Handle error
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error)
+            })
+    }
+
+    updateSlugField() {
+        const nameField = this.shadowRoot.querySelector('dt-text[name="name"]')
+        const slugField = this.shadowRoot.querySelector('dt-text[name="slug"]')
+
+        if (nameField && slugField) {
+            const nameValue = nameField.value.trim()
+            const slugValue = nameValue
+                .toLowerCase()
+                .replace(/[^a-z0-9]+/g, '-')
+                .replace(/^-+|-+$/g, '')
+            slugField.value = slugValue
+        }
+    }
+
+    clearForm() {
+        this.shadowRoot.getElementById('form-alert').innerText = ''
+        // Clear dt-text fields
+        this.shadowRoot.getElementById('name').value = ''
+        this.shadowRoot.getElementById('slug').value = ''
+
+        // Clear other dt-text fields by name
+        this.shadowRoot.querySelector('[name="icon"]').value = ''
+        this.shadowRoot.querySelector('[name="url"]').value = ''
+
+        // Clear dt-single-select field
+        this.shadowRoot.querySelector('[name="type"]').value = ''
+
+        // Clear checkbox
+        this.shadowRoot.getElementById('open_in_new_tab').checked = false
+    }
+
     reset_apps() {
-        const confirmDelete = confirm(
-            'Are you sure you want to reset all apps?'
-        )
+        const confirmationResetMessage =
+            $home.translations.reset_app_confirmation
+        const confirmDelete = confirm(confirmationResetMessage)
 
         if (confirmDelete) {
             fetch(magic_url('reset-apps'), {
@@ -348,8 +643,8 @@ class HomeFooter extends LitElement {
     renderAppItems() {
         const hiddenApps = this.hiddenApps.sort((a, b) => b.sort - a.sort)
         if (hiddenApps.length === 0) {
-            return html` <dt-app-menu-item class="no-data"
-                >No hidden apps available.
+            return html` <dt-app-menu-item class="no-data">
+                ${$home.translations.no_hidden_apps}.
             </dt-app-menu-item>`
         }
 
@@ -378,43 +673,138 @@ class HomeFooter extends LitElement {
 
     render() {
         return html`
-            <style>
-                @import url('https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css');
-            </style>
-            <div class="footer-container">
-                <overlay-trigger type="replace" placement="top">
-                    <sp-button slot="trigger" class="trigger-button">
-                        <sp-icon-add></sp-icon-add>
-                    </sp-button>
-                    <!--                    <button slot="trigger" class="trigger-button1">-->
-                    <!--                        <sp-icon-add></sp-icon-add>-->
-                    <!--                    </button>-->
-                    <sp-dialog
-                        slot="click-content"
-                        class="custom-dialog-overlay"
-                        size="xs"
-                    >
-                        <dt-app-menu label="Choose an app">
-                            ${this.renderAppItems()}
-                        </dt-app-menu>
-                    </sp-dialog>
+      <style>
+        @import url('https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css');
+      </style>
+      <div class="footer-container">
+        <overlay-trigger type="replace" placement="top">
+          <div
+            slot="click-content"
+            class="custom-dialog-overlay-button custom-app"
+            id="custom-app"
+          >
+            <sp-action-button @click="${this.toggleModal}"
+            >${translate('custom_app_label')}
+            </sp-action-button>
+          </div>
+          <sp-button slot="trigger" class="trigger-button">
+            <sp-icon-add></sp-icon-add>
+          </sp-button>
+          <sp-dialog
+            slot="click-content"
+            class="custom-dialog-overlay"
+            size="xs"
+          >
+            <dt-app-menu label="Choose an app">
+              ${this.renderAppItems()}
+            </dt-app-menu>
+          </sp-dialog>
 
-                    <div
-                        slot="click-content"
-                        class="custom-app custom-dialog-overlay-button"
-                    >
-                        ${this.resetApps
-                            ? html`
-                                  <sp-action-button
-                                      class="reset-apps"
-                                      @click="${this.reset_apps}"
-                                      >Reset Apps
-                                  </sp-action-button>
-                              `
-                            : null}
-                    </div>
-                </overlay-trigger>
+          <div
+            slot="click-content"
+            class="custom-app custom-dialog-overlay-button"
+          >
+            ${
+                this.resetApps
+                    ? html`
+                          <sp-action-button
+                              class="reset-apps"
+                              @click="${this.reset_apps}"
+                              >${translate('reset_apps_label')}
+                          </sp-action-button>
+                      `
+                    : null
+            }
+          </div>
+        </overlay-trigger>
+      </div>
+      <!-- Custom Modal Structure -->
+      <div class="modal" id="customModal">
+
+        <div class="modal-content">
+          <div class="modal-title"
+          ><h3>${translate('custom_app_label')} </h3>
+            <span class="modal-close" @click="${this.closeModal}"
+            >&times;
+          </span
+          </div
+          >
+          <br/>
+          <div id="form-alert"></div>
+          <form @submit="${this.handleSubmit}" id="custom-form">
+            <dt-text
+              label="${translate('name_label')}"
+              id="name"
+              name="name"
+              placeholder="${translate('name_label')}"
+              required
+              tabindex="1"
+              @change="${this.updateSlugField}" <!-- Add event listener here -->
+            ></dt-text>
+            <dt-single-select
+              name="type"
+              label="${translate('type_label')}"
+              placeholder="${translate('type_label')}"
+              options='[{"id":"Web View","label":"Web View"},{"id":"Link","label":"Link"}]'
+              value=""
+              iconalttext="Icon Alt Text"
+              privatelabel=""
+              onchange=""
+            >
+            </dt-single-select>
+            Open NewTab
+            <input
+              type="checkbox"
+              name="${translate('open_in_new_tab_label')}"
+              id="open_in_new_tab"
+              value="1"
+            />
+            <br/>
+            <br/>
+            <div class="dt__icon">
+              <dt-text
+                label="${translate('icon_label')}"
+                name="icon"
+                placeholder="${translate('icon_label')}"
+                required
+                tabindex="3"
+              ></dt-text>
+              <sp-action-button class="upload-icon button change-icon-button">
+                <sp-icon-upload-to-cloud></sp-icon-upload-to-cloud>
+              </sp-action-button>
             </div>
-        `
+
+            <dt-text
+              name="url"
+              label="${translate('url_label')}"
+              placeholder="${translate('url_label')}"
+              required
+              tabindex="4"
+            ></dt-text>
+            <dt-text
+              id="slug"
+              label="${translate('slug_label')}"
+              name="slug"
+              placeholder="${translate('slug_label')}"
+              required
+              tabindex="5"
+            ></dt-text>
+
+            <sp-button-group>
+              <sp-button tabindex="6" type="submit" class="trigger-submit">
+                <span>${translate('submit_label')}</span>
+              </sp-button>
+
+              <sp-button
+                class="cre-ac trigger"
+                variant="secondary" @click="${this.closeModal}">
+                <span> ${translate('close_label')}
+                </span>
+              </sp-button>
+            </sp-button-group>
+          </form>
+        </div>
+      </div>
+    `
     }
 }
