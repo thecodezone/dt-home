@@ -301,7 +301,9 @@ class AppSettingsController {
         }, $this->settings_apps->deleted() );
 
         // Return restored app back into the fold.
-        $apps = $this->settings_apps->uber_sort( array_merge( $restored_apps, $this->settings_apps->undeleted() ), 'sort', true, true );
+        $apps = $this->settings_apps->sort( array_merge( $restored_apps, $this->settings_apps->undeleted() ), [
+            'reset' => true
+        ] );
 
         // Save the updated array back to the option
         $this->settings_apps->save( $apps );

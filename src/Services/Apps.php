@@ -115,7 +115,9 @@ class Apps {
             $settings_apps = container()->get( SettingsApps::class );
 
             // Fetch all apps in ascending order, with reset sort counts.
-            $apps = $settings_apps->uber_sort( $this->from( SettingsApps::class ), $key, true, true );
+            $apps = $settings_apps->sort( $this->from( SettingsApps::class ), [
+                'reset' => true,
+            ] );
 
             // Adjust sort count for specified app.
             $apps = array_map( function ( $app ) use ( $slug, $direction, $key ) {
@@ -141,7 +143,9 @@ class Apps {
             }, $apps );
 
             // Refresh counts following adjustments.
-            $apps = $settings_apps->uber_sort( $apps, $key, true, true );
+            $apps = $settings_apps->sort( $apps, [
+                'reset' => true,
+            ] );
 
             // Save updated apps list.
             return $settings_apps->save( $apps );

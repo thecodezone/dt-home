@@ -2,7 +2,7 @@
 
 namespace DT\Home\Services;
 
-use DT\Home\Sources\SettingsTrainings;
+use DT\Home\Sources\Trainings as TrainingsSource;
 use function DT\Home\container;
 
 class Trainings {
@@ -20,10 +20,12 @@ class Trainings {
     public function move( string $id, string $direction ): bool {
         if ( !empty( $id ) ) {
             $key = 'sort';
-            $settings_trainings = container()->get( SettingsTrainings::class );
+            $settings_trainings = container()->get( TrainingsSource::class );
 
             // Fetch all videos in ascending order, with reset sort counts.
-            $videos = $settings_trainings->uber_sort( $settings_trainings->raw(), $key, true, true );
+            $videos = $settings_trainings->sort( $settings_trainings->raw(), [
+                'count_reset' => true,
+            ] );
 
             // Adjust sort count for specified $video.
             $videos = array_map( function ( $video ) use ( $id, $direction, $key ) {
@@ -49,7 +51,9 @@ class Trainings {
             }, $videos );
 
             // Refresh counts following adjustments.
-            $videos = $settings_trainings->uber_sort( $videos, $key, true, true );
+            $videos = $settings_trainings->sort( $videos, [
+                'reset' => true,
+            ] );
 
             // Save updated training videos list.
             return $settings_trainings->save( $videos );

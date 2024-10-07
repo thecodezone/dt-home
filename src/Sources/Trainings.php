@@ -5,7 +5,12 @@ namespace DT\Home\Sources;
 use function DT\Home\get_plugin_option;
 use function DT\Home\set_plugin_option;
 
-class SettingsTrainings extends AppSource {
+class Trainings extends Source {
+
+    public function find_key()
+    {
+        return 'id';
+    }
 
     /**
      * Retrieves the raw array of training videos.
@@ -25,5 +30,22 @@ class SettingsTrainings extends AppSource {
      */
     public function save( $apps, array $options = [] ): bool {
         return set_plugin_option( 'trainings', $apps );
+    }
+
+    /**
+     * Retrieves all coded training videos.
+     *
+     * @return array All training videos data.
+     */
+    public function format_item( array $item ): array {
+        $overrides = [];
+
+        return array_merge( [
+            'id' => '',
+            'name' => '',
+            'embed_video' => '',
+            'anchor' => '',
+            'sort' => '',
+        ], $item, $overrides );
     }
 }

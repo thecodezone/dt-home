@@ -11,20 +11,8 @@ use function DT\Home\config;
  * @param array $apps Array of applications.
  * @return array Deleted applications.
  */
-abstract class AppSource
+abstract class AppSource extends Source
 {
-    /**
-     * Returns all raw data.
-     *
-     * @return array An array containing all the raw data.
-     */
-    abstract public function raw( array $params = [] ): array;
-
-    /**
-     * Save the applications.
-     */
-    abstract public function save( $apps, array $options = [] ): bool;
-
     /**
      * Handle the application.
      *
@@ -35,6 +23,17 @@ abstract class AppSource
         $handles = config( 'apps.sources', [] );
         //phpcs:ignore
         return array_search( static::class, $handles ) ?: self::class;
+    }
+
+    /**
+     * We want to merge in dependencies when saving.
+     *
+     * @param array $params Parameters for fetching data.
+     * @return array Data merged and ready for saving.
+     */
+    public function fetch_for_save( array $params = [] ): array
+    {
+        return $this->merged( $params );
     }
 
     /**
@@ -55,23 +54,9 @@ abstract class AppSource
      * @param array $params An array of parameters for filtering the items.
      * @return array An array containing all the aggregated items.
      */
-    public function merged( $params = [] ) {
+    public function merged( array $params = [] ) {
         $aggregator = new Aggregator( [ $this ] );
         return $aggregator->all( $params );
-    }
-
-    /**
-     * Returns formatted applications.
-     *
-     * @param array $params The parameters for filtering applications.
-     *
-     * @return array An array containing the formatted applications.
-     */
-    public function formatted( array $params = [] ): array
-    {
-        return $this->format(
-            $this->raw( $params )
-        );
     }
 
     /**
@@ -137,9 +122,7 @@ abstract class AppSource
             return apply_filters( 'dt_home_format_app', $this->format_app( $app ) );
         }, $apps);
 
-        $this->sort( $apps );
-
-        return $apps;
+        return $this->sort( $apps );
     }
 
 
@@ -163,57 +146,6 @@ abstract class AppSource
             'is_hidden' => false,
             'is_deleted' => false,
         ], $app);
-    }
-
-    /**
-     * Sorts the applications array by the 'sort' field in ascending order.
-     *
-     * @param array $apps The applications array to sort.
-     *
-     * @return array The applications array sorted by the 'sort' field in ascending order.
-     */
-    protected function sort( &$apps ): array {
-        usort($apps, function ( $a, $b ) {
-            return ( (int) $a['sort'] ?? 0 ) - ( (int) $b['sort'] ?? 0 );
-        });
-
-        return $apps;
-    }
-
-    /**
-     * Sort list in ascending or descending order, with the ability
-     * to reset target key count, based on new ordering.
-     *
-     * @param array $apps
-     * @param string $key
-     * @param bool $asc
-     * @param bool $count_reset
-     * @return array
-     */
-    public function uber_sort( array $apps, string $key = 'sort', bool $asc = true, bool $count_reset = false ): array {
-        usort( $apps, function ( $a, $b ) use ( $key, $asc ) {
-            if ( !isset( $a[ $key ], $b[ $key ] ) || ( $a[ $key ] === $b[ $key ] ) ) {
-                return 0;
-            }
-
-            if ( $asc ) {
-                return ( $a[ $key ] < $b[ $key ] ) ? -1 : 1;
-            } else {
-                return ( $a[ $key ] > $b[ $key ] ) ? -1 : 1;
-            }
-        } );
-
-        if ( $count_reset ) {
-            $count = 0;
-
-            $apps = array_map( function ( $app ) use ( $key, &$count ) {
-                $app[ $key ] = $count++;
-
-                return $app;
-            }, $apps );
-        }
-
-        return $apps;
     }
 
     /**
@@ -241,85 +173,6 @@ abstract class AppSource
     }
 
     /**
-     * Find an element in the array by its slug
-     *
-     * @param string $slug The slug of the element to find
-     * @param array $params Optional parameters to apply when retrieving applications
-     * @return array The filtered array containing the element(s) with the provided slug
-     */
-    public function find( $slug, $params = [] ) {
-        $app = $this->first( array_filter( $this->all( $params ), function ( $app ) use ( $slug ) {
-            return $app['slug'] === $slug;
-        }) );
-
-        return !is_null( $app ) ? $app : [];
-    }
-
-    /**
-     * Find the index of an element in the array by its slug
-     *
-     * @param string $slug The slug of the element to find
-     * @return int|false The index of the element with the provided slug, or false if not found
-     */
-    public function find_index( $slug, $params = [] )
-    {
-        $apps = $this->all( $params );
-        return array_search( $slug, array_column( $apps, 'slug' ) );
-    }
-
-    /**
-     * Set a value for a specific key in an element
-     *
-     * @param string $slug The slug of the element to modify
-     * @param string $key The key of the value to set
-     * @param mixed $value The new value to set
-     * @param array $params Optional parameters to apply when retrieving applications
-     * @param array $save_params Optional parameters to apply when saving the updated array
-     * @return bool|array False if the element with the provided slug does not exist, otherwise returns the updated array after saving
-     */
-    public function set( $slug, $key, $value, $params = [], $save_params = [] ) {
-        $apps = $this->merged( $params );
-        $index = array_search( $slug, array_column( $apps, 'slug' ) );
-        if ( $index === false ) {
-            return false;
-        }
-        $apps[ $index ][ $key ] = $value;
-        $this->save( $apps, $save_params );
-        return $this->value( $slug, $key );
-    }
-
-    /**
-     * Toggle the value of a specific key in the element with the provided slug
-     *
-     * @param string $slug The slug of the element
-     * @param string $key The key to toggle the value of
-     * @param array $params Optional parameters to apply when retrieving applications
-     * @return mixed The new value of the toggled key
-     */
-    public function toggle( $slug, $key, array $params = [], $save_params = [] ) {
-        $value = $this->value( $slug, $key, $params );
-        $this->set( $slug, $key, !$value, $params, $save_params );
-        return $this->value( $slug, $key, $params );
-    }
-
-    /**
-     * Get the value for a specific key of an element by its slug
-     *
-     * @param string $slug The slug of the element to find
-     * @param string $key The key of the value to retrieve
-     * @return mixed|null The value associated with the given key of the element with the provided slug,
-     *                    or null if no element is found with the given slug
-     */
-    public function value( $slug, $key, $params = [] ) {
-        $apps = $this->raw( $params );
-        $index = array_search( $slug, array_column( $apps, 'slug' ) );
-        if ( $index === false ) {
-            return null;
-        }
-        return $apps[ $index ][ $key ];
-    }
-
-    /**
      * Checks if the application is visible.
      *
      * @param array $app The application data.
@@ -340,16 +193,6 @@ abstract class AppSource
         return array_filter( $apps, function ( $app ) {
             return !$this->is_visible( $app );
         } );
-    }
-
-    /**
-     * Returns the first element of the given array or null if the array is empty.
-     *
-     * @param array $apps The input array.
-     * @return mixed|null The first element of the array or null if the array is empty.
-     */
-    public function first( $apps ) {
-        return !empty( $apps ) ? $apps[array_key_first( $apps )] : null;
     }
 
 
@@ -383,25 +226,6 @@ abstract class AppSource
     }
 
     /**
-     * Updates an application by slug.
-     *
-     * @param string $slug The slug of the application.
-     * @param array $app The updated application data.
-     * @param array $params Optional parameters to apply when retrieving applications.
-     * @param array $save_params Optional parameters to apply when saving the updated applications.
-     * @return bool|array Returns false if the application is not found, otherwise returns the updated application data.
-     */
-    public function update( $slug, $app, array $params = [], $save_params = [] ) {
-        $apps = $this->merged( $params );
-        $index = array_search( $slug, array_column( $apps, 'slug' ) );
-        if ( $index === false ) {
-            return false;
-        }
-        $apps[ $index ] = $app;
-        return $this->save( $apps, $save_params );
-    }
-
-    /**
      * Soft Deletes an item.
      *
      * @param string $slug The slug of the item to be deleted.
@@ -422,12 +246,6 @@ abstract class AppSource
      *                   otherwise returns result of save() method.
      */
     public function destroy( $slug, array $params = [], $save_params = [] ) {
-        $apps = $this->merged( $params );
-        $index = array_search( $slug, array_column( $apps, 'slug' ) );
-        if ( $index === false ) {
-            return false;
-        }
-        unset( $apps[ $index ] );
-        return $this->save( $apps, $save_params );
+        return parent::delete( $slug, $params, $save_params );
     }
 }
