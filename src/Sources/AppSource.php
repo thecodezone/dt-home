@@ -3,7 +3,6 @@
 namespace DT\Home\Sources;
 
 use DT\Home\Services\Aggregator;
-use DT\Home\Services\SourceFactory;
 use function DT\Home\config;
 
 /**

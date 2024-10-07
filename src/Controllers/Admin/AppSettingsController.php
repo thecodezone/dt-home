@@ -34,7 +34,7 @@ class AppSettingsController {
         $link       = 'admin.php?page=dt_home&tab=';
         $page_title = "Home Settings";
 
-        $data = $this->apps->from( 'settings' ); // or $this->settings_apps->merged() or SettingsApps::class
+        $data = $this->settings_apps->undeleted();
 
         return view( "settings/app", compact( 'tab', 'link', 'page_title', 'data' ) );
     }
@@ -233,9 +233,7 @@ class AppSettingsController {
      * @return ResponseInterface
      */
     public function edit( Request $request, $params ) {
-        $slug        = $params['slug'] ?? '';
-
-        $existing_data = $this->apps->find( $slug );
+        $existing_data = $this->apps->find( $params['slug'] ?? '' );
 
         $tab        = "app";
         $link       = 'admin.php?page=dt_home&tab=';
@@ -258,10 +256,8 @@ class AppSettingsController {
      *
      * @return ResponseInterface
      */
-    public function delete( Request $request, $params ) {
-        $slug = $params['slug'] ?? '';
-
-        $this->settings_apps->destroy( $slug );
+    public function delete( Request $request, array $params ): ResponseInterface {
+        $this->settings_apps->destroy( $params['slug'] ?? '' );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
@@ -274,12 +270,8 @@ class AppSettingsController {
      *
      * @return ResponseInterface
      */
-    public function soft_delete_app( Request $request, $params ) {
-        $slug = $params['slug'] ?? '';
-
-        $is_deleted = $this->settings_apps->delete( $slug );
-
-        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( $is_deleted ? 'true' : 'false' ) );
+    public function soft_delete_app( Request $request, array $params ): ResponseInterface {
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( $this->settings_apps->delete( $params['slug'] ?? '' ) ? 'true' : 'false' ) );
     }
 
     /**
@@ -292,28 +284,27 @@ class AppSettingsController {
      *
      * @return ResponseInterface
      */
-    public function restore_app( Request $request, $params ) {
+    public function restore_app( Request $request, array $params ): ResponseInterface {
         $slug = $params['slug'] ?? '';
 
         if ( empty( $slug ) ) {
             return redirect( 'admin.php?page=dt_home&tab=app&updated=false' );
         }
 
-        // Retrieve the existing array of apps
-        $apps_array = $this->apps
-            ->settings_apps
-            ->deleted();
-
-        // Find the app with the specified slug and restore it
-        foreach ( $apps_array as $key => $app ) {
-            if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
-                $apps_array[ $key ]['is_deleted'] = false; // Restore the app
-                break; // Exit the loop once the app is found and restored
+        // Restore identified app.
+        $restored_apps = array_map( function ( $app ) use ( $slug ) {
+            if ( $slug === $app['slug'] ?? '' ) {
+                $app['is_deleted'] = false;
             }
-        }
+
+            return $app;
+        }, $this->settings_apps->deleted() );
+
+        // Return restored app back into the fold.
+        $apps = $this->settings_apps->uber_sort( array_merge( $restored_apps, $this->settings_apps->undeleted() ), 'sort', true, true );
 
         // Save the updated array back to the option
-        $this->apps->settings_apps->save( $apps_array );
+        $this->settings_apps->save( $apps );
 
         // Redirect to the page with a success message
         return redirect( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true' );

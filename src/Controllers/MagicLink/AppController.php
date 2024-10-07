@@ -6,7 +6,6 @@ use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Services\Apps;
 use DT\Home\Sources\UserApps;
-use function DT\Home\container;
 use function DT\Home\extract_request_input;
 use function DT\Home\get_plugin_option;
 use function DT\Home\magic_url;
@@ -77,9 +76,8 @@ class AppController
     {
         // Fetch the app
         $slug = $params['slug'];
-        $apps = container()->get( Apps::class );
         $user_id = get_current_user_id();
-        $app  = $apps->find_for( $slug, $user_id );
+        $app  = $this->apps->find_for( $slug, $user_id );
 
         if ( ! $app ) {
             return response( __( 'Not Found', 'dt-home' ), 404 );
@@ -189,10 +187,7 @@ class AppController
      */
     public function reset_apps( Request $request )
     {
-        $apps       = container()->get( Apps::class );
-        $admin_apps = $apps->all();
-
-        update_user_option( get_current_user_id(), 'dt_home_apps', $admin_apps );
+        update_user_option( get_current_user_id(), 'dt_home_apps', $this->apps->from( 'settings' ) );
 
         return response( [ 'message' => 'App order updated' ] );
     }

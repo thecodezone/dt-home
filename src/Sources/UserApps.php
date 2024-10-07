@@ -75,4 +75,16 @@ class UserApps extends AppSource {
             'is_deleted' => false,
         ], $app);
     }
+
+    /**
+     * Provides a place to control the way data is merged for the app source.
+     *
+     * @param array $existing The existing array.
+     * @param array $app The app array to merge.
+     * @return array The merged array.
+     */
+    public function merge( $existing, $app ) {
+        $overrides = [];
+        return array_merge( $existing, $app, $overrides );
+    }
 }

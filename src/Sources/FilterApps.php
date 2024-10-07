@@ -40,7 +40,12 @@ class FilterApps extends AppSource {
      * @return bool True if the application is allowed, false otherwise.
      */
     public function is_allowed( array $app ): bool {
-        return apply_filters( 'dt_home_app_allowed', true, $app );
+        $allowed = true;
+        if ( isset( $app['is_deleted'] ) && $app['is_deleted'] === true ) {
+            $allowed = false;
+        }
+
+        return apply_filters( 'dt_home_app_allowed', $allowed, $app );
     }
 
     /**
