@@ -191,7 +191,7 @@ abstract class AppSource
      * @param bool $count_reset
      * @return array
      */
-    public function uber_sort( array $apps, string $key = 'sort',  bool $asc = true, bool $count_reset = false ): array {
+    public function uber_sort( array $apps, string $key = 'sort', bool $asc = true, bool $count_reset = false ): array {
         usort( $apps, function ( $a, $b ) use ( $key, $asc ) {
             if ( !isset( $a[ $key ], $b[ $key ] ) || ( $a[ $key ] === $b[ $key ] ) ) {
                 return 0;
@@ -207,7 +207,7 @@ abstract class AppSource
         if ( $count_reset ) {
             $count = 0;
 
-            $apps = array_map( function( $app ) use ( $key, &$count ) {
+            $apps = array_map( function ( $app ) use ( $key, &$count ) {
                 $app[ $key ] = $count++;
 
                 return $app;

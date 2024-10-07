@@ -8,7 +8,6 @@ use function DT\Home\container;
 class Trainings {
 
     public function __construct() {
-
     }
 
     /**
@@ -27,7 +26,7 @@ class Trainings {
             $videos = $settings_trainings->uber_sort( $settings_trainings->raw(), $key, true, true );
 
             // Adjust sort count for specified $video.
-            $videos = array_map( function( $video ) use ( $id, $direction, $key ) {
+            $videos = array_map( function ( $video ) use ( $id, $direction, $key ) {
                 if ( intval( $id ) == intval( $video['id'] ) ) {
 
                     /**

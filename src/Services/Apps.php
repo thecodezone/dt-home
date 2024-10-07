@@ -118,7 +118,7 @@ class Apps {
             $apps = $settings_apps->uber_sort( $this->from( SettingsApps::class ), $key, true, true );
 
             // Adjust sort count for specified app.
-            $apps = array_map( function( $app ) use ( $slug, $direction, $key ) {
+            $apps = array_map( function ( $app ) use ( $slug, $direction, $key ) {
                 if ( $slug === $app['slug'] ?? '' ) {
 
                     /**
