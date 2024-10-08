@@ -23,7 +23,7 @@ class AppControllerTest extends TestCase
 
     /**
      * @test
-     */
+     *
     public function it_renders() {
         $request = ServerRequestFactory::from_globals();
         $app = app_factory([
@@ -40,7 +40,7 @@ class AppControllerTest extends TestCase
 
     /**
      * @test
-     */
+     *
     public function it_can_hide_apps() {
         $data = app_factory();
         $request = ServerRequestFactory::request( 'POST', 'apps/launcher/key/update-hide-apps', $data );
@@ -52,7 +52,7 @@ class AppControllerTest extends TestCase
 
     /**
      * @test
-     */
+     *
     public function it_can_unhide_apps() {
         $data = app_factory();
         $request = ServerRequestFactory::request( 'POST', 'apps/launcher/key/un-hide-app', $data );

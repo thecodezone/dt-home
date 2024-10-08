@@ -119,7 +119,7 @@ abstract class AppSource extends Source
      */
     protected function format( $apps ): array {
         $apps = array_map(function ( $app ) {
-            return apply_filters( 'dt_home_format_app', $this->format_app( $app ) );
+            return apply_filters( 'dt_home_format_app', $this->format_app( is_array( $app ) ? $app : [] ) );
         }, $apps);
 
         return $this->sort( $apps );
