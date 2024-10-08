@@ -28,6 +28,7 @@ $config->merge([
                 'custom_app_label' => __( 'Custom App', 'dt-home' ),
                 'reset_apps_label' => __( 'Reset Apps', 'dt-home' ),
                 'name_label' => __( 'Name', 'dt-home' ),
+                'open_new_tab_label' => __( 'Open NewTab', 'dt-home' ),
                 'url_label' => __( 'URL', 'dt-home' ),
                 'icon_label' => __( 'Icon', 'dt-home' ),
                 'type_label' => __( 'Type', 'dt-home' ),

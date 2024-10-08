@@ -752,10 +752,10 @@ class HomeFooter extends LitElement {
               onchange=""
             >
             </dt-single-select>
-            Open NewTab
+            ${translate('open_new_tab_label')}
             <input
               type="checkbox"
-              name="${translate('open_in_new_tab_label')}"
+              name="open_in_new_tab"
               id="open_in_new_tab"
               value="1"
             />
