@@ -18,7 +18,12 @@ class Trainings extends Source {
      * @return array The raw array of training videos.
      */
     public function raw( array $params = [] ): array {
-        return get_plugin_option( 'trainings' );
+        $raw_trainings = get_plugin_option( 'trainings', [] );
+        if ( !is_array( $raw_trainings ) ) {
+            $raw_trainings = [];
+        }
+
+        return $raw_trainings;
     }
 
     /**

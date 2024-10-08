@@ -115,7 +115,7 @@ class TrainingSettingsController
         ] ) );
 
         // Save and return updated bool result.
-        return redirect( 'admin.php?page=dt_home&tab=training&updated=' . ( $this->trainings_source->save( $trainings_array ) ? 'true' : 'false' ) );
+        return redirect( 'admin.php?page=dt_home&tab=training&updated=' . ( $this->trainings_source->save( $this->trainings_source->fetch_for_save() ) ? 'true' : 'false' ) );
     }
 
 

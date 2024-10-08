@@ -129,7 +129,7 @@ class AppController
         $params = extract_request_input( $request );
         $result = $this->user_apps->hide( $params['slug'] );
 
-        if ( ! $result['is_hidden'] ) {
+        if ( !isset( $result['is_hidden'] ) || !$result['is_hidden'] ) {
             return response( [ 'message' => 'Failed to update visibility.' ], 500 );
         }
 
@@ -148,7 +148,7 @@ class AppController
         $params = extract_request_input( $request );
         $result = $this->user_apps->unhide( $params['slug'] );
 
-        if ( $result['is_hidden'] ) {
+        if ( !isset( $result['is_hidden'] ) || $result['is_hidden'] ) {
             return response( [ 'message' => 'Failed to update visibility.' ], 500 );
         }
 
