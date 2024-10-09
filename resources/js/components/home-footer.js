@@ -729,7 +729,7 @@ class HomeFooter extends LitElement {
           </span
           </div
           >
-          <br/>
+          <br />
           <div id="form-alert"></div>
           <form @submit="${this.handleSubmit}" id="custom-form">
             <dt-text
@@ -759,20 +759,10 @@ class HomeFooter extends LitElement {
               id="open_in_new_tab"
               value="1"
             />
-            <br/>
-            <br/>
-            <div class="dt__icon">
-              <dt-text
-                label="${translate('icon_label')}"
-                name="icon"
-                placeholder="${translate('icon_label')}"
-                required
-                tabindex="3"
-              ></dt-text>
-              <sp-action-button class="upload-icon button change-icon-button">
-                <sp-icon-upload-to-cloud></sp-icon-upload-to-cloud>
-              </sp-action-button>
-            </div>
+            <br />
+            <br />
+            <icon-picker name="icon" label="Icon" placeholder="Select an icon"
+                         required value=""></icon-picker>
 
             <dt-text
               name="url"
