@@ -1,6 +1,8 @@
 <?php
 
 use function DT\Home\config;
+use function DT\Home\magic_url;
+use function DT\Home\route_url;
 
 $this->layout( 'layouts/auth' );
 /**
@@ -80,7 +82,7 @@ $this->layout( 'layouts/auth' );
     </div>
 </div>
 <br>
-<?php do_shortcode( '[dt_firebase_login_ui]' ) ?>
+<?php do_shortcode( '[dt_firebase_login_ui success_url="' . route_url( '' ) . '" error_url="' . route_url( 'login' ) . '"]' ) ?>
 
 
 

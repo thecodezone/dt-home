@@ -43,7 +43,6 @@ class Plugin {
         add_action( 'wp_loaded', [ $this, 'wp_loaded' ], 20 );
         add_filter( 'dt_plugins', [ $this, 'dt_plugins' ] );
         add_action( 'activated_plugin', [ $this, 'activation_hook' ] );
-        add_filter( 'dt_sso_login_response', [ $this, 'dt_sso_login_response' ], 10, 3 );
 
         foreach ( $this->config->get( 'services.providers' ) as $provider ) {
             $this->container->addServiceProvider( $this->container->get( $provider ) );
@@ -156,27 +155,5 @@ class Plugin {
         ];
 
         return $plugins;
-    }
-
-    /**
-     * Handle disciple.tools SSO Login responses and re-routing, accordingly.
-     * @param $response array
-     * @param $payload array
-     * @param $error WP_Error
-     * @return array
-     */
-    public function dt_sso_login_response( $response, $payload, $error ): array {
-        if ( !empty( $error ) ) {
-            // TODO: Introduce error related handler logic...
-        }
-
-        // Determine redirect flow to be adopted; based on incoming payload & response shapes.
-        if ( isset( $response['status'], $payload['email_verified'] ) && ( $response['status'] === 200 ) && ( $payload['email_verified'] === true ) ) {
-
-            // TODO: Introduce redirect_url; according to custom requirements...
-            $response['body']['redirect_url'] = magic_url( 'training' );
-        }
-
-        return $response;
     }
 }
