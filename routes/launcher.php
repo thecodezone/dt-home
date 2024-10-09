@@ -20,7 +20,7 @@ use function DT\Home\config;
 
 $r->group( '/apps/launcher/{key}', function ( RouteCollectionInterface $r ) {
     $r->get( '/app/{slug}', [ AppController::class, 'show' ] );
-    $r->get( '/', [ LauncherController::class, 'show' ] );
+    $r->get( '/', [ AppController::class, 'index' ] );
     $r->get( '/training', [ TrainingController::class, 'show' ] );
     $r->get( '/logout', [ LoginController::class, 'logout' ] );
     $r->get( '/apps', [ AppController::class, 'all' ] );
