@@ -31,6 +31,7 @@ class Assets
     {
         $this->asset_queue = $asset_queue;
     }
+
     /**
      * Register method to add necessary actions for enqueueing scripts and adding cloaked styles
      *
@@ -59,7 +60,8 @@ class Assets
      *
      * @return void
      */
-    public function wp_print_styles() {
+    public function wp_print_styles()
+    {
         $this->asset_queue->filter(
             apply_filters( namespace_string( 'allowed_scripts' ), [] ),
             apply_filters( namespace_string( 'allowed_styles' ), [] )
@@ -77,7 +79,8 @@ class Assets
      * @return void
      * @see https://github.com/kucrut/vite-for-wp
      */
-    public function wp_enqueue_scripts() {
+    public function wp_enqueue_scripts()
+    {
         enqueue_asset(config( 'assets.manifest_dir' ),
             'resources/js/plugin.js',
             [
@@ -86,6 +89,7 @@ class Assets
                 'css-only' => false, // Optional. Set to true to only load style assets in production mode.
                 'in-footer' => true, // Optional. Defaults to false.
         ]);
+        dt_theme_enqueue_style( 'material-font-icons-local', 'dt-core/dependencies/mdi/css/materialdesignicons.min.css', [] );
         wp_localize_script( 'dt-home', config( 'assets.javascript_global_scope' ), apply_filters( namespace_string( 'javascript_globals' ), [] ) );
     }
 
@@ -399,6 +403,7 @@ class Assets
         </style>
         <?php
     }
+
     /**
      * Outputs Open Graph meta tags.
      *
@@ -414,7 +419,8 @@ class Assets
         <meta property="og:type" content="website" />
         <meta property="og:title" content="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>" />
         <meta property="og:url" content="<?php echo esc_url( get_plugin_option( 'dt_home_plugin_url' ) ); ?>" />
-        <meta property="og:image" content="<?php echo esc_url( !empty( $custom_logo ) ? $custom_logo : $default_logo ); ?>" />
+        <meta property="og:image"
+              content="<?php echo esc_url( !empty( $custom_logo ) ? $custom_logo : $default_logo ); ?>" />
         <?php
     }
 }
