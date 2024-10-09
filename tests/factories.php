@@ -12,7 +12,7 @@ function app_factory( $params = [] ) {
 
     return array_merge( [
         'name' => $faker->words( 3, true ),
-        'type' => $faker->randomElement( [ 'Web View', 'Link' ] ),
+        'type' => $faker->randomElement( [ 'Webview', 'Link' ] ),
         'creation_type' => $faker->randomElement( [ 'custom', 'code' ] ),
         'icon' => $faker->imageUrl(),
         'url' => $faker->url,

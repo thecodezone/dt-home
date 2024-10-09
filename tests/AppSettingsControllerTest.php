@@ -5,7 +5,6 @@ namespace Tests;
 use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\Controllers\Admin\AppSettingsController;
 use DT\Home\Services\Apps;
-use DT\Home\Sources\SettingsApps;
 use function DT\Home\container;
 use function DT\Home\set_plugin_option;
 
@@ -58,7 +57,7 @@ class AppSettingsControllerTest extends TestCase
         $controller = container()->get( AppSettingsController::class );
         $response = $controller->store( $request );
         $this->assertEquals( 302, $response->getStatusCode() );
-        $apps = container()->get( Apps::class )->from( 'settings' );
+        $apps = container()->get( Apps::class )->all();
         $this->assertContains( $app['slug'], array_column( $apps, 'slug' ) );
     }
 
@@ -77,7 +76,7 @@ class AppSettingsControllerTest extends TestCase
         $response2 = $controller->store( $request );
         $this->assertEquals( 302, $response->getStatusCode() );
         $this->assertEquals( 302, $response2->getStatusCode() );
-        $apps = container()->get( Apps::class )->from( 'settings' );
+        $apps = container()->get( Apps::class )->all();
         $this->assertContains( $app['slug'], array_column( $apps, 'slug' ) );
         $this->assertContains( $app['slug'] . '_2', array_column( $apps, 'slug' ) );
     }
@@ -89,15 +88,14 @@ class AppSettingsControllerTest extends TestCase
     {
         $app = app_factory([
             'creation_type' => 'custom',
-            'is_hidden' => false,
-            'is_deleted' => false
+            'is_hidden' => false
         ]);
         set_plugin_option( 'apps', [ $app ] );
         $request = ServerRequestFactory::request( 'GET', '/admin.php?page=dt_home&tab=app&action=hide/' . $app['slug'] );
         $controller = container()->get( AppSettingsController::class );
         $response = $controller->hide( $request, [ 'slug' => $app['slug'] ] );
         $this->assertEquals( 302, $response->getStatusCode() );
-        $apps = container()->get( Apps::class )->from( 'settings' );
+        $apps = container()->get( Apps::class )->all();
         $this->assertEquals( 1, $apps[1]['is_hidden'] );
     }
 
@@ -108,15 +106,14 @@ class AppSettingsControllerTest extends TestCase
     {
         $app = app_factory([
             'creation_type' => 'custom',
-            'is_hidden' => true,
-            'is_deleted' => false
+            'is_hidden' => true
         ]);
         set_plugin_option( 'apps', [ $app ] );
         $request = ServerRequestFactory::request( 'GET', '/admin.php?page=dt_home&tab=app&action=unhide/' . $app['slug'] );
         $controller = container()->get( AppSettingsController::class );
         $response = $controller->unhide( $request, [ 'slug' => $app['slug'] ] );
         $this->assertEquals( 302, $response->getStatusCode() );
-        $apps = container()->get( Apps::class )->from( 'settings' );
+        $apps = container()->get( Apps::class )->all();
         $this->assertEquals( 0, $apps[1]['is_hidden'] );
     }
 
@@ -127,8 +124,7 @@ class AppSettingsControllerTest extends TestCase
     {
         $app = app_factory([
             'creation_type' => 'custom',
-            'is_hidden' => true,
-            'is_deleted' => false
+            'is_hidden' => true
         ]);
         $request = ServerRequestFactory::from_globals();
         $controller = container()->get( AppSettingsController::class );
@@ -142,11 +138,7 @@ class AppSettingsControllerTest extends TestCase
     public function it_updates_apps()
     {
         $app = app_factory(
-            [
-                'creation_type' => 'custom',
-                'is_hidden' => true,
-                'is_deleted' => false
-            ]
+            [ 'creation_type' => 'custom' ]
         );
 
         $controller = container()->get( AppSettingsController::class );
@@ -154,7 +146,7 @@ class AppSettingsControllerTest extends TestCase
         //Create an app
         $request = ServerRequestFactory::request( 'POST', '/admin.php?page=dt_home&tab=app&action=create', $app );
         $controller->store( $request );
-        $apps = container()->get( Apps::class )->from( 'settings' );
+        $apps = container()->get( Apps::class )->all();
         $this->assertContains( $app['slug'], array_column( $apps, 'slug' ) );
 
         //Update the app
@@ -163,35 +155,34 @@ class AppSettingsControllerTest extends TestCase
         $response = $controller->update( $request, [ 'slug' => $app['slug'] ] );
 
         $this->assertEquals( 302, $response->getStatusCode() );
-        $apps = container()->get( Apps::class )->from( 'settings' );
+        $apps = container()->get( Apps::class )->all();
         $this->assertContains( $app['name'], array_column( $apps, 'name' ) );
     }
 
     /**
      * @test
      */
-    public function it_deletes_coded_apps()
+    public function it_removes_coded_apps()
     {
         $app = app_factory([
             'creation_type' => 'code',
             'slug' => 'coded-app',
-            'is_deleted' => false,
-            'is_hidden' => false
+            'is_deleted' => false
         ]);
         add_filter( 'dt_home_apps', function ( $apps ) use ( $app ) {
             $apps[] = $app;
             return $apps;
         } );
         $controller = container()->get( AppSettingsController::class );
-        $settings_apps = container()->get( SettingsApps::class );
-        $settings_apps->save( [
+        $apps = container()->get( Apps::class );
+        $apps->save( [
             app_factory(),
             app_factory()
         ] );
         $request = ServerRequestFactory::request( 'POST', '/admin.php?page=dt_home&tab=app&action=softdelete/coded-app', $app );
         $response = $controller->soft_delete_app( $request, [ 'slug' => $app['slug'] ] );
+        $app = $apps->find( $app['slug'] );
         $this->assertEquals( 302, $response->getStatusCode() );
-        $deleted_apps = $settings_apps->deleted();
-        $this->assertContains( $app['slug'], array_column( $deleted_apps, 'slug' ) );
+        $this->assertTrue( $app['is_deleted'] );
     }
 }

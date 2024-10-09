@@ -4,10 +4,9 @@ namespace Tests;
 
 use DT\Home\Controllers\Admin\AppSettingsController;
 use DT\Home\Services\Apps;
-use DT\Home\Sources\SettingsApps;
 use function DT\Home\container;
 
-class GarbageCollectorTest extends TestCase {
+class AppsServiceTest extends TestCase {
 
     /**
      * @test
@@ -18,8 +17,8 @@ class GarbageCollectorTest extends TestCase {
             'slug' => 'coded-app',
             'is_deleted' => false
         ]);
-        $settings_apps = container()->get( SettingsApps::class );
-        $settings_apps->save( [
+        $apps = container()->get( Apps::class );
+        $apps->save( [
             app_factory(),
             app_factory()
         ] );
@@ -27,9 +26,8 @@ class GarbageCollectorTest extends TestCase {
             $apps[] = $app;
             return $apps;
         } );
-        $this->assertContains( $app['slug'], array_column( $settings_apps->merged(), 'slug' ) );
+        $this->assertContains( $app['slug'], array_column( $apps->all(), 'slug' ) );
     }
-
     /**
      * @test
      */
@@ -40,12 +38,13 @@ class GarbageCollectorTest extends TestCase {
             'slug' => 'coded-app',
             'is_deleted' => false
         ]);
-        $settings_apps = container()->get( SettingsApps::class );
-        $settings_apps->save( [
+        $controller = container()->get( AppSettingsController::class );
+        $apps = container()->get( Apps::class );
+        $apps->save( [
             app_factory(),
             $app,
             app_factory()
         ] );
-        $this->assertNotContains( $app['slug'], array_column( $settings_apps->merged(), 'slug' ) );
+        $this->assertNotContains( $app['slug'], array_column( $apps->all(), 'slug' ) );
     }
 }

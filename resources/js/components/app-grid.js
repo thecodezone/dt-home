@@ -487,7 +487,7 @@ class AppGrid extends LitElement {
         return html`
             <div class="app-grid">
                 ${this.appData
-                    .filter((app) => !app.is_hidden) // Filter out hidden apps
+                    .filter((app) => app.is_hidden !== 1) // Filter out hidden apps
                     .map(
                         (app, index) => html`
                             <div

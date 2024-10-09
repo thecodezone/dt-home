@@ -5,10 +5,8 @@ namespace DT\Home\Controllers\MagicLink;
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Services\Apps;
-use DT\Home\Sources\UserApps;
+use function DT\Home\container;
 use function DT\Home\extract_request_input;
-use function DT\Home\get_plugin_option;
-use function DT\Home\magic_url;
 use function DT\Home\namespace_string;
 use function DT\Home\response;
 use function DT\Home\template;
@@ -21,48 +19,6 @@ use function DT\Home\template;
 class AppController
 {
 
-    private $apps;
-
-    private $user_apps;
-
-    public function __construct( Apps $apps, UserApps $user_apps )
-    {
-        $this->apps = $apps;
-        $this->user_apps = $user_apps;
-    }
-
-    /**
-     * Display the app launcher
-     *
-     * @param Request $request The request object.
-     * @param array $params The parameters.
-     */
-    public function index( Request $request, $params )
-    {
-
-        $key         = $params['key'];
-        $user        = get_current_user_id();
-        $apps_array  = $this->apps->for( $user );
-        $data        = json_encode( $apps_array );
-        $hidden_data = $data;
-        $app_url     = magic_url( '', $key );
-        $magic_link  = $app_url . '/share';
-        $reset_apps  = get_plugin_option( 'reset_apps' );
-        $button_color = get_plugin_option( 'button_color' );
-
-        return template(
-            'index',
-            compact(
-                'user',
-                'data',
-                'app_url',
-                'magic_link',
-                'hidden_data',
-                'reset_apps',
-                'button_color'
-            )
-        );
-    }
 
     /**
      * Displays the app based on the provided slug.
@@ -75,9 +31,10 @@ class AppController
     public function show( Request $request, $params )
     {
         // Fetch the app
-        $slug = $params['slug'];
+        $slug    = $params['slug'];
+        $apps    = container()->get( Apps::class );
         $user_id = get_current_user_id();
-        $app  = $this->apps->find_for( $slug, $user_id );
+        $app     = $apps->find_for_user( $user_id, $slug );
 
         if ( ! $app ) {
             return response( __( 'Not Found', 'dt-home' ), 404 );
@@ -112,10 +69,9 @@ class AppController
             // No URL found 404
             return response( __( 'Not Found', 'dt-home' ), 404 );
         }
-
-        return template( 'web-view', compact( 'app', 'url' ) );
-    }
-
+        $page_title = $app['name'] ?? '';
+        return template( 'web-view', compact( 'app', 'url', 'page_title' ) );
+    }//end show()
 
     /**
      * This method is responsible for updating the "is_hidden" status of an app.
@@ -126,15 +82,57 @@ class AppController
      */
     public function hide( Request $request )
     {
-        $params = extract_request_input( $request );
-        $result = $this->user_apps->hide( $params['slug'] );
+        $apps = container()->get( Apps::class );
+        $data = extract_request_input( $request );
 
-        if ( !isset( $result['is_hidden'] ) || !$result['is_hidden'] ) {
-            return response( [ 'message' => 'Failed to update visibility.' ], 500 );
+        $apps_array = $apps->for_user( get_current_user_id() );
+
+        // Find the app with the specified slug and update its 'is_hidden' status
+        foreach ( $apps_array as $key => $app ) {
+            if ( isset( $app['slug'] ) && $app['slug'] == $data['slug'] ) {
+                $apps_array[$key]['is_hidden'] = 1;
+                // Set 'is_hidden' to 1 (hide)
+                break;
+                // Exit the loop once the app is found and updated
+            }
         }
 
-        return response( [ 'message' => 'App visibility updated' ] );
-    }
+        // Separate hidden and visible apps
+        $hidden_apps  = [];
+        $visible_apps = [];
+
+        foreach ( $apps_array as $app ) {
+            if ( $app['is_hidden'] == 1 ) {
+                $hidden_apps[] = $app;
+            } else {
+                $visible_apps[] = $app;
+            }
+        }
+
+        // Sort visible apps by the 'sort' field
+        usort(
+            $visible_apps,
+            function ( $a, $b ) {
+                return ( $a['sort'] <=> $b['sort'] );
+            }
+        );
+
+        // Reset sort values for visible apps
+        foreach ( $visible_apps as $index => $app ) {
+            $visible_apps[$index]['sort'] = ( $index + 1 );
+        }
+
+        // Add hidden apps back to the end
+        foreach ( $hidden_apps as $hidden_app ) {
+            $hidden_app['sort'] = ( count( $visible_apps ) + 1 );
+            $visible_apps[]     = $hidden_app;
+        }
+
+        // Save the updated array back to the option
+        update_user_option( get_current_user_id(), 'dt_home_apps', $visible_apps );
+
+        return response( [ 'message' => 'App visibility and order updated' ] );
+    }//end hide()
 
     /**
      * This method is responsible for updating the "is_hidden" status of an app.
@@ -145,15 +143,57 @@ class AppController
      */
     public function unhide( Request $request )
     {
-        $params = extract_request_input( $request );
-        $result = $this->user_apps->unhide( $params['slug'] );
+        $apps = container()->get( Apps::class );
+        $data = extract_request_input( $request );
 
-        if ( !isset( $result['is_hidden'] ) || $result['is_hidden'] ) {
-            return response( [ 'message' => 'Failed to update visibility.' ], 500 );
+        $apps_array = $apps->for_user( get_current_user_id() );
+
+        // Find the app with the specified ID and update its 'is_hidden' status
+        foreach ( $apps_array as $key => $app ) {
+            if ( isset( $app['slug'] ) && $app['slug'] == $data['slug'] ) {
+                $apps_array[$key]['is_hidden'] = 0;
+                // Set 'is_hidden' to 1 (hide)
+                break;
+                // Exit the loop once the app is found and updated
+            }
         }
 
+        // Separate hidden and visible apps
+        $hidden_apps  = [];
+        $visible_apps = [];
+
+        foreach ( $apps_array as $app ) {
+            if ( $app['is_hidden'] == 1 ) {
+                $hidden_apps[] = $app;
+            } else {
+                $visible_apps[] = $app;
+            }
+        }
+
+        // Sort visible apps by the 'sort' field
+        usort(
+            $visible_apps,
+            function ( $a, $b ) {
+                return ( $a['sort'] <=> $b['sort'] );
+            }
+        );
+
+        // Reset sort values for visible apps
+        foreach ( $visible_apps as $index => $app ) {
+            $visible_apps[$index]['sort'] = ( $index + 1 );
+        }
+
+        // Add hidden apps back to the end
+        foreach ( $hidden_apps as $hidden_app ) {
+            $hidden_app['sort'] = ( count( $visible_apps ) + 1 );
+            $visible_apps[]     = $hidden_app;
+        }
+
+        // Save the updated array back to the option
+        update_user_option( get_current_user_id(), 'dt_home_apps', $visible_apps );
+
         return response( [ 'message' => 'App visibility updated' ] );
-    }
+    }//end unhide()
 
     /**
      * Updates the app order based on the provided request data.
@@ -176,7 +216,7 @@ class AppController
         update_user_option( get_current_user_id(), 'dt_home_apps', $data );
 
         return response( [ 'message' => 'App order updated' ] );
-    }
+    }//end reorder()
 
     /**
      * Resets the user's apps by clearing the 'dt_home_apps' option
@@ -187,8 +227,51 @@ class AppController
      */
     public function reset_apps( Request $request )
     {
-        update_user_option( get_current_user_id(), 'dt_home_apps', $this->apps->from( 'settings' ) );
+        $apps       = container()->get( Apps::class );
+        $admin_apps = $apps->all();
+
+        update_user_option( get_current_user_id(), 'dt_home_apps', $admin_apps );
 
         return response( [ 'message' => 'App order updated' ] );
-    }
-}
+    }//end reset_apps()
+
+
+    public function all()
+    {
+        // Fetch all apps
+        $user       = get_current_user_id();
+        $apps       = container()->get( Apps::class );
+        $apps_array = $apps->for_user( $user );
+
+        return response( $apps_array );
+    }//end all()
+
+
+    /**
+     * Adds or updates a query parameter in a URL.
+     *
+     * @param string $url   The original URL.
+     * @param string $key   The query parameter key.
+     * @param string $value The query parameter value.
+     *
+     * @return string The updated URL.
+     */
+    private function add_or_update_query_param( $url, $key, $value )
+    {
+        // Split the URL into the base and the query string
+        $url_parts    = explode( '?', $url, 2 );
+        $base_url     = $url_parts[0];
+        $query_string = ( $url_parts[1] ?? '' );
+
+        // Parse the query string into an associative array
+        parse_str( $query_string, $query_params );
+
+        // Update the query parameters
+        $query_params[$key] = $value;
+
+        // Rebuild the query string
+        $new_query_string = http_build_query( $query_params );
+
+        return $base_url.'?'.$new_query_string;
+    }//end add_or_update_query_param()
+}//end class
