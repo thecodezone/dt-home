@@ -6,7 +6,6 @@ use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\Controllers\MagicLink\AppController;
 use DT\Home\Services\Apps;
 use function DT\Home\container;
-use function DT\Home\set_plugin_option;
 
 class AppControllerTest extends TestCase
 {
@@ -72,11 +71,9 @@ class AppControllerTest extends TestCase
         $user_id = 1;
         $this->acting_as( $user_id );
 
-        $data = app_factory([
-            'is_hidden' => true
-        ]);
-
-        set_plugin_option( 'apps', [ $data ] );
+        $apps_service = container()->get( Apps::class );
+        $apps = $apps_service->for( $user_id );
+        $data = $apps[0];
 
         $request = ServerRequestFactory::request( 'POST', 'apps/launcher/key/un-hide-app', $data );
         $key = $this->faker->md5;
