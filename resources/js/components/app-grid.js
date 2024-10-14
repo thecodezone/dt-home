@@ -1,7 +1,8 @@
 import { css, html, LitElement } from 'lit'
 import { customElement } from 'lit-element'
 import { property, queryAll } from 'lit/decorators.js'
-import { magic_url } from '../helpers.js'
+import { magic_url, translate } from '../helpers.js'
+import './app-form-modal.js'
 
 /**
  * Custom element representing an application grid.
@@ -15,6 +16,64 @@ class AppGrid extends LitElement {
      * @type {CSSResult}
      */
     static styles = css`
+        :host {
+            --dt-button-background-color: #3f729b;
+            --mod-actionbutton-border-radius: 50%; /* Set the desired border-radius value here */
+            --mod-actionbutton-background-color-default: var(
+                --dt-button-background-color
+            );
+            --mod-actionbutton-background-color-hover: var(
+                --dt-button-background-color
+            );
+            --mod-actionbutton-background-color-active: var(
+                --dt-button-background-color
+            );
+
+            --spectrum-neutral-background-color-selected-hover: var(
+                --dt-button-background-color
+            );
+            --mod-actionbutton-background-color-default-selected: var(
+                --dt-button-background-color
+            );
+
+            --highcontrast-actionbutton-background-color-down: var(
+                --dt-button-background-color
+            );
+            --highcontrast-actionbutton-content-color-down: #ffffff;
+
+            --mod-actionbutton-content-color-hover: #ffffff;
+            --mod-actionbutton-content-color-default: #ffffff; /* Set the desired color value here */
+        }
+
+        :host(.modal-open) {
+            --mod-actionbutton-border-radius: initial;
+            --mod-actionbutton-background-color-default: initial;
+            --mod-actionbutton-background-color-hover: initial;
+            --mod-actionbutton-background-color-active: initial;
+            --mod-actionbutton-content-color-hover: initial;
+            --mod-actionbutton-content-color-default: initial;
+            color: initial;
+            border-radius: initial;
+            background: initial;
+        }
+
+        .edit-menu span {
+            display: flex;
+        }
+
+        .remove-menu span {
+            display: flex;
+            color: #f16d71;
+        }
+
+        .remove-menu:hover {
+            background: #f16d71;
+
+            & span {
+                color: white;
+            }
+        }
+
         .app-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -48,15 +107,16 @@ class AppGrid extends LitElement {
             position: absolute;
             top: -7px;
             right: -10px;
-            background-color: rgb(255, 255, 255);
+            //background-color: rgb(255, 255, 255);
             color: #fcfbfb;
-            padding: 5px 5px 0px 5px;
+            //padding: 5px 5px 0px 5px;
             cursor: pointer;
-            border-radius: 53%;
+            border-radius: 50%;
             font-size: 14px;
             z-index: 1;
-            background-color: #f16d71;
-            border: 1px solid #7e1919;
+
+            //background-color: #f16d71;
+            //border: 1px solid #7e1919;
         }
 
         .app-grid__icon {
@@ -72,6 +132,8 @@ class AppGrid extends LitElement {
     @property({ type: Number }) selectedIndex = -1
     @property({ type: String }) appUrl = ''
     @property({ type: Boolean }) editing = false
+    @property({ type: Boolean }) open = false
+    @property({ type: Object }) app = {}
     @queryAll('.app-grid__item') items = []
     showRemoveIconId = null
     clickTimer = null
@@ -93,6 +155,10 @@ class AppGrid extends LitElement {
             'app-unhidden',
             this.handleAppUnhidden.bind(this)
         )
+        document.addEventListener(
+            'modal-closed',
+            this.handleModalClosed.bind(this)
+        )
     }
 
     disconnectedCallback() {
@@ -105,6 +171,10 @@ class AppGrid extends LitElement {
         document.removeEventListener('mousedown', this.handleMouseDown)
         document.removeEventListener('mouseup', this.handleMouseUp)
         document.removeEventListener('mouseleave', this.handleMouseLeave)
+        document.removeEventListener(
+            'modal-closed',
+            this.handleModalClosed.bind(this)
+        )
     }
 
     /**
@@ -114,6 +184,12 @@ class AppGrid extends LitElement {
     handleDragOver(event) {
         event.preventDefault()
         event.target.classList.add('app-grid__item--over')
+    }
+
+    handleModalClosed() {
+        this.open = false
+        this.classList.remove('modal-open')
+        this.app = {}
     }
 
     /**
@@ -289,11 +365,12 @@ class AppGrid extends LitElement {
         event.preventDefault()
         const confirmationMessage = $home.translations.remove_app_confirmation
         const confirmed = window.confirm(confirmationMessage)
+
         if (confirmed) {
             this.postAppDataToServer(slug)
-            this.appData.splice(index, 1)
-            this.selectedIndex = -1
-            this.showRemoveIconId = null
+            // this.appData.splice(index, 1)
+            // this.selectedIndex = -1
+            // this.showRemoveIconId = null
         }
         return false
     }
@@ -480,6 +557,29 @@ class AppGrid extends LitElement {
     }
 
     /**
+     * Toggles the modal.
+     * @param event
+     * @param index
+     * @param slug
+     */
+
+    toggleModal(event, index, { slug }) {
+        event.preventDefault()
+        this.app = this.appData.find((app) => app.slug === slug)
+
+        this.open = !this.open
+        if (this.open) {
+            this.classList.add('modal-open')
+        } else {
+            this.classList.remove('modal-open')
+        }
+        const modal = this.shadowRoot.getElementById('customModal')
+        if (modal) {
+            modal.toggleModal()
+        }
+    }
+
+    /**
      * Renders the AppGrid element.
      * @returns {TemplateResult} HTML template result.
      */
@@ -518,20 +618,50 @@ class AppGrid extends LitElement {
                             >
                                 ${this.editing
                                     ? html`
-                                          <span
+                                          <sp-action-menu
                                               class="app-grid__remove-icon ${this
                                                   .showRemoveIconId
                                                   ? ''
                                                   : 'hidden'}"
                                               @click="${(event) =>
-                                                  this.handleRemove(
-                                                      event,
-                                                      index,
-                                                      app
-                                                  )}"
+                                                  event.stopPropagation()}"
+                                              label="More Actions"
                                           >
-                                              <sp-icon-close></sp-icon-close>
-                                          </span>
+                                              <sp-menu-item
+                                                  @click="${(event) =>
+                                                      this.toggleModal(
+                                                          event,
+                                                          index,
+                                                          app
+                                                      )}"
+                                                  class="edit-menu"
+                                              >
+                                                  <span>
+                                                      <sp-icon-edit></sp-icon-edit
+                                                      >&nbsp;
+                                                      ${translate(
+                                                          'edit_menu_label'
+                                                      )}</span
+                                                  >
+                                              </sp-menu-item>
+                                              <sp-menu-item
+                                                  @click="${(event) =>
+                                                      this.handleRemove(
+                                                          event,
+                                                          index,
+                                                          app
+                                                      )}"
+                                                  class="remove-menu"
+                                              >
+                                                  <span>
+                                                      <sp-icon-close></sp-icon-close
+                                                      >&nbsp;
+                                                      ${translate(
+                                                          'remove_menu_label'
+                                                      )}</span
+                                                  >
+                                              </sp-menu-item>
+                                          </sp-action-menu>
                                       `
                                     : ''}
                                 <dt-home-app-icon
@@ -543,6 +673,12 @@ class AppGrid extends LitElement {
                         `
                     )}
             </div>
+            <app-form-modal
+                id="customModal"
+                appData="${JSON.stringify(this.app)}"
+                modelName="${translate('edit_custom_app_label')}"
+            >
+            </app-form-modal>
         `
     }
 }
