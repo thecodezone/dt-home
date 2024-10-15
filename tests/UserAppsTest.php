@@ -22,6 +22,16 @@ class UserAppsTest extends TestCase
 
         $user_apps = container()->get( UserApps::class )->raw( [ 'user_id' => $user_id ] );
 
+        // Extract slugs from both arrays
+        $app_slugs = array_column( $apps, 'slug' );
+        $user_app_slugs = array_column( $user_apps, 'slug' );
+
+        // Verify each slug is present in the retrieved user apps
+        foreach ( $app_slugs as $slug ) {
+            $this->assertContains( $slug, $user_app_slugs );
+        }
+
+        // Verify the count of retrieved user apps
         $this->assertCount( 2, $user_apps );
     }
 
@@ -39,6 +49,16 @@ class UserAppsTest extends TestCase
 
         $user_apps = container()->get( UserApps::class )->for( $user_id );
 
+        // Extract slugs from both arrays
+        $app_slugs = array_column( $apps, 'slug' );
+        $user_app_slugs = array_column( $user_apps, 'slug' );
+
+        // Verify each slug is present in the retrieved user apps
+        foreach ( $app_slugs as $slug ) {
+            $this->assertContains( $slug, $user_app_slugs );
+        }
+
+        // Verify the count of retrieved user apps
         $this->assertCount( 2, $user_apps );
     }
 
