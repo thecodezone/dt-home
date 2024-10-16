@@ -205,7 +205,6 @@ class AppSettingsController
         $creation_type = sanitize_text_field( $input['creation_type'] ?? '' );
         $icon_url = sanitize_text_field( $input['icon'] ?? '' );
         $url = sanitize_text_field( $input['url'] ?? '' );
-        $sort = sanitize_text_field( $input['sort'] ?? '' );
         $new_slug = sanitize_text_field( $input['slug'] ?? '' );
         $is_hidden = filter_var( $input['is_hidden'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
         $open_in_new_tab = filter_var( $input['open_in_new_tab'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
@@ -223,7 +222,7 @@ class AppSettingsController
                     'icon' => $icon_url,
                     'url' => $url,
                     'slug' => $new_slug,
-                    'sort' => $sort,
+                    'sort' => $app['sort'] ?? '',
                     'is_hidden' => $is_hidden == "1" ? 1 : 0,
                     'open_in_new_tab' => $open_in_new_tab,
                 ];
