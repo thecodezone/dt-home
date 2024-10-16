@@ -7,9 +7,17 @@ class AppFormModal extends LitElement {
     @property({ type: Boolean }) open = false
     @property({ type: String }) modelName = ''
     @property({ type: Object }) appData = {}
+    @property({ type: Boolean }) validationError = false
+    @property({ type: String }) error = ''
 
     static styles = css`
         /* CSS for the modal */
+
+        :host {
+            --dt-fields-background-color: #f2f2f2;
+            --dt-text-background-color: var(--dt-fields-background-color);
+            --dt-form-background-color: var(--dt-fields-background-color);
+        }
 
         .trigger {
             text-align: center;
@@ -134,23 +142,6 @@ class AppFormModal extends LitElement {
             font-size: 18px;
             font-style: poppins;
         }
-
-        .dt__icon {
-            display: flex;
-        }
-
-        .upload-icon {
-            top: 20px;
-            left: 10px;
-            --system-spectrum-actionbutton-background-color-default: #cac4c4 !important;
-            --system-spectrum-actionbutton-background-color-hover: #cac4c4 !important;
-            --system-spectrum-actionbutton-background-color-down: #cac4c4 !important;
-            --highcontrast-actionbutton-content-color-default: #ffffff !important;
-            --spectrum-neutral-content-color-hover: #ffffff !important;
-            --spectrum-neutral-content-color-down: #ffffff !important;
-            --mod-actionbutton-height: 41px;
-            --spectrum-action-button-edge-to-hold-icon-medium: 10px;
-        }
     `
 
     /**
@@ -160,6 +151,7 @@ class AppFormModal extends LitElement {
         this.open = false
         this.classList.remove('modal-open')
         this.clearForm()
+        this.resetValidationError()
         this.dispatchEvent(
             new CustomEvent('modal-closed', { bubbles: true, composed: true })
         )
@@ -219,29 +211,24 @@ class AppFormModal extends LitElement {
         const form = this.shadowRoot.querySelector('form')
         if (!form) return false
 
-        const requiredFields = form.querySelectorAll('[required]')
+        const requiredFields = form.querySelectorAll('[require]')
         let isValid = true
 
-        const formAlert = this.shadowRoot.querySelector('#form-alert')
-        if (formAlert) {
-            formAlert.innerText = ''
-        }
-
-        requiredFields.forEach((field) => {
+        for (const field of requiredFields) {
             const value = field.value && field.value.trim()
 
             if (!value) {
                 isValid = false
                 field.setAttribute('aria-invalid', 'true')
                 field.classList.add('error')
+                const label = field.getAttribute('label') || field.name
+                this.validationError = true
+                this.error = `The ${label} is required.`
+                break // Stop after the first invalid field
             } else {
                 field.removeAttribute('aria-invalid')
                 field.classList.remove('error')
             }
-        })
-
-        if (!isValid && formAlert) {
-            formAlert.innerText = 'Please fill in the required fields'
         }
 
         // Trigger native form validation
@@ -321,6 +308,14 @@ class AppFormModal extends LitElement {
     }
 
     /**
+     * Reset validation error
+     */
+    resetValidationError() {
+        this.validationError = false
+        this.error = ''
+    }
+
+    /**
      * Get form object
      * @param form
      * @returns {{}}
@@ -368,30 +363,44 @@ class AppFormModal extends LitElement {
                 id="customModal"
             >
                 <div class="modal-content">
-                    <div class="modal-title">
+                    <div class="modal-title" style="margin-bottom: 10px;">
                         <h3>${translate(this.modelName)}</h3>
                         <span class="modal-close" @click="${this.closeModal}"
                             >&times;</span
                         >
                     </div>
-                    <br />
-                    <div id="form-alert"></div>
+                    ${this.validationError
+                        ? html`
+                              <dt-alert
+                                  context="alert"
+                                  dismissable
+                                  @click="${this.resetValidationError}"
+                                  style="margin-bottom: 10px;"
+                              >
+                                  ${this.error}
+                              </dt-alert>
+                          `
+                        : ''}
                     <form @submit="${this.handleSubmit}" id="custom-form">
                         <dt-text
                             name="name"
                             label="${translate('name_label')}"
                             placeholder="${translate('name_label')}"
-                            required
+                            require
                             tabindex="1"
                             .value="${this.appData.name || ''}"
                             @change="${this.updateSlugField}"
                         ></dt-text>
                         <dt-single-select
                             name="type"
-                            required
+                            require
                             label="${translate('type_label')}"
                             placeholder="${translate('type_label')}"
-                            options='[{"id":"Web View","label":"Web View"},{"id":"Link","label":"Link"}]'
+                            options='[
+                                {"id":"","label":"Select Type"},
+                                {"id":"Web View","label":"Web View"},
+                                {"id":"Link","label":"Link"}
+                            ]'
                             .value="${this.appData.type || ''}"
                         ></dt-single-select>
                         ${translate('open_new_tab_label')}
@@ -410,14 +419,14 @@ class AppFormModal extends LitElement {
                             label="Icon"
                             id="icon"
                             placeholder="Select an icon"
-                            required
+                            require
                             .value="${this.appData.icon || ''}"
                         ></icon-picker>
                         <dt-text
                             name="url"
                             label="${translate('url_label')}"
                             placeholder="${translate('url_label')}"
-                            required
+                            require
                             tabindex="4"
                             .value="${this.appData.url || ''}"
                         ></dt-text>
@@ -426,7 +435,7 @@ class AppFormModal extends LitElement {
                             label="${translate('slug_label')}"
                             name="slug"
                             placeholder="${translate('slug_label')}"
-                            required
+                            require
                             tabindex="5"
                             .value="${this.appData.slug || ''}"
                             ?disabled="${!!this.appData.slug}"

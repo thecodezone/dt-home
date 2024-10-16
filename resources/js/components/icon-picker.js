@@ -16,6 +16,24 @@ class IconPicker extends LitElement {
     @property({ type: String, reflect: true }) value = ''
 
     static styles = css`
+        :host {
+            --dt-fields-background-color: #f2f2f2;
+            --system-spectrum-actionbutton-background-color-default: var(
+                --dt-fields-background-color
+            );
+            --system-spectrum-actionbutton-background-color-hover: var(
+                --dt-fields-background-color
+            );
+            --system-spectrum-actionbutton-background-color-down: var(
+                --dt-fields-background-color
+            );
+            --highcontrast-actionbutton-content-color-default: #ffffff;
+            --spectrum-neutral-content-color-hover: #ffffff;
+            --spectrum-neutral-content-color-down: #ffffff;
+            --mod-actionbutton-height: 41px;
+            --spectrum-action-button-edge-to-hold-icon-medium: 10px;
+        }
+
         .icon-loader {
             position: absolute;
             z-index: 1000;
@@ -72,14 +90,6 @@ class IconPicker extends LitElement {
         .upload-icon {
             top: 20px;
             left: 6px;
-            --system-spectrum-actionbutton-background-color-default: #cac4c4;
-            --system-spectrum-actionbutton-background-color-hover: #cac4c4;
-            --system-spectrum-actionbutton-background-color-down: #cac4c4;
-            --highcontrast-actionbutton-content-color-default: #ffffff;
-            --spectrum-neutral-content-color-hover: #ffffff;
-            --spectrum-neutral-content-color-down: #ffffff;
-            --mod-actionbutton-height: 41px;
-            --spectrum-action-button-edge-to-hold-icon-medium: 10px;
         }
 
         .upload-icon .sp-upload-icon {
