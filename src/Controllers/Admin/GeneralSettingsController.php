@@ -25,11 +25,12 @@ class GeneralSettingsController
         $page_title = 'Home Settings';
         $dt_home_require_login = get_plugin_option( 'require_login' );
         $dt_home_reset_apps = get_plugin_option( 'reset_apps' );
+        $dt_home_use_capabilities = get_plugin_option( 'dt_home_use_capabilities', false );
         $dt_home_show_in_menu = get_plugin_option( 'show_in_menu' );
         $dt_home_button_color = get_plugin_option( 'button_color' );
         $dt_home_file_upload = get_plugin_option( 'custom_ministry_logo' ) ?? '';
 
-        return view( 'settings/general', compact( 'tab', 'link', 'page_title', 'dt_home_require_login', 'dt_home_reset_apps', 'dt_home_button_color', 'dt_home_show_in_menu', 'dt_home_file_upload' ) );
+        return view( 'settings/general', compact( 'tab', 'link', 'page_title', 'dt_home_require_login', 'dt_home_reset_apps', 'dt_home_use_capabilities', 'dt_home_button_color', 'dt_home_show_in_menu', 'dt_home_file_upload' ) );
     }
 
     /**
@@ -44,11 +45,13 @@ class GeneralSettingsController
         $input = extract_request_input( $request );
         $require_user = $input['dt_home_require_login'] ?? 'off';
         $reset_apps = $input['dt_home_reset_apps'] ?? 'off';
+        $dt_home_use_capabilities = $input['dt_home_use_capabilities'] ?? 'off';
         $dt_home_show_in_menu = $input['dt_home_show_in_menu'] ?? 'off';
         $button_color = $input['dt_home_button_color'] ?? config( 'options.defaults.button_color' );
         $dt_home_file_upload = $input['dt_home_custom_ministry_logo'] ?? '';
         set_plugin_option( 'require_login', $require_user === 'on' );
         set_plugin_option( 'reset_apps', $reset_apps === 'on' );
+        set_plugin_option( 'dt_home_use_capabilities', $dt_home_use_capabilities === 'on' );
         set_plugin_option( 'button_color', $button_color );
         set_plugin_option( 'show_in_menu', $dt_home_show_in_menu === 'on' );
         set_plugin_option( 'custom_ministry_logo', $dt_home_file_upload );

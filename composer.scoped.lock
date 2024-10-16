@@ -948,5 +948,5 @@
     "platform-overrides": {
         "php": "7.4.27"
     },
-    "plugin-api-version": "2.2.0"
+    "plugin-api-version": "2.6.0"
 }
