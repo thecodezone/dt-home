@@ -82,7 +82,7 @@ $this->layout( 'layouts/auth' );
     </div>
 </div>
 <br>
-<?php do_shortcode( '[dt_firebase_login_ui success_url="' . route_url( '' ) . '" error_url="' . route_url( 'login' ) . '"]' ) ?>
+<?php do_shortcode( '[dt_firebase_login_ui redirect_to="' . route_url( '' ) . '"]' ) ?>
 
 
 
