@@ -6,6 +6,10 @@
  * @var string $page_title
  * @var string $svg_images
  */
+
+use DT\Home\Services\RolesPermissions;
+use function DT\Home\container;
+
 $this->layout('layouts/settings', compact('tab', 'link', 'page_title'));
 ?>
 <?php
@@ -25,6 +29,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             <th><?php esc_html_e('Apps', 'dt-home') ?></th>
             <th></th>
             <th></th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -34,7 +39,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                 <span class="tooltiptext"><?php esc_html_e('Enter the name of the app.', 'dt-home') ?></span>
             </span>
             </td>
-            <td colspan="2">
+            <td colspan="3">
                 <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name" pattern=".*\S+.*"
                        title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt-home'); ?>"
                        required/>
@@ -46,7 +51,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                 <span class="tooltiptext"><?php esc_html_e('Select the type of the app.', 'dt-home') ?></span>
             </span>
             </td>
-            <td colspan="2">
+            <td colspan="3">
                 <select style="min-width: 100%;" name="type" id="type" required onchange="toggleURLField()">
                     <option value=""><?php esc_html_e('Please select', 'dt-home') ?></option>
                     <option value="Web View"><?php esc_html_e('Web View', 'dt-home') ?></option>
@@ -62,7 +67,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                     class="tooltiptext"><?php esc_html_e('Check this box to open the link in a new tab.', 'dt-home') ?></span>
             </span>
             </td>
-            <td colspan="2">
+            <td colspan="3">
                 <input type="checkbox" name="open_in_new_tab" id="open_in_new_tab" value="1">
             </td>
         </tr>
@@ -90,7 +95,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                 <span class="tooltiptext"><?php esc_html_e('Enter the URL for the app.', 'dt-home') ?></span>
             </span>
             </td>
-            <td colspan="2">
+            <td colspan="3">
                 <input style="min-width: 100%;" type="text" name="url" id="url"/>
             </td>
         </tr>
@@ -100,7 +105,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                 <span class="tooltiptext"><?php esc_html_e('Enter a slug for the app.', 'dt-home') ?></span>
             </span>
             </td>
-            <td colspan="2">
+            <td colspan="3">
                 <input style="min-width: 100%;" type="text" name="slug" id="slug" pattern=".*\S+.*"
                        title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt-home'); ?>"
                        required/>
@@ -112,21 +117,90 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                 <span class="tooltiptext"><?php esc_html_e('Check this box to hide the app.', 'dt-home') ?></span>
             </span>
             </td>
-            <td colspan="2">
+            <td colspan="3">
                 <input type="checkbox" name="is_hidden" id="is_hidden" value="1">
             </td>
         </tr>
+        <tr>
+            <td style="vertical-align: top;"><?php esc_html_e('Roles', 'dt-home') ?>
+                <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Select which user roles can access app.', 'dt-home') ?></span>
+            </span>
+            </td>
+            <td colspan="3">
+                <?php
+                $counter = 0;
+                $max_row_count = 3;
+                ?>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td style="padding-left: 0;" colspan="<?php echo esc_attr( $max_row_count ); ?>">
+                                <div>
+                                    <label>
+                                        <input type="checkbox" id="select_all_user_roles" checked />
+                                        <?php esc_html_e('Select all roles?', 'dt-home'); ?>
+                                    </label>
+                                    <hr>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php
+                    $roles_permissions_srv = $rewrites = container()->get( RolesPermissions::class );
+                    $dt_custom_roles = get_option( $roles_permissions_srv::OPTION_KEY_CUSTOM_ROLES, [] );
+                    ksort( $dt_custom_roles );
+                    foreach ( $dt_custom_roles as $key => $role ) {
+
+                        // Determine if a new row should be started.
+                        if ( $counter === 0 ) {
+                            ?>
+                            <tr>
+                            <?php
+                        }
+                        ?>
+
+                        <td style="padding-left: 0;">
+                            <div>
+                                <label>
+                                    <input type="checkbox" name="roles[]" class="apps-user-role" value="<?php echo esc_attr( $key ); ?>" checked />
+                                    <?php echo esc_html( $role['label'] ?? $key ); ?>
+                                </label>
+                            </div>
+                        </td>
+
+                        <?php
+
+                        // Determine if row should be closed.
+                        if ( ++$counter >= $max_row_count ) {
+                            $counter = 0;
+                            ?>
+                            </tr>
+                            <?php
+                        }
+                    }
+                    ?>
+                    </tbody>
+                </table>
+                <input type="hidden" name="deleted_roles" id="deleted_roles" value="[]">
+            </td>
+        </tr>
         </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="4">
+                    <span style="float:right;">
+                        <a href="admin.php?page=dt_home&tab=app"
+                           class="button float-right"><?php esc_html_e('Cancel', 'dt-home') ?></a>
+                        <button type="submit" id="ml_email_main_col_update_but"
+                                class="button float-right"><?php esc_html_e('Submit', 'dt-home') ?></button>
+                    </span>
+                </td>
+            </tr>
+        </tfoot>
     </table>
 
     <br>
     <span id="ml_email_main_col_update_msg" style="font-weight: bold; color: red;"></span>
-    <span style="float:right;">
-        <a href="admin.php?page=dt_home&tab=app"
-           class="button float-right"><?php esc_html_e('Cancel', 'dt-home') ?></a>
-        <button type="submit" id="ml_email_main_col_update_but"
-                class="button float-right"><?php esc_html_e('Submit', 'dt-home') ?></button>
-    </span>
 </form>
 
 <div id="popup" class="popup">
