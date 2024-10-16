@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use DT\Home\Services\Apps;
 use DT\Home\Sources\SettingsApps;
 use DT\Home\Sources\UserApps;
 use function DT\Home\container;
@@ -139,5 +140,83 @@ class UserAppsTest extends TestCase
         $merged_slugs = array_column( $merged_apps, 'slug' );
 
         $this->assertContains( 'new-app-slug', $merged_slugs );
+    }
+
+
+    /**
+     * @test
+     */
+    public function it_hides_user_apps()
+    {
+        $user_id = 1;
+        $this->acting_as( $user_id );
+
+        // Get the first app
+        $apps_service = container()->get( Apps::class );
+        $apps = $apps_service->for( $user_id );
+        $data = $apps[0];
+
+        // Hide the app
+        $source = container()->get( UserApps::class );
+        $hiddenItem = $source->hide( $data['slug'] );
+
+        // Assert that the item is hidden
+        $this->assertTrue( $hiddenItem['is_hidden'] );
+
+        // Assert that the item is found
+        $foundItem = $source->find( $data['slug'] );
+        $this->assertEquals( $hiddenItem, $foundItem );
+    }
+
+    /**
+     * @test
+     */
+    public function it_unhide_user_apps()
+    {
+        $user_id = 1;
+        $this->acting_as( $user_id );
+
+        // Get the first app
+        $apps_service = container()->get( Apps::class );
+        $apps = $apps_service->for( $user_id );
+        $data = $apps[0];
+
+        // Hide the app
+        $source = container()->get( UserApps::class );
+        $hiddenItem = $source->hide( $data['slug'] );
+
+        // Unhide the app
+        $unhiddenItem = $source->unhide( $data['slug'] );
+
+        // Assert that the item is unhidden
+        $this->assertFalse( $unhiddenItem['is_hidden'] );
+
+        // Assert that the item is found
+        $foundItem = $source->find( $data['slug'] );
+        $this->assertEquals( $unhiddenItem, $foundItem );
+    }
+
+    /**
+     * @test
+     */
+    public function it_checks_if_app_is_visible()
+    {
+        $user_id = 1;
+        $this->acting_as( $user_id );
+
+        // Get the first app
+        $apps_service = container()->get( Apps::class );
+        $apps = $apps_service->for( $user_id );
+        $data = $apps[0];
+
+        // Hide the app
+        $source = container()->get( UserApps::class );
+        $hiddenItem = $source->hide($data['slug']
+        );
+        // Assert that the item is hidden
+        $this->assertTrue( $hiddenItem['is_hidden'] );
+
+        // Assert that the item is hidden
+        $this->assertTrue( $source->is_visible( $data ) );
     }
 }
