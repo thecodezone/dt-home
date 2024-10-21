@@ -3,8 +3,10 @@
 namespace DT\Home\Services;
 
 use DT\Home\Sources\SettingsApps;
+use WP_User;
 use function DT\Home\container;
 use function DT\Home\get_plugin_option;
+use function DT\Home\set_plugin_option;
 
 /**
  * Manage D.T Roles & Permissions.
@@ -13,8 +15,26 @@ class RolesPermissions {
 
     public const CAPABILITIES_SOURCE = 'Home Screen';
     public const OPTION_KEY_CUSTOM_ROLES = 'dt_custom_roles';
+    public const OPTION_KEY_USE_CAPABILITIES = 'dt_home_use_capabilities';
 
     public function __construct() {}
+
+    /**
+     * Determine if roles & permissions enforcement is enabled.
+     * @return bool
+     */
+    public function is_enabled(): bool {
+        return get_plugin_option( self::OPTION_KEY_USE_CAPABILITIES, false );
+    }
+
+    /**
+     * Update roles & permissions enforcement enabled state.
+     * @param bool $enable
+     * @return bool
+     */
+    public function enabled( bool $enable ): bool {
+        return set_plugin_option( self::OPTION_KEY_USE_CAPABILITIES, $enable );
+    }
 
     /**
      * Initialise and hook in to various filters and actions.
@@ -56,7 +76,7 @@ class RolesPermissions {
      * @return array
      */
     public function dt_capabilities( $capabilities ): array {
-        if ( get_plugin_option( 'dt_home_use_capabilities', false ) ) {
+        if ( $this->is_enabled() ) {
             $capabilities = array_merge( $capabilities, $this->default_capabilities() );
         }
 
@@ -95,7 +115,7 @@ class RolesPermissions {
      * @return array
      */
     public function dt_set_roles_and_permissions( $expected_roles ): array {
-        if ( get_plugin_option( 'dt_home_use_capabilities', false ) ) {
+        if ( $this->is_enabled() ) {
             $dt_custom_roles = get_option( self::OPTION_KEY_CUSTOM_ROLES, [] );
 
             /** $dt_custom_roles_updated = false; **/
@@ -194,5 +214,109 @@ class RolesPermissions {
 
         // Persist updated global custom roles.
         return update_option( self::OPTION_KEY_CUSTOM_ROLES, $dt_custom_roles );
+    }
+
+    /**
+     * Determine if specified user has permission to access given app.
+     *
+     * @param array $app
+     * @param int $user_id
+     * @param array $dt_custom_roles
+     * @return bool
+     */
+    public function has_permission( array $app, int $user_id = 0, array $dt_custom_roles = [] ): bool {
+
+        // Default to true if roles & permissions enforcement is currently disabled.
+        if ( !$this->is_enabled() ) {
+            return true;
+        }
+
+        /**
+         * Determine if user has a valid role for the specified app;
+         * ensuring globally set $dt_custom_roles take priority.
+         */
+
+        $has_permission = false;
+
+        // Capture user id to be validated against.
+        if ( $user_id === 0 ) {
+            $user_id = get_current_user_id();
+        }
+
+        // Determine permission to be validated against.
+        $permission = $this->generate_permission_key( $app['slug'] );
+
+        // Capture user's currently assigned roles and determine if they have relevant permission.
+        $user = new WP_User( $user_id );
+        if ( !empty( $user->roles ) && is_array( $user->roles ) ) {
+            $dt_custom_roles_checked = false;
+
+            // Determine if any of user's current roles has been set within custom dt roles.
+            foreach ( $user->roles as $role ) {
+                if ( !$dt_custom_roles_checked && isset( $dt_custom_roles[ $role ]['capabilities'][ $permission ] ) ) {
+                    $dt_custom_roles_checked = true;
+                    $has_permission = $dt_custom_roles[ $role ]['capabilities'][ $permission ];
+                }
+            }
+
+            // If custom roles were not checked, then attempt to validate against existing app settings.
+            if ( !$dt_custom_roles_checked ) {
+                if ( isset( $app['roles'] ) && is_array( $app['roles'] ) ) {
+                    foreach ( $user->roles as $role ) {
+                        if ( !$has_permission  ) {
+                            $has_permission = in_array( $role, $app['roles'] );
+                        }
+                    }
+                }
+            }
+        }
+
+        return $has_permission;
+    }
+
+    /**
+     * Determine if specified user is allowed to access plugin.
+     *
+     * @param int $user_id
+     * @return bool
+     */
+    public function can_access_plugin( int $user_id = 0 ): bool {
+
+        // Default to true if roles & permissions enforcement is currently disabled.
+        if ( !$this->is_enabled() ) {
+            return true;
+        }
+
+        $can_access_plugin = false;
+
+        // Capture user id to be validated against.
+        if ( $user_id === 0 ) {
+            $user_id = get_current_user_id();
+        }
+
+        /**
+         * To avoid breaks in existing flows (i.e. logouts), ensure zero (0) user ids, are ignored
+         * and true is returned
+         */
+
+        if ( $user_id === 0 ) {
+            return true;
+        }
+
+        // Capture user's currently assigned roles and determine if they have relevant permission.
+        $user = new WP_User( $user_id );
+        if ( !empty( $user->roles ) && is_array( $user->roles ) ) {
+            $permission = 'can_access_home_screen';
+            $dt_custom_roles = get_option( $this::OPTION_KEY_CUSTOM_ROLES, [] );
+
+            // Determine if any of user's current roles match the can_access permission.
+            foreach ( $user->roles as $role ) {
+                if ( !$can_access_plugin && isset( $dt_custom_roles[ $role ]['capabilities'][ $permission ] ) && $dt_custom_roles[ $role ]['capabilities'][ $permission ] ) {
+                    $can_access_plugin = true;
+                }
+            }
+        }
+
+        return $can_access_plugin;
     }
 }

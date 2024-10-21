@@ -50,6 +50,18 @@ function wp_user_factory( $params = [] ) {
     ], $params );
 }
 
+function register_wp_user( $user = [] ) {
+    if ( !isset( $user['user_login'], $user['user_pass'], $user['user_email'] ) ){
+        return false;
+    }
+
+    $user_id = wp_create_user( $user['user_login'], $user['user_pass'], $user['user_email'] );
+    update_option( 'dt_base_user', $user_id, false );
+    wp_set_current_user( $user_id );
+
+    return !is_null( wp_get_current_user() ) ? $user_id : false;
+}
+
 function wp_credentials_factory( $params = [] )
 {
     $faker = Faker::create();

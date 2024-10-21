@@ -2,6 +2,9 @@
 
 namespace DT\Home\Sources;
 
+use DT\Home\Services\RolesPermissions;
+use function DT\Home\container;
+
 class UserApps extends AppSource {
     /**
      * Retrieves the raw array of home apps.
@@ -18,6 +21,17 @@ class UserApps extends AppSource {
             $result = [];
         }
         return $result;
+    }
+
+    /**
+     * Checks if the application is allowed.
+     *
+     * @param array $app The application data.
+     *
+     * @return bool True if the application is allowed, false otherwise.
+     */
+    public function is_allowed( array $app ): bool {
+        return container()->get( RolesPermissions::class )->has_permission( $app, get_current_user_id(), get_option( RolesPermissions::OPTION_KEY_CUSTOM_ROLES, [] ) );
     }
 
     /**

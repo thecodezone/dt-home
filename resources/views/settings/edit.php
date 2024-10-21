@@ -176,7 +176,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                             </td>
                         </tr>
                     <?php
-                    $roles_permissions_srv = $rewrites = container()->get( RolesPermissions::class );
+                    $roles_permissions_srv = container()->get( RolesPermissions::class );
                     $dt_custom_roles = get_option( $roles_permissions_srv::OPTION_KEY_CUSTOM_ROLES, [] );
                     ksort( $dt_custom_roles );
                     foreach ( $dt_custom_roles as $key => $role ) {
