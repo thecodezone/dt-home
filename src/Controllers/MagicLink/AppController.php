@@ -40,14 +40,14 @@ class AppController
     public function index( Request $request, $params )
     {
 
-        $key         = $params['key'];
-        $user        = get_current_user_id();
-        $apps_array  = $this->apps->for( $user );
-        $data        = json_encode( $apps_array );
+        $key = $params['key'];
+        $user = get_current_user_id();
+        $apps_array = $this->apps->for( $user );
+        $data = json_encode( $apps_array );
         $hidden_data = $data;
-        $app_url     = magic_url( '', $key );
-        $magic_link  = $app_url . '/share';
-        $reset_apps  = get_plugin_option( 'reset_apps' );
+        $app_url = magic_url( '', $key );
+        $magic_link = $app_url . '/share';
+        $reset_apps = get_plugin_option( 'reset_apps' );
         $button_color = get_plugin_option( 'button_color' );
 
         return template(
@@ -68,7 +68,7 @@ class AppController
      * Displays the app based on the provided slug.
      *
      * @param Request $request The request object.
-     * @param array   $params
+     * @param array $params
      *
      * @return ResponseInterface The response object.
      */
@@ -77,9 +77,9 @@ class AppController
         // Fetch the app
         $slug = $params['slug'];
         $user_id = get_current_user_id();
-        $app  = $this->apps->find_for( $slug, $user_id );
+        $app = $this->apps->find_for( $slug, $user_id );
 
-        if ( ! $app ) {
+        if ( !$app ) {
             return response( __( 'Not Found', 'dt-home' ), 404 );
         }
 
@@ -108,7 +108,7 @@ class AppController
 
         // Check to see if the app has an iframe URL
         $url = apply_filters( 'dt_home_webview_url', ( $app['url'] ?? '' ), $app );
-        if ( ! $url ) {
+        if ( !$url ) {
             // No URL found 404
             return response( __( 'Not Found', 'dt-home' ), 404 );
         }
@@ -190,5 +190,73 @@ class AppController
         update_user_option( get_current_user_id(), 'dt_home_apps', $this->apps->from( 'settings' ) );
 
         return response( [ 'message' => 'App order updated' ] );
+    }
+
+    /**
+     * Stores the user's apps by updating the 'dt_home_apps' option
+     *
+     * @param Request $request The request object.
+     *
+     * @return ResponseInterface The response containing a success message.
+     */
+    public function store_apps( Request $request )
+    {
+        $data = extract_request_input( $request );
+        $app_data = [
+            'name' => $data['name'] ?? 'test',
+            'type' => $data['type'] ?? 'Web View',
+            'icon' => $data['icon'] ?? '',
+            'url' => $data['url'],
+            'slug' => $data['slug'],
+            'open_in_new_tab' => $data['open_in_new_tab'] ?? false,
+        ];
+        $apps_array = $this->apps->from( 'user' );
+        $apps_array[] = $app_data;
+        $this->user_apps->save( $apps_array );
+
+        return response( [ 'message' => 'App has been added', 'app' => $app_data ] );
+    }
+
+    /**
+     * Updates the user's apps by updating the 'dt_home_apps' option
+     *
+     * @param Request $request The request object.
+     *
+     * @return ResponseInterface The response containing a success message.
+     */
+    public function update_apps( Request $request, $params )
+    {
+        $data = extract_request_input( $request );
+        $slug = $params['slug'];
+        $apps_array = $this->apps->from( 'user' );
+        foreach ( $apps_array as $key => $app ) {
+            if ( $app['slug'] == $slug ) {
+                $apps_array[$key] = [
+                    'name' => $data['name'],
+                    'type' => $data['type'],
+                    'icon' => $data['icon'],
+                    'url' => $data['url'],
+                    'slug' => $data['slug'],
+                    'open_in_new_tab' => $data['open_in_new_tab'] ?? false,
+                ];
+                break; // Stop the loop once the app is found and updated
+            }
+        }
+        $this->user_apps->save( $apps_array );
+
+        return response( [ 'message' => 'App has been updated', 'app' => $data ] );
+    }
+
+    /**
+     * Fetches all the apps for the current user.
+     *
+     * @return ResponseInterface The response containing the user's apps.
+     */
+    public function all()
+    {
+        $user = get_current_user_id();
+        $apps_array = $this->apps->for( $user );
+        $data = json_encode( $apps_array );
+        return response( $data );
     }
 }
