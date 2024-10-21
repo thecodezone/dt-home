@@ -4,14 +4,16 @@ msgstr ""
 "Project-Id-Version: DT Home 0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/dt-home\n"
 "POT-Creation-Date: 2024-09-23 10:57-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2024-10-15 14:59+0000\n"
+"Last-Translator: Kyle Koval <kyle.koval@gmail.com>\n"
+"Language-Team: Italian <https://translate.disciple.tools/projects/"
+"disciple-tools/disciple-tools-home-screen/it_IT/>\n"
 "Language: it_IT\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 3.4.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.7.2\n"
 "X-Domain: dt-home\n"
 "X-Poedit-Mapping: php=gettext:PHP\n"
 "X-Poedit-Basepath: ..\n"
@@ -34,98 +36,98 @@ msgstr ""
 
 #: config/assets.php:22
 msgid "Are you sure you want to remove this app?"
-msgstr ""
+msgstr "Sei sicuro di voler rimuovere questa app?"
 
 #: resources/views/auth/login.php:37
 msgid "Username or Email Address"
-msgstr ""
+msgstr "Nome Utente o Indirizzo Email"
 
 #: resources/views/auth/login.php:43 resources/views/auth/register.php:43
 msgid "Password"
-msgstr ""
+msgstr "Password"
 
 #: resources/views/auth/login.php:52
 msgid "Login"
-msgstr ""
+msgstr "Accedi"
 
 #: resources/views/auth/login.php:60 resources/views/auth/login.php:61
 msgid "Create Account"
-msgstr ""
+msgstr "Crea Profilo"
 
 #: resources/views/auth/login.php:73
 msgid "Forgot Password?"
-msgstr ""
+msgstr "Hai dimenticato la tua Password?"
 
 #: resources/views/auth/register.php:35
 msgid "Username"
-msgstr ""
+msgstr "Nome Utente"
 
 #: resources/views/auth/register.php:39
 msgid "Email"
-msgstr ""
+msgstr "Indirizzo Email"
 
 #: resources/views/auth/register.php:48
 msgid "Confirm Password"
-msgstr ""
+msgstr "Conferma Password"
 
 #: resources/views/auth/register.php:57
 msgid "Register"
-msgstr ""
+msgstr "Registrati"
 
 #: resources/views/auth/register.php:67
 msgid "Back to Login"
-msgstr ""
+msgstr "Torna alla pagina iniziale per accedere"
 
 #: resources/views/hidden-apps.php:28
 msgid "Name:"
-msgstr ""
+msgstr "Nome:"
 
 #: resources/views/hidden-apps.php:32
 msgid "Visit subpage"
-msgstr ""
+msgstr "Visita una pagina secondaria"
 
 #: resources/views/index.php:18
 msgid "Copy this link and share it with people you are coaching"
-msgstr ""
+msgstr "Copia questo link e condividilo con coloro per i quali fai da mentore"
 
 #: resources/views/index.php:42
 msgid "Hidden Apps"
-msgstr ""
+msgstr "App Nascoste"
 
 #: resources/views/index.php:43
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #: resources/views/layouts/plugin.php:11
 #: resources/views/settings/create.php:24
 #: resources/views/settings/edit.php:23 src/Services/Settings.php:51
 msgid "Apps"
-msgstr ""
+msgstr "Le App"
 
 #: resources/views/layouts/plugin.php:12 resources/views/training.php:8
 msgid "Training"
-msgstr ""
+msgstr "Formazione"
 
 #: resources/views/layouts/plugin.php:14
 msgid "Log Out"
-msgstr ""
+msgstr "Uscire"
 
 #: resources/views/layouts/settings.php:12 src/Services/Settings.php:38
 #: src/Services/Settings.php:39
 msgid "Home Screen"
-msgstr ""
+msgstr "Schermata Iniziale"
 
 #: resources/views/layouts/settings.php:15
 msgid "Part of the DT Toolbox"
-msgstr ""
+msgstr "Parte degli Attrezzi di Disciple.Tools"
 
 #: resources/views/settings/app.php:17
 msgid "Available Apps"
-msgstr ""
+msgstr "App Disponibili"
 
 #: resources/views/settings/app.php:23
 msgid "Add App"
-msgstr ""
+msgstr "Aggiungere una App"
 
 #: resources/views/settings/app.php:30
 #: resources/views/settings/available-apps.php:26
@@ -135,87 +137,87 @@ msgstr ""
 #: resources/views/settings/training/create.php:18
 #: resources/views/settings/training/edit.php:27
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: resources/views/settings/app.php:31
 #: resources/views/settings/available-apps.php:27
 #: resources/views/settings/create.php:41
 #: resources/views/settings/edit.php:43
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: resources/views/settings/app.php:32 resources/views/settings/app.php:59
 #: resources/views/settings/available-apps.php:28
 #: resources/views/settings/available-apps.php:46
 #: resources/views/settings/edit.php:83
 msgid "Icon"
-msgstr ""
+msgstr "Icona"
 
 #: resources/views/settings/app.php:33
 #: resources/views/settings/available-apps.php:29
 #: resources/views/settings/create.php:90
 #: resources/views/settings/edit.php:118
 msgid "Slug"
-msgstr ""
+msgstr "Parole Chiavi che descrivono la pagina"
 
 #: resources/views/settings/app.php:34
 #: resources/views/settings/available-apps.php:30
 #: resources/views/settings/training.php:35
 msgid "Action"
-msgstr ""
+msgstr "Azione"
 
 #: resources/views/settings/app.php:67
 #: resources/views/settings/training.php:45
 msgid "Up"
-msgstr ""
+msgstr "Su"
 
 #: resources/views/settings/app.php:69
 msgid "Unhide"
-msgstr ""
+msgstr "Mostrare"
 
 #: resources/views/settings/app.php:71
 msgid "Hide"
-msgstr ""
+msgstr "Nascondere"
 
 #: resources/views/settings/app.php:73
 #: resources/views/settings/training.php:46
 msgid "Edit"
-msgstr ""
+msgstr "Modificare"
 
 #: resources/views/settings/app.php:74
 #: resources/views/settings/training.php:48
 msgid "Down"
-msgstr ""
+msgstr "Giù"
 
 #: resources/views/settings/app.php:78 resources/views/settings/app.php:83
 #: resources/views/settings/training.php:47
 msgid "Delete"
-msgstr ""
+msgstr "Cancellare"
 
 #: resources/views/settings/app.php:97 resources/views/settings/app.php:105
 msgid "Are you sure you want to delete this app?"
-msgstr ""
+msgstr "Sei sicuro di voler eliminare questa app?"
 
 #: resources/views/settings/available-apps.php:17
 msgid "Go Back"
-msgstr ""
+msgstr "Indietro"
 
 #: resources/views/settings/available-apps.php:36
 msgid "No apps found"
-msgstr ""
+msgstr "Nessuna App Ritrovata"
 
 #: resources/views/settings/available-apps.php:58
 msgid "Restore"
-msgstr ""
+msgstr "Ripristina"
 
 #: resources/views/settings/available-apps.php:73
 msgid "Are you sure you want to restore this app?"
-msgstr ""
+msgstr "Sei sicuro di voler ripristinare questa app?"
 
 #: resources/views/settings/create.php:33
 #: resources/views/settings/edit.php:33
 msgid "Enter the name of the app."
-msgstr ""
+msgstr "Inserisci il nome dell'app."
 
 #: resources/views/settings/create.php:37
 #: resources/views/settings/create.php:71
@@ -225,220 +227,224 @@ msgstr ""
 #: resources/views/settings/training/edit.php:34
 #: resources/views/settings/training/edit.php:60
 msgid "The name cannot be empty or just whitespace."
-msgstr ""
+msgstr "Il nome non può essere lasciato vuoto."
 
 #: resources/views/settings/create.php:43
 #: resources/views/settings/edit.php:45
 msgid "Select the type of the app."
-msgstr ""
+msgstr "Seleziona il tipo di app."
 
 #: resources/views/settings/create.php:48
 #: resources/views/settings/edit.php:51
 msgid "Please select"
-msgstr ""
+msgstr "Seleziona"
 
 #: resources/views/settings/create.php:49
 #: resources/views/settings/edit.php:54
 msgid "Web View"
-msgstr ""
+msgstr "Visualizzazione Web"
 
 #: resources/views/settings/create.php:50
 #: resources/views/settings/edit.php:57
 msgid "Link"
-msgstr ""
+msgstr "Link"
 
 #: resources/views/settings/create.php:56
 #: resources/views/settings/edit.php:64
 msgid "Open link in new tab"
-msgstr ""
+msgstr "Apri il link in una nuova scheda"
 
 #: resources/views/settings/create.php:58
 #: resources/views/settings/edit.php:66
 msgid "Check this box to open the link in a new tab."
-msgstr ""
+msgstr "Spunta questa casella per aprire il link in una nuova scheda."
 
 #: resources/views/settings/create.php:66
 #: resources/views/settings/edit.php:75
 msgid "Icon (File Upload)"
-msgstr ""
+msgstr "Icona (Caricare File)"
 
 #: resources/views/settings/create.php:68
 #: resources/views/settings/edit.php:77
 msgid "Upload an icon for the app."
-msgstr ""
+msgstr "Caricare un'icona per l'app."
 
 #: resources/views/settings/create.php:75
 #: resources/views/settings/edit.php:98
 msgid "Change Icon"
-msgstr ""
+msgstr "Cambiare Icona"
 
 #: resources/views/settings/create.php:80
 #: resources/views/settings/edit.php:105
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: resources/views/settings/create.php:82
 #: resources/views/settings/edit.php:107
 msgid "Enter the URL for the app."
-msgstr ""
+msgstr "Inserisci l'URL per l'app."
 
 #: resources/views/settings/create.php:92
 #: resources/views/settings/edit.php:120
 msgid "Enter a slug for the app."
-msgstr ""
+msgstr "Inserisci delle parole chiavi che descrivono l'app."
 
 #: resources/views/settings/create.php:100
 #: resources/views/settings/edit.php:130
 msgid "Is Hidden"
-msgstr ""
+msgstr "È Nascosta"
 
 #: resources/views/settings/create.php:102
 #: resources/views/settings/edit.php:132
 msgid "Check this box to hide the app."
-msgstr ""
+msgstr "Spunta questa casella per nascondere l'app."
 
 #: resources/views/settings/create.php:116
 #: resources/views/settings/edit.php:146
 #: resources/views/settings/training/create.php:69
 #: resources/views/settings/training/edit.php:82
 msgid "Cancel"
-msgstr ""
+msgstr "Annulla"
 
 #: resources/views/settings/create.php:118
 #: resources/views/settings/training/create.php:71
 msgid "Submit"
-msgstr ""
+msgstr "Inoltrare"
 
 #: resources/views/settings/create.php:123
 msgid "Search for icons..."
-msgstr ""
+msgstr "Cerca le icone..."
 
 #: resources/views/settings/create.php:129
 msgid "Close"
-msgstr ""
+msgstr "Chiudere"
 
 #: resources/views/settings/edit.php:148
 #: resources/views/settings/general.php:55
 #: resources/views/settings/training/edit.php:84
 msgid "Update"
-msgstr ""
+msgstr "Aggiornare"
 
 #: resources/views/settings/general.php:24
 msgid "Require users to login to access the home screen magic link?"
 msgstr ""
+"Richiedere agli utenti di accedere per aver accesso al magic link della "
+"schermata iniziale?"
 
 #: resources/views/settings/general.php:35
 msgid "Allow users to reset their apps?"
-msgstr ""
+msgstr "Permettere agli utenti di ripristinare le loro app?"
 
 #: resources/views/settings/training.php:23
 msgid "Add Training"
-msgstr ""
+msgstr "Aggiungere una Formazione"
 
 #: resources/views/settings/training.php:33
 #: resources/views/settings/training/create.php:29
 #: resources/views/settings/training/edit.php:39
 msgid "Embed Video"
-msgstr ""
+msgstr "Incorporare un Video"
 
 #: resources/views/settings/training.php:34
 #: resources/views/settings/training/create.php:41
 #: resources/views/settings/training/edit.php:53
 msgid "Anchor"
-msgstr ""
+msgstr "Ancorare"
 
 #: resources/views/settings/training.php:61
 msgid "Are you sure you want to delete this entry?"
-msgstr ""
+msgstr "Sei sicuro di voler cancellare questa voce?"
 
 #: resources/views/settings/training/create.php:10
 #: resources/views/settings/training/edit.php:18 src/Services/Settings.php:55
 msgid "Training Videos"
-msgstr ""
+msgstr "Video della Formazione"
 
 #: resources/views/settings/training/create.php:20
 #: resources/views/settings/training/edit.php:29
 msgid "Enter the name of the training video."
-msgstr ""
+msgstr "Inserisci il nome del video della formazione."
 
 #: resources/views/settings/training/create.php:31
 #: resources/views/settings/training/edit.php:41
 msgid "Paste the embed code for the video."
-msgstr ""
+msgstr "Incolla il codice di incorporamento per il video."
 
 #: resources/views/settings/training/create.php:36
 msgid "The embed Video cannot be empty or just whitespace."
-msgstr ""
+msgstr "Lo spazio per il video incorporato non può essere lasciato vuoto."
 
 #: resources/views/settings/training/create.php:43
 #: resources/views/settings/training/edit.php:55
 msgid "Specify the anchor text for the video."
-msgstr ""
+msgstr "Specificare il testo di ancoraggio per il video."
 
 #: resources/views/settings/training/create.php:48
 msgid "The anchor text cannot be empty or just whitespace."
-msgstr ""
+msgstr "Lo spazio per il testo di ancoraggio non può essere lasciato vuoto."
 
 #: resources/views/settings/training/create.php:53
 #: resources/views/settings/training/edit.php:65
 msgid "Sort"
-msgstr ""
+msgstr "Ordinare"
 
 #: resources/views/settings/training/create.php:55
 #: resources/views/settings/training/edit.php:67
 msgid "Set the sort order for the video."
-msgstr ""
+msgstr "Impostare l'ordine di visualizzazione dei video."
 
 #: resources/views/settings/training/edit.php:46
 msgid "The video embed cannot be empty or just whitespace."
-msgstr ""
+msgstr "Lo spazio per incorporare i video non può essere lasciato vuoto."
 
 #: src/Controllers/Admin/AppSettingsController.php:446
 msgid "App not found"
-msgstr ""
+msgstr "App non ritrovata"
 
 #: src/Controllers/LoginController.php:75
 #: src/Controllers/RegisterController.php:85
 msgid "An unexpected error has occurred."
-msgstr ""
+msgstr "È avvenuto un errore inaspettato."
 
 #: src/Controllers/MagicLink/AppController.php:40
 #: src/Controllers/MagicLink/AppController.php:70
 msgid "Not Found"
-msgstr ""
+msgstr "Non Ritrovata"
 
 #: src/Controllers/RegisterController.php:66
 msgid "Please fill out all fields."
-msgstr ""
+msgstr "Compilare tutti i campi."
 
 #: src/Controllers/RegisterController.php:70
 msgid "Passwords do not match."
-msgstr ""
+msgstr "Le password non combaciano."
 
 #: src/Services/Assets.php:342
 msgid "Upload Icon"
-msgstr ""
+msgstr "Caricare Icona"
 
 #: src/Services/Assets.php:343
 msgid "Upload"
-msgstr ""
+msgstr "Caricare"
 
 #: src/Services/Settings.php:47
 msgid "General"
-msgstr ""
+msgstr "Generale"
 
 #. Plugin Name of the plugin/theme
 msgid "DT Home"
-msgstr ""
+msgstr "Schermata Iniziale Disciple.Tools"
 
 #. Plugin URI of the plugin/theme
 msgid "https://github.com/thecodezone/dt-home"
-msgstr ""
+msgstr "https://github.com/thecodezone/dt-home-it"
 
 #. Description of the plugin/theme
 msgid "An app home screen for disciple.tools. Part of the DT Toolbox."
 msgstr ""
+"Una app schermata iniziale per disciple.tools. Parte degli attrezzi di "
+"disciple.tools."
 
 #. Author URI of the plugin/theme
 msgid "https://github.com/thecodezone"
-msgstr ""
+msgstr "https://github.com/thecodezone"
