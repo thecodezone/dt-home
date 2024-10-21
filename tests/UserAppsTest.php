@@ -568,4 +568,259 @@ class UserAppsTest extends TestCase
             $this->assertContains( $slug, $merged_slugs );
         }
     }
+
+    /**
+     * @test
+     */
+    public function it_find_index_of_an_app()
+    {
+        $user_id = 1;
+        $this->acting_as( $user_id );
+
+        $apps = [
+            app_factory( [ 'slug' => 'app1', 'sort' => 1 ] ),
+            app_factory( [ 'slug' => 'app2', 'sort' => 2 ] )
+        ];
+
+        $source = container()->get( UserApps::class );
+        $source->save_for( $user_id, $apps );
+
+        $index = $source->find_index( 'app1' );
+        $this->assertEquals( 0, $index );
+
+        $index = $source->find_index( 'app2' );
+        $this->assertEquals( 1, $index );
+    }
+
+    /**
+     * @test
+     */
+    public function it_sorts_an_apps_array()
+    {
+        $user_id = 1;
+        $this->acting_as( $user_id );
+
+        $source = container()->get( UserApps::class );
+
+        $apps = [
+            app_factory( [ 'slug' => 'app1', 'sort' => 2 ] ),
+            app_factory( [ 'slug' => 'app2', 'sort' => 1 ] ),
+            app_factory( [ 'slug' => 'app3', 'sort' => 3 ] )
+        ];
+
+        $source->save_for( $user_id, $apps );
+
+        $items = $source->for( $user_id );
+
+        // Test sorting in ascending order
+        $sortedItems = $source->sort( $items, [ 'key' => 'sort', 'asc' => true ] );
+        $this->assertEquals( 'app2', $sortedItems[0]['slug'] );
+        $this->assertEquals( 'app1', $sortedItems[1]['slug'] );
+        $this->assertEquals( 'app3', $sortedItems[2]['slug'] );
+
+        // Test sorting in descending order
+        $sortedItems = $source->sort( $items, [ 'key' => 'sort', 'asc' => false ] );
+        $this->assertEquals( 'app3', $sortedItems[0]['slug'] );
+        $this->assertEquals( 'app1', $sortedItems[1]['slug'] );
+        $this->assertEquals( 'app2', $sortedItems[2]['slug'] );
+
+        // Test sorting with reset
+        $sortedItems = $source->sort( $items, [ 'key' => 'sort', 'asc' => true, 'reset' => true ] );
+        $this->assertEquals( 0, $sortedItems[0]['sort'] );
+        $this->assertEquals( 1, $sortedItems[1]['sort'] );
+        $this->assertEquals( 2, $sortedItems[2]['sort'] );
+
+        // Test sorting with missing key
+        $itemsWithMissingKey = [
+            app_factory( [ 'slug' => 'app1' ] ), // 'sort' key is omitted
+            app_factory( [ 'slug' => 'app2' ] )  // 'sort' key is omitted
+        ];
+        // Manually remove the 'sort' key
+        foreach ( $itemsWithMissingKey as &$item ) {
+            unset( $item['sort'] );
+        }
+        unset( $item ); // Break the reference with the last element
+
+        $sortedItems = $source->sort( $itemsWithMissingKey, [ 'key' => 'sort', 'asc' => true ] );
+
+        $this->assertEquals( $itemsWithMissingKey, $sortedItems );
+    }
+
+    /**
+     * @test
+     */
+    public function it_sets_an_apps_values()
+    {
+        $user_id = 1;
+        $this->acting_as( $user_id );
+
+        $source = container()->get( UserApps::class );
+
+        // Create apps
+        $apps = [
+            app_factory( [ 'slug' => 'app1', 'sort' => 2 ] ),
+            app_factory( [ 'slug' => 'app2', 'sort' => 1 ] )
+        ];
+
+        // Save the apps
+        $source->save_for( $user_id, $apps );
+
+        // Set a new value for an existing key
+        $newSortValue = 10;
+        $result = $source->set( 'app1', 'sort', $newSortValue );
+
+        // Verify the value is updated correctly
+        $this->assertEquals( $newSortValue, $result );
+
+        // Verify the value in the item
+        $item = $source->find( 'app1' );
+        $this->assertEquals( $newSortValue, $item['sort'] );
+
+        // Test setting a value for a non-existent key
+        $nonExistentKeyResult = $source->set( 'non-existent-app', 'sort', 5 );
+        $this->assertFalse( $nonExistentKeyResult );
+    }
+
+    /**
+     * @test
+     */
+    public function it_toggles_an_apps_value()
+    {
+        $user_id = 1;
+        $this->acting_as( $user_id );
+
+        $source = container()->get( UserApps::class );
+
+        // Create apps
+        $apps = [
+            app_factory( [ 'slug' => 'app1', 'is_hidden' => false ] ),
+            app_factory( [ 'slug' => 'app2', 'is_hidden' => true ] )
+        ];
+
+        // Save the apps
+        $source->save_for( $user_id, $apps );
+
+        // Toggle the 'is_hidden' value for 'app1'
+        $toggledValue = $source->toggle( 'app1', 'is_hidden' );
+
+        // Verify the value is toggled correctly
+        $this->assertTrue( $toggledValue );
+
+        // Verify the value in the item
+        $item = $source->find( 'app1' );
+        $this->assertTrue( $item['is_hidden'] );
+
+        // Toggle the 'is_hidden' value for 'app2'
+        $toggledValue = $source->toggle( 'app2', 'is_hidden' );
+
+        // Verify the value is toggled correctly
+        $this->assertFalse( $toggledValue );
+
+        // Verify the value in the item
+        $item = $source->find( 'app2' );
+        $this->assertFalse( $item['is_hidden'] );
+    }
+
+    /**
+     * @test
+     */
+    public function it_retrieves_apps_value()
+    {
+        $user_id = 1;
+        $this->acting_as( $user_id );
+
+        $source = container()->get( UserApps::class );
+
+        // Create apps
+        $apps = [
+            app_factory( [ 'slug' => 'app1', 'sort' => 2 ] ),
+            app_factory( [ 'slug' => 'app2', 'sort' => 1 ] )
+        ];
+
+        // Save the apps
+        $source->save_for( $user_id, $apps );
+
+        // Retrieve the value for an existing key
+        $sortValue = $source->value( 'app1', 'sort' );
+        $this->assertEquals( 2, $sortValue );
+
+        // Retrieve the value for a non-existent key
+        $nonExistentValue = $source->value( 'app1', 'non_existent_key' );
+        $this->assertNull( $nonExistentValue );
+
+        // Retrieve the value for a non-existent item
+        $nonExistentItemValue = $source->value( 'non_existent_app', 'sort' );
+        $this->assertNull( $nonExistentItemValue );
+    }
+
+    /**
+     * @test
+     */
+    public function it_retrieves_the_first_app()
+    {
+        $user_id = 1;
+        $this->acting_as( $user_id );
+
+        $source = container()->get( UserApps::class );
+
+        // Test with a non-empty array
+        $apps = [
+            app_factory( [ 'slug' => 'app1', 'sort' => 2 ] ),
+            app_factory( [ 'slug' => 'app2', 'sort' => 1 ] )
+        ];
+        // Save the apps
+        $source->save_for( $user_id, $apps );
+        // Retrieve the first item
+        $firstItem = $source->first( $apps );
+        // Verify the first item is correct
+        $this->assertEquals( $apps[0], $firstItem );
+
+        // Test with an empty array
+        $items = [];
+        $firstItem = $source->first( $items );
+        $this->assertNull( $firstItem );
+    }
+
+
+    /**
+     * @test
+     */
+    public function it_updates_an_apps_value()
+    {
+        $user_id = 1;
+        $this->acting_as( $user_id );
+
+        $source = container()->get( UserApps::class );
+
+        // Create and save initial apps
+        $apps = [
+            app_factory( [ 'slug' => 'app1', 'sort' => 1 ] ),
+            app_factory( [ 'slug' => 'app2', 'sort' => 2 ] )
+        ];
+
+        $source->save_for( $user_id, $apps );
+
+        // Verify the initial state of the apps
+        $savedApps = $source->for( $user_id );
+
+        $this->assertCount( 2, $savedApps );
+        $this->assertEquals( 'app1', $savedApps[0]['slug'] );
+        $this->assertEquals( 'app2', $savedApps[1]['slug'] );
+
+        // Update an existing item
+        $updatedItem = app_factory( [ 'slug' => 'app1', 'sort' => 3, 'source' => 'user' ] );
+        $result = $source->update( 'app1', $updatedItem );
+
+        // Verify the update result
+        $this->assertTrue( $result );
+
+        // Verify the item is updated
+        $item = $source->find( 'app1' );
+
+        $this->assertEquals( $updatedItem, $item );
+
+        // Attempt to update a non-existent item
+        $nonExistentUpdate = $source->update( 'non_existent_app', $updatedItem );
+        $this->assertFalse( $nonExistentUpdate );
+    }
 }
