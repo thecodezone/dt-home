@@ -72,10 +72,10 @@ class RolesPermissions {
 
     /**
      * Register plugin specific D.T Capabilities.
-     * @param $capabilities
+     * @param array $capabilities
      * @return array
      */
-    public function dt_capabilities( $capabilities ): array {
+    public function dt_capabilities( array $capabilities ): array {
         if ( $this->is_enabled() ) {
             $capabilities = array_merge( $capabilities, $this->default_capabilities() );
         }
@@ -111,10 +111,10 @@ class RolesPermissions {
 
     /**
      * Register plugin specific D.T Roles & Permissions.
-     * @param $expected_roles
+     * @param array $expected_roles
      * @return array
      */
-    public function dt_set_roles_and_permissions( $expected_roles ): array {
+    public function dt_set_roles_and_permissions( array $expected_roles ): array {
         if ( $this->is_enabled() ) {
             $dt_custom_roles = get_option( self::OPTION_KEY_CUSTOM_ROLES, [] );
 
@@ -137,7 +137,6 @@ class RolesPermissions {
                      * capture and persist; to ensure selected flag state is made
                      * available further downstream for processing.
                      *
-
                     if ( !is_array( $dt_custom_roles[$role]['capabilities'] ) ) {
                     $dt_custom_roles[$role]['capabilities'] = [];
                     }
@@ -183,7 +182,7 @@ class RolesPermissions {
      * @return bool
      */
     public function update( string $app_slug, array $permissions, array $roles = [], array $deleted_roles = [] ): bool {
-        $dt_custom_roles = array_map( function( $custom_role ) use ( $permissions, $roles, $deleted_roles ) {
+        $dt_custom_roles = array_map( function ( $custom_role ) use ( $permissions, $roles, $deleted_roles ) {
             if ( isset( $custom_role['slug'] ) ) {
                 $custom_role_slug = $custom_role['slug'];
 
@@ -209,7 +208,6 @@ class RolesPermissions {
             }
 
             return $custom_role;
-
         }, get_option( self::OPTION_KEY_CUSTOM_ROLES, [] ) );
 
         // Persist updated global custom roles.
@@ -263,7 +261,7 @@ class RolesPermissions {
             if ( !$dt_custom_roles_checked ) {
                 if ( isset( $app['roles'] ) && is_array( $app['roles'] ) ) {
                     foreach ( $user->roles as $role ) {
-                        if ( !$has_permission  ) {
+                        if ( !$has_permission ) {
                             $has_permission = in_array( $role, $app['roles'] );
                         }
                     }

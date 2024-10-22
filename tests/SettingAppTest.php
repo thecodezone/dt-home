@@ -195,10 +195,10 @@ class SettingAppTest extends TestCase
 
         $source = container()->get( SettingsApps::class );
         $source->save( $apps );
-        $allApps = $source->all( [ 'filter' => false ] );
+        $all_apps = $source->all( [ 'filter' => false ] );
 
         $app_slugs = array_column( $apps, 'slug' );
-        $setting_app_slugs = array_column( $allApps, 'slug' );
+        $setting_app_slugs = array_column( $all_apps, 'slug' );
 
         // Verify each slug is present in the retrieved user apps
         foreach ( $app_slugs as $slug ) {
@@ -206,7 +206,7 @@ class SettingAppTest extends TestCase
         }
 
         // Assert that the allApps array contains all the apps
-        $this->assertCount( 2, $allApps );
+        $this->assertCount( 2, $all_apps );
     }
 
     /**
