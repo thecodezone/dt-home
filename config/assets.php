@@ -26,6 +26,8 @@ $config->merge([
                 'reset_app_confirmation' => __( 'Are you sure you want to reset all apps?', 'dt-home' ),
                 'no_hidden_apps' => __( 'No hidden apps available', 'dt-home' ),
                 'custom_app_label' => __( 'Custom App', 'dt-home' ),
+                'add_custom_app_label' => __( 'Add Custom App', 'dt-home' ),
+                'edit_custom_app_label' => __( 'Edit Custom App', 'dt-home' ),
                 'reset_apps_label' => __( 'Reset Apps', 'dt-home' ),
                 'name_label' => __( 'Name', 'dt-home' ),
                 'open_new_tab_label' => __( 'Open NewTab', 'dt-home' ),
@@ -33,8 +35,10 @@ $config->merge([
                 'icon_label' => __( 'Icon', 'dt-home' ),
                 'type_label' => __( 'Type', 'dt-home' ),
                 'slug_label' => __( 'Slug', 'dt-home' ),
-                'submit_label' => __( 'Submit', 'dt-home' ),
+                'submit_label' => __( 'Save', 'dt-home' ),
                 'close_label' => __( 'Close', 'dt-home' ),
+                'remove_menu_label' => __( 'Remove', 'dt-home' ),
+                'edit_menu_label' => __( 'Edit', 'dt-home' ),
 
             ]
         ],

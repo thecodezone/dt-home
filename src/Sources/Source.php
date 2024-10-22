@@ -2,9 +2,6 @@
 
 namespace DT\Home\Sources;
 
-use DT\Home\Services\Aggregator;
-use function DT\Home\config;
-
 /**
  * Base repository class for interacting with a queried data-feed
  * likely pulled from a database, API or some other source.
@@ -32,7 +29,8 @@ abstract class Source
      *
      * @return string The sort key if found in the first item of $items
      */
-    public function sort_key() {
+    public function sort_key()
+    {
         return 'sort';
     }
 
@@ -41,7 +39,8 @@ abstract class Source
      *
      * @return string The key used to find the item.
      */
-    public function find_key() {
+    public function find_key()
+    {
         return 'slug';
     }
 
@@ -64,7 +63,8 @@ abstract class Source
      *
      * @return array An array containing all the items.
      */
-    public function all( array $params = [] ): array {
+    public function all( array $params = [] ): array
+    {
         return $this->formatted( $params );
     }
 
@@ -74,7 +74,8 @@ abstract class Source
      * @param array $params An array of parameters for fetching data.
      * @return array An array containing the fetched data formatted for saving.
      */
-    public function fetch_for_save( array $params = [] ): array {
+    public function fetch_for_save( array $params = [] ): array
+    {
         return $this->formatted( $params );
     }
 
@@ -85,7 +86,8 @@ abstract class Source
      *
      * @return array The formatted item.
      */
-    protected function format( array $items ): array {
+    protected function format( array $items ): array
+    {
         $items = array_map(function ( $item ) {
             return $this->format_item( $item );
         }, $items);
@@ -101,7 +103,8 @@ abstract class Source
      *
      * @return array The formatted item data.
      */
-    protected function format_item( array $item ): array {
+    protected function format_item( array $item ): array
+    {
         return $item;
     }
 
@@ -112,35 +115,36 @@ abstract class Source
      *
      * @return array The item array sorted by the 'sort' field in ascending order.
      */
-    public function sort( array $items, array $params = [] ): array {
+    public function sort( array $items, array $params = [] ): array
+    {
         $key = $params['key'] ?? $this->sort_key();
         $asc = $params['asc'] ?? true;
         $reset = $params['reset'] ?? false;
 
-        if ( !isset( $items[0][ $key ] ) ) {
+        if ( !isset( $items[0][$key] ) ) {
             return $items;
         }
 
-        usort( $items, function ( $a, $b ) use ( $key, $asc ) {
-            if ( !isset( $a[ $key ], $b[ $key ] ) || ( $a[ $key ] === $b[ $key ] ) ) {
+        usort($items, function ( $a, $b ) use ( $key, $asc ) {
+            if ( !isset( $a[$key], $b[$key] ) || ( $a[$key] === $b[$key] ) ) {
                 return 0;
             }
 
             if ( $asc ) {
-                return ( $a[ $key ] < $b[ $key ] ) ? -1 : 1;
+                return ( $a[$key] < $b[$key] ) ? -1 : 1;
             } else {
-                return ( $a[ $key ] > $b[ $key ] ) ? -1 : 1;
+                return ( $a[$key] > $b[$key] ) ? -1 : 1;
             }
-        } );
+        });
 
         if ( $reset ) {
             $count = 0;
 
-            $items = array_map( function ( $item ) use ( $key, &$count ) {
-                $item[ $key ] = $count++;
+            $items = array_map(function ( $item ) use ( $key, &$count ) {
+                $item[$key] = $count++;
 
                 return $item;
-            }, $items );
+            }, $items);
         }
 
         return $items;
@@ -153,10 +157,11 @@ abstract class Source
      * @param array $params Optional parameters to apply when retrieving item
      * @return array The filtered array containing the element(s) with the provided slug
      */
-    public function find( $find_key_value, array $params = [] ) {
-        $item = $this->first( array_filter( $this->all( $params ), function ( $item ) use ( $find_key_value ) {
+    public function find( $find_key_value, array $params = [] )
+    {
+        $item = $this->first(array_filter($this->all( $params ), function ( $item ) use ( $find_key_value ) {
             return $item[$this->find_key()] === $find_key_value;
-        }) );
+        }));
 
         return !is_null( $item ) ? $item : [];
     }
@@ -170,6 +175,7 @@ abstract class Source
     public function find_index( $value, array $params = [] )
     {
         $items = $this->all( $params );
+
         return array_search( $value, array_column( $items, $this->find_key() ) );
     }
 
@@ -183,13 +189,14 @@ abstract class Source
      * @param array $save_params Optional parameters to apply when saving the updated array
      * @return bool|array False if the element with the provided slug does not exist, otherwise returns the updated array after saving
      */
-    public function set( string $find_key_value, string $key, $value, array $params = [], array $save_params = [] ) {
+    public function set( string $find_key_value, string $key, $value, array $params = [], array $save_params = [] )
+    {
         $items = $this->fetch_for_save( $params );
         $index = array_search( $find_key_value, array_column( $items, $this->find_key() ) );
         if ( $index === false ) {
             return false;
         }
-        $items[ $index ][ $key ] = $value;
+        $items[$index][$key] = $value;
         $this->save( $items, $save_params );
         return $this->value( $find_key_value, $key );
     }
@@ -202,7 +209,8 @@ abstract class Source
      * @param array $params Optional parameters to apply when retrieving item
      * @return mixed The new value of the toggled key
      */
-    public function toggle( string $find_key_value, string $key, array $params = [], array $save_params = [] ) {
+    public function toggle( string $find_key_value, string $key, array $params = [], array $save_params = [] )
+    {
         $value = $this->value( $find_key_value, $key, $params );
         $this->set( $find_key_value, $key, !$value, $params, $save_params );
         return $this->value( $find_key_value, $key, $params );
@@ -216,13 +224,14 @@ abstract class Source
      * @return mixed|null The value associated with the given key of the element with the provided slug,
      *                    or null if no element is found with the given slug
      */
-    public function value( string $find_key_value, string $key, $params = [] ) {
+    public function value( string $find_key_value, string $key, $params = [] )
+    {
         $items = $this->raw( $params );
         $index = array_search( $find_key_value, array_column( $items, $this->find_key() ) );
         if ( $index === false ) {
             return null;
         }
-        return $items[ $index ][ $key ];
+        return $items[$index][$key] ?? null;
     }
 
     /**
@@ -232,8 +241,9 @@ abstract class Source
      *
      * @return bool True if the item is visible, false otherwise.
      */
-    public function is_visible( array $item ): bool {
-        return ! $item['is_hidden'];
+    public function is_visible( array $item ): bool
+    {
+        return !$item['is_hidden'];
     }
 
     /**
@@ -242,10 +252,11 @@ abstract class Source
      * @param array $items Array of item.
      * @return array Hidden item.
      */
-    public function hidden( array $items ): array {
-        return array_filter( $items, function ( $item ) {
+    public function hidden( array $items ): array
+    {
+        return array_filter($items, function ( $item ) {
             return !$this->is_visible( $item );
-        } );
+        });
     }
 
     /**
@@ -254,7 +265,8 @@ abstract class Source
      * @param array $items The input array.
      * @return mixed|null The first element of the array or null if the array is empty.
      */
-    public function first( array $items ) {
+    public function first( array $items )
+    {
         return !empty( $items ) ? $items[array_key_first( $items )] : null;
     }
 
@@ -265,12 +277,13 @@ abstract class Source
      * @param array $params Optional parameters to apply when retrieving item.
      * @return array All deleted item data.
      */
-    public function deleted( array $params = [] ): array {
+    public function deleted( array $params = [] ): array
+    {
         $params = array_merge( $params, [ 'filter' => false ] );
         $items = $this->all( $params );
-        $filtered = array_filter( $items, function ( $item ) {
+        $filtered = array_filter($items, function ( $item ) {
             return $item['is_deleted'] === true;
-        } );
+        });
         return $filtered;
     }
 
@@ -280,11 +293,12 @@ abstract class Source
      * @param array $params Additional parameters for filtering.
      * @return array Undeleted item data.
      */
-    public function undeleted( array $params = [] ): array {
+    public function undeleted( array $params = [] ): array
+    {
         $items = $this->all( $params );
-        $filtered = array_filter( $items, function ( $item ) {
+        $filtered = array_filter($items, function ( $item ) {
             return $item['is_deleted'] !== true;
-        } );
+        });
         return $filtered;
     }
 
@@ -297,13 +311,14 @@ abstract class Source
      * @param array $save_params Optional parameters to apply when saving the updated item.
      * @return bool|array Returns false if the item is not found, otherwise returns the updated item data.
      */
-    public function update( string $find_key_value, array $item, array $params = [], $save_params = [] ) {
+    public function update( string $find_key_value, array $item, array $params = [], $save_params = [] )
+    {
         $items = $this->fetch_for_save( $params );
         $index = array_search( $find_key_value, array_column( $items, $this->find_key() ) );
         if ( $index === false ) {
             return false;
         }
-        $items[ $index ] = $item;
+        $items[$index] = $item;
         return $this->save( $items, $save_params );
     }
 
@@ -316,13 +331,14 @@ abstract class Source
      *
      * @return bool Returns true if the item was successfully deleted.
      */
-    public function delete( string $slug, array $params = [], $save_params = [] ) {
+    public function delete( string $slug, array $params = [], $save_params = [] )
+    {
         $items = $this->fetch_for_save( $params );
         $index = array_search( $slug, array_column( $items, $this->find_key() ) );
         if ( $index === false ) {
             return false;
         }
-        unset( $items[ $index ] );
+        unset( $items[$index] );
         return $this->save( $items, $save_params );
     }
 }
