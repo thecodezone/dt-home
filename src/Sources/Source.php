@@ -155,15 +155,13 @@ abstract class Source
      *
      * @param string|int $find_key_value The value of the element to find
      * @param array $params Optional parameters to apply when retrieving item
-     * @return array The filtered array containing the element(s) with the provided slug
+     * @return array|null The filtered array containing the element(s) with the provided slug or null if not found
      */
     public function find( $find_key_value, array $params = [] )
     {
-        $item = $this->first(array_filter($this->all( $params ), function ( $item ) use ( $find_key_value ) {
+        return $this->first(array_filter($this->all( $params ), function ( $item ) use ( $find_key_value ) {
             return $item[$this->find_key()] === $find_key_value;
         }));
-
-        return !is_null( $item ) ? $item : [];
     }
 
     /**
@@ -193,7 +191,7 @@ abstract class Source
     {
         $items = $this->fetch_for_save( $params );
         $index = array_search( $find_key_value, array_column( $items, $this->find_key() ) );
-        if ( $index === false ) {
+		if ( $index === false ) {
             return false;
         }
         $items[$index][$key] = $value;
