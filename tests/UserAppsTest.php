@@ -631,19 +631,19 @@ class UserAppsTest extends TestCase
         $this->assertEquals( 2, $sorted_items[2]['sort'] );
 
         // Test sorting with missing key
-        $itemsWithMissingKey = [
+        $items_with_missing_key = [
             app_factory( [ 'slug' => 'app1' ] ), // 'sort' key is omitted
             app_factory( [ 'slug' => 'app2' ] )  // 'sort' key is omitted
         ];
         // Manually remove the 'sort' key
-        foreach ( $itemsWithMissingKey as &$item ) {
+        foreach ( $items_with_missing_key as &$item ) {
             unset( $item['sort'] );
         }
         unset( $item ); // Break the reference with the last element
 
-        $sorted_items = $source->sort( $itemsWithMissingKey, [ 'key' => 'sort', 'asc' => true ] );
+        $sorted_items = $source->sort( $items_with_missing_key, [ 'key' => 'sort', 'asc' => true ] );
 
-        $this->assertEquals( $itemsWithMissingKey, $sorted_items );
+        $this->assertEquals( $items_with_missing_key, $sorted_items );
     }
 
     /**
