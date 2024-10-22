@@ -17,7 +17,7 @@ class SettingAppTest extends TestCase
         $user_apps_services = container()->get( SettingsApps::class );
         $apps = [ app_factory(), app_factory() ];
 
-        $save = $user_apps_services->save( $apps );
+        $user_apps_services->save( $apps );
         $setting_apps = container()->get( SettingsApps::class )->raw();
 
         foreach ( $apps as $app ) {
@@ -69,13 +69,13 @@ class SettingAppTest extends TestCase
     {
         $app = app_factory( [ 'is_hidden' => true, 'slug' => 'test-app5', 'is_deleted' => false ] );
 
-        $settings_apps_service = container()->get( SettingsApps::class );
+        $source = container()->get( SettingsApps::class );
 
-        $settings_apps_service->save( [ $app ] );
+	    $source->save( [ $app ] );
 
-        $settings_apps_service->hide( 'test-app5', [ 'slug' => 'test-app5' ] );
+	    $source->hide( 'test-app5' );
 
-        $fetched = $settings_apps_service->find( 'test-app5' );
+        $fetched = $source->find_unfiltered( 'test-app5' );
 
 		$this->assertTrue( $fetched['is_hidden'] );
     }
