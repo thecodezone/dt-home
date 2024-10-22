@@ -128,7 +128,7 @@ class AppController
     {
         $params = extract_request_input( $request );
         $result = $this->user_apps->hide( $params['slug'] );
-
+        $this->reset_sort_order( $params['slug'], 'hide' );
         if ( !isset( $result['is_hidden'] ) || !$result['is_hidden'] ) {
             return response( [ 'message' => 'Failed to update visibility.' ], 500 );
         }
@@ -147,7 +147,7 @@ class AppController
     {
         $params = extract_request_input( $request );
         $result = $this->user_apps->unhide( $params['slug'] );
-
+        $this->reset_sort_order( $params['slug'], '  ' );
         if ( !isset( $result['is_hidden'] ) || $result['is_hidden'] ) {
             return response( [ 'message' => 'Failed to update visibility.' ], 500 );
         }
@@ -210,6 +210,20 @@ class AppController
             'slug' => $data['slug'],
             'open_in_new_tab' => $data['open_in_new_tab'] ?? false,
         ];
+        // compare admin apps with input data to check if the slug exists
+        $admin_apps = $this->apps->from( 'settings' );
+        $slug_exists = false;
+        foreach ( $admin_apps as $app ) {
+            if ( $app['slug'] === $data['slug'] ) {
+                $slug_exists = true;
+                break;
+            }
+        }
+        // if existis slug return error slug already exists
+        if ( $slug_exists ) {
+            return response( [ 'error' => 'Slug already exists' ] );
+        }
+
         $apps_array = $this->apps->from( 'user' );
         $apps_array[] = $app_data;
         $this->user_apps->save( $apps_array );
@@ -258,5 +272,55 @@ class AppController
         $apps_array = $this->apps->for( $user );
         $data = json_encode( $apps_array );
         return response( $data );
+    }
+
+    /**
+     * Resets the sort order of the applications.
+     */
+    public function reset_sort_order( $slug = null, $value = null )
+    {
+        $user = get_current_user_id();
+        $apps_array = $this->user_apps->for( $user );
+
+        // Find the app with the specified slug and update its 'is_hidden' status
+        foreach ( $apps_array as $key => $app ) {
+            if ( isset( $app['slug'] ) && $app['slug'] == $slug ) {
+                $apps_array[$key]['is_hidden'] = $value === 'hide' ? 1 : 0;
+                // Set 'is_hidden' to 1 (hide)
+                break;
+                // Exit the loop once the app is found and updated
+            }
+        }
+
+        $hidden_apps = [];
+        $visible_apps = [];
+
+        foreach ( $apps_array as $app ) {
+            if ( $app['is_hidden'] === 1 ) {
+                $hidden_apps[] = $app;
+            } else {
+                $visible_apps[] = $app;
+            }
+        }
+
+        // Sort visible apps by the 'sort' field
+        usort($visible_apps, function ( $a, $b ) {
+            return $a['sort'] <=> $b['sort'];
+        });
+
+        // Reset sort values for visible apps
+        foreach ( $visible_apps as $index => $app ) {
+            $visible_apps[$index]['sort'] = $index + 1;
+        }
+
+        // Add hidden apps back to the end
+        foreach ( $hidden_apps as $hidden_app ) {
+            $hidden_app['sort'] = count( $visible_apps ) + 1;
+            $visible_apps[] = $hidden_app;
+        }
+
+        $this->user_apps->save( $visible_apps );
+
+        return response( [ 'message' => 'App visibility and order updated', 'slug' => $slug ] );
     }
 }

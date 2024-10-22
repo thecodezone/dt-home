@@ -1,7 +1,7 @@
-import { css, html, LitElement } from 'lit'
-import { customElement } from 'lit-element'
-import { property, queryAll } from 'lit/decorators.js'
-import { magic_url, translate } from '../helpers.js'
+import {css, html, LitElement} from 'lit'
+import {customElement} from 'lit-element'
+import {property, queryAll} from 'lit/decorators.js'
+import {magic_url, translate} from '../helpers.js'
 import './app-form-modal.js'
 
 /**
@@ -368,9 +368,9 @@ class AppGrid extends LitElement {
 
         if (confirmed) {
             this.postAppDataToServer(slug)
-            // this.appData.splice(index, 1)
-            // this.selectedIndex = -1
-            // this.showRemoveIconId = null
+            this.appData.splice(index, 1)
+            this.selectedIndex = -1
+            this.showRemoveIconId = null
         }
         return false
     }
