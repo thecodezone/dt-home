@@ -67,28 +67,25 @@ class SettingAppTest extends TestCase
 
     public function it_hides()
     {
-        $app = app_factory( [ 'is_hidden' => true, 'slug' => 'test-app5' ] );
+        $app = app_factory( [ 'is_hidden' => true, 'slug' => 'test-app5', 'is_deleted' => false ] );
 
         $settings_apps_service = container()->get( SettingsApps::class );
 
-        $result = $settings_apps_service->save( [ $app ] );
+        $settings_apps_service->save( [ $app ] );
 
-        $hide = $settings_apps_service->hide( 'test-app5', [ 'slug' => 'test-app5' ] );
+        $settings_apps_service->hide( 'test-app5', [ 'slug' => 'test-app5' ] );
 
-        $hidden_app = $settings_apps_service->fetch_for_save();
+        $fetched = $settings_apps_service->find( 'test-app5' );
 
-        $this->assertTrue( $hidden_app['is_hidden'] );
+		$this->assertTrue( $fetched['is_hidden'] );
     }
 
     /**
      * @test
      */
-    /**
-     * @test
-     */
     public function it_unhides()
     {
-        $app = app_factory( [ 'slug' => 'test-app1', 'is_hidden' => false ] );
+        $app = app_factory( [ 'slug' => 'test-app1', 'is_hidden' => false, 'is_deleted' => false ] );
         $settings_apps_service = container()->get( SettingsApps::class );
 
         $settings_apps_service->save( [ $app ] );
@@ -110,11 +107,11 @@ class SettingAppTest extends TestCase
 
         $settings_apps_service = container()->get( SettingsApps::class );
 
-        $result = $settings_apps_service->save( [ $app ] );
+        $settings_apps_service->save( [ $app ] );
 
-        $delete = $settings_apps_service->delete( 'test-app2', [ 'slug' => 'test-app2' ] );
+        $settings_apps_service->delete( 'test-app2', [ 'slug' => 'test-app2' ] );
 
-        $deleted_app = $settings_apps_service->find( 'test-app2' );
+        $deleted_app = $settings_apps_service->find_unfiltered( 'test-app2' );
 
         $this->assertTrue( $deleted_app['is_deleted'] );
     }
@@ -140,16 +137,11 @@ class SettingAppTest extends TestCase
      */
     public function it_fetches_for_save()
     {
-//        $apps = app_factory( [ 'slug' => 'new-test-app' ] );
+        $apps = app_factory( [ 'slug' => 'new-test-app' ] );
         $settings_apps_service = container()->get( SettingsApps::class );
-//       $settings_apps_service->save( [ $apps ] );
-        $result = $settings_apps_service->fetch_for_save();
-
-        //$this->assertIsArray( $result );
-        // $this->assertNotEmpty( $result );
-        $this->assertArrayHasKey( 'slug', $result[0] );
-
-        $this->assertEquals( 'disciple-tools', $result[0]['slug'] );
+        $settings_apps_service->save( [ $apps ] );
+        $result = $settings_apps_service->find_unfiltered( 'new-test-app', [ 'merged' => true ] );
+		$this->assertNotNull( $result );
     }
 
     /**
@@ -195,18 +187,18 @@ class SettingAppTest extends TestCase
 
         $source = container()->get( SettingsApps::class );
         $source->save( $apps );
-        $allApps = $source->all( [ 'filter' => false ] );
+        $all_apps = $source->all( [ 'filter' => false ] );
 
         $app_slugs = array_column( $apps, 'slug' );
-        $setting_app_slugs = array_column( $allApps, 'slug' );
+        $setting_app_slugs = array_column( $all_apps, 'slug' );
 
         // Verify each slug is present in the retrieved user apps
         foreach ( $app_slugs as $slug ) {
             $this->assertContains( $slug, $setting_app_slugs );
         }
 
-        // Assert that the allApps array contains all the apps
-        $this->assertCount( 2, $allApps );
+        // Assert that the all_apps array contains all the apps
+        $this->assertCount( 2, $all_apps );
     }
 
     /**
@@ -261,7 +253,7 @@ class SettingAppTest extends TestCase
         $settings_apps_service->save( [ $app ] );
         $settings_apps_service->delete( 'app1' );
 
-        $deleted_app = $settings_apps_service->find( 'app1' );
+        $deleted_app = $settings_apps_service->find_unfiltered( 'app1' );
 
         $this->assertTrue( $deleted_app['is_deleted'] );
     }

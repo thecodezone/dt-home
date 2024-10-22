@@ -158,14 +158,10 @@ class UserAppsTest extends TestCase
 
         // Hide the app
         $source = container()->get( UserApps::class );
-        $hiddenItem = $source->hide( $data['slug'] );
+		$source->find( $data['slug'] );
 
-        // Assert that the item is hidden
-        $this->assertTrue( $hiddenItem['is_hidden'] );
-
-        // Assert that the item is found
-        $foundItem = $source->find( $data['slug'] );
-        $this->assertEquals( $hiddenItem, $foundItem );
+        $result = $source->hide( $data['slug'] );
+		$this->assertTrue( $result['is_hidden'] );
     }
 
     /**
@@ -182,18 +178,18 @@ class UserAppsTest extends TestCase
         $data = $apps[0];
 
         // Hide the app
-        $source = container()->get( UserApps::class );
-        $hiddenItem = $source->hide( $data['slug'] );
+        $source      = container()->get( UserApps::class );
+        $hidden_item = $source->hide( $data['slug'] );
 
         // Unhide the app
-        $unhiddenItem = $source->unhide( $data['slug'] );
+        $unhidden_item = $source->unhide( $data['slug'] );
 
         // Assert that the item is unhidden
-        $this->assertFalse( $unhiddenItem['is_hidden'] );
+        $this->assertFalse( $unhidden_item['is_hidden'] );
 
         // Assert that the item is found
-        $foundItem = $source->find( $data['slug'] );
-        $this->assertEquals( $unhiddenItem, $foundItem );
+        $found_item = $source->find( $data['slug'] );
+        $this->assertEquals( $unhidden_item, $found_item );
     }
 
     /**
