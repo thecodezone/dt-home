@@ -234,23 +234,11 @@ class AppGrid extends LitElement {
      */
     handleDrop(event) {
         event.preventDefault()
-
-        // Filter out hidden apps
-        const visibleApps = this.appData.filter((app) => !app.is_hidden)
-
-        const fromIndex = parseInt(event.dataTransfer.getData('text/plain'), 10)
+        const fromIndex = event.dataTransfer.getData('text/plain')
         const toElement = event.target.closest('.app-grid__item')
         const toIndex = Array.from(this.items).indexOf(toElement)
-
         if (fromIndex >= 0 && toIndex >= 0) {
-            // Map the visible indices back to the original appData indices
-            const originalFromIndex = this.appData.findIndex(
-                (app) => app.slug === visibleApps[fromIndex].slug
-            )
-            const originalToIndex = this.appData.findIndex(
-                (app) => app.slug === visibleApps[toIndex].slug
-            )
-            this.reorderApps(originalFromIndex, originalToIndex)
+            this.reorderApps(fromIndex, toIndex)
         }
 
         // Call handleDocumentClick to ensure immediate removal of context menu icon
