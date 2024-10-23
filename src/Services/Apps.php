@@ -85,6 +85,9 @@ class Apps {
         $params['user_id'] = $user_id;
         $service = SourceFactory::make( UserApps::class );
         $app = $service->find( $slug, $params );
+		if ( ! $app ) {
+			return null;
+		}
         $this->magic_apps->hydrate_magic_url( $app, $user_id );
         return $app;
     }

@@ -3,7 +3,6 @@
 namespace DT\Home\Services;
 
 use function DT\Home\config;
-use function DT\Home\container;
 
 /**
  * Fetches apps from multiple sources and merges them together.
@@ -52,10 +51,8 @@ class Aggregator {
      * @return void
      */
     private function merge_source_apps( string $source, array &$apps, $params = [] ) {
-        $params = array_merge( $params, [ 'filter' => false ] );
         $source = SourceFactory::make( $source );
-
-        $source_apps = $source->all( $params );
+        $source_apps = $source->unfiltered( $params );
 
         foreach ( $source_apps as $app ) {
             $idx = array_search( $app['slug'], array_column( $apps, 'slug' ) );

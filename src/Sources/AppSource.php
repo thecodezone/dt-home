@@ -25,6 +25,35 @@ abstract class AppSource extends Source
         return array_search( static::class, $handles ) ?: self::class;
     }
 
+	/**
+	 * Returns all applications without applying any filters.
+	 *
+	 * @param array $params An array of parameters for retrieving applications.
+	 *
+	 * @return array An array containing all the items without any filters applied.
+	 */
+	public function unfiltered( array $params = [] ): array {
+		$params['merged'] = $params['merged'] ?? false;
+
+		if ( $params['merged'] === true ) {
+			return $this->merged( $params );
+		}
+
+		return $this->all( $params );
+	}
+
+	/**
+	 * Returns all applications without applying any filters.
+	 *
+	 * @param string $slug The ID of the application to retrieve.
+	 * @param array $params An array of parameters for retrieving applications.
+	 *
+	 * @return array|null An array containing all the items without any filters applied or null if not found.
+	 */
+	public function find_unfiltered( $slug, array $params = [] ) {
+		return $this->find( $slug, array_merge( [ 'filter' => false ], $params ) );
+	}
+
     /**
      * We want to merge in dependencies when saving.
      *
@@ -33,7 +62,8 @@ abstract class AppSource extends Source
      */
     public function fetch_for_save( array $params = [] ): array
     {
-        return $this->merged( $params );
+		$params['merged'] = $params['merged'] ?? true;
+        return $this->unfiltered( $params );
     }
 
     /**
@@ -55,6 +85,7 @@ abstract class AppSource extends Source
      * @return array An array containing all the aggregated items.
      */
     public function merged( array $params = [] ) {
+		unset( $params['merged'] );
         $aggregator = new Aggregator( [ $this ] );
         return $aggregator->all( $params );
     }
@@ -65,7 +96,16 @@ abstract class AppSource extends Source
      * @return array An array containing all the items.
      */
     public function all( array $params = [] ): array {
-        $filter = $params['filter'] ?? true;
+	    $params['merged'] = $params['merged'] ?? false;
+		$params['filter'] = $params['filter'] ?? true;
+
+	    $filter = $params['filter'];
+
+		// If we are merging in inherited apps, we need to fetch them from the aggregator
+		if ( $params['merged'] === true ) {
+			return $this->merged( $params );
+		}
+
         if ( $filter === true ) {
             return $this->filter(
                 $this->formatted( $params )
@@ -235,7 +275,8 @@ abstract class AppSource extends Source
      * @return bool Returns true if the item was successfully deleted.
      */
     public function delete( $slug, array $params = [], $save_params = [] ) {
-        return $this->set( $slug, 'is_deleted', true, $params, $save_params );
+        $this->set( $slug, 'is_deleted', true, $params, $save_params );
+		return $this->value( $slug, 'is_deleted', $params );
     }
 
     /**

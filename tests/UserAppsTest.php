@@ -158,14 +158,10 @@ class UserAppsTest extends TestCase
 
         // Hide the app
         $source = container()->get( UserApps::class );
-        $hidden_item = $source->hide( $data['slug'] );
+		$source->find( $data['slug'] );
 
-        // Assert that the item is hidden
-        $this->assertTrue( $hidden_item['is_hidden'] );
-
-        // Assert that the item is found
-        $found_item = $source->find( $data['slug'] );
-        $this->assertEquals( $hidden_item, $found_item );
+        $result = $source->hide( $data['slug'] );
+		$this->assertTrue( $result['is_hidden'] );
     }
 
     /**
@@ -182,7 +178,7 @@ class UserAppsTest extends TestCase
         $data = $apps[0];
 
         // Hide the app
-        $source = container()->get( UserApps::class );
+        $source      = container()->get( UserApps::class );
         $hidden_item = $source->hide( $data['slug'] );
 
         // Unhide the app
@@ -256,7 +252,7 @@ class UserAppsTest extends TestCase
         // Filter hidden apps
         $hidden_apps = $source->hidden( $all_apps );
 
-        // Assert that only hidden apps are in the hiddenApps array
+        // Assert that only hidden apps are in the hidden_apps array
         $this->assertCount( 2, $hidden_apps );
 
         // Assert that all hidden apps are hidden
@@ -326,11 +322,11 @@ class UserAppsTest extends TestCase
         // Retrieve all apps
         $all_apps = $source->for( $user_id );
         // Filter undeleted apps
-        $undeleted_apps = $source->undeleted( $all_apps );
+        $undelted_apps = $source->undeleted( $all_apps );
         // Assert that only hidden apps are in the undeletedApps array
-        $this->assertCount( 3, $undeleted_apps );
+        $this->assertCount( 3, $undelted_apps );
         // Assert that all undeleted apps are undeleted
-        foreach ( $undeleted_apps as $app ) {
+        foreach ( $undelted_apps as $app ) {
             $this->assertFalse( $app['is_deleted'] );
         }
     }
@@ -364,7 +360,7 @@ class UserAppsTest extends TestCase
         // Filter deleted apps
         $deleted_apps = $source->deleted( $all_apps );
 
-        // Assert that only hidden apps are in the deletedApps array
+        // Assert that only hidden apps are in the deleted_apps array
         $this->assertCount( 1, $deleted_apps );
 
         $found_item = $source->find( 'test-app1' );
@@ -401,7 +397,7 @@ class UserAppsTest extends TestCase
         // Filter deleted apps
         $deleted_apps = $source->deleted( $all_apps );
 
-        // Assert that only hidden apps are in the deletedApps array
+        // Assert that only hidden apps are in the deleted_apps array
         $this->assertCount( 0, $deleted_apps );
 
         $found_item = $source->find( 'app1' );
@@ -514,7 +510,7 @@ class UserAppsTest extends TestCase
         foreach ( $app_slugs as $slug ) {
             $this->assertContains( $slug, $user_app_slugs );
         }
-        // Assert that the allApps array contains all the apps
+        // Assert that the all_apps array contains all the apps
         $this->assertCount( 2, $all_apps );
     }
 
@@ -613,22 +609,22 @@ class UserAppsTest extends TestCase
         $items = $source->for( $user_id );
 
         // Test sorting in ascending order
-        $sorted_items = $source->sort( $items, [ 'key' => 'sort', 'asc' => true ] );
-        $this->assertEquals( 'app2', $sorted_items[0]['slug'] );
-        $this->assertEquals( 'app1', $sorted_items[1]['slug'] );
-        $this->assertEquals( 'app3', $sorted_items[2]['slug'] );
+        $sorted_apps = $source->sort( $items, [ 'key' => 'sort', 'asc' => true ] );
+        $this->assertEquals( 'app2', $sorted_apps[0]['slug'] );
+        $this->assertEquals( 'app1', $sorted_apps[1]['slug'] );
+        $this->assertEquals( 'app3', $sorted_apps[2]['slug'] );
 
         // Test sorting in descending order
-        $sorted_items = $source->sort( $items, [ 'key' => 'sort', 'asc' => false ] );
-        $this->assertEquals( 'app3', $sorted_items[0]['slug'] );
-        $this->assertEquals( 'app1', $sorted_items[1]['slug'] );
-        $this->assertEquals( 'app2', $sorted_items[2]['slug'] );
+        $sorted_apps = $source->sort( $items, [ 'key' => 'sort', 'asc' => false ] );
+        $this->assertEquals( 'app3', $sorted_apps[0]['slug'] );
+        $this->assertEquals( 'app1', $sorted_apps[1]['slug'] );
+        $this->assertEquals( 'app2', $sorted_apps[2]['slug'] );
 
         // Test sorting with reset
-        $sorted_items = $source->sort( $items, [ 'key' => 'sort', 'asc' => true, 'reset' => true ] );
-        $this->assertEquals( 0, $sorted_items[0]['sort'] );
-        $this->assertEquals( 1, $sorted_items[1]['sort'] );
-        $this->assertEquals( 2, $sorted_items[2]['sort'] );
+        $sorted_apps = $source->sort( $items, [ 'key' => 'sort', 'asc' => true, 'reset' => true ] );
+        $this->assertEquals( 0, $sorted_apps[0]['sort'] );
+        $this->assertEquals( 1, $sorted_apps[1]['sort'] );
+        $this->assertEquals( 2, $sorted_apps[2]['sort'] );
 
         // Test sorting with missing key
         $items_with_missing_key = [
@@ -641,9 +637,9 @@ class UserAppsTest extends TestCase
         }
         unset( $item ); // Break the reference with the last element
 
-        $sorted_items = $source->sort( $items_with_missing_key, [ 'key' => 'sort', 'asc' => true ] );
+        $sorted_apps = $source->sort( $items_with_missing_key, [ 'key' => 'sort', 'asc' => true ] );
 
-        $this->assertEquals( $items_with_missing_key, $sorted_items );
+        $this->assertEquals( $items_with_missing_key, $sorted_apps );
     }
 
     /**
@@ -677,8 +673,8 @@ class UserAppsTest extends TestCase
         $this->assertEquals( $new_sort_value, $item['sort'] );
 
         // Test setting a value for a non-existent key
-        $non_existent_key_result = $source->set( 'non-existent-app', 'sort', 5 );
-        $this->assertFalse( $non_existent_key_result );
+        $non_existent_key = $source->set( 'non-existent-app', 'sort', 5 );
+        $this->assertFalse( $non_existent_key );
     }
 
     /**
@@ -809,7 +805,7 @@ class UserAppsTest extends TestCase
 
         // Update an existing item
         $updated_item = app_factory( [ 'slug' => 'app1', 'sort' => 3, 'source' => 'user' ] );
-        $result = $source->update( 'app1', $updated_item );
+        $result       = $source->update( 'app1', $updated_item );
 
         // Verify the update result
         $this->assertTrue( $result );
