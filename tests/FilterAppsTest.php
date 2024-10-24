@@ -38,7 +38,7 @@ class FilterAppsTest extends TestCase {
         // Assert expected filtered apps are returned.
         foreach ( $raw_apps as $raw_app ) {
             $filter_app = array_filter( $filter_apps, function ( $app ) use ( $raw_app ) {
-                return $app[ 'slug' ] === $raw_app[ 'slug' ];
+                return $app['slug'] === $raw_app['slug'];
             } );
 
             $this->assertNotNull( $filter_app );
