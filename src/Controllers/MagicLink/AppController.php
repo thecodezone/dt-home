@@ -79,6 +79,15 @@ class AppController
         $user_id = get_current_user_id();
         $app = $this->apps->find_for( $slug, $user_id );
 
+        // If no initial hit, attempt a direct search.
+        if ( !$app ) {
+            $filtered_array = array_values( array_filter( $this->apps->for( $user_id ), function ( $element ) use ( $slug ) {
+                return ( isset( $element['slug'] ) && $element['slug'] === $slug );
+            } ) );
+
+            $app = ! empty( $filtered_array[0] ) ? $filtered_array[0] : null;
+        }
+
         if ( !$app ) {
             return response( __( 'Not Found', 'dt-home' ), 404 );
         }
