@@ -196,8 +196,8 @@ class AppFormModal extends LitElement {
             const nameValue = nameField.value.trim()
             const slugValue = nameValue
                 .toLowerCase()
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/^-+|-+$/g, '')
+                .replace(/[^a-z0-9]+/g, '_') // Replace non-alphanumeric characters with underscores
+                .replace(/^_+|_+$/g, '') // Remove leading and trailing underscores
             slugField.value = slugValue
         }
     }
@@ -347,6 +347,7 @@ class AppFormModal extends LitElement {
                     : field.value
             }
         })
+        formObject['creation_type'] = this.appData.creation_type
 
         return formObject
     }
@@ -396,11 +397,11 @@ class AppFormModal extends LitElement {
                             require
                             label="${translate('type_label')}"
                             placeholder="${translate('type_label')}"
-                            options='[
-                                {"id":"","label":"Select Type"},
-                                {"id":"Web View","label":"Web View"},
-                                {"id":"Link","label":"Link"}
-                            ]'
+                            .options="${[
+                                { id: '', label: 'Select Type' },
+                                { id: 'Web View', label: 'Web View' },
+                                { id: 'Link', label: 'Link' },
+                            ]}"
                             .value="${this.appData.type || ''}"
                         ></dt-single-select>
                         ${translate('open_new_tab_label')}
