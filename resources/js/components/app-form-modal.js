@@ -403,7 +403,7 @@ class AppFormModal extends LitElement {
                             ]'
                             .value="${this.appData.type || ''}"
                         ></dt-single-select>
-                        ${translate('open_new_tab_label')}
+                        <label> ${translate('open_new_tab_label')}</label>
                         <input
                             type="checkbox"
                             name="open_in_new_tab"

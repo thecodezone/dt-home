@@ -1,6 +1,6 @@
-import {css, html, LitElement} from 'lit'
-import {customElement} from 'lit-element'
-import {property} from 'lit/decorators.js'
+import { css, html, LitElement } from 'lit'
+import { customElement } from 'lit-element'
+import { property } from 'lit/decorators.js'
 
 /**
  * Represents an application icon component.
@@ -52,12 +52,24 @@ class AppIcon extends LitElement {
 
             .app-icon__name {
                 font-size: 10px;
-                color: #333;
+                color: var(--app-icon-name-color, #333);
                 text-align: center;
                 white-space: nowrap;
                 width: 100%;
                 overflow: hidden;
                 text-overflow: ellipsis;
+            }
+
+            @media (prefers-color-scheme: dark) {
+                .app-icon__name {
+                    --app-icon-name-color: #fff;
+                }
+            }
+
+            @media (prefers-color-scheme: light) {
+                .app-icon__name {
+                    --app-icon-name-color: #333;
+                }
             }
 
             #app-icon {
