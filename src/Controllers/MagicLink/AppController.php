@@ -241,6 +241,9 @@ class AppController
                     'url' => $data['url'],
                     'slug' => $data['slug'],
                     'open_in_new_tab' => $data['open_in_new_tab'] ?? false,
+                    'sort' => $app['sort'],
+                    'creation_type' => $app['creation_type'],
+                    'is_hidden' => $app['is_hidden'],
                 ];
                 break; // Stop the loop once the app is found and updated
             }
