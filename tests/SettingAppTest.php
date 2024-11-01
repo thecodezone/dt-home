@@ -197,6 +197,7 @@ class SettingAppTest extends TestCase
             $this->assertContains( $slug, $setting_app_slugs );
         }
 
+
         // Assert that the all_apps array contains all the apps
         $this->assertCount( 2, $all_apps );
     }
