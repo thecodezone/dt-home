@@ -28,7 +28,7 @@ class IconPicker extends LitElement {
                 --dt-fields-background-color
             );
             --highcontrast-actionbutton-content-color-default: #ffffff;
-            --spectrum-neutral-content-color-hover: #ffffff;
+            //--spectrum-neutral-content-color-hover: #ffffff;
             --spectrum-neutral-content-color-down: #ffffff;
             --mod-actionbutton-height: 41px;
             --spectrum-action-button-edge-to-hold-icon-medium: 10px;
