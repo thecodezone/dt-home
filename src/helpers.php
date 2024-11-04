@@ -520,11 +520,11 @@ function site_uri( $url )
 function extract_request_input( RequestInterface $request ): array
 {
     $content_type = $request->getHeaderLine( 'Content-Type' );
-    dt_write_log($request);
+
     if ( strpos( $content_type, 'application/json' ) !== false ) {
         // Handle JSON content type.
         $body = $request->getBody()->getContents();
-dt_write_log($body);
+
         return json_decode( $body, true );
     }
 
