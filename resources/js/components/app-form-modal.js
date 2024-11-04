@@ -152,6 +152,7 @@ class AppFormModal extends LitElement {
         this.classList.remove('modal-open')
         this.clearForm()
         this.resetValidationError()
+        this.requestUpdate()
         this.dispatchEvent(
             new CustomEvent('modal-closed', { bubbles: true, composed: true })
         )
@@ -189,6 +190,10 @@ class AppFormModal extends LitElement {
      */
 
     updateSlugField() {
+        if (this.appData.slug) {
+            // If the form is in edit mode, this not change the slug
+            return
+        }
         const nameField = this.shadowRoot.querySelector('dt-text[name="name"]')
         const slugField = this.shadowRoot.querySelector('dt-text[name="slug"]')
 
@@ -246,7 +251,6 @@ class AppFormModal extends LitElement {
 
     handleSubmit(e) {
         e.preventDefault()
-        this.updateSlugField()
         const isFormValid = this.validateForm()
 
         if (isFormValid) {
@@ -313,6 +317,7 @@ class AppFormModal extends LitElement {
     resetValidationError() {
         this.validationError = false
         this.error = ''
+        return this.requestUpdate()
     }
 
     /**
@@ -406,9 +411,8 @@ class AppFormModal extends LitElement {
                             name="type"
                             require
                             label="${translate('type_label')}"
-                            placeholder="${translate('type_label')}"
+                            placeholder="${translate('select_type_label')}"
                             .options="${[
-                                { id: '', label: 'Select Type' },
                                 { id: 'Web View', label: 'Web View' },
                                 { id: 'Link', label: 'Link' },
                             ]}"
