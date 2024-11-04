@@ -392,6 +392,16 @@ class AppFormModal extends LitElement {
                             .value="${this.appData.name || ''}"
                             @change="${this.updateSlugField}"
                         ></dt-text>
+                        <dt-text
+                            id="slug"
+                            label="${translate('slug_label')}"
+                            name="slug"
+                            placeholder="${translate('slug_label')}"
+                            require
+                            tabindex="5"
+                            .value="${this.appData.slug || ''}"
+                            ?disabled="${!!this.appData.slug}"
+                        ></dt-text>
                         <dt-single-select
                             name="type"
                             require
@@ -430,16 +440,6 @@ class AppFormModal extends LitElement {
                             require
                             tabindex="4"
                             .value="${this.appData.url || ''}"
-                        ></dt-text>
-                        <dt-text
-                            id="slug"
-                            label="${translate('slug_label')}"
-                            name="slug"
-                            placeholder="${translate('slug_label')}"
-                            require
-                            tabindex="5"
-                            .value="${this.appData.slug || ''}"
-                            ?disabled="${!!this.appData.slug}"
                         ></dt-text>
                         <sp-button-group>
                             <sp-button
