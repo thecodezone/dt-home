@@ -19,6 +19,7 @@
     "@babel/plugin-proposal-class-properties": "^7.18.6",
     "@babel/plugin-proposal-decorators": "^7.23.7",
     "@disciple.tools/web-components": "^0.5.2",
+    "@spectrum-web-components/action-bar": "^0.42.0",
     "@spectrum-web-components/action-group": "^0.42.0",
     "@spectrum-web-components/action-menu": "^0.42.0",
     "@spectrum-web-components/button": "^0.42.0",

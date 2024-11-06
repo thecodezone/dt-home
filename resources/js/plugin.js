@@ -30,6 +30,8 @@ import '@spectrum-web-components/textfield/sp-textfield.js'
 import '@spectrum-web-components/dialog/sp-dialog-base.js'
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-add.js'
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-edit.js'
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-app.js'
+import '@spectrum-web-components/icons-workflow/icons/sp-icon-app-refresh.js'
 /**
  * Web Components
  */
