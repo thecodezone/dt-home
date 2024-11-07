@@ -421,6 +421,7 @@ class Assets
         <meta property="og:url" content="<?php echo esc_url( get_plugin_option( 'dt_home_plugin_url' ) ); ?>" />
         <meta property="og:image"
               content="<?php echo esc_url( !empty( $custom_logo ) ? $custom_logo : $default_logo ); ?>" />
+        <meta name="color-scheme" content="light dark">
         <?php
     }
 }

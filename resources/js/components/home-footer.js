@@ -45,6 +45,18 @@ class HomeFooter extends LitElement {
       );
       }
 
+      @media (prefers-color-scheme: dark) {
+        sp-dialog {
+          --dialog-bg-color: #333;
+          --dialog-border-color: #555;
+        }
+
+        .app-name {
+          --app-name-color: white;
+          --app-name-hover-color: hsla(216, 100%, 70%, 1);
+        }
+      }
+
       .footer-container {
         padding: 5px;
         display: flex;
@@ -71,8 +83,8 @@ class HomeFooter extends LitElement {
       }
 
       sp-dialog {
-        background-color: white;
-        border: none; /* Remove any border */
+        background-color: var(--dialog-bg-color, white);
+        border: 2px solid var(--dialog-border-color, none);
         box-shadow: none; /* Remove any shadow */
         height: 200px; /* Let the content dictate the height */
         padding: 0; /* Remove default padding */
@@ -104,11 +116,11 @@ class HomeFooter extends LitElement {
 
       .app-name {
         flex: 1; /* Ensure the name takes the remaining space */
-        color: black; /* Ensure text color is black */
+        color: var(--app-name-color, black); /* Use CSS variable for text color */
       }
 
       .app-name:hover {
-        color: hsla(216, 100%, 50%, 1);
+        color: var(--app-name-hover-color, hsla(216, 100%, 50%, 1)); /* Use CSS variable for hover color */
       }
 
       .reset-apps {
@@ -155,7 +167,7 @@ class HomeFooter extends LitElement {
         }
 
         sp-dialog {
-          background-color: white;
+          background-color: var(--dialog-bg-color, white);
           height: 200px;
         }
       }

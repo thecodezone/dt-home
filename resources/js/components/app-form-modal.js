@@ -41,29 +41,41 @@ class AppFormModal extends LitElement {
             border-radius: 5px;
         }
 
+        @media (prefers-color-scheme: dark) {
+            .text-color {
+                color: #fff;
+            }
+
+            :host {
+                --dt-label-color: #fff;
+                --dt-fields-background-color: #292929;
+                --dt-text-border-color: #292929;
+                --dt-form-text-color: #fff;
+                --dt-single-select-text-color: #fff;
+                --dt-form-border-color: #292929;
+                --dt-text-disabled-background-color: #292929;
+                --close-icon-background-color: #292929;
+                --close-icon-color: #fff;
+                --close-icon-background-color-hover: #2929297d;
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :host {
+                --close-icon-background-color: lightgray;
+                --close-icon-background-color-hover: darkgray;
+            }
+        }
+
         .modal-content {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: white;
+            background-color: var(--spectrum-gray-100);
             padding: 1rem 1.5rem;
             width: 24rem;
             border-radius: 0.5rem;
-        }
-
-        .close-button {
-            float: right;
-            width: 1.5rem;
-            line-height: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 0.25rem;
-            background-color: lightgray;
-        }
-
-        .close-button:hover {
-            background-color: darkgray;
         }
 
         .modal {
@@ -88,7 +100,7 @@ class AppFormModal extends LitElement {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: white;
+            background-color: var(--spectrum-gray-100);
             padding: 1rem 1.5rem;
             width: 24rem;
             border-radius: 0.5rem;
@@ -102,11 +114,12 @@ class AppFormModal extends LitElement {
             text-align: center;
             cursor: pointer;
             border-radius: 0.25rem;
-            background-color: lightgray;
+            background-color: var(--close-icon-background-color);
+            color: var(--close-icon-color);
         }
 
         .modal-close:hover {
-            background-color: darkgray;
+            background-color: var(--close-icon-background-color-hover);
         }
 
         .show-modal {
@@ -365,7 +378,7 @@ class AppFormModal extends LitElement {
             >
                 <div class="modal-content">
                     <div class="modal-title" style="margin-bottom: 10px;">
-                        <h3>${translate(this.modelName)}</h3>
+                        <h3 class="text-color">${translate(this.modelName)}</h3>
                         <span class="modal-close" @click="${this.closeModal}"
                             >&times;</span
                         >
@@ -404,7 +417,9 @@ class AppFormModal extends LitElement {
                             ]}"
                             .value="${this.appData.type || ''}"
                         ></dt-single-select>
-                        ${translate('open_new_tab_label')}
+                        <label for="open_in_new_tab" class="text-color">
+                            ${translate('open_new_tab_label')}
+                        </label>
                         <input
                             type="checkbox"
                             name="open_in_new_tab"

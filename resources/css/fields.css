@@ -48,3 +48,14 @@ dt-copy-text {
     --dt-text-border-radius: aliceblue;
     --dt-text-border-color: #d9d1d1;
 }
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dt-tile-background-color: #333 !important;
+        --dt-tile-border-top: #292929;
+    }
+
+    .training {
+        color: #ffffff;
+    }
+}
