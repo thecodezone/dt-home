@@ -486,27 +486,27 @@ class HomeFooter extends LitElement {
                     <div slot="click-content" class="custom-apps-menu">
                       <sp-action-bar id="custom_app_menu_bar" open>
                         <sp-action-button slot="buttons" label="Create" @click="${this.toggleModal}">
-                          <sp-icon-app slot="icon"></sp-icon-app>
+                          <sp-icon-device-phone slot="icon"></sp-icon-device-phone>
                         </sp-action-button>
 
                         ${this.resetApps
                           ? html`
                               <sp-action-button slot="buttons" label="Reset" @click="${this.reset_apps}">
-                                <sp-icon-app-refresh slot="icon"></sp-icon-app-refresh>
+                                <sp-icon-device-rotate-landscape slot="icon"></sp-icon-device-rotate-landscape>
                               </sp-action-button>
                             `
                           :null}
 
                         <sp-action-menu label="More Actions" placement="top-end" slot="buttons">
                           <sp-menu-item @click="${this.toggleModal}">
-                            <sp-icon-app slot="icon" style="margin-left: 10px;"></sp-icon-app>
+                            <sp-icon-device-phone slot="icon" style="margin-left: 10px;"></sp-icon-device-phone>
                             ${translate('custom_app_label')}
                           </sp-menu-item>
 
                           ${this.resetApps
                             ? html`
                                 <sp-menu-item @click="${this.reset_apps}">
-                                  <sp-icon-app-refresh slot="icon" style="margin-left: 10px;"></sp-icon-app-refresh>
+                                  <sp-icon-device-rotate-landscape slot="icon" style="margin-left: 10px;"></sp-icon-device-rotate-landscape>
                                   ${translate('reset_apps_label')}
                                 </sp-menu-item>
                               `
