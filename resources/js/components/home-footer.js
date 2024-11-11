@@ -3,6 +3,7 @@ import { property } from 'lit/decorators.js'
 import '@spectrum-web-components/dialog/sp-dialog.js'
 import '@spectrum-web-components/button/sp-button.js'
 import '@spectrum-web-components/overlay/overlay-trigger.js'
+import '@spectrum-web-components/action-bar/sp-action-bar.js'
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-upload-to-cloud.js'
 import { customElement } from 'lit-element'
 import './app-menu.js'
@@ -28,8 +29,8 @@ class HomeFooter extends LitElement {
     @property({ type: Array })
     appData = []
 
-    static get styles() {
-        return css`
+  static get styles() {
+    return css`
       :host {
         --mod-divider-thickness: 0px;
         --spectrum-spacing-300: 0px;
@@ -42,7 +43,6 @@ class HomeFooter extends LitElement {
         );
         --mod-dialog-confirm-padding-grid: 0px;
         --spectrum-dialog-confirm-padding-grid: 0px;
-      );
       }
 
       .footer-container {
@@ -72,13 +72,25 @@ class HomeFooter extends LitElement {
 
       sp-dialog {
         background-color: white;
-        border: none; /* Remove any border */
-        box-shadow: none; /* Remove any shadow */
+        border: 1px solid #a1a1a1;
+        border-radius: 5px;
+        box-shadow: -2px -2px 40px 20px rgb(0 0 0 / 10%);
         height: 200px; /* Let the content dictate the height */
         padding: 0; /* Remove default padding */
         overflow: hidden; /* Hide overflow */
-        margin-right: 152px;
+        margin-right: 165px;
         margin-bottom: -41px;
+      }
+
+      .app-menu-item {
+        border-radius: 5px;
+        margin-left: 2px;
+        margin-right: 2px;
+      }
+
+      .app-menu-item:hover {
+        background-color: #ededed;
+        border-left: 2px solid hsl(0, 0%, 60%);
       }
 
       .app-row {
@@ -108,7 +120,7 @@ class HomeFooter extends LitElement {
       }
 
       .app-name:hover {
-        color: hsla(216, 100%, 50%, 1);
+        color: hsla(0, 0%, 60%, 1);
       }
 
       .reset-apps {
@@ -134,6 +146,11 @@ class HomeFooter extends LitElement {
         --spectrum-neutral-content-color-down: #ffffff;
       }
 
+      .custom-apps-menu {
+        margin-top: -55px;
+        margin-right: -288px;
+        width: 288px;
+      }
 
       /* Mobile */
       @media (max-width: 600px) {
@@ -158,6 +175,12 @@ class HomeFooter extends LitElement {
           background-color: white;
           height: 200px;
         }
+
+        .custom-apps-menu {
+          left: calc(100vw - 72vw) !important;
+          margin-right: -60vw;
+          width: 60vw;
+        }
       }
 
       /* Tablet */
@@ -174,6 +197,12 @@ class HomeFooter extends LitElement {
           top: auto;
           width: 100px;
         }
+
+        .custom-apps-menu {
+          left: calc(100vw - 350px) !important;
+          margin-right: -288px;
+          width: 288px;
+        }
       }
 
       /* Desktop */
@@ -189,6 +218,12 @@ class HomeFooter extends LitElement {
           left: calc(100vw - 350px) !important;
           top: auto;
           width: 100px;
+        }
+
+        .custom-apps-menu {
+          left: calc(100vw - 350px) !important;
+          margin-right: -288px;
+          width: 288px;
         }
       }
 
@@ -228,7 +263,7 @@ class HomeFooter extends LitElement {
         padding: 10px; /* Add padding for space */
       }
     `
-    }
+  }
 
     get hiddenApps() {
         return this.appData.filter((app) => app.is_hidden)
@@ -408,7 +443,7 @@ class HomeFooter extends LitElement {
 
         return hiddenApps.map(
             (app) => html`
-                <dt-app-menu-item
+                <dt-app-menu-item class="app-menu-item"
                     @click="${(e) => this.handleAppClick(e, app.slug)}"
                 >
                     <div class="app-row">
@@ -429,6 +464,54 @@ class HomeFooter extends LitElement {
         )
     }
 
+    init_components() {
+
+      /**
+       * Action Bar Setup.
+       */
+
+      // Obtain handle onto action bar element.
+      const action_bar = this.shadowRoot.getElementById('custom_app_menu_bar');
+      if (action_bar) {
+
+        // Attempt to locate nested close button.
+        const close_button = action_bar.shadowRoot.querySelector('.close-button');
+
+        // If found, ensure close button is permanently hidden.
+        if (close_button) {
+          close_button.style.display = 'none';
+        }
+
+        // Always ensure action bar is shown!
+        action_bar.open = true;
+      }
+    }
+
+    init_popover_menu() {
+
+      // Obtain handle onto action bar element.
+      const action_bar = this.shadowRoot.getElementById('custom_app_menu_bar');
+      if (action_bar) {
+
+        // Obtain handle to child bar menu.
+        const bar_menu = action_bar.querySelector('.custom-app-menu-bar-menu');
+        if (bar_menu) {
+
+          // Obtain handle to shadow root child overlay.
+          const overlay = bar_menu.shadowRoot.querySelector('sp-overlay[open]');
+          if (overlay) {
+
+            // Adjust popover menu alignment.
+            const popover = overlay.querySelector('sp-popover[id="popover"]');
+            if (popover) {
+              popover.style.marginBottom = '7px';
+              popover.style.marginRight = '-8px';
+            }
+          }
+        }
+      }
+    }
+
     render() {
         return html`
             <style>
@@ -436,16 +519,40 @@ class HomeFooter extends LitElement {
             </style>
             <div class="footer-container">
                 <overlay-trigger type="replace" placement="top">
-                    <div
-                        slot="click-content"
-                        class="custom-dialog-overlay-button custom-app"
-                        id="custom-app"
-                    >
-                        <sp-action-button @click="${this.toggleModal}"
-                            >${translate('custom_app_label')}
+                    <div slot="click-content" class="custom-apps-menu">
+                      <sp-action-bar id="custom_app_menu_bar" open>
+                        <sp-action-button slot="buttons" label="Create" @click="${this.toggleModal}">
+                          <sp-icon-add-circle slot="icon"></sp-icon-add-circle>
                         </sp-action-button>
+
+                        ${this.resetApps
+                          ? html`
+                              <sp-action-button slot="buttons" label="Reset" @click="${this.reset_apps}">
+                                <sp-icon-delete slot="icon" style="color: red;"></sp-icon-delete>
+                              </sp-action-button>
+                            `
+                          :null}
+
+                        <sp-action-menu class="custom-app-menu-bar-menu" label="More Actions" placement="top-end" slot="buttons" @click="${this.init_popover_menu}">
+                          <sp-menu-item @click="${this.toggleModal}">
+                            <sp-icon-add-circle slot="icon" style="margin-left: 10px;"></sp-icon-add-circle>
+                            ${translate('add_custom_app_label')}
+                          </sp-menu-item>
+
+                          ${this.resetApps
+                            ? html`
+                                <sp-menu-item @click="${this.reset_apps}">
+                                  <sp-icon-delete slot="icon" style="margin-left: 10px; color: red;"></sp-icon-delete>
+                                  <span style="color: red;">${translate('reset_apps_label')}</span>
+                                </sp-menu-item>
+                              `
+                            :null}
+
+                        </sp-action-menu>
+                      </sp-action-bar>
                     </div>
-                    <sp-button slot="trigger" class="trigger-button">
+
+                    <sp-button slot="trigger" class="trigger-button" @click="${this.init_components}">
                         <sp-icon-add></sp-icon-add>
                     </sp-button>
                     <sp-dialog
@@ -462,15 +569,6 @@ class HomeFooter extends LitElement {
                         slot="click-content"
                         class="custom-app custom-dialog-overlay-button"
                     >
-                        ${this.resetApps
-                            ? html`
-                                  <sp-action-button
-                                      class="reset-apps"
-                                      @click="${this.reset_apps}"
-                                      >${translate('reset_apps_label')}
-                                  </sp-action-button>
-                              `
-                            : null}
                     </div>
                 </overlay-trigger>
             </div>
