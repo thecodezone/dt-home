@@ -17,10 +17,6 @@
     max-width: 200px;
 }
 
-.logo .logo__image {
-    filter: none;
-}
-
 @media (prefers-color-scheme: dark) {
     :root {
         --dt-label-color: #fff;
@@ -29,7 +25,11 @@
         --dt-form-text-color: #fff;
     }
 
-    .logo .logo__image {
-        filter: invert(1) hue-rotate(180deg);
+    .cls-1 {
+        fill: #ffffff !important;
+    }
+
+    .text-color {
+        color: #ffffff !important;
     }
 }
