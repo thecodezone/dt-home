@@ -59,3 +59,18 @@ dt-copy-text {
         color: #ffffff;
     }
 }
+
+@media (prefers-color-scheme: dark) {
+
+    :root {
+        --dt-text-disabled-background-color: #292929;
+        --dt-text-border-color: #292929;
+        --dt-copy-text-color: #ffffff;
+    }
+
+
+    dt-copy-text {
+        color: #ffffff;
+    }
+
+}
