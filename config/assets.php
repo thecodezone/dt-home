@@ -39,6 +39,7 @@ $config->merge([
                 'close_label' => __( 'Close', 'dt-home' ),
                 'remove_menu_label' => __( 'Remove', 'dt-home' ),
                 'edit_menu_label' => __( 'Edit', 'dt-home' ),
+                'select_type_label' => __( 'Select Type', 'dt-home' ),
 
             ]
         ],

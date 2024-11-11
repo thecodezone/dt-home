@@ -81,6 +81,15 @@ class AppController
         $user_id = get_current_user_id();
         $app = $this->apps->find_for( $slug, $user_id );
 
+        // If no initial hit, attempt a direct search.
+        if ( !$app ) {
+            $filtered_array = array_values( array_filter( $this->apps->for( $user_id ), function ( $element ) use ( $slug ) {
+                return ( isset( $element['slug'] ) && $element['slug'] === $slug );
+            } ) );
+
+            $app = ! empty( $filtered_array[0] ) ? $filtered_array[0] : null;
+        }
+
         // Also confirm user has relevant permission to access app.
         if ( !$app || !container()->get( RolesPermissions::class )->has_permission( $app, $user_id, get_option( RolesPermissions::OPTION_KEY_CUSTOM_ROLES, [] ) ) ) {
             return response( __( 'Not Found', 'dt-home' ), 404 );
