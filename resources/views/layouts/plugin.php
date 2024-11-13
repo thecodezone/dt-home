@@ -14,12 +14,11 @@ $menu_items[] = [ 'label' => __( 'Training', 'dt-home' ), 'href' => magic_url( '
 $menu_items[] = [ 'label' => __( 'Log Out', 'dt-home' ), 'href' => magic_url( 'logout' ) ];
 //}
 
-
 $menu_items_json = wp_json_encode( $menu_items );
 ?>
 
 <sp-theme
-    color="light"
+    id="theme"
     scale="medium"
 >
     <div class="plugin cloak">
@@ -43,3 +42,18 @@ $menu_items_json = wp_json_encode( $menu_items );
         </div>
     </div>
 </sp-theme>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const themeElement = document.getElementById('theme')
+        const prefersDarkScheme = window.matchMedia(
+            '(prefers-color-scheme: dark)',
+        ).matches
+
+        if (prefersDarkScheme) {
+            themeElement.setAttribute('color', 'dark')
+        } else {
+            themeElement.setAttribute('color', 'light')
+        }
+    })
+</script>
