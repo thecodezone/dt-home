@@ -61,3 +61,30 @@ sp-icon-help {
 .cre-ac span {
     line-height: 27px !important;
 }
+
+.qr-code-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f9f9f9;
+    width: 40px;
+    height: 40px;
+    padding: 3px;
+    border-radius: 0px;
+    min-inline-size: 40px;
+}
+
+.qr-svg-image {
+    width: 20px;
+    height: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .qr-code-button {
+        background-color: #292929;
+    }
+
+    .qr-svg-image {
+        filter: invert(1) hue-rotate(180deg);
+    }
+}
