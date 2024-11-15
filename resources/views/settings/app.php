@@ -8,6 +8,8 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
     <!-- Add a form -->
 </form>
 
+<dialog id="apps_settings_dialog_placeholder"></dialog>
+
 <div class="wrapper">
     <div class="container-fluid">
         <div class="row">
@@ -19,6 +21,9 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                 </span>
                 &nbsp;&nbsp;&nbsp;
                 <span style="float:right;">
+                    <a id="import_apps_but" href="#" class="button float-right">
+                        <?php esc_html_e( 'Import Apps', 'dt-home' ); ?>
+                    </a>
                     <a href="admin.php?page=dt_home&tab=app&action=create" class="button float-right">
                         <i class="fa fa-plus"></i><?php esc_html_e( 'Add App', 'dt-home' ); ?>
                     </a>

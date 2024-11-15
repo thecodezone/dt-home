@@ -167,6 +167,61 @@ class Apps {
     }
 
     /**
+     * Import specified apps; creating or updating accordingly, based on incoming slugs.
+     *
+     * @param array $importing_apps
+     *
+     * @return bool
+     */
+    public function import( array $importing_apps ): bool
+    {
+        $required_properties = [ 'slug', 'name', 'icon', 'type', 'url' ];
+
+        // Filter out valid apps, suitable for import.
+        $filtered_apps = array_filter( $importing_apps, function ( $app ) use ( $required_properties ) {
+
+            // Ensure required properties are present.
+            return count( $required_properties ) === count( array_intersect( $required_properties, array_keys( $app ) ) );
+        } );
+
+        if ( empty( $filtered_apps ) ) {
+            return false;
+        }
+
+        // Ensure key internal properties, are also present within importing apps.
+        $filtered_apps = array_map( function ( $filtered_app ) {
+            return array_merge( [
+                'creation_type' => 'custom',
+                'source' => 'settings',
+                'sort' => 10,
+                'is_hidden' => false,
+                'is_deleted' => false,
+                'open_in_new_tab' => true,
+                'roles' => []
+            ], $filtered_app );
+        }, $filtered_apps );
+
+        // Fetch existing system apps.
+        $existing_apps = $this->from( SettingsApps::class );
+
+        // Extract array of importing slug ids.
+        $importing_slugs = array_map( function ( $app ) {
+            return $app['slug'];
+        }, $filtered_apps );
+
+        // Proceed with import and reshaping of existing apps.
+        $updated_apps = $filtered_apps;
+        foreach ( $existing_apps as $existing_app ) {
+            if ( !in_array( $existing_app['slug'], $importing_slugs ) ) {
+                $updated_apps[] = $existing_app;
+            }
+        }
+
+        // Save updated apps list.
+        return container()->get( SettingsApps::class )->save( $updated_apps );
+    }
+
+    /**
      * Returns the first element of the given array or null if the array is empty.
      *
      * @param array $apps The input array.
