@@ -42,6 +42,7 @@ import './components/training-video.js'
 import './components/app-icon.js'
 import './components/tool-tip.js'
 import './components/icon-picker.js'
+import './components/app-json.js'
 
 /**
  * CSS
