@@ -10,7 +10,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 <!-- Custom Popup Model-->
 <div id="overlay" class="overlay"></div>
 <div id="exportPopup" class="popup-model" style="display: none" data-apps='<?php echo json_encode( $data ); ?>'
-     data-site-domain="<?php echo get_site_url(); ?>">
+     data-site-domain="<?php echo esc_url( get_site_url() ); ?>">
     <div class="popup-content">
         <div class="popup-header">
             <h2 style="float: left">
