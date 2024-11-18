@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RELEASE_TYPE: false  # Default to false
+      PRE_RELEASE: false    # Default to false
 
     steps:
       - name: Determine if Release
@@ -19,6 +20,7 @@ jobs:
         run: |
           if [[ "${GITHUB_REF#refs/tags/}" != v* ]]; then
             echo "RELEASE_TYPE=true" >> $GITHUB_ENV
+            echo "PRE_RELEASE=true" >> $GITHUB_ENV
           fi
 
       - uses: actions/checkout@v2
@@ -59,9 +61,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          release_name: ${{ github.ref }}
           draft: ${{ env.RELEASE_TYPE }}
-          prerelease: false
+          prerelease: ${{ env.PRE_RELEASE }}
 
       - name: Upload Release Asset
         id: upload-release-asset
