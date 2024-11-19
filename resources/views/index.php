@@ -42,7 +42,7 @@ $full_link = magic_url();
         </svg>
     </sp-button>
     <sp-overlay trigger="trigger@click" type="modal">
-        <sp-dialog-wrapper headline="Share" dismissable underlay>
+        <sp-dialog-wrapper dismissable underlay>
             <img
                 src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=323a68&data=
             <?php echo esc_url( $full_link ) ?>"
