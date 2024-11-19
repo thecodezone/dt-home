@@ -97,6 +97,7 @@ class AppSettingsController
         $slug = sanitize_text_field( $input['slug'] ?? '' );
         $sort = sanitize_text_field( $input['sort'] ?? '' );
         $is_hidden = filter_var( $input['is_hidden'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
+        $is_exportable = filter_var( $input['is_exportable'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
         $open_in_new_tab = filter_var( $input['open_in_new_tab'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
         $roles = dt_recursive_sanitize_array( $input['roles'] ?? [] );
         $deleted_roles = json_decode( stripslashes_from_strings_only( $input['deleted_roles'] ?? '[]' ) );
@@ -111,6 +112,7 @@ class AppSettingsController
             'sort' => $sort,
             'slug' => $slug,
             'is_hidden' => $is_hidden == "1" ? 1 : 0,
+            'is_exportable' => $is_exportable == "1" ? 1 : 0,
             'open_in_new_tab' => $open_in_new_tab,
             'roles' => $roles
         ];
@@ -216,6 +218,7 @@ class AppSettingsController
         $url = sanitize_text_field( $input['url'] ?? '' );
         $new_slug = sanitize_text_field( $input['slug'] ?? '' );
         $is_hidden = filter_var( $input['is_hidden'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
+        $is_exportable = filter_var( $input['is_exportable'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
         $open_in_new_tab = filter_var( $input['open_in_new_tab'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
         $roles = dt_recursive_sanitize_array( $input['roles'] ?? [] );
         $deleted_roles = json_decode( stripslashes_from_strings_only( $input['deleted_roles'] ?? '[]' ) );
@@ -235,6 +238,7 @@ class AppSettingsController
                     'slug' => $new_slug,
                     'sort' => $app['sort'] ?? '',
                     'is_hidden' => $is_hidden == "1" ? 1 : 0,
+                    'is_exportable' => $is_exportable == "1" ? 1 : 0,
                     'open_in_new_tab' => $open_in_new_tab,
                     'roles' => $roles
                 ];

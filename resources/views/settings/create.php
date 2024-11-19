@@ -122,6 +122,16 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             </td>
         </tr>
         <tr>
+            <td style="vertical-align: middle;"><?php esc_html_e('Is Exportable', 'dt-home') ?>
+                <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Check this box to ensure app is also included within json magic link endpoint output.', 'dt-home') ?></span>
+            </span>
+            </td>
+            <td colspan="3">
+                <input type="checkbox" name="is_exportable" id="is_exportable" value="1">
+            </td>
+        </tr>
+        <tr>
             <td style="vertical-align: top;"><?php esc_html_e('Roles', 'dt-home') ?>
                 <span class="tooltip">[?]
                 <span class="tooltiptext"><?php esc_html_e('Select which user roles can access app.', 'dt-home') ?></span>

@@ -32,6 +32,7 @@ import '@spectrum-web-components/icons-workflow/icons/sp-icon-add.js'
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-edit.js'
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-add-circle.js'
 import '@spectrum-web-components/icons-workflow/icons/sp-icon-delete.js'
+import '@spectrum-web-components/dialog/sp-dialog-wrapper.js'
 /**
  * Web Components
  */
@@ -42,6 +43,7 @@ import './components/training-video.js'
 import './components/app-icon.js'
 import './components/tool-tip.js'
 import './components/icon-picker.js'
+import './components/app-json.js'
 
 /**
  * CSS
