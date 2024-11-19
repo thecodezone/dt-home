@@ -29,30 +29,35 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
     </div>
 </div>
 
+<dialog id="apps_settings_dialog_placeholder"></dialog>
+
 <div class="wrapper">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <span style="float:left;">
+                <span>
+                    <a href="admin.php?page=dt_home&tab=app&action=create" class="button">
+                        <i class="fa fa-plus"></i> <?php esc_html_e( 'Add App', 'dt-home' ); ?>
+                    </a>
+                </span>
+                <span>
                     <a href="admin.php?page=dt_home&tab=app&action=available_app" class="button float-right">
                         <i class="fas fa-trash-restore"></i> <?php esc_html_e( 'Available Apps', 'dt-home' ); ?>
                     </a>
                 </span>
                 <div class="apps-btn">
-                <span>
-                    <button class="button" id="exportButton" disabled>
-                       <i class="fas fa-file-export"></i> <?php esc_html_e( 'Export Apps', 'dt-home' ); ?>
-                    </button>
-                </span>
-                    &nbsp;&nbsp;&nbsp;
                     <span>
-                    <a href="admin.php?page=dt_home&tab=app&action=create" class="button">
-                        <i class="fa fa-plus"></i>
-                        <?php esc_html_e( 'Add App', 'dt-home' ); ?>
-                    </a>
-                </span>
+                        <a id="import_apps_but" href="#" class="button float-right">
+                            <i class="fas fa-file-import"></i> <?php esc_html_e( 'Import Apps', 'dt-home' ); ?>
+                        </a>
+                    </span>
+                    <span>
+                        <button class="button" id="exportButton" disabled>
+                           <i class="fas fa-file-export"></i> <?php esc_html_e( 'Export Apps', 'dt-home' ); ?>
+                        </button>
+                    </span>
                 </div>
-                <br><br>
+                <br>
                 <table class="widefat striped" style="border-collapse: collapse; width: 100%;">
                     <thead>
                     <tr>

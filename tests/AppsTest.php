@@ -262,4 +262,55 @@ class AppsTest extends TestCase
 
         $this->assertFalse( $result );
     }
+
+    /**
+     * @test
+     */
+    public function it_imports_apps() {
+
+        // Set unit test current user.
+        $this->acting_as( 1 );
+
+        // Generate importing apps.
+        $importing_apps = [ app_factory() ];
+        $importing_app_slug = $importing_apps[0]['slug'];
+
+        // Assert importing app slug is not already stored.
+        $apps_service = container()->get( Apps::class );
+        $this->assertFalse( $apps_service->has( $importing_app_slug ) );
+
+        // Proceed with apps import and assert a positive outcome.
+        $this->assertTrue( $apps_service->import( $importing_apps ) );
+
+        // Finally, assert app has been imported.
+        $this->assertTrue( $apps_service->has( $importing_app_slug ) );
+    }
+
+    /**
+     * @test
+     */
+    public function it_updates_importing_apps() {
+
+        // Set unit test current user.
+        $this->acting_as( 1 );
+
+        // Generate importing apps.
+        $apps = [ app_factory() ];
+        $app_slug = $apps[0]['slug'];
+
+        // Save apps to settings and assert successful storage.
+        $apps_service = container()->get( Apps::class );
+        $settings_apps_service = container()->get( SettingsApps::class );
+        $settings_apps_service->save( $apps );
+        $this->assertTrue( $apps_service->has( $app_slug ) );
+
+        // Import new apps with a slug match; expecting an update outcome.
+        $updated_name = 'updated_app';
+        $this->assertTrue( $apps_service->import( [ app_factory( [ 'slug' => $app_slug, 'name' => $updated_name ] ) ] ) );
+
+        // Fetch recently saved app and confirm name property updated.
+        $updated_app = $apps_service->find( $app_slug );
+        $this->assertFalse( empty( $updated_app ) );
+        $this->assertTrue( $updated_app['name'] === $updated_name );
+    }
 }
