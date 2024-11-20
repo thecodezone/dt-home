@@ -347,4 +347,18 @@ class AppSettingsController
         // Redirect to the page with a success message
         return redirect( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true' );
     }
+
+    /**
+     * This function handles import requests.
+     *
+     * @param Request $request The request instance.
+     * @param array $params The route parameters.
+     *
+     * @return ResponseInterface
+     */
+    public function import( Request $request, array $params ): ResponseInterface {
+        return response( [
+            'success' => $this->apps->import( extract_request_input( $request ) )
+        ], 200, [ 'Content-Type' => 'application/json' ] );
+    }
 }
