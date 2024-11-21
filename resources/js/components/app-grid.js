@@ -1,7 +1,7 @@
-import { css, html, LitElement } from 'lit'
-import { customElement } from 'lit-element'
-import { property, queryAll } from 'lit/decorators.js'
-import { magic_url, translate } from '../helpers.js'
+import {css, html, LitElement} from 'lit'
+import {customElement} from 'lit-element'
+import {property, queryAll} from 'lit/decorators.js'
+import {isAndroid, isiOS, magic_url, translate} from '../helpers.js'
 import './app-form-modal.js'
 
 /**
@@ -316,6 +316,9 @@ class AppGrid extends LitElement {
                 case 'Link':
                     this.visitApp(selectedApp.url, selectedApp)
                     break
+                case 'Native App Link':
+                    this.redirectToApp(selectedApp)
+                    break
                 default:
                     this.visitApp(
                         this.addOrUpdateQueryParam(
@@ -335,6 +338,34 @@ class AppGrid extends LitElement {
             window.open(url, '_blank')
         } else {
             window.location.href = url
+        }
+    }
+
+    redirectToApp(selectedApp) {
+        const fallbackLinkAndroid = selectedApp.fallback_url_android
+        const fallbackLinkIos = selectedApp.fallback_url_ios
+        const fallbackLinkOthers = selectedApp.fallback_url_others
+        const customScheme = selectedApp.url
+
+        // isiOS and isAndroid should be implemented by yourself
+        if (isiOS() || isAndroid()) {
+            const iframe = document.createElement('iframe')
+            iframe.style.display = 'none'
+            iframe.src = customScheme
+            document.body.appendChild(iframe)
+
+            setTimeout(() => {
+                document.body.removeChild(iframe)
+                if (document.hasFocus()) {
+                    const storeLink = isAndroid()
+                        ? fallbackLinkAndroid
+                        : fallbackLinkIos
+                    window.location.href = storeLink
+                }
+            }, 1000)
+        } else {
+            debugger
+            window.location.href = fallbackLinkOthers
         }
     }
 
