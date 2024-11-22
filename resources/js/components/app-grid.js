@@ -349,13 +349,9 @@ class AppGrid extends LitElement {
 
         // isiOS and isAndroid should be implemented by yourself
         if (isiOS() || isAndroid()) {
-            const iframe = document.createElement('iframe')
-            iframe.style.display = 'none'
-            iframe.src = customScheme
-            document.body.appendChild(iframe)
+            window.location.href = customScheme
 
             setTimeout(() => {
-                document.body.removeChild(iframe)
                 if (document.hasFocus()) {
                     const storeLink = isAndroid()
                         ? fallbackLinkAndroid
@@ -364,7 +360,6 @@ class AppGrid extends LitElement {
                 }
             }, 1000)
         } else {
-            debugger
             window.location.href = fallbackLinkOthers
         }
     }
