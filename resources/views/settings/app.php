@@ -115,6 +115,14 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                                 </div>
                                 &nbsp;|&nbsp;
                                 <div class="action-tooltip">
+                                    <a href="admin.php?page=dt_home&tab=app&action=down/<?php echo esc_attr( $app['slug'] ); ?>">
+                                        <i class="fas fa-arrow-down action-icon"></i>
+                                    </a>
+                                    <span
+                                        class="action-tooltip-text"><?php esc_attr_e( 'Move Down', 'dt-home' ); ?></span>
+                                </div>
+                                &nbsp;|&nbsp;
+                                <div class="action-tooltip">
                                     <?php if ( $app['is_hidden'] == 1 ) { ?>
                                         <a href="admin.php?page=dt_home&tab=app&action=unhide/<?php echo esc_attr( $app['slug'] ); ?>">
                                             <i class="fas fa-eye action-icon"></i>
@@ -134,14 +142,6 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                                         <i class="fas fa-edit action-icon"></i>
                                     </a>
                                     <span class="action-tooltip-text"><?php esc_attr_e( 'Edit', 'dt-home' ); ?></span>
-                                </div>
-                                &nbsp;|&nbsp;
-                                <div class="action-tooltip">
-                                    <a href="admin.php?page=dt_home&tab=app&action=down/<?php echo esc_attr( $app['slug'] ); ?>">
-                                        <i class="fas fa-arrow-down action-icon"></i>
-                                    </a>
-                                    <span
-                                        class="action-tooltip-text"><?php esc_attr_e( 'Move Down', 'dt-home' ); ?></span>
                                 </div>
                                 &nbsp;|&nbsp;
                                 <div class="action-tooltip">

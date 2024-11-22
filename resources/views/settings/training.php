@@ -50,6 +50,14 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                                 </div>
                                 &nbsp;|&nbsp;
                                 <div class="action-tooltip">
+                                    <a href="admin.php?page=dt_home&tab=training&action=down/<?php echo esc_attr( $training['id'] ); ?>">
+                                        <i class="fas fa-arrow-down action-icon"></i>
+                                    </a>
+                                    <span
+                                        class="action-tooltip-text"><?php esc_html_e( 'Move Down', 'dt-home' ); ?></span>
+                                </div>
+                                &nbsp;|&nbsp;
+                                <div class="action-tooltip">
                                     <a href="admin.php?page=dt_home&tab=training&action=edit/<?php echo esc_attr( $training['id'] ); ?>">
                                         <i class="fas fa-edit action-icon"></i>
                                     </a>
@@ -62,14 +70,6 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                                         <i class="fas fa-trash action-icon"></i>
                                     </a>
                                     <span class="action-tooltip-text"><?php esc_html_e( 'Delete', 'dt-home' ); ?></span>
-                                </div>
-                                &nbsp;|&nbsp;
-                                <div class="action-tooltip">
-                                    <a href="admin.php?page=dt_home&tab=training&action=down/<?php echo esc_attr( $training['id'] ); ?>">
-                                        <i class="fas fa-arrow-down action-icon"></i>
-                                    </a>
-                                    <span
-                                        class="action-tooltip-text"><?php esc_html_e( 'Move Down', 'dt-home' ); ?></span>
                                 </div>
                             </td>
 
