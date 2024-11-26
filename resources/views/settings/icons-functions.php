@@ -27,12 +27,12 @@ function build_icon_tab_html( $params ): void {
                        title="<?php esc_attr_e( 'The name cannot be empty or just whitespace.', 'dt-home' ); ?>"
                         <?php echo esc_attr( $is_icon_input_required ? 'required' : '' ); ?>
                        value="<?php
-                       if ( filter_var( $existing_icon, FILTER_VALIDATE_URL ) || strpos( $existing_icon, '/wp-content/' ) === 0 ) :
+                        if ( filter_var( $existing_icon, FILTER_VALIDATE_URL ) || strpos( $existing_icon, '/wp-content/' ) === 0 ) :
                            echo esc_url( isset( $existing_icon ) ? $existing_icon : '' );
                        elseif ( preg_match( '/^mdi\smdi-/', $existing_icon ) ) :
                            echo esc_attr( $existing_icon );
                        endif;
-                       ?>"
+                        ?>"
                        data-icon_selected_placeholder="<?php echo esc_attr( $selected_icon_placeholder_name ); ?>"
                 />
             </td>
