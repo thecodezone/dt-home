@@ -445,3 +445,41 @@ jQuery(document).ready(function ($) {
   }
 
 });
+
+/**
+ * Handle apps icons toggle display.
+ *
+ * @function
+ * @name appsIconTabsToggle
+ * @returns {void}
+ */
+jQuery(document).ready(function ($) {
+  $('a.app-icon-tab').click(function (e) {
+
+    // Deactivate all tabs and activate selected tab.
+    const selected_tab = $(e.currentTarget);
+    $(selected_tab).parent().find('.nav-tab-active').removeClass('nav-tab-active');
+    $(selected_tab).addClass('nav-tab-active');
+
+    // Toggle tab content.
+    $(selected_tab).parent().parent().find('div.app-icon-tab-content').children().slideUp('fast', function () {
+
+      // Obtain handle onto tab div by specified class id and fade in.
+      $(`div.${$(selected_tab).data('tab')}`).slideDown('fast');
+
+    });
+  });
+
+  $('i.app-color-reset').click(function (e) {
+    const color_id = $(e.currentTarget).data('color');
+    const color_input = $(`#${ color_id }`);
+    const color_input_hidden = $(`#${ color_id }_hidden`);
+
+    /**
+     * Remove color value; which will most likely revert to black (#000000);
+     * therefore, also signal with `delete` flag.
+     */
+    $(color_input).val('');
+    $(color_input_hidden).val('deleted');
+  });
+});

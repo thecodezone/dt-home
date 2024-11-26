@@ -387,7 +387,6 @@ jQuery(document).ready(function ($) {
                                 this,
                                 parent_form,
                                 icon_input,
-                                svgIcons,
                                 callback
                             )
                         },
@@ -400,7 +399,6 @@ jQuery(document).ready(function ($) {
                                 this,
                                 parent_form,
                                 icon_input,
-                                svgIcons,
                                 callback
                             )
                         },
@@ -673,30 +671,31 @@ jQuery(document).ready(function ($) {
         )
 
         if ($(selected_icon).length) {
+            const icon_selected_placeholder = $(`#${$(icon_input).data('icon_selected_placeholder')}`);
             let icon_class = $(selected_icon).data('icon_class')
             let icon_url = $(selected_icon).data('icon_url') // Assuming the icon URL is stored in data-icon_url attribute
             if (icon_class) {
-                // Update form icon class input
-                icon_input.val('mdi ' + icon_class)
 
-                // Also update the input field with id "app_icon"
-                $('#app_icon').val('mdi ' + icon_class)
-                $('#app_icon_show').empty()
+              // Update form icon class input
+              icon_input.val('mdi ' + icon_class);
 
-                $('#app_icon_show').addClass('mdi ' + icon_class)
+              // Display selected icon.
+              $(icon_selected_placeholder).empty();
+              $(icon_selected_placeholder).addClass('mdi ' + icon_class);
+
             } else if (icon_url) {
-                // Update form icon class input with icon URL
-                icon_input.val(icon_url)
 
-                // Also update the input field with id "app_icon"
-                $('#app_icon').val(icon_url)
-                $('#app_icon_show')
+              // Update form icon class input with icon URL
+                icon_input.val(icon_url);
+
+                // Display selected image.
+                $(icon_selected_placeholder)
                     .removeAttr('class')
                     .html(
                         '<img src="' +
                             icon_url +
-                            '" alt="Icon Image" style="width: 12px; height: 12px;" />'
-                    )
+                            '" alt="Icon Image" style="width: 25px; height: 25px;" />'
+                    );
             }
 
             // If present, close dialog
@@ -768,18 +767,18 @@ jQuery(document).ready(function ($) {
         mediaFrame.on('select', function () {
             // Fetch and convert selected into json object
             let selected = mediaFrame.state().get('selection').first().toJSON()
+            const icon_selected_placeholder = $(`#${$(icon_input).data('icon_selected_placeholder')}`);
 
             // Update form icon link
-            //icon_input.val(selected.url)
-            $('#app_icon').val('') // Clear the input value
+            $(icon_input).val('') // Clear the input value
             setTimeout(function () {
-                $('#app_icon').val(selected.url) // Append the selected URL
-                $('#app_icon_show')
+                $(icon_input).val(selected.url) // Append the selected URL
+                $(icon_selected_placeholder)
                     .removeAttr('class')
                     .html(
                         '<img src="' +
                             selected.url +
-                            '" alt="Icon Image" style="width: 32px; height: 32px;" />'
+                            '" alt="Icon Image" style="width: 25px; height: 25px;" />'
                     )
             }, 0) // Slight delay to ensure clearing occurs
 
