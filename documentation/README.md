@@ -34,7 +34,17 @@ Web developers can now mitigate these issues, with the use of [prefers-color-sch
 
 With these features, web developers are able to identify user preferences and provide alternate styles to the content and achieve the desired theme.
 
-Follow the links below for a more detailed description of supporting dark mode and enabling the feature within Samsung web browsers.
+It has also been noted that dark mode works well, when also enabled within Samsung's web browser settings, as described in the summary below:
+
+1. First, enable dark mode within host operating system settings.
+2. Once this setting has been enabled, open Samsung's web browser and navigate to the settings menu.
+3. From there, you should find the Light Theme Sites/Dark Theme Sites option; which should be toggled accordingly, to enable dark mode.
+4. Next, navigate back to the browser settings page and select the Labs view, where the following options should be displayed:
+   - Use System Font For Webpages.
+   - Use Website Dark Theme.
+5. Enable the **Use Website Dark Theme** option, in order to fully support dark mode within Samsung's web browser.
+
+More detailed descriptions for supporting dark mode and enabling the feature within Samsung web browsers, can be found in the links below.
 
 - [Dark Mode in Samsung Internet](https://developer.samsung.com/internet/blog/en/2020/12/15/dark-mode-in-samsung-internet)
 - [Samsung’s Internet browser now has Night Mode for easy browsing in the dark](https://thenextweb.com/news/samsung-internet-night-mode)
