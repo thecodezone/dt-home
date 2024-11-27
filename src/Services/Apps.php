@@ -56,6 +56,15 @@ class Apps {
         }
         $params['user_id'] = $user_id;
         $apps = $this->from( UserApps::class, $params );
+
+        // Filter out apps; which the user does not currently have permission to access and reindex.
+        $roles_permissions_srv = container()->get( RolesPermissions::class );
+        $dt_custom_roles = get_option( $roles_permissions_srv::OPTION_KEY_CUSTOM_ROLES, [] );
+        $apps = array_values( array_filter( $apps, function ( $app ) use ( $user_id, $roles_permissions_srv, $dt_custom_roles ) {
+            return $roles_permissions_srv->has_permission( $app, $user_id, $dt_custom_roles );
+        } ) );
+
+        // Proceed with hydration of magic link urls.
         $this->magic_apps->hydrate_magic_urls( $apps, $user_id );
         return $apps;
     }
@@ -155,6 +164,61 @@ class Apps {
         }
 
         return false;
+    }
+
+    /**
+     * Import specified apps; creating or updating accordingly, based on incoming slugs.
+     *
+     * @param array $importing_apps
+     *
+     * @return bool
+     */
+    public function import( array $importing_apps ): bool
+    {
+        $required_properties = [ 'slug', 'name', 'icon', 'type', 'url' ];
+
+        // Filter out valid apps, suitable for import.
+        $filtered_apps = array_filter( $importing_apps, function ( $app ) use ( $required_properties ) {
+
+            // Ensure required properties are present.
+            return count( $required_properties ) === count( array_intersect( $required_properties, array_keys( $app ) ) );
+        } );
+
+        if ( empty( $filtered_apps ) ) {
+            return false;
+        }
+
+        // Ensure key internal properties, are also present within importing apps.
+        $filtered_apps = array_map( function ( $filtered_app ) {
+            return array_merge( [
+                'creation_type' => 'custom',
+                'source' => 'settings',
+                'sort' => 10,
+                'is_hidden' => false,
+                'is_deleted' => false,
+                'open_in_new_tab' => true,
+                'roles' => []
+            ], $filtered_app );
+        }, $filtered_apps );
+
+        // Fetch existing system apps.
+        $existing_apps = $this->from( SettingsApps::class );
+
+        // Extract array of importing slug ids.
+        $importing_slugs = array_map( function ( $app ) {
+            return $app['slug'];
+        }, $filtered_apps );
+
+        // Proceed with import and reshaping of existing apps.
+        $updated_apps = $filtered_apps;
+        foreach ( $existing_apps as $existing_app ) {
+            if ( !in_array( $existing_app['slug'], $importing_slugs ) ) {
+                $updated_apps[] = $existing_app;
+            }
+        }
+
+        // Save updated apps list.
+        return container()->get( SettingsApps::class )->save( $updated_apps );
     }
 
     /**

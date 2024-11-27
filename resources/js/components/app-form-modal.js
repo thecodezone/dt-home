@@ -41,29 +41,41 @@ class AppFormModal extends LitElement {
             border-radius: 5px;
         }
 
+        @media (prefers-color-scheme: dark) {
+            .text-color {
+                color: #fff;
+            }
+
+            :host {
+                --dt-label-color: #fff;
+                --dt-fields-background-color: #292929;
+                --dt-text-border-color: #292929;
+                --dt-form-text-color: #fff;
+                --dt-single-select-text-color: #fff;
+                --dt-form-border-color: #292929;
+                --dt-text-disabled-background-color: #292929;
+                --close-icon-background-color: #292929;
+                --close-icon-color: #fff;
+                --close-icon-background-color-hover: #2929297d;
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :host {
+                --close-icon-background-color: lightgray;
+                --close-icon-background-color-hover: darkgray;
+            }
+        }
+
         .modal-content {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: white;
+            background-color: var(--spectrum-gray-100);
             padding: 1rem 1.5rem;
             width: 24rem;
             border-radius: 0.5rem;
-        }
-
-        .close-button {
-            float: right;
-            width: 1.5rem;
-            line-height: 1.5rem;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 0.25rem;
-            background-color: lightgray;
-        }
-
-        .close-button:hover {
-            background-color: darkgray;
         }
 
         .modal {
@@ -88,7 +100,7 @@ class AppFormModal extends LitElement {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: white;
+            background-color: var(--spectrum-gray-100);
             padding: 1rem 1.5rem;
             width: 24rem;
             border-radius: 0.5rem;
@@ -102,11 +114,12 @@ class AppFormModal extends LitElement {
             text-align: center;
             cursor: pointer;
             border-radius: 0.25rem;
-            background-color: lightgray;
+            background-color: var(--close-icon-background-color);
+            color: var(--close-icon-color);
         }
 
         .modal-close:hover {
-            background-color: darkgray;
+            background-color: var(--close-icon-background-color-hover);
         }
 
         .show-modal {
@@ -152,6 +165,7 @@ class AppFormModal extends LitElement {
         this.classList.remove('modal-open')
         this.clearForm()
         this.resetValidationError()
+        this.requestUpdate()
         this.dispatchEvent(
             new CustomEvent('modal-closed', { bubbles: true, composed: true })
         )
@@ -189,6 +203,10 @@ class AppFormModal extends LitElement {
      */
 
     updateSlugField() {
+        if (this.appData.slug) {
+            // If the form is in edit mode, this not change the slug
+            return
+        }
         const nameField = this.shadowRoot.querySelector('dt-text[name="name"]')
         const slugField = this.shadowRoot.querySelector('dt-text[name="slug"]')
 
@@ -196,8 +214,8 @@ class AppFormModal extends LitElement {
             const nameValue = nameField.value.trim()
             const slugValue = nameValue
                 .toLowerCase()
-                .replace(/[^a-z0-9]+/g, '-')
-                .replace(/^-+|-+$/g, '')
+                .replace(/[^a-z0-9]+/g, '_') // Replace non-alphanumeric characters with underscores
+                .replace(/^_+|_+$/g, '') // Remove leading and trailing underscores
             slugField.value = slugValue
         }
     }
@@ -246,7 +264,6 @@ class AppFormModal extends LitElement {
 
     handleSubmit(e) {
         e.preventDefault()
-        this.updateSlugField()
         const isFormValid = this.validateForm()
 
         if (isFormValid) {
@@ -313,6 +330,7 @@ class AppFormModal extends LitElement {
     resetValidationError() {
         this.validationError = false
         this.error = ''
+        return this.requestUpdate()
     }
 
     /**
@@ -347,6 +365,7 @@ class AppFormModal extends LitElement {
                     : field.value
             }
         })
+        formObject['creation_type'] = this.appData.creation_type
 
         return formObject
     }
@@ -364,7 +383,7 @@ class AppFormModal extends LitElement {
             >
                 <div class="modal-content">
                     <div class="modal-title" style="margin-bottom: 10px;">
-                        <h3>${translate(this.modelName)}</h3>
+                        <h3 class="text-color">${translate(this.modelName)}</h3>
                         <span class="modal-close" @click="${this.closeModal}"
                             >&times;</span
                         >
@@ -391,19 +410,30 @@ class AppFormModal extends LitElement {
                             .value="${this.appData.name || ''}"
                             @change="${this.updateSlugField}"
                         ></dt-text>
+                        <dt-text
+                            id="slug"
+                            label="${translate('slug_label')}"
+                            name="slug"
+                            placeholder="${translate('slug_label')}"
+                            require
+                            tabindex="5"
+                            .value="${this.appData.slug || ''}"
+                            ?disabled="${!!this.appData.slug}"
+                        ></dt-text>
                         <dt-single-select
                             name="type"
                             require
                             label="${translate('type_label')}"
-                            placeholder="${translate('type_label')}"
-                            options='[
-                                {"id":"","label":"Select Type"},
-                                {"id":"Web View","label":"Web View"},
-                                {"id":"Link","label":"Link"}
-                            ]'
+                            placeholder="${translate('select_type_label')}"
+                            .options="${[
+                                { id: 'Web View', label: 'Web View' },
+                                { id: 'Link', label: 'Link' },
+                            ]}"
                             .value="${this.appData.type || ''}"
                         ></dt-single-select>
-                        ${translate('open_new_tab_label')}
+                        <label for="open_in_new_tab" class="text-color">
+                            ${translate('open_new_tab_label')}
+                        </label>
                         <input
                             type="checkbox"
                             name="open_in_new_tab"
@@ -429,16 +459,6 @@ class AppFormModal extends LitElement {
                             require
                             tabindex="4"
                             .value="${this.appData.url || ''}"
-                        ></dt-text>
-                        <dt-text
-                            id="slug"
-                            label="${translate('slug_label')}"
-                            name="slug"
-                            placeholder="${translate('slug_label')}"
-                            require
-                            tabindex="5"
-                            .value="${this.appData.slug || ''}"
-                            ?disabled="${!!this.appData.slug}"
                         ></dt-text>
                         <sp-button-group>
                             <sp-button

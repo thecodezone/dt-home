@@ -5,6 +5,7 @@ namespace DT\Home\Controllers\Admin;
 use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Services\Apps;
+use DT\Home\Services\RolesPermissions;
 use DT\Home\Services\SVGIconService;
 use DT\Home\Sources\SettingsApps;
 use function DT\Home\extract_request_input;
@@ -17,11 +18,13 @@ class AppSettingsController
 
     private Apps $apps;
     private SettingsApps $settings_apps;
+    private RolesPermissions $roles_permissions;
 
-    public function __construct( Apps $apps, SettingsApps $source )
+    public function __construct( Apps $apps, SettingsApps $source, RolesPermissions $roles_permissions )
     {
         $this->apps = $apps;
         $this->settings_apps = $source;
+        $this->roles_permissions = $roles_permissions;
     }
 
     /**
@@ -94,7 +97,10 @@ class AppSettingsController
         $slug = sanitize_text_field( $input['slug'] ?? '' );
         $sort = sanitize_text_field( $input['sort'] ?? '' );
         $is_hidden = filter_var( $input['is_hidden'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
+        $is_exportable = filter_var( $input['is_exportable'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
         $open_in_new_tab = filter_var( $input['open_in_new_tab'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
+        $roles = dt_recursive_sanitize_array( $input['roles'] ?? [] );
+        $deleted_roles = json_decode( stripslashes_from_strings_only( $input['deleted_roles'] ?? '[]' ) );
 
         // Prepare the data to be stored
         $app_data = [
@@ -106,7 +112,9 @@ class AppSettingsController
             'sort' => $sort,
             'slug' => $slug,
             'is_hidden' => $is_hidden == "1" ? 1 : 0,
+            'is_exportable' => $is_exportable == "1" ? 1 : 0,
             'open_in_new_tab' => $open_in_new_tab,
+            'roles' => $roles
         ];
 
         // Get the existing apps array
@@ -126,6 +134,9 @@ class AppSettingsController
         $apps_array[] = $app_data;
 
         $this->settings_apps->save( $apps_array );
+
+        // Update global roles and permissions.
+        $this->roles_permissions->update( $slug, [ $this->roles_permissions->generate_permission_key( $slug ) ], $roles, $deleted_roles );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
@@ -205,10 +216,12 @@ class AppSettingsController
         $creation_type = sanitize_text_field( $input['creation_type'] ?? '' );
         $icon_url = sanitize_text_field( $input['icon'] ?? '' );
         $url = sanitize_text_field( $input['url'] ?? '' );
-        $sort = sanitize_text_field( $input['sort'] ?? '' );
         $new_slug = sanitize_text_field( $input['slug'] ?? '' );
         $is_hidden = filter_var( $input['is_hidden'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
+        $is_exportable = filter_var( $input['is_exportable'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
         $open_in_new_tab = filter_var( $input['open_in_new_tab'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
+        $roles = dt_recursive_sanitize_array( $input['roles'] ?? [] );
+        $deleted_roles = json_decode( stripslashes_from_strings_only( $input['deleted_roles'] ?? '[]' ) );
 
         // Retrieve the existing array of apps
         $apps_array = $this->apps->from( $this->settings_apps );
@@ -223,15 +236,20 @@ class AppSettingsController
                     'icon' => $icon_url,
                     'url' => $url,
                     'slug' => $new_slug,
-                    'sort' => $sort,
+                    'sort' => $app['sort'] ?? '',
                     'is_hidden' => $is_hidden == "1" ? 1 : 0,
+                    'is_exportable' => $is_exportable == "1" ? 1 : 0,
                     'open_in_new_tab' => $open_in_new_tab,
+                    'roles' => $roles
                 ];
                 break; // Stop the loop once the app is found and updated
             }
         }
 
         $this->settings_apps->save( $apps_array );
+
+        // Update global roles and permissions.
+        $this->roles_permissions->update( $slug, [ $this->roles_permissions->generate_permission_key( $slug ) ], $roles, $deleted_roles );
 
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
@@ -328,5 +346,19 @@ class AppSettingsController
 
         // Redirect to the page with a success message
         return redirect( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true' );
+    }
+
+    /**
+     * This function handles import requests.
+     *
+     * @param Request $request The request instance.
+     * @param array $params The route parameters.
+     *
+     * @return ResponseInterface
+     */
+    public function import( Request $request, array $params ): ResponseInterface {
+        return response( [
+            'success' => $this->apps->import( extract_request_input( $request ) )
+        ], 200, [ 'Content-Type' => 'application/json' ] );
     }
 }

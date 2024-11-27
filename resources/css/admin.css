@@ -106,18 +106,113 @@ body {
         margin-left: -5px; /* Center the arrow */
     }
 }
+
 /* Color Picker */
-    .color-picker{
-        width: 24px;
-        height: 24px;
-        border: none !important;
-        cursor: pointer;
-        margin: 0px !important;
-        background-color: transparent !important;
+.color-picker {
+    width: 24px;
+    height: 24px;
+    border: none !important;
+    cursor: pointer;
+    margin: 0px !important;
+    background-color: transparent !important;
+}
+
+.image-preview {
+    height: 22px;
+}
+
+.color-picker-lable {
+    margin-left: -3px;
+}
+
+.apps-btn {
+    float: right
+}
+
+/* Custom Copy Button Styles */
+.text-area {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #ccc;
+}
+
+.custom-checkbox {
+    margin: 0 !important;
+}
+
+.copied {
+    color: green;
+    border-color: green !important;
+
+    &:focus {
+        box-shadow: 0 0 0 1px #96cd96 !important;
     }
-    .image-preview{
-        height: 22px;
+}
+
+/* Custom Overlay Styles */
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+
+/* Custom Popup model Styles */
+.popup-model {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    z-index: 1000;
+    width: 50%; /* Adjusted width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1); /* Add shadow */
+    border-radius: 8px; /* Optional: Add rounded corners */
+}
+
+.popup-content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.popup-body {
+    flex-grow: 1;
+    /*margin-top: 20px;*/
+    display: flex;
+    flex-direction: column;
+}
+
+.popup-body textarea {
+    flex-grow: 1;
+}
+
+.popup-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.close {
+    cursor: pointer;
+    font-size: 20px;
+    background-color: #e1e1e1;
+    padding: 5px;
+    border-radius: 20%;
+
+    &:hover {
+        background-color: #f1f1f1;
     }
-    .color-picker-lable{
-        margin-left: -3px;
-    }
+}
+
+

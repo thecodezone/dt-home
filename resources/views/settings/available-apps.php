@@ -14,7 +14,7 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
             <div class="col-md-12">
                 <span style="float:right;">
                     <a href="admin.php?page=dt_home&tab=app" class="button float-right">
-                        <i class="fa fa-plus"></i><?php esc_html_e( 'Go Back', 'dt-home' ); ?>
+                        <i class="fa fa-arrow-left"></i> <?php esc_html_e( 'Go Back', 'dt-home' ); ?>
                     </a>
                 </span>
 
@@ -33,7 +33,8 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                     <tbody>
                     <?php if ( empty( $data ) ) : ?>
                         <tr>
-                            <td colspan="5" style="text-align: center;border: 1px solid #ddd;"><?php esc_html_e( 'No apps found', 'dt-home' ); ?></td>
+                            <td colspan="5"
+                                style="text-align: center;border: 1px solid #ddd;"><?php esc_html_e( 'No apps found', 'dt-home' ); ?></td>
                         </tr>
                     <?php endif; ?>
                     <?php foreach ( $data as $app ) : ?>
@@ -43,7 +44,9 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                             <td style="border: 1px solid #ddd;">
                                 <?php if ( !empty( $app['icon'] ) ) : ?>
                                     <?php if ( filter_var( $app['icon'], FILTER_VALIDATE_URL ) || strpos( $app['icon'], '/wp-content/' ) === 0 ) : ?>
-                                        <img src="<?php echo esc_url( $app['icon'] ); ?>" alt="<?php esc_attr_e( 'Icon', 'dt-home' ); ?>" style="width: 50px; height: 50px;">
+                                        <img src="<?php echo esc_url( $app['icon'] ); ?>"
+                                             alt="<?php esc_attr_e( 'Icon', 'dt-home' ); ?>"
+                                             style="width: 50px; height: 50px;">
                                     <?php elseif ( preg_match( '/^mdi\smdi-/', $app['icon'] ) ) : ?>
                                         <i class="<?php echo esc_attr( $app['icon'] ); ?>" style="font-size: 50px;"></i>
                                     <?php endif; ?>
@@ -54,7 +57,8 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                             <td style="border: 1px solid #ddd;">
                                 <?php if ( isset( $app['creation_type'] ) && $app['creation_type'] == 'code' ) : ?>
                                     &nbsp;
-                                    <a href="#" onclick="restore_app('<?php echo esc_attr( $app['slug'] ); ?>')" class="delete-apps">
+                                    <a href="#" onclick="restore_app('<?php echo esc_attr( $app['slug'] ); ?>')"
+                                       class="delete-apps">
                                         <?php esc_html_e( 'Restore', 'dt-home' ); ?>
                                     </a>
                                 <?php endif; ?>
@@ -70,10 +74,10 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 </div>
 <script>
     function restore_app(slug) {
-        var confirmation = confirm(<?php echo json_encode( __( 'Are you sure you want to restore this app?', 'dt-home' ) ); ?>);
+        var confirmation = confirm(<?php echo json_encode( __( 'Are you sure you want to restore this app?', 'dt-home' ) ); ?>)
         if (confirmation) {
             // If the user confirms, redirect to the delete URL
-            window.location.href = "admin.php?page=dt_home&tab=app&action=restore_app/" + slug;
+            window.location.href = 'admin.php?page=dt_home&tab=app&action=restore_app/' + slug
         }
         // If the user cancels, do nothing
     }
