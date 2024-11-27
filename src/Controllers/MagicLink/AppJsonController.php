@@ -39,8 +39,9 @@ class AppJsonController {
                     $apps[] = $this->apps_service->find( $slug );
                 }
             }
-        } else $apps = $this->apps_service->for();
-
+        } else {
+            $apps = $this->apps_service->for();
+        }
 
         // Fetch apps with json exportable flag enabled.
         $exportable_apps = array_filter( $apps, function ( $app ) use ( $display_by_exportable_flag, $required_properties ) {
