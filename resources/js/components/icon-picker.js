@@ -27,6 +27,9 @@ class IconPicker extends LitElement {
             --system-spectrum-actionbutton-background-color-down: var(
                 --dt-fields-background-color
             );
+            --highcontrast-actionbutton-background-color-down: var(
+                --dt-fields-background-color
+            );
             --highcontrast-actionbutton-content-color-default: #ffffff;
             //--spectrum-neutral-content-color-hover: #ffffff;
             --spectrum-neutral-content-color-down: #ffffff;
@@ -34,11 +37,51 @@ class IconPicker extends LitElement {
             --spectrum-action-button-edge-to-hold-icon-medium: 10px;
         }
 
+        @media (prefers-color-scheme: dark) {
+            :host {
+                --dt-fields-background-color: #333;
+                --upload-icon-color: #ffffff;
+            }
+
+            .selected-icon {
+                color: #ffffff;
+            }
+
+            .icon-picker-icon {
+                color: #fff;
+            }
+
+            .close-icon {
+                color: #fff;
+            }
+
+            .icon-search-div {
+                background-color: #424242;
+            }
+
+            .selected-icon .svg-icon {
+                filter: invert(1) hue-rotate(180deg);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :host {
+                --upload-icon-color: #0a0a0a;
+            }
+
+            .selected-icon {
+                color: #0a0a0a;
+            }
+
+            .selected-icon .svg-icon {
+                filter: none;
+            }
+        }
+
         .icon-loader {
             position: absolute;
             z-index: 1000;
-            background: white;
-            //border: 1px solid #d1d1d1;
+            background: var(--dt-fields-background-color);
             box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
             border-radius: 4px;
             margin-right: 20px;
@@ -93,7 +136,7 @@ class IconPicker extends LitElement {
         }
 
         .upload-icon .sp-upload-icon {
-            color: #0a0a0a;
+            color: var(--upload-icon-color);
             font-size: 20px;
         }
 
@@ -195,20 +238,31 @@ class IconPicker extends LitElement {
         return this.value
     }
 
+    /**
+     * Checks if the icon is a URL.
+     * @returns {boolean} - True if the icon is a URL, otherwise false.
+     */
+    isIconURL() {
+        const pattern = new RegExp('^(https?:\\/\\/|\\/)', 'i')
+        return pattern.test(this.selectedIcon)
+    }
+
     renderIconPicker() {
         if (!this.showIconPicker) return null
 
         return html`
-            <sp-search
-                class="icon-search"
-                @input="${this.updateIconSearch}"
-                size="s"
-                quiet
-            ></sp-search>
-            <sp-icon-close
-                @click="${this.closeIconPicker}"
-                class="close-icon"
-            ></sp-icon-close>
+            <div class="icon-search-div">
+                <sp-search
+                    class="icon-search"
+                    @input="${this.updateIconSearch}"
+                    size="s"
+                    quiet
+                ></sp-search>
+                <sp-icon-close
+                    @click="${this.closeIconPicker}"
+                    class="close-icon"
+                ></sp-icon-close>
+            </div>
             <div class="icon-picker">
                 <table class="icon-table">
                     <tbody>
@@ -230,7 +284,7 @@ class IconPicker extends LitElement {
                                                                   this.selectIcon(
                                                                       icon
                                                                   )}"
-                                                              class="mdi ${icon}"
+                                                              class="mdi ${icon} icon-picker-icon"
                                                           ></i>
                                                       </td>
                                                   `
@@ -263,7 +317,13 @@ class IconPicker extends LitElement {
                     .value="${this.value}"
                 ></dt-text>
                 <span class="selected-icon">
-                    <i class="mdi ${this.selectedIcon}"></i>
+                    ${this.isIconURL()
+                        ? html`<img
+                              style="width:100%"
+                              class="svg-icon"
+                              src="${this.selectedIcon}"
+                          />`
+                        : html`<i class="mdi ${this.selectedIcon}"></i>`}
                 </span>
 
                 <sp-action-button
