@@ -25,13 +25,28 @@ class AppJsonController {
      * @param array $params The parameters.
      */
     public function index( Request $request, $params ) {
+
+        $apps = [];
+        $display_by_exportable_flag = true;
         $required_properties = [ 'slug', 'name', 'icon', 'type', 'url' ];
 
+        // If slugs url parameter array is present, then display json by specified slugs.
+        $url_query_params = $request->getQueryParams();
+        if ( !empty( $url_query_params ) && is_array( $url_query_params['slugs'] ) ) {
+            $display_by_exportable_flag = false;
+            foreach ( $url_query_params['slugs'] as $slug ){
+                if ( $this->apps_service->has( $slug ) ){
+                    $apps[] = $this->apps_service->find( $slug );
+                }
+            }
+        } else $apps = $this->apps_service->for();
+
+
         // Fetch apps with json exportable flag enabled.
-        $exportable_apps = array_filter( $this->apps_service->for(), function ( $app ) use ( $required_properties ) {
+        $exportable_apps = array_filter( $apps, function ( $app ) use ( $display_by_exportable_flag, $required_properties ) {
 
             // Ensure exportable flag is set.
-            if ( !isset( $app['is_exportable'] ) || boolval( $app['is_exportable'] ) === false ) {
+            if ( $display_by_exportable_flag && ( !isset( $app['is_exportable'] ) || boolval( $app['is_exportable'] ) === false ) ) {
                 return false;
             }
 
