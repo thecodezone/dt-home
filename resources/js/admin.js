@@ -159,6 +159,11 @@ document.addEventListener('DOMContentLoaded', function () {
         return
     }
 
+    // Check if all roles are checked on document load
+    const roles = document.querySelectorAll('input.apps-user-role')
+    const allSelected = Array.from(roles).every((role) => role.checked)
+    select_all.checked = allSelected
+
     // Listen for select all app user role clicks.
     select_all.addEventListener('click', (e) => {
         const roles = document.querySelectorAll('input.apps-user-role')
@@ -169,13 +174,18 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
     // Listen for individual user role clicks and update parent all option accordingly.
-    for (const role of document.querySelectorAll('input.apps-user-role')) {
-        role.addEventListener('click', (e) => {
+    document.querySelectorAll('input.apps-user-role').forEach((role) => {
+        role.addEventListener('click', () => {
             if (!role.checked) {
                 select_all.checked = false
+            } else {
+                const allSelected = Array.from(
+                    document.querySelectorAll('input.apps-user-role')
+                ).every((role) => role.checked)
+                select_all.checked = allSelected
             }
         })
-    }
+    })
 
     // Execute final pre-submission tasks.
     document.getElementById('submit').addEventListener('click', (e) => {
@@ -351,97 +361,92 @@ document.addEventListener('DOMContentLoaded', function () {
  * @returns {void}
  */
 jQuery(document).ready(function ($) {
-  const import_apps_but = $('#import_apps_but');
+    const import_apps_but = $('#import_apps_but')
 
-  if (!import_apps_but) {
-    return;
-  }
-
-  // Listen for import apps button clicks.
-  $(import_apps_but).click(function (e) {
-    const dialog = $('#apps_settings_dialog_placeholder');
-    if (dialog) {
-
-      // Configure new dialog instance.
-      dialog.dialog({
-        modal: true,
-        autoOpen: false,
-        hide: 'fade',
-        show: 'fade',
-        height: 'auto',
-        width: 'auto',
-        resizable: false,
-        title: 'Import Apps',
-        buttons: [
-          {
-            text: 'Cancel',
-            icon: 'ui-icon-close',
-            click: function (e) {
-              $(this).dialog('close');
-            }
-          },
-          {
-            text: 'Import',
-            icon: 'ui-icon-circle-arrow-n',
-            click: function (e) {
-              import_apps($(this));
-            }
-          }
-        ],
-        open: function (event, ui) {
-        },
-        close: function (event, ui) {
-        }
-      });
-
-      // Populate main dialog body.
-      dialog.html(build_dialog_import_apps_html());
-
-      // Display configured dialog.
-      dialog.dialog('open');
+    if (!import_apps_but) {
+        return
     }
-  });
 
-  function build_dialog_import_apps_html() {
-    return `
+    // Listen for import apps button clicks.
+    $(import_apps_but).click(function (e) {
+        const dialog = $('#apps_settings_dialog_placeholder')
+        if (dialog) {
+            // Configure new dialog instance.
+            dialog.dialog({
+                modal: true,
+                autoOpen: false,
+                hide: 'fade',
+                show: 'fade',
+                height: 'auto',
+                width: 'auto',
+                resizable: false,
+                title: 'Import Apps',
+                buttons: [
+                    {
+                        text: 'Cancel',
+                        icon: 'ui-icon-close',
+                        click: function (e) {
+                            $(this).dialog('close')
+                        },
+                    },
+                    {
+                        text: 'Import',
+                        icon: 'ui-icon-circle-arrow-n',
+                        click: function (e) {
+                            import_apps($(this))
+                        },
+                    },
+                ],
+                open: function (event, ui) {},
+                close: function (event, ui) {},
+            })
+
+            // Populate main dialog body.
+            dialog.html(build_dialog_import_apps_html())
+
+            // Display configured dialog.
+            dialog.dialog('open')
+        }
+    })
+
+    function build_dialog_import_apps_html() {
+        return `
         <p>Please enter below the apps settings json structure to be imported.</p>
         <textarea id="import_apps_textarea" rows="25" cols="75"></textarea>
-    `;
-  }
-
-  function import_apps(dialog) {
-
-    // Obtain handle to textarea and fetch contents.
-    const import_apps_textarea = $('#import_apps_textarea');
-
-    try {
-
-      // Sanity check by parsing submitted content; which should be a json structure.
-      const json = $.parseJSON(import_apps_textarea.val());
-
-      // On a successful parse, proceed with import post request.
-      $.ajax({
-        type: 'POST',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify(json),
-        url: `${window.dt_admin_scripts.site_url}/wp-admin/admin.php?page=dt_home&tab=app&action=import`,
-        beforeSend: (xhr) => {
-          xhr.setRequestHeader('X-WP-Nonce', window.dt_admin_scripts.nonce);
-        }
-      }).done(function(response){
-        window.location.reload();
-
-      }).fail(function (fail) {
-        window.location.reload();
-
-      });
-
-    } catch (err) {
-
-      // Return focus to textarea, to prompt admin of error.
-      import_apps_textarea.focus();
+    `
     }
-  }
 
-});
+    function import_apps(dialog) {
+        // Obtain handle to textarea and fetch contents.
+        const import_apps_textarea = $('#import_apps_textarea')
+
+        try {
+            // Sanity check by parsing submitted content; which should be a json structure.
+            const json = $.parseJSON(import_apps_textarea.val())
+
+            // On a successful parse, proceed with import post request.
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify(json),
+                url: `${window.dt_admin_scripts.site_url}/wp-admin/admin.php?page=dt_home&tab=app&action=import`,
+                beforeSend: (xhr) => {
+                    xhr.setRequestHeader(
+                        'X-WP-Nonce',
+                        window.dt_admin_scripts.nonce
+                    )
+                },
+            })
+                .done(function (response) {
+                    window.location.reload()
+                })
+                .fail(function (fail) {
+                    window.location.reload()
+                })
+        } catch (err) {
+            // Return focus to textarea, to prompt admin of error.
+            import_apps_textarea.focus()
+        }
+    }
+})

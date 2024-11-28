@@ -1,5 +1,6 @@
 <?php
 // phpcs:ignoreFile
+
 /**
  * @var string $tab
  * @var string $link
@@ -42,7 +43,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             <td colspan="3">
                 <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name" pattern=".*\S+.*"
                        title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt-home'); ?>"
-                       required/>
+                       required />
             </td>
         </tr>
         <tr>
@@ -57,7 +58,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                     <option value="Web View"><?php esc_html_e('Web View', 'dt-home') ?></option>
                     <option value="Link"><?php esc_html_e('Link', 'dt-home') ?></option>
                 </select>
-                <input name="creation_type" id="creation_type" type="hidden" value="custom"/>
+                <input name="creation_type" id="creation_type" type="hidden" value="custom" />
             </td>
         </tr>
         <tr>
@@ -80,7 +81,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="app_icon" name="icon"
                                                        pattern=".*\S+.*"
                                                        title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt-home'); ?>"
-                                                       required/></td>
+                                                       required /></td>
             <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
             <td style="vertical-align: middle;">
                 <a href="#" class="button change-icon-button-selector"
@@ -96,7 +97,9 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             </span>
             </td>
             <td colspan="3">
-                <input style="min-width: 100%;" type="text" name="url" id="url"/>
+                <input style="min-width: 100%;" type="text" name="url" id="url" pattern=".*\S+.*"
+                       title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt-home'); ?>"
+                       required />
             </td>
         </tr>
         <tr>
@@ -108,7 +111,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             <td colspan="3">
                 <input style="min-width: 100%;" type="text" name="slug" id="slug" pattern=".*\S+.*"
                        title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt-home'); ?>"
-                       required/>
+                       required />
             </td>
         </tr>
         <tr>
@@ -124,7 +127,8 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Is Exportable', 'dt-home') ?>
                 <span class="tooltip">[?]
-                <span class="tooltiptext"><?php esc_html_e('Check this box to ensure app is also included within json magic link endpoint output.', 'dt-home') ?></span>
+                <span
+                    class="tooltiptext"><?php esc_html_e('Check this box to ensure app is also included within json magic link endpoint output.', 'dt-home') ?></span>
             </span>
             </td>
             <td colspan="3">
@@ -134,7 +138,8 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         <tr>
             <td style="vertical-align: top;"><?php esc_html_e('Roles', 'dt-home') ?>
                 <span class="tooltip">[?]
-                <span class="tooltiptext"><?php esc_html_e('Select which user roles can access app.', 'dt-home') ?></span>
+                <span
+                    class="tooltiptext"><?php esc_html_e('Select which user roles can access app.', 'dt-home') ?></span>
             </span>
             </td>
             <td colspan="3">
@@ -144,25 +149,25 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                 ?>
                 <table>
                     <tbody>
-                        <tr>
-                            <td style="padding-left: 0;" colspan="<?php echo esc_attr( $max_row_count ); ?>">
-                                <div>
-                                    <label>
-                                        <input type="checkbox" id="select_all_user_roles" checked />
-                                        <?php esc_html_e('Select all roles?', 'dt-home'); ?>
-                                    </label>
-                                    <hr>
-                                </div>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td style="padding-left: 0;" colspan="<?php echo esc_attr($max_row_count); ?>">
+                            <div>
+                                <label>
+                                    <input type="checkbox" id="select_all_user_roles" checked />
+                                    <?php esc_html_e('Select all roles?', 'dt-home'); ?>
+                                </label>
+                                <hr>
+                            </div>
+                        </td>
+                    </tr>
                     <?php
-                    $roles_permissions_srv = container()->get( RolesPermissions::class );
-                    $dt_custom_roles = get_option( $roles_permissions_srv::OPTION_KEY_CUSTOM_ROLES, [] );
-                    ksort( $dt_custom_roles );
-                    foreach ( $dt_custom_roles as $key => $role ) {
+                    $roles_permissions_srv = container()->get(RolesPermissions::class);
+                    $dt_custom_roles = get_option($roles_permissions_srv::OPTION_KEY_CUSTOM_ROLES, []);
+                    ksort($dt_custom_roles);
+                    foreach ($dt_custom_roles as $key => $role) {
 
                         // Determine if a new row should be started.
-                        if ( $counter === 0 ) {
+                        if ($counter === 0) {
                             ?>
                             <tr>
                             <?php
@@ -172,8 +177,9 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                         <td style="padding-left: 0;">
                             <div>
                                 <label>
-                                    <input type="checkbox" name="roles[]" class="apps-user-role" value="<?php echo esc_attr( $key ); ?>" checked />
-                                    <?php echo esc_html( $role['label'] ?? $key ); ?>
+                                    <input type="checkbox" name="roles[]" class="apps-user-role"
+                                           value="<?php echo esc_attr($key); ?>" checked />
+                                    <?php echo esc_html($role['label'] ?? $key); ?>
                                 </label>
                             </div>
                         </td>
@@ -181,7 +187,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                         <?php
 
                         // Determine if row should be closed.
-                        if ( ++$counter >= $max_row_count ) {
+                        if (++$counter >= $max_row_count) {
                             $counter = 0;
                             ?>
                             </tr>
@@ -196,16 +202,16 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
         </tr>
         </tbody>
         <tfoot>
-            <tr>
-                <td colspan="4">
+        <tr>
+            <td colspan="4">
                     <span style="float:right;">
                         <a href="admin.php?page=dt_home&tab=app"
                            class="button float-right"><?php esc_html_e('Cancel', 'dt-home') ?></a>
                         <button type="submit" id="ml_email_main_col_update_but"
                                 class="button float-right"><?php esc_html_e('Submit', 'dt-home') ?></button>
                     </span>
-                </td>
-            </tr>
+            </td>
+        </tr>
         </tfoot>
     </table>
 
