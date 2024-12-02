@@ -1,7 +1,9 @@
 <?php
+
+use function DT\Home\get_magic_url;
+
 $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 ?>
-
 <form method="post">
     <?php wp_nonce_field( 'dt_admin_form', 'dt_admin_form_nonce' ) ?>
 
@@ -13,21 +15,42 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
      data-site-domain="<?php echo esc_url( get_site_url() ); ?>">
     <div class="popup-content">
         <div class="popup-header">
-            <h2 style="float: left">
-                <?php esc_html_e( 'Copy the Selected Apps', 'dt-home' ); ?></h2>
+            <h2 style="float: left"><?php esc_html_e( 'Export Apps', 'dt-home' ); ?></h2>
             <span class="close close-button" style="float: right">&times;</span>
         </div>
-        <div class="popup-body">
-            <textarea id="exportTextarea" rows="10" class="form-control text-area" readonly></textarea>
+        <div class="popup-tabs">
+            <ul class="tabs">
+                <li class="tab active" data-tab="shareContent"><?php esc_html_e( 'Share', 'dt-home' ); ?></li>
+                <li class="tab" data-tab="copyContent"><?php esc_html_e( 'Copy', 'dt-home' ); ?></li>
+            </ul>
+        </div>
+
+        <div class="tab-content-container">
+            <div id="shareContent" class="tab-content active">
+                <p><?php esc_html_e( 'Magic link URL:', 'dt-home' ); ?></p>
+
+                <input type="text" id="exportLink" class="form-control styled-textbox" value="" readonly>&nbsp;&nbsp;&nbsp;&nbsp;
+                <div class="qr-code-container">
+                    <img
+                        id="qrCodeImage"
+                        src=""
+                        title=""
+                        alt=""/>
+                </div>
+            </div>
+            <div id="copyContent" class="tab-content">
+                <textarea id="exportTextarea" rows="16" class="form-control text-area" readonly></textarea>
+            </div>
         </div>
         <div class="popup-footer">
-            <button id="copyButton" class="button"><i class="fa fa-copy"></i>&nbsp;
-                <?php esc_html_e( 'Copy', 'dt-home' ); ?></button>
+            <button id="copyButton" class="button"><i
+                    class="fa fa-copy"></i>&nbsp;<?php esc_html_e( 'Copy', 'dt-home' ); ?></button>
             &nbsp;&nbsp;&nbsp;
             <button class="button close-button"><?php esc_html_e( 'Close', 'dt-home' ); ?></button>
         </div>
     </div>
 </div>
+
 
 <dialog id="apps_settings_dialog_placeholder"></dialog>
 
@@ -157,6 +180,25 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
         }
         // If the user cancels, do nothing
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const tabs = document.querySelectorAll('.tabs .tab');
+        const contents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                contents.forEach(content => content.classList.remove('active'));
+
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                const contentId = tab.getAttribute('data-tab');
+                document.getElementById(contentId).classList.add('active');
+            });
+        });
+    });
+
 </script>
 <?php $this->start( 'right' ) ?>
 

@@ -215,4 +215,118 @@ body {
     }
 }
 
+/* General popup styling */
+.popup-model {
+    width: 30%;
+}
+
+.popup-content {
+    width: 80%;
+    margin: auto;
+    background: #fff;
+    border-radius: 8px;
+    padding: 15px;
+    font-size: 14px;
+}
+
+.popup-header h2 {
+    font-size: 16px;
+    margin: 0;
+}
+
+.popup-header .close {
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+}
+
+/* Tabs styling */
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    padding: 0;
+    margin: 0 0 10px;
+    list-style: none;
+    font-size: 14px;
+}
+
+.tabs .tab {
+    padding: 8px 12px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: #f8f8f8;
+    color: #495057;
+    transition: all 0.3s;
+    border-radius: 4px 4px 0 0;
+    margin-right: 5px;
+    margin-bottom: auto;
+}
+
+.tabs .tab:hover {
+    background: #e0e0e0;
+}
+
+.tabs .tab.active {
+    background: #fff;
+    border-color: #ccc #ccc transparent;
+    color: #000;
+}
+
+/* Tab content container */
+.tab-content-container {
+    border: 1px solid #ccc;
+    border-radius: 0 0 4px 4px;
+    padding: 10px;
+    background: #fff;
+}
+
+.tab-content {
+    display: none;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* QR code styling */
+.qr-code-container {
+    text-align: center;
+    margin: 10px 0;
+}
+
+.qr-code-container img {
+    width: 200px;
+    height: 200px;
+}
+
+/* Input and textarea styling */
+.styled-textbox, .text-area {
+    width: 100%;
+    padding: 8px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+textarea.text-area {
+    resize: none;
+}
+
+/* Buttons styling */
+.button {
+    display: inline-block;
+    padding: 8px 12px;
+    font-size: 13px;
+    background: #007bff;
+    color: #fff;
+    text-align: center;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
 
