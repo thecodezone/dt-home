@@ -7,4 +7,12 @@ export default defineConfig({
     },
     baseUrl: 'http://dtdev.local'
   },
+  dt: {
+    credentials: {
+      admin: {
+        username: 'admin',
+        password: 'admin'
+      }
+    }
+  }
 });
