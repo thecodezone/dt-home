@@ -1,6 +1,7 @@
-import { css, html, LitElement } from 'lit'
+import { css, unsafeCSS, html, LitElement } from 'lit'
 import { customElement } from 'lit-element'
 import { property } from 'lit/decorators.js'
+import CssFilterConverter from "css-filter-converter";
 
 /**
  * Represents an application icon component.
@@ -11,6 +12,7 @@ import { property } from 'lit/decorators.js'
 class AppIcon extends LitElement {
     @property({ type: String }) name = ''
     @property({ type: String }) icon = ''
+    @property({ type: String }) color = null
     @property({ type: Boolean }) isVisible = true
 
     /**
@@ -97,6 +99,27 @@ class AppIcon extends LitElement {
         return pattern.test(this.icon)
     }
 
+    // TODO: DO A FUNCTION FOR SVG ALSO...
+
+    /**
+     * Generate corresponding filter style for given icon hex color. If no
+     * color is specified, then revert to default settings.
+     *
+     * @returns {string}
+     */
+    imgIconColorStyle() {
+      return (this.color) ? (`filter: ${CssFilterConverter.hexToFilter(this.color).color} !important;`) : '';
+    }
+
+    /**
+     * Generate corresponding icon font color style, or revert to default setting.
+     *
+     * @returns {string}
+     */
+    fontIconColorStyle() {
+      return (this.color) ? (`color: ${this.color} !important;`) : '';
+    }
+
     /**
      * Renders the app icon.
      * @returns {html} - The rendered HTML for the app icon.
@@ -113,10 +136,12 @@ class AppIcon extends LitElement {
                               ? html`<img
                                     src="${this.icon}"
                                     class="svg-icon"
+                                    style="${this.imgIconColorStyle()}"
                                 />`
                               : html`<i
                                     class="${this.icon}"
                                     id="app-icon"
+                                    style="${this.fontIconColorStyle()}"
                                 ></i>`}
                       </div>
                       <span class="app-icon__name">${this.name}</span>
