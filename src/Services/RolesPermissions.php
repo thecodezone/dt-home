@@ -323,9 +323,9 @@ class RolesPermissions
             $permission = 'can_access_home_screen';
             $dt_custom_roles = get_option( $this::OPTION_KEY_CUSTOM_ROLES, [] );
 
-            // Determine if any of user's current roles match the can_access permission.
+            // Determine if any of user's current roles match the can_access permission, with admin users being granted default access.
             foreach ( $user->roles as $role ) {
-                if ( !$can_access_plugin && isset( $dt_custom_roles[$role]['capabilities'][$permission] ) && $dt_custom_roles[$role]['capabilities'][$permission] ) {
+                if ( ( $role == 'administrator' ) || ( !$can_access_plugin && isset( $dt_custom_roles[$role]['capabilities'][$permission] ) && $dt_custom_roles[$role]['capabilities'][$permission] ) ) {
                     $can_access_plugin = true;
                 }
             }
