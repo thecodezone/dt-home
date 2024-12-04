@@ -37,7 +37,9 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                                 style="text-align: center;border: 1px solid #ddd;"><?php esc_html_e( 'No apps found', 'dt-home' ); ?></td>
                         </tr>
                     <?php endif; ?>
-                    <?php foreach ( $data as $app ) : ?>
+                    <?php foreach ( $data
+
+                                   as $app ) : ?>
                         <tr>
                             <td style="border: 1px solid #ddd;"><?php echo esc_html( $app['name'] ); ?></td>
                             <td style="border: 1px solid #ddd;"><?php echo esc_html( $app['type'] ); ?></td>
@@ -56,11 +58,14 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
 
                             <td style="border: 1px solid #ddd;">
                                 <?php if ( isset( $app['creation_type'] ) && $app['creation_type'] == 'code' ) : ?>
-                                    &nbsp;
-                                    <a href="#" onclick="restore_app('<?php echo esc_attr( $app['slug'] ); ?>')"
-                                       class="delete-apps">
-                                        <?php esc_html_e( 'Restore', 'dt-home' ); ?>
-                                    </a>
+                                    <div class="action-tooltip">
+                                        <a href="#" onclick="restore_app('<?php echo esc_attr( $app['slug'] ); ?>')"
+                                           class="delete-apps">
+                                            <i class="fas fa-undo action-icon"></i>
+                                        </a>
+                                        <span
+                                            class="action-tooltip-text"><?php esc_html_e( 'Restore', 'dt-home' ); ?></span>
+                                    </div>
                                 <?php endif; ?>
                             </td>
                         </tr>
