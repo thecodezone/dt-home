@@ -236,10 +236,11 @@ require_once 'icons-functions.php';
                         </td>
                     </tr>
                     <?php
-                    $roles_permissions_srv = container()->get(RolesPermissions::class);
-                    $dt_custom_roles = get_option($roles_permissions_srv::OPTION_KEY_CUSTOM_ROLES, []);
-                    ksort($dt_custom_roles);
-                    foreach ($dt_custom_roles as $key => $role) {
+                    $roles_permissions_srv = container()->get( RolesPermissions::class );
+                    $roles = Disciple_Tools_Roles::get_dt_roles_and_permissions( false );
+                    ksort( $roles );
+                    foreach ( $roles as $key => $role ) {
+
                         /**
                          * Determine if role should be checked; ensuring globally set custom
                          * roles and permissions take priority.
@@ -247,9 +248,8 @@ require_once 'icons-functions.php';
                         $is_checked = false;
                         $permission = $roles_permissions_srv->generate_permission_key($existing_data['slug'] ?? '');
 
-                        if (isset($role['capabilities'][$permission])) {
-                            $is_checked = $role['capabilities'][$permission];
-
+                        if ( isset( $role['permissions'][ $permission ] ) ) {
+                            $is_checked = $role['permissions'][ $permission ];
                         } else {
                             $is_checked = in_array($key, $existing_data['roles'] ?? []);
                         }

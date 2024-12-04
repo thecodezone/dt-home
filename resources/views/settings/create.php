@@ -212,11 +212,10 @@ require_once 'icons-functions.php';
                         </td>
                     </tr>
                     <?php
-                    $roles_permissions_srv = container()->get(RolesPermissions::class);
-                    $dt_custom_roles = get_option($roles_permissions_srv::OPTION_KEY_CUSTOM_ROLES, []);
-                    ksort($dt_custom_roles);
-                    foreach ($dt_custom_roles as $key => $role) {
-
+                    $roles_permissions_srv = container()->get( RolesPermissions::class );
+                    $roles = Disciple_Tools_Roles::get_dt_roles_and_permissions( false );
+                    ksort( $roles );
+                    foreach ( $roles as $key => $role ) {
                         // Determine if a new row should be started.
                         if ($counter === 0) {
                             ?>
