@@ -335,9 +335,9 @@ document.addEventListener('DOMContentLoaded', function () {
             textarea.select()
             document.execCommand('copy')
             document.body.removeChild(textarea)
-            element.textContent = 'Copied'
+            element.innerHTML = '<i class="fas fa-check action-icon"></i>'
             setTimeout(() => {
-                element.textContent = 'Copy'
+                element.innerHTML = '<i class="fas fa-copy action-icon"></i>'
             }, 5000)
         }
     }
@@ -351,97 +351,132 @@ document.addEventListener('DOMContentLoaded', function () {
  * @returns {void}
  */
 jQuery(document).ready(function ($) {
-  const import_apps_but = $('#import_apps_but');
+    const import_apps_but = $('#import_apps_but')
 
-  if (!import_apps_but) {
-    return;
-  }
-
-  // Listen for import apps button clicks.
-  $(import_apps_but).click(function (e) {
-    const dialog = $('#apps_settings_dialog_placeholder');
-    if (dialog) {
-
-      // Configure new dialog instance.
-      dialog.dialog({
-        modal: true,
-        autoOpen: false,
-        hide: 'fade',
-        show: 'fade',
-        height: 'auto',
-        width: 'auto',
-        resizable: false,
-        title: 'Import Apps',
-        buttons: [
-          {
-            text: 'Cancel',
-            icon: 'ui-icon-close',
-            click: function (e) {
-              $(this).dialog('close');
-            }
-          },
-          {
-            text: 'Import',
-            icon: 'ui-icon-circle-arrow-n',
-            click: function (e) {
-              import_apps($(this));
-            }
-          }
-        ],
-        open: function (event, ui) {
-        },
-        close: function (event, ui) {
-        }
-      });
-
-      // Populate main dialog body.
-      dialog.html(build_dialog_import_apps_html());
-
-      // Display configured dialog.
-      dialog.dialog('open');
+    if (!import_apps_but) {
+        return
     }
-  });
 
-  function build_dialog_import_apps_html() {
-    return `
+    // Listen for import apps button clicks.
+    $(import_apps_but).click(function (e) {
+        const dialog = $('#apps_settings_dialog_placeholder')
+        if (dialog) {
+            // Configure new dialog instance.
+            dialog.dialog({
+                modal: true,
+                autoOpen: false,
+                hide: 'fade',
+                show: 'fade',
+                height: 'auto',
+                width: 'auto',
+                resizable: false,
+                title: 'Import Apps',
+                buttons: [
+                    {
+                        text: 'Cancel',
+                        icon: 'ui-icon-close',
+                        click: function (e) {
+                            $(this).dialog('close')
+                        },
+                    },
+                    {
+                        text: 'Import',
+                        icon: 'ui-icon-circle-arrow-n',
+                        click: function (e) {
+                            import_apps($(this))
+                        },
+                    },
+                ],
+                open: function (event, ui) {},
+                close: function (event, ui) {},
+            })
+
+            // Populate main dialog body.
+            dialog.html(build_dialog_import_apps_html())
+
+            // Display configured dialog.
+            dialog.dialog('open')
+        }
+    })
+
+    function build_dialog_import_apps_html() {
+        return `
         <p>Please enter below the apps settings json structure to be imported.</p>
         <textarea id="import_apps_textarea" rows="25" cols="75"></textarea>
-    `;
-  }
+    `
+    }
 
-  function import_apps(dialog) {
+    function import_apps(dialog) {
+        // Obtain handle to textarea and fetch contents.
+        const import_apps_textarea = $('#import_apps_textarea')
 
-    // Obtain handle to textarea and fetch contents.
-    const import_apps_textarea = $('#import_apps_textarea');
+        try {
+            // Sanity check by parsing submitted content; which should be a json structure.
+            const json = $.parseJSON(import_apps_textarea.val())
 
-    try {
-
-      // Sanity check by parsing submitted content; which should be a json structure.
-      const json = $.parseJSON(import_apps_textarea.val());
-
-      // On a successful parse, proceed with import post request.
-      $.ajax({
-        type: 'POST',
-        contentType: 'application/json; charset=utf-8',
-        dataType: 'json',
-        data: JSON.stringify(json),
-        url: `${window.dt_admin_scripts.site_url}/wp-admin/admin.php?page=dt_home&tab=app&action=import`,
-        beforeSend: (xhr) => {
-          xhr.setRequestHeader('X-WP-Nonce', window.dt_admin_scripts.nonce);
+            // On a successful parse, proceed with import post request.
+            $.ajax({
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: JSON.stringify(json),
+                url: `${window.dt_admin_scripts.site_url}/wp-admin/admin.php?page=dt_home&tab=app&action=import`,
+                beforeSend: (xhr) => {
+                    xhr.setRequestHeader(
+                        'X-WP-Nonce',
+                        window.dt_admin_scripts.nonce
+                    )
+                },
+            })
+                .done(function (response) {
+                    window.location.reload()
+                })
+                .fail(function (fail) {
+                    window.location.reload()
+                })
+        } catch (err) {
+            // Return focus to textarea, to prompt admin of error.
+            import_apps_textarea.focus()
         }
-      }).done(function(response){
-        window.location.reload();
-
-      }).fail(function (fail) {
-        window.location.reload();
-
-      });
-
-    } catch (err) {
-
-      // Return focus to textarea, to prompt admin of error.
-      import_apps_textarea.focus();
     }
   }
 
+});
+
+/**
+ * Handle apps icons toggle display.
+ *
+ * @function
+ * @name appsIconTabsToggle
+ * @returns {void}
+ */
+jQuery(document).ready(function ($) {
+  $('a.app-icon-tab').click(function (e) {
+
+    // Deactivate all tabs and activate selected tab.
+    const selected_tab = $(e.currentTarget);
+    $(selected_tab).parent().find('.nav-tab-active').removeClass('nav-tab-active');
+    $(selected_tab).addClass('nav-tab-active');
+
+    // Toggle tab content.
+    $(selected_tab).parent().parent().find('div.app-icon-tab-content').children().slideUp('fast', function () {
+
+      // Obtain handle onto tab div by specified class id and fade in.
+      $(`div.${$(selected_tab).data('tab')}`).slideDown('fast');
+
+    });
+  });
+
+  $('i.app-color-reset').click(function (e) {
+    const color_id = $(e.currentTarget).data('color');
+    const color_input = $(`#${ color_id }`);
+    const color_input_hidden = $(`#${ color_id }_hidden`);
+
+    /**
+     * Remove color value; which will most likely revert to black (#000000);
+     * therefore, also signal with `delete` flag.
+     */
+    $(color_input).val('');
+    $(color_input_hidden).val('deleted');
+  });
 });
