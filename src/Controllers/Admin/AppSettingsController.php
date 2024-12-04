@@ -93,6 +93,11 @@ class AppSettingsController
         $type = sanitize_text_field( $input['type'] ?? '' );
         $creation_type = sanitize_text_field( $input['creation_type'] ?? '' );
         $icon = sanitize_text_field( $input['icon'] ?? '' );
+        $icon_color = sanitize_text_field( $input['icon_color'] ?? '' );
+        $is_icon_color_deleted = sanitize_text_field( $input['icon_color_hidden'] ?? '' ) === 'deleted';
+        $icon_dark = sanitize_text_field( $input['icon_dark'] ?? '' );
+        $icon_dark_color = sanitize_text_field( $input['icon_dark_color'] ?? '' );
+        $is_icon_dark_color_deleted = sanitize_text_field( $input['icon_dark_color_hidden'] ?? '' ) === 'deleted';
         $url = sanitize_text_field( $input['url'] ?? '' );
         $fallback_url_ios = sanitize_text_field( $input['fallback_url_ios'] ?? '' );
         $fallback_url_android = sanitize_text_field( $input['fallback_url_android'] ?? '' );
@@ -111,6 +116,9 @@ class AppSettingsController
             'type' => $type,
             'creation_type' => $creation_type,
             'icon' => $icon,
+            'icon_color' => $is_icon_color_deleted ? null : $icon_color,
+            'icon_dark' => $icon_dark,
+            'icon_dark_color' => $is_icon_dark_color_deleted ? null : $icon_dark_color,
             'url' => $url,
             'fallback_url_ios' => $fallback_url_ios,
             'fallback_url_android' => $fallback_url_android,
@@ -220,7 +228,12 @@ class AppSettingsController
         $name = sanitize_text_field( $input['name'] ?? '' );
         $type = sanitize_text_field( $input['type'] ?? '' );
         $creation_type = sanitize_text_field( $input['creation_type'] ?? '' );
-        $icon_url = sanitize_text_field( $input['icon'] ?? '' );
+        $icon = sanitize_text_field( $input['icon'] ?? '' );
+        $icon_color = sanitize_text_field( $input['icon_color'] ?? '' );
+        $is_icon_color_deleted = sanitize_text_field( $input['icon_color_hidden'] ?? '' ) === 'deleted';
+        $icon_dark = sanitize_text_field( $input['icon_dark'] ?? '' );
+        $icon_dark_color = sanitize_text_field( $input['icon_dark_color'] ?? '' );
+        $is_icon_dark_color_deleted = sanitize_text_field( $input['icon_dark_color_hidden'] ?? '' ) === 'deleted';
         $url = sanitize_text_field( $input['url'] ?? '' );
         $fallback_url_ios = sanitize_text_field( $input['fallback_url_ios'] ?? '' );
         $fallback_url_android = sanitize_text_field( $input['fallback_url_android'] ?? '' );
@@ -242,7 +255,10 @@ class AppSettingsController
                     'name' => $name,
                     'type' => $type,
                     'creation_type' => $creation_type,
-                    'icon' => $icon_url,
+                    'icon' => $icon,
+                    'icon_color' => $is_icon_color_deleted ? null : $icon_color,
+                    'icon_dark' => $icon_dark,
+                    'icon_dark_color' => $is_icon_dark_color_deleted ? null : $icon_dark_color,
                     'url' => $url,
                     'fallback_url_ios' => $fallback_url_ios,
                     'fallback_url_android' => $fallback_url_android,

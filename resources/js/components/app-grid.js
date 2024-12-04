@@ -618,6 +618,51 @@ class AppGrid extends LitElement {
     }
 
     /**
+     * Generate required app icon string, based on current dark mode setting.
+     *
+     * @param app
+     *
+     * @returns {string}
+     */
+    getAppIcon(app) {
+
+      // First, determine the current system color mode, session is in.
+      const isDarkMode = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+      // Return icon accordingly, based on mode and availability.
+      return (isDarkMode && app['icon_dark']) ? app['icon_dark'] : app['icon'];
+    }
+
+  /**
+   * Generate corresponding app icon color, based on current dark mode setting and
+   * color availability.
+   *
+   * @param app
+   *
+   * @returns {string}
+   */
+  getAppIconColor(app) {
+
+      // First, determine the current system color mode, session is in.
+      const isDarkMode = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+      // Return icon color accordingly, based on mode and availability.
+      if ( isDarkMode && app['icon_dark_color'] ) {
+        return app['icon_dark_color'];
+
+      } else if ( !isDarkMode && app['icon_color'] ) {
+        return app['icon_color'];
+
+      }
+
+      return null;
+    }
+
+    /**
      * Renders the AppGrid element.
      * @returns {TemplateResult} HTML template result.
      */
@@ -705,7 +750,8 @@ class AppGrid extends LitElement {
                                 <dt-home-app-icon
                                     class="app-grid__icon"
                                     name="${app.name}"
-                                    icon="${app.icon}"
+                                    icon="${this.getAppIcon(app)}"
+                                    color="${this.getAppIconColor(app)}"
                                 ></dt-home-app-icon>
                             </div>
                         `

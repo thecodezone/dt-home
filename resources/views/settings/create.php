@@ -16,6 +16,8 @@ $this->layout('layouts/settings', compact('tab', 'link', 'page_title'));
 <?php
 // Include the dialog-icon-selector.php template
 get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
+
+require_once 'icons-functions.php';
 ?>
 
 <!-- Rest of your code -->
@@ -47,6 +49,18 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             </td>
         </tr>
         <tr>
+            <td style="vertical-align: middle;"><?php esc_html_e('Slug', 'dt-home') ?>
+                <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Enter a slug for the app.', 'dt-home') ?></span>
+            </span>
+            </td>
+            <td colspan="3">
+                <input style="min-width: 100%;" type="text" name="slug" id="slug" pattern=".*\S+.*"
+                       title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt-home'); ?>"
+                       required/>
+            </td>
+        </tr>
+        <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Type', 'dt-home') ?>
                 <span class="tooltip">[?]
                 <span class="tooltiptext"><?php esc_html_e('Select the type of the app.', 'dt-home') ?></span>
@@ -62,35 +76,7 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
                 <input name="creation_type" id="creation_type" type="hidden" value="custom"/>
             </td>
         </tr>
-        <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Open link in new tab', 'dt-home') ?>
-                <span class="tooltip">[?]
-                <span
-                    class="tooltiptext"><?php esc_html_e('Check this box to open the link in a new tab.', 'dt-home') ?></span>
-            </span>
-            </td>
-            <td colspan="3">
-                <input type="checkbox" name="open_in_new_tab" id="open_in_new_tab" value="1">
-            </td>
-        </tr>
-        <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Icon (File Upload)', 'dt-home') ?>
-                <span class="tooltip">[?]
-                <span class="tooltiptext"><?php esc_html_e('Upload an icon for the app.', 'dt-home') ?></span>
-            </span>
-            </td>
-            <td style="vertical-align: middle;"><input style="min-width: 100%;" type="text" id="app_icon" name="icon"
-                                                       pattern=".*\S+.*"
-                                                       title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt-home'); ?>"
-                                                       required/></td>
-            <td style="vertical-align: middle;"><span id="app_icon_show"></span></td>
-            <td style="vertical-align: middle;">
-                <a href="#" class="button change-icon-button-selector"
-                   data-item="<?php echo esc_attr(htmlspecialchars($svg_images)); ?>">
-                    <?php esc_html_e('Change Icon', 'dt-home'); ?>
-                </a>
-            </td>
-        </tr>
+
         <tr id="urlFieldRow">
             <td style="vertical-align: middle;"><?php esc_html_e('URL', 'dt-home') ?>
                 <span class="tooltip">[?]
@@ -132,15 +118,51 @@ get_template_part('dt-core/admin/menu/tabs/dialog-icon-selector');
             </td>
         </tr>
         <tr>
-            <td style="vertical-align: middle;"><?php esc_html_e('Slug', 'dt-home') ?>
+            <td style="vertical-align: middle;"><?php esc_html_e('Icons', 'dt-home') ?>
                 <span class="tooltip">[?]
-                <span class="tooltiptext"><?php esc_html_e('Enter a slug for the app.', 'dt-home') ?></span>
+                    <span class="tooltiptext"><?php esc_html_e('Upload an icon for the app and specify theme colors to be adopted during light and dark modes.', 'dt-home') ?></span>
+                </span>
+            </td>
+            <td colspan="4">
+                <h2 class="nav-tab-wrapper">
+                    <a href="#" class="nav-tab nav-tab-active app-icon-tab" data-tab="app-icon-tab-light"><?php esc_html_e('Light Mode', 'dt-home') ?></a>
+                    <a href="#" class="nav-tab app-icon-tab" data-tab="app-icon-tab-dark"><?php esc_html_e('Dark Mode', 'dt-home') ?></a>
+                </h2>
+
+                <div class="app-icon-tab-content" style="margin-top: 15px; margin-bottom: 15px;">
+                    <div class="app-icon-tab-light">
+                        <?php build_icon_tab_html( [
+                            'existing_svg_img' => $svg_images ?? '',
+                            'existing_color' => '#000000',
+                            'icon_input_name' => 'icon',
+                            'selected_icon_placeholder_name' => 'icon_selected_placeholder',
+                            'color_input_name' => 'icon_color',
+                            'icon_input_required' => true
+                        ] ); ?>
+                    </div>
+                    <div class="app-icon-tab-dark" style="display: none;">
+                        <?php build_icon_tab_html( [
+                            'existing_svg_img' => $svg_images ?? '',
+                            'existing_color' => '#F5F5F5',
+                            'icon_input_name' => 'icon_dark',
+                            'selected_icon_placeholder_name' => 'icon_dark_selected_placeholder',
+                            'color_input_name' => 'icon_dark_color',
+                            'icon_input_required' => false
+                        ] ); ?>
+                    </div>
+                </div>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="vertical-align: middle;"><?php esc_html_e('Open link in new tab', 'dt-home') ?>
+                <span class="tooltip">[?]
+                <span
+                    class="tooltiptext"><?php esc_html_e('Check this box to open the link in a new tab.', 'dt-home') ?></span>
             </span>
             </td>
             <td colspan="3">
-                <input style="min-width: 100%;" type="text" name="slug" id="slug" pattern=".*\S+.*"
-                       title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt-home'); ?>"
-                       required/>
+                <input type="checkbox" name="open_in_new_tab" id="open_in_new_tab" value="1">
             </td>
         </tr>
         <tr>
