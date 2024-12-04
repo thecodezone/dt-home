@@ -224,7 +224,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const qrCodeImage = document.getElementById('qrCodeImage')
 
     // Parse the apps data from the exportPopup element's data attribute
-    const appsData = JSON.parse(exportPopup.getAttribute('data-apps'))
+    const appsArray = JSON.parse(exportPopup.getAttribute('data-apps'))
+    const appsData = Object.values(appsArray)
 
     // Function to update the state of the export button based on checkbox selection
     const updateExportButtonState = () => {
