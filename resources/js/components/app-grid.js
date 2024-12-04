@@ -1,7 +1,7 @@
-import { css, html, LitElement } from 'lit'
-import { customElement } from 'lit-element'
-import { property, queryAll } from 'lit/decorators.js'
-import { magic_url, translate } from '../helpers.js'
+import {css, html, LitElement} from 'lit'
+import {customElement} from 'lit-element'
+import {property, queryAll} from 'lit/decorators.js'
+import {isAndroid, isiOS, magic_url, translate} from '../helpers.js'
 import './app-form-modal.js'
 import Sortable from 'sortablejs'
 
@@ -303,6 +303,9 @@ class AppGrid extends LitElement {
                 case 'Link':
                     this.visitApp(selectedApp.url, selectedApp)
                     break
+                case 'Native App Link':
+                    this.redirectToApp(selectedApp)
+                    break
                 default:
                     this.visitApp(
                         this.addOrUpdateQueryParam(
@@ -322,6 +325,29 @@ class AppGrid extends LitElement {
             window.open(url, '_blank')
         } else {
             window.location.href = url
+        }
+    }
+
+    redirectToApp(selectedApp) {
+        const fallbackLinkAndroid = selectedApp.fallback_url_android
+        const fallbackLinkIos = selectedApp.fallback_url_ios
+        const fallbackLinkOthers = selectedApp.fallback_url_others
+        const customScheme = selectedApp.url
+
+        // isiOS and isAndroid should be implemented by yourself
+        if (isiOS() || isAndroid()) {
+            window.location.href = customScheme
+
+            setTimeout(() => {
+                if (document.hasFocus()) {
+                    const storeLink = isAndroid()
+                        ? fallbackLinkAndroid
+                        : fallbackLinkIos
+                    window.location.href = storeLink
+                }
+            }, 1000)
+        } else {
+            window.location.href = fallbackLinkOthers
         }
     }
 
@@ -543,6 +569,51 @@ class AppGrid extends LitElement {
         this.open = false
         this.app = {}
         this.classList.remove('modal-open')
+    }
+
+    /**
+     * Generate required app icon string, based on current dark mode setting.
+     *
+     * @param app
+     *
+     * @returns {string}
+     */
+    getAppIcon(app) {
+
+      // First, determine the current system color mode, session is in.
+      const isDarkMode = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+      // Return icon accordingly, based on mode and availability.
+      return (isDarkMode && app['icon_dark']) ? app['icon_dark'] : app['icon'];
+    }
+
+  /**
+   * Generate corresponding app icon color, based on current dark mode setting and
+   * color availability.
+   *
+   * @param app
+   *
+   * @returns {string}
+   */
+  getAppIconColor(app) {
+
+      // First, determine the current system color mode, session is in.
+      const isDarkMode = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
+
+      // Return icon color accordingly, based on mode and availability.
+      if ( isDarkMode && app['icon_dark_color'] ) {
+        return app['icon_dark_color'];
+
+      } else if ( !isDarkMode && app['icon_color'] ) {
+        return app['icon_color'];
+
+      }
+
+      return null;
     }
 
     /**
