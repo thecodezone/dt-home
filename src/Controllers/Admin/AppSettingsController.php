@@ -99,6 +99,9 @@ class AppSettingsController
         $icon_dark_color = sanitize_text_field( $input['icon_dark_color'] ?? '' );
         $is_icon_dark_color_deleted = sanitize_text_field( $input['icon_dark_color_hidden'] ?? '' ) === 'deleted';
         $url = sanitize_text_field( $input['url'] ?? '' );
+        $fallback_url_ios = sanitize_text_field( $input['fallback_url_ios'] ?? '' );
+        $fallback_url_android = sanitize_text_field( $input['fallback_url_android'] ?? '' );
+        $fallback_url_others = sanitize_text_field( $input['fallback_url_others'] ?? '' );
         $slug = sanitize_text_field( $input['slug'] ?? '' );
         $sort = sanitize_text_field( $input['sort'] ?? '' );
         $is_hidden = filter_var( $input['is_hidden'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
@@ -117,6 +120,9 @@ class AppSettingsController
             'icon_dark' => $icon_dark,
             'icon_dark_color' => $is_icon_dark_color_deleted ? null : $icon_dark_color,
             'url' => $url,
+            'fallback_url_ios' => $fallback_url_ios,
+            'fallback_url_android' => $fallback_url_android,
+            'fallback_url_others' => $fallback_url_others,
             'sort' => $sort,
             'slug' => $slug,
             'is_hidden' => $is_hidden == "1" ? 1 : 0,
@@ -229,6 +235,9 @@ class AppSettingsController
         $icon_dark_color = sanitize_text_field( $input['icon_dark_color'] ?? '' );
         $is_icon_dark_color_deleted = sanitize_text_field( $input['icon_dark_color_hidden'] ?? '' ) === 'deleted';
         $url = sanitize_text_field( $input['url'] ?? '' );
+        $fallback_url_ios = sanitize_text_field( $input['fallback_url_ios'] ?? '' );
+        $fallback_url_android = sanitize_text_field( $input['fallback_url_android'] ?? '' );
+        $fallback_url_others = sanitize_text_field( $input['fallback_url_others'] ?? '' );
         $new_slug = sanitize_text_field( $input['slug'] ?? '' );
         $is_hidden = filter_var( $input['is_hidden'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
         $is_exportable = filter_var( $input['is_exportable'] ?? '0', FILTER_SANITIZE_NUMBER_INT );
@@ -251,6 +260,9 @@ class AppSettingsController
                     'icon_dark' => $icon_dark,
                     'icon_dark_color' => $is_icon_dark_color_deleted ? null : $icon_dark_color,
                     'url' => $url,
+                    'fallback_url_ios' => $fallback_url_ios,
+                    'fallback_url_android' => $fallback_url_android,
+                    'fallback_url_others' => $fallback_url_others,
                     'slug' => $new_slug,
                     'sort' => $app['sort'] ?? '',
                     'is_hidden' => $is_hidden == "1" ? 1 : 0,
@@ -372,9 +384,10 @@ class AppSettingsController
      *
      * @return ResponseInterface
      */
-    public function import( Request $request, array $params ): ResponseInterface {
-        return response( [
+    public function import( Request $request, array $params ): ResponseInterface
+    {
+        return response([
             'success' => $this->apps->import( extract_request_input( $request ) )
-        ], 200, [ 'Content-Type' => 'application/json' ] );
+        ], 200, [ 'Content-Type' => 'application/json' ]);
     }
 }

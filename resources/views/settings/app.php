@@ -107,30 +107,70 @@ $this->layout( 'layouts/settings', compact( 'tab', 'link', 'page_title' ) )
                             </td>
                             <td style="border: 1px solid #ddd;"><?php echo esc_attr( $app['slug'] ); ?></td>
                             <td style="border: 1px solid #ddd;">
-                                <a href="admin.php?page=dt_home&tab=app&action=up/<?php echo esc_attr( $app['slug'] ); ?>"><?php esc_html_e( 'Up', 'dt-home' ); ?></a>&nbsp;|&nbsp;
-                                <?php if ( $app['is_hidden'] == 1 ) { ?>
-                                    <a href="admin.php?page=dt_home&tab=app&action=unhide/<?php echo esc_attr( $app['slug'] ); ?>"><?php esc_html_e( 'Unhide', 'dt-home' ); ?></a>&nbsp;|&nbsp;
-                                <?php } else { ?>
-                                    <a href="admin.php?page=dt_home&tab=app&action=hide/<?php echo esc_attr( $app['slug'] ); ?>"><?php esc_html_e( 'Hide', 'dt-home' ); ?></a>&nbsp;|&nbsp;
-                                <?php } ?>
-                                <a href="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr( $app['slug'] ); ?>"><?php esc_html_e( 'Edit', 'dt-home' ); ?></a>&nbsp;|&nbsp;
-                                <a href="admin.php?page=dt_home&tab=app&action=down/<?php echo esc_attr( $app['slug'] ); ?>"><?php esc_html_e( 'Down', 'dt-home' ); ?></a>&nbsp;|&nbsp;
-                                <a href="javascript:void(0)"
-                                   onclick="copyApp('<?php echo esc_attr( $app['slug'] ); ?>', this)"><?php esc_html_e( 'Copy', 'dt-home' ); ?></a>&nbsp;
-                                <?php if ( !isset( $app['creation_type'] ) || ( $app['creation_type'] != 'code' ) ) { ?>
-                                    |&nbsp;
-                                    <a href="#" onclick="deleteApp('<?php echo esc_attr( $app['slug'] ); ?>')"
-                                       class="delete-apps">
-                                        <?php esc_html_e( 'Delete', 'dt-home' ); ?>
+                                <div class="action-tooltip">
+                                    <a href="admin.php?page=dt_home&tab=app&action=up/<?php echo esc_attr( $app['slug'] ); ?>">
+                                        <i class="fas fa-arrow-up action-icon"></i>
                                     </a>
-                                <?php } else { ?>
-                                    |&nbsp;
-                                    <a href="#" onclick="softdelete('<?php echo esc_attr( $app['slug'] ); ?>')"
-                                       class="delete-apps">
-                                        <?php esc_html_e( 'Delete', 'dt-home' ); ?>
+                                    <span class="action-tooltip-text"><?php esc_attr_e( 'Move Up', 'dt-home' ); ?></span>
+                                </div>
+                                &nbsp;|&nbsp;
+                                <div class="action-tooltip">
+                                    <a href="admin.php?page=dt_home&tab=app&action=down/<?php echo esc_attr( $app['slug'] ); ?>">
+                                        <i class="fas fa-arrow-down action-icon"></i>
                                     </a>
-                                <?php } ?>
+                                    <span
+                                        class="action-tooltip-text"><?php esc_attr_e( 'Move Down', 'dt-home' ); ?></span>
+                                </div>
+                                &nbsp;|&nbsp;
+                                <div class="action-tooltip">
+                                    <?php if ( $app['is_hidden'] == 1 ) { ?>
+                                        <a href="admin.php?page=dt_home&tab=app&action=unhide/<?php echo esc_attr( $app['slug'] ); ?>">
+                                            <i class="fas fa-eye action-icon"></i>
+                                        </a>
+                                        <span
+                                            class="action-tooltip-text"><?php esc_attr_e( 'Unhide', 'dt-home' ); ?></span>
+                                    <?php } else { ?>
+                                        <a href="admin.php?page=dt_home&tab=app&action=hide/<?php echo esc_attr( $app['slug'] ); ?>">
+                                            <i class="fas fa-eye-slash action-icon"></i>
+                                        </a>
+                                        <span class="action-tooltip-text"><?php esc_attr_e( 'Hide', 'dt-home' ); ?></span>
+                                    <?php } ?>
+                                </div>
+                                &nbsp;|&nbsp;
+                                <div class="action-tooltip">
+                                    <a href="admin.php?page=dt_home&tab=app&action=edit/<?php echo esc_attr( $app['slug'] ); ?>">
+                                        <i class="fas fa-edit action-icon"></i>
+                                    </a>
+                                    <span class="action-tooltip-text"><?php esc_attr_e( 'Edit', 'dt-home' ); ?></span>
+                                </div>
+                                &nbsp;|&nbsp;
+                                <div class="action-tooltip">
+                                    <a href="javascript:void(0)"
+                                       onclick="copyApp('<?php echo esc_attr( $app['slug'] ); ?>', this)">
+                                        <i class="fas fa-copy action-icon"></i>
+                                    </a>
+                                    <span class="action-tooltip-text"><?php esc_attr_e( 'Copy', 'dt-home' ); ?></span>
+                                </div>
+                                &nbsp;|&nbsp;
+                                <div class="action-tooltip">
+                                    <?php if ( !isset( $app['creation_type'] ) || ( $app['creation_type'] != 'code' ) ) { ?>
+                                        <a href="#" onclick="deleteApp('<?php echo esc_attr( $app['slug'] ); ?>')"
+                                           class="delete-apps">
+                                            <i class="fas fa-trash action-icon"></i>
+                                        </a>
+                                        <span
+                                            class="action-tooltip-text"><?php esc_attr_e( 'Delete', 'dt-home' ); ?></span>
+                                    <?php } else { ?>
+                                        <a href="#" onclick="softdelete('<?php echo esc_attr( $app['slug'] ); ?>')"
+                                           class="delete-apps">
+                                            <i class="fas fa-trash action-icon"></i>
+                                        </a>
+                                        <span
+                                            class="action-tooltip-text"><?php esc_attr_e( 'Soft Delete', 'dt-home' ); ?></span>
+                                    <?php } ?>
+                                </div>
                             </td>
+
                         </tr>
                     <?php endforeach; ?>
                     </tbody>

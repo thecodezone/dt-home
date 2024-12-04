@@ -1,5 +1,6 @@
 <?php
 // phpcs:ignoreFile
+
 /**
  * @var string $tab
  * @var string $link
@@ -78,13 +79,17 @@ require_once 'icons-functions.php';
                     <option value="Link" <?php echo ($existing_data['type'] === 'Link') ? 'selected' : ''; ?>>
                         <?php esc_html_e('Link', 'dt-home') ?>
                     </option>
+                    <option
+                        value="Native App Link" <?php echo ($existing_data['type'] === 'Native App Link') ? 'selected' : ''; ?>>
+                        <?php esc_html_e('Native App Link', 'dt-home') ?>
+                    </option>
                 </select>
                 <input name="creation_type" id="creation_type" type="hidden"
                        value="<?php echo esc_attr($existing_data['creation_type'] ?? '') ?>"/>
             </td>
         </tr>
 
-        <?php if ($existing_data['type'] === 'Web View' || $existing_data['type'] === 'Link') { ?>
+        <?php if ($existing_data['type'] === 'Web View' || $existing_data['type'] === 'Link' || $existing_data['type'] === 'Native App Link') { ?>
             <tr>
                 <td style="vertical-align: middle;"><?php esc_html_e('URL', 'dt-home') ?>
                     <span class="tooltip">[?]
@@ -98,6 +103,39 @@ require_once 'icons-functions.php';
             </tr>
         <?php } ?>
 
+        <tr id="fallback_url_ios_row">
+            <td style="vertical-align: middle;"><?php esc_html_e('Fallback URL IOS', 'dt-home') ?>
+                <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Enter the URL for the IOS app.', 'dt-home') ?></span>
+            </span>
+            </td>
+            <td colspan="4">
+                <input style="min-width: 100%;" type="text" name="fallback_url_ios" id="fallback_url_ios"
+                       value="<?php echo esc_attr(isset($existing_data['fallback_url_ios']) ? $existing_data['fallback_url_ios'] : ''); ?>"/>
+            </td>
+        </tr>
+        <tr id="fallback_url_android_row">
+            <td style="vertical-align: middle;"><?php esc_html_e('Fallback URL Android', 'dt-home') ?>
+                <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Enter the URL for the android app.', 'dt-home') ?></span>
+            </span>
+            </td>
+            <td colspan="4">
+                <input style="min-width: 100%;" type="text" name="fallback_url_android" id="fallback_url_android"
+                       value="<?php echo esc_attr(isset($existing_data['fallback_url_android']) ? $existing_data['fallback_url_android'] : ''); ?>"/>
+            </td>
+        </tr>
+        <tr id="fallback_url_others_row">
+            <td style="vertical-align: middle;"><?php esc_html_e('Fallback URL Others', 'dt-home') ?>
+                <span class="tooltip">[?]
+                <span class="tooltiptext"><?php esc_html_e('Enter the URL for the other app.', 'dt-home') ?></span>
+            </span>
+            </td>
+            <td colspan="4">
+                <input style="min-width: 100%;" type="text" name="fallback_url_others" id="fallback_url_others"
+                       value="<?php echo esc_attr(isset($existing_data['fallback_url_others']) ? $existing_data['fallback_url_others'] : ''); ?>"/>
+            </td>
+        </tr>
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Icons', 'dt-home') ?>
                 <span class="tooltip">[?]
@@ -163,7 +201,8 @@ require_once 'icons-functions.php';
         <tr>
             <td style="vertical-align: middle;"><?php esc_html_e('Is Exportable', 'dt-home') ?>
                 <span class="tooltip">[?]
-                <span class="tooltiptext"><?php esc_html_e('Check this box to ensure app is also included within json magic link endpoint output.', 'dt-home') ?></span>
+                <span
+                    class="tooltiptext"><?php esc_html_e('Check this box to ensure app is also included within json magic link endpoint output.', 'dt-home') ?></span>
             </span>
             </td>
             <td colspan="4">
@@ -174,7 +213,8 @@ require_once 'icons-functions.php';
         <tr>
             <td style="vertical-align: top;"><?php esc_html_e('Roles', 'dt-home') ?>
                 <span class="tooltip">[?]
-                <span class="tooltiptext"><?php esc_html_e('Select which user roles can access app.', 'dt-home') ?></span>
+                <span
+                    class="tooltiptext"><?php esc_html_e('Select which user roles can access app.', 'dt-home') ?></span>
             </span>
             </td>
             <td colspan="4">
@@ -184,40 +224,38 @@ require_once 'icons-functions.php';
                 ?>
                 <table>
                     <tbody>
-                        <tr>
-                            <td style="padding-left: 0;" colspan="<?php echo esc_attr( $max_row_count ); ?>">
-                                <div>
-                                    <label>
-                                        <input type="checkbox" id="select_all_user_roles"/>
-                                        <?php esc_html_e( 'Select all roles?', 'dt-home' ); ?>
-                                    </label>
-                                    <hr>
-                                </div>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td style="padding-left: 0;" colspan="<?php echo esc_attr($max_row_count); ?>">
+                            <div>
+                                <label>
+                                    <input type="checkbox" id="select_all_user_roles"/>
+                                    <?php esc_html_e('Select all roles?', 'dt-home'); ?>
+                                </label>
+                                <hr>
+                            </div>
+                        </td>
+                    </tr>
                     <?php
-                    $roles_permissions_srv = container()->get( RolesPermissions::class );
-                    $dt_custom_roles = get_option( $roles_permissions_srv::OPTION_KEY_CUSTOM_ROLES, [] );
-                    ksort( $dt_custom_roles );
-                    foreach ( $dt_custom_roles as $key => $role ) {
-
+                    $roles_permissions_srv = container()->get(RolesPermissions::class);
+                    $dt_custom_roles = get_option($roles_permissions_srv::OPTION_KEY_CUSTOM_ROLES, []);
+                    ksort($dt_custom_roles);
+                    foreach ($dt_custom_roles as $key => $role) {
                         /**
                          * Determine if role should be checked; ensuring globally set custom
                          * roles and permissions take priority.
                          */
-
                         $is_checked = false;
-                        $permission = $roles_permissions_srv->generate_permission_key( $existing_data['slug'] ?? '' );
+                        $permission = $roles_permissions_srv->generate_permission_key($existing_data['slug'] ?? '');
 
-                        if ( isset( $role['capabilities'][ $permission ] ) ) {
-                            $is_checked = $role['capabilities'][ $permission ];
+                        if (isset($role['capabilities'][$permission])) {
+                            $is_checked = $role['capabilities'][$permission];
 
                         } else {
-                            $is_checked = in_array( $key, $existing_data['roles'] ?? [] );
+                            $is_checked = in_array($key, $existing_data['roles'] ?? []);
                         }
 
                         // Determine if a new row should be started.
-                        if ( $counter === 0 ) {
+                        if ($counter === 0) {
                             ?>
                             <tr>
                             <?php
@@ -227,8 +265,9 @@ require_once 'icons-functions.php';
                         <td style="padding-left: 0;">
                             <div>
                                 <label>
-                                    <input type="checkbox" name="roles[]" class="apps-user-role" value="<?php echo esc_attr( $key ); ?>" <?php echo ( $is_checked ? 'checked' : '' ); ?> />
-                                    <?php echo esc_html( $role['label'] ?? $key ); ?>
+                                    <input type="checkbox" name="roles[]" class="apps-user-role"
+                                           value="<?php echo esc_attr($key); ?>" <?php echo($is_checked ? 'checked' : ''); ?> />
+                                    <?php echo esc_html($role['label'] ?? $key); ?>
                                 </label>
                             </div>
                         </td>
@@ -236,7 +275,7 @@ require_once 'icons-functions.php';
                         <?php
 
                         // Determine if row should be closed.
-                        if ( ++$counter >= $max_row_count ) {
+                        if (++$counter >= $max_row_count) {
                             $counter = 0;
                             ?>
                             </tr>
@@ -251,16 +290,16 @@ require_once 'icons-functions.php';
         </tr>
         </tbody>
         <tfoot>
-            <tr>
-                <td colspan="5">
+        <tr>
+            <td colspan="5">
                     <span style="float:right;">
                         <a href="admin.php?page=dt_home&tab=app"
                            class="button float-right"><?php esc_html_e('Cancel', 'dt-home') ?></a>
                         <button type="submit" name="submit" id="submit"
                                 class="button float-right"><?php esc_html_e('Update', 'dt-home') ?></button>
                     </span>
-                </td>
-            </tr>
+            </td>
+        </tr>
         </tfoot>
     </table>
 </form>
@@ -272,3 +311,46 @@ require_once 'icons-functions.php';
 <!-- Add some content to the right side -->
 
 <?php $this->stop() ?>
+<script>
+
+    function toggleURLField() {
+        const typeSelect = document.getElementById('type');
+        const urlFieldRow = document.getElementById('urlFieldRow');
+        const fallbackUrlIosRow = document.getElementById('fallback_url_ios_row');
+        const fallbackUrlAndroidRow = document.getElementById('fallback_url_android_row');
+        const fallbackUrlOthersRow = document.getElementById('fallback_url_others_row');
+
+        const fallbackUrlIos = document.getElementById('fallback_url_ios');
+        const fallbackUrlAndroid = document.getElementById('fallback_url_android');
+        const fallbackUrlOthers = document.getElementById('fallback_url_others');
+
+        if (!typeSelect) return;
+
+        // Hide all fallback rows and URL field by default
+        if (urlFieldRow) urlFieldRow.style.display = 'none';
+        if (fallbackUrlIosRow) fallbackUrlIosRow.style.display = 'none';
+        if (fallbackUrlAndroidRow) fallbackUrlAndroidRow.style.display = 'none';
+        if (fallbackUrlOthersRow) fallbackUrlOthersRow.style.display = 'none';
+
+        if (fallbackUrlIos) fallbackUrlIos.required = false;
+        if (fallbackUrlAndroid) fallbackUrlAndroid.required = false;
+        if (fallbackUrlOthers) fallbackUrlOthers.required = false;
+
+        // Show only when "Native App Link" is selected
+        if (typeSelect.value === 'Native App Link') {
+            if (fallbackUrlIosRow) fallbackUrlIosRow.style.display = '';
+            if (fallbackUrlAndroidRow) fallbackUrlAndroidRow.style.display = '';
+            if (fallbackUrlOthersRow) fallbackUrlOthersRow.style.display = '';
+
+            if (fallbackUrlIos) fallbackUrlIos.required = true;
+            if (fallbackUrlAndroid) fallbackUrlAndroid.required = true;
+            if (fallbackUrlOthers) fallbackUrlOthers.required = true;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        toggleURLField()
+        document.getElementById('type').addEventListener('change', toggleURLField)
+    })
+
+</script>
