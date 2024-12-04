@@ -376,9 +376,9 @@ document.addEventListener('DOMContentLoaded', function () {
             textarea.select()
             document.execCommand('copy')
             document.body.removeChild(textarea)
-            element.textContent = 'Copied'
+            element.innerHTML = '<i class="fas fa-check action-icon"></i>'
             setTimeout(() => {
-                element.textContent = 'Copy'
+                element.innerHTML = '<i class="fas fa-copy action-icon"></i>'
             }, 5000)
         }
     }
@@ -481,3 +481,4 @@ jQuery(document).ready(function ($) {
         }
     }
 })
+

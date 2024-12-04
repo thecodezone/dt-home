@@ -36,11 +36,11 @@ body {
 }
 
 .delete-apps {
-    color: #e44f4f;
+    color: #e44f4f !important;
 }
 
 .delete-apps:hover {
-    color: #b33737;
+    color: #b33737 !important;
 }
 
 /* Custom Tooltip css */
@@ -328,5 +328,58 @@ textarea.text-area {
     cursor: pointer;
 }
 
+/*Action icon size*/
+.action-icon {
+    font-size: 15px;
+}
 
+/* Tooltip container */
+.action-tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
 
+/* Tooltip text */
+.action-tooltip .action-tooltip-text {
+    visibility: hidden;
+    width: auto;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Adjust based on position */
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Tooltip arrow */
+.action-tooltip .action-tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+/* Show tooltip on hover */
+.action-tooltip:hover .action-tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.action-tooltip a {
+    color: #62a8ba;
+
+    &:hover {
+        color: #0073aa;
+    }
+}
