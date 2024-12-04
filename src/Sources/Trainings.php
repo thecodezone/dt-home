@@ -5,7 +5,8 @@ namespace DT\Home\Sources;
 use function DT\Home\get_plugin_option;
 use function DT\Home\set_plugin_option;
 
-class Trainings extends Source {
+class Trainings extends Source
+{
 
     public function find_key()
     {
@@ -17,8 +18,10 @@ class Trainings extends Source {
      *
      * @return array The raw array of training videos.
      */
-    public function raw( array $params = [] ): array {
-        $raw_trainings = get_plugin_option( 'trainings', [] );
+    public function raw( array $params = [] ): array
+    {
+        $raw_trainings = array_values( get_plugin_option( 'trainings', [] ) );
+
         if ( !is_array( $raw_trainings ) ) {
             $raw_trainings = [];
         }
@@ -33,7 +36,8 @@ class Trainings extends Source {
      * @param array $options
      * @return bool Whether the saving was successful or not.
      */
-    public function save( $apps, array $options = [] ): bool {
+    public function save( $apps, array $options = [] ): bool
+    {
         return set_plugin_option( 'trainings', $apps );
     }
 
@@ -42,15 +46,16 @@ class Trainings extends Source {
      *
      * @return array All training videos data.
      */
-    public function format_item( array $item ): array {
+    public function format_item( array $item ): array
+    {
         $overrides = [];
 
-        return array_merge( [
+        return array_merge([
             'id' => '',
             'name' => '',
             'embed_video' => '',
             'anchor' => '',
             'sort' => '',
-        ], $item, $overrides );
+        ], $item, $overrides);
     }
 }
