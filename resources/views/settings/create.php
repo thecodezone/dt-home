@@ -45,7 +45,7 @@ require_once 'icons-functions.php';
             <td colspan="3">
                 <input style="min-width: 100%;" class="form-control" type="text" name="name" id="name" pattern=".*\S+.*"
                        title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt-home'); ?>"
-                       required/>
+                       required />
             </td>
         </tr>
         <tr>
@@ -73,7 +73,7 @@ require_once 'icons-functions.php';
                     <option value="Link"><?php esc_html_e('Link', 'dt-home') ?></option>
                     <option value="Native App Link"><?php esc_html_e('Native App Link', 'dt-home') ?></option>
                 </select>
-                <input name="creation_type" id="creation_type" type="hidden" value="custom"/>
+                <input name="creation_type" id="creation_type" type="hidden" value="custom" />
             </td>
         </tr>
 
@@ -84,7 +84,9 @@ require_once 'icons-functions.php';
             </span>
             </td>
             <td colspan="3">
-                <input style="min-width: 100%;" type="text" name="url" id="url"/>
+                <input style="min-width: 100%;" type="text" name="url" id="url" pattern=".*\S+.*"
+                       title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt-home'); ?>"
+                       required />
             </td>
         </tr>
         <tr id="fallback_url_ios_row">

@@ -85,7 +85,7 @@ require_once 'icons-functions.php';
                     </option>
                 </select>
                 <input name="creation_type" id="creation_type" type="hidden"
-                       value="<?php echo esc_attr($existing_data['creation_type'] ?? '') ?>"/>
+                       value="<?php echo esc_attr($existing_data['creation_type'] ?? '') ?>" />
             </td>
         </tr>
 
@@ -98,7 +98,10 @@ require_once 'icons-functions.php';
                 </td>
                 <td colspan="4">
                     <input style="min-width: 100%;" type="text" name="url" id="url" class="form-control"
-                           value="<?php echo esc_attr(isset($existing_data['url']) ? $existing_data['url'] : ''); ?>">
+                            value="<?php echo esc_attr(isset($existing_data['url']) ? $existing_data['url'] : ''); ?>"
+                           pattern=".*\S+.*"
+                           title="<?php esc_attr_e('The name cannot be empty or just whitespace.', 'dt-home'); ?>"
+                           required>
                 </td>
             </tr>
         <?php } ?>
@@ -247,6 +250,7 @@ require_once 'icons-functions.php';
                          */
                         $is_checked = false;
                         $permission = $roles_permissions_srv->generate_permission_key($existing_data['slug'] ?? '');
+
 
                         if ( isset( $role['permissions'][ $permission ] ) ) {
                             $is_checked = $role['permissions'][ $permission ];
