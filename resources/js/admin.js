@@ -159,6 +159,11 @@ document.addEventListener('DOMContentLoaded', function () {
         return
     }
 
+    // Check if all roles are checked on document load
+    const roles = document.querySelectorAll('input.apps-user-role')
+    const allSelected = Array.from(roles).every((role) => role.checked)
+    select_all.checked = allSelected
+
     // Listen for select all app user role clicks.
     select_all.addEventListener('click', (e) => {
         const roles = document.querySelectorAll('input.apps-user-role')
@@ -169,13 +174,18 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
     // Listen for individual user role clicks and update parent all option accordingly.
-    for (const role of document.querySelectorAll('input.apps-user-role')) {
-        role.addEventListener('click', (e) => {
+    document.querySelectorAll('input.apps-user-role').forEach((role) => {
+        role.addEventListener('click', () => {
             if (!role.checked) {
                 select_all.checked = false
+            } else {
+                const allSelected = Array.from(
+                    document.querySelectorAll('input.apps-user-role')
+                ).every((role) => role.checked)
+                select_all.checked = allSelected
             }
         })
-    }
+    })
 
     // Execute final pre-submission tasks.
     document.getElementById('submit').addEventListener('click', (e) => {
