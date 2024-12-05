@@ -215,9 +215,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const copyButton = document.getElementById('copyButton')
     const closeButtons = document.querySelectorAll('.close-button')
     const overlay = document.getElementById('overlay')
+    const shareTab = document.getElementById('shareTab')
+    const copyTab = document.getElementById('copyTab')
+    const shareContent = document.getElementById('shareContent')
+    const copyContent = document.getElementById('copyContent')
+    const exportLink = document.getElementById('exportLink')
+
+    const qrCodeImage = document.getElementById('qrCodeImage')
 
     // Parse the apps data from the exportPopup element's data attribute
-    const appsData = JSON.parse(exportPopup.getAttribute('data-apps'))
+    const appsArray = JSON.parse(exportPopup.getAttribute('data-apps'))
+    const appsData = Object.values(appsArray)
 
     // Function to update the state of the export button based on checkbox selection
     const updateExportButtonState = () => {
@@ -280,11 +288,29 @@ document.addEventListener('DOMContentLoaded', function () {
             2
         )
 
+        // Generate the endpoint URL with the selected slugs as query parameters
+
+        const endpointUrl = `${exportPopup.getAttribute('data-site-domain')}/apps/json?${selectedSlugs.map((slug) => `slugs[]=${encodeURIComponent(slug)}`).join('&')}`
+
+        // Set the value of the export link input field
+        exportLink.value = endpointUrl
+
+        // Generate the QR code URL
+        const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=323a68&data=${encodeURIComponent(endpointUrl)}`
+        qrCodeImage.src = qrCodeUrl
         // Display the JSON representation of the selected apps in the textarea
         exportTextarea.value = selectedValues
+
+        // Show the import modal with tabs
         exportPopup.style.display = 'block'
         overlay.style.display = 'block'
         document.body.style.overflow = 'hidden'
+
+        // Set the default tab to Share
+        shareTab.classList.add('active')
+        copyTab.classList.remove('active')
+        shareContent.style.display = 'block'
+        copyContent.style.display = 'none'
     })
 
     // Event listener for the copy button
@@ -307,6 +333,21 @@ document.addEventListener('DOMContentLoaded', function () {
             document.body.style.overflow = 'auto'
             exportTextarea.classList.remove('copied')
         })
+    })
+
+    // Event listeners for the tabs
+    shareTab.addEventListener('click', () => {
+        shareTab.classList.add('active')
+        copyTab.classList.remove('active')
+        shareContent.style.display = 'block'
+        copyContent.style.display = 'none'
+    })
+
+    copyTab.addEventListener('click', () => {
+        copyTab.classList.add('active')
+        shareTab.classList.remove('active')
+        shareContent.style.display = 'none'
+        copyContent.style.display = 'block'
     })
 })
 
@@ -439,44 +480,5 @@ jQuery(document).ready(function ($) {
             import_apps_textarea.focus()
         }
     }
-  }
+})
 
-});
-
-/**
- * Handle apps icons toggle display.
- *
- * @function
- * @name appsIconTabsToggle
- * @returns {void}
- */
-jQuery(document).ready(function ($) {
-  $('a.app-icon-tab').click(function (e) {
-
-    // Deactivate all tabs and activate selected tab.
-    const selected_tab = $(e.currentTarget);
-    $(selected_tab).parent().find('.nav-tab-active').removeClass('nav-tab-active');
-    $(selected_tab).addClass('nav-tab-active');
-
-    // Toggle tab content.
-    $(selected_tab).parent().parent().find('div.app-icon-tab-content').children().slideUp('fast', function () {
-
-      // Obtain handle onto tab div by specified class id and fade in.
-      $(`div.${$(selected_tab).data('tab')}`).slideDown('fast');
-
-    });
-  });
-
-  $('i.app-color-reset').click(function (e) {
-    const color_id = $(e.currentTarget).data('color');
-    const color_input = $(`#${ color_id }`);
-    const color_input_hidden = $(`#${ color_id }_hidden`);
-
-    /**
-     * Remove color value; which will most likely revert to black (#000000);
-     * therefore, also signal with `delete` flag.
-     */
-    $(color_input).val('');
-    $(color_input_hidden).val('deleted');
-  });
-});
