@@ -57,6 +57,7 @@ class AppFormModal extends LitElement {
                 --close-icon-background-color: #292929;
                 --close-icon-color: #fff;
                 --close-icon-background-color-hover: #2929297d;
+                --modal-background-color: rgba(25, 24, 24, 0.9);
             }
         }
 
@@ -64,6 +65,7 @@ class AppFormModal extends LitElement {
             :host {
                 --close-icon-background-color: lightgray;
                 --close-icon-background-color-hover: darkgray;
+                --modal-background-color: rgba(211, 211, 211, 0.85);
             }
         }
 
@@ -123,7 +125,7 @@ class AppFormModal extends LitElement {
         }
 
         .show-modal {
-            background-color: unset;
+            background-color: var(--modal-background-color);
             opacity: 1;
             visibility: visible;
             transform: scale(1);
