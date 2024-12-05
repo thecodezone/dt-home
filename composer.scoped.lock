@@ -4,27 +4,27 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6add55a9ed87472eef4991affdc51742",
+    "content-hash": "6ecf02b7cd82fcc7672632e265d2e2d6",
     "packages": [
         {
             "name": "codezone/wp-support",
-            "version": "1.1.4",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thecodezone/wp-support.git",
-                "reference": "f42b1d29910cc4074f8f82036f5a223dd2d665aa"
+                "reference": "3a72acf8c86c431fe9b3bf5c8ddd3c22e4903212"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thecodezone/wp-support/zipball/f42b1d29910cc4074f8f82036f5a223dd2d665aa",
-                "reference": "f42b1d29910cc4074f8f82036f5a223dd2d665aa",
+                "url": "https://api.github.com/repos/thecodezone/wp-support/zipball/3a72acf8c86c431fe9b3bf5c8ddd3c22e4903212",
+                "reference": "3a72acf8c86c431fe9b3bf5c8ddd3c22e4903212",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/psr7": "^2.6",
                 "kucrut/vite-for-wp": "^0.8.0",
                 "league/container": "4.*",
-                "league/plates": "^3.5",
+                "league/plates": "3.5",
                 "league/route": "^5.1",
                 "php": "^7.4"
             },
@@ -56,9 +56,9 @@
             "description": "Support utilities for building WordPress plugins.",
             "support": {
                 "issues": "https://github.com/thecodezone/wp-support/issues",
-                "source": "https://github.com/thecodezone/wp-support/tree/1.1.4"
+                "source": "https://github.com/thecodezone/wp-support/tree/1.1.5"
             },
-            "time": "2024-12-05T22:07:30+00:00"
+            "time": "2024-12-05T22:25:46+00:00"
         },
         {
             "name": "guzzlehttp/psr7",

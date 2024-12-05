@@ -1,8 +1,7 @@
 {
   "require": {
     "php": "7.4.27",
-    "codezone/wp-support": "1.1.4",
-    "league/plates": "3.5"
+    "codezone/wp-support": "1.1.5"
   },
   "config": {
     "autoloader-suffix": "dt_home_scoped",
