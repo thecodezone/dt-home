@@ -11,6 +11,7 @@ import CssFilterConverter from "css-filter-converter";
 @customElement('dt-home-app-icon')
 class AppIcon extends LitElement {
     @property({ type: String }) name = ''
+    @property({ type: String }) slug = ''
     @property({ type: String }) icon = ''
     @property({ type: String }) color = null
     @property({ type: Boolean }) isVisible = true
@@ -134,9 +135,11 @@ class AppIcon extends LitElement {
                       <div class="app-icon__icon">
                           ${this.isIconURL()
                               ? html`<img
+                                    alt="${this.slug} icon"
                                     src="${this.icon}"
-                                    class="svg-icon"
-                                    style="${this.imgIconColorStyle()}"
+                                    class="${this.slug !== 'disciple-tools'
+                                        ? 'svg-icon'
+                                        : ''}"
                                 />`
                               : html`<i
                                     class="${this.icon}"
