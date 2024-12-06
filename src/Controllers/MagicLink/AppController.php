@@ -83,11 +83,11 @@ class AppController
 
         // If no initial hit, attempt a direct search.
         if ( !$app ) {
-            $filtered_array = array_values( array_filter( $this->apps->for( $user_id ), function ( $element ) use ( $slug ) {
+            $filtered_array = array_values(array_filter($this->apps->for( $user_id ), function ( $element ) use ( $slug ) {
                 return ( isset( $element['slug'] ) && $element['slug'] === $slug );
-            } ) );
+            }));
 
-            $app = ! empty( $filtered_array[0] ) ? $filtered_array[0] : null;
+            $app = !empty( $filtered_array[0] ) ? $filtered_array[0] : null;
         }
 
         // Also confirm user has relevant permission to access app.
@@ -214,6 +214,8 @@ class AppController
     public function store_apps( Request $request )
     {
         $data = extract_request_input( $request );
+        $apps_array = $this->apps->from( 'user' );
+        $apps_count = count( $apps_array );
         $app_data = [
             'name' => $data['name'] ?? 'test',
             'type' => $data['type'] ?? 'Web View',
@@ -221,6 +223,7 @@ class AppController
             'url' => $data['url'],
             'slug' => $data['slug'],
             'open_in_new_tab' => $data['open_in_new_tab'] ?? false,
+            'sort' => $apps_count,
         ];
         $apps_array = $this->apps->from( 'user' );
         $apps_array[] = $app_data;

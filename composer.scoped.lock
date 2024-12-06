@@ -4,27 +4,27 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f0cb49d97bd00d58674118f72952f3f6",
+    "content-hash": "6ecf02b7cd82fcc7672632e265d2e2d6",
     "packages": [
         {
             "name": "codezone/wp-support",
-            "version": "1.1.3",
+            "version": "1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thecodezone/wp-support.git",
-                "reference": "44ccd25d83d32a0fbf873892cef4b4a74b0c9097"
+                "reference": "3a72acf8c86c431fe9b3bf5c8ddd3c22e4903212"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thecodezone/wp-support/zipball/44ccd25d83d32a0fbf873892cef4b4a74b0c9097",
-                "reference": "44ccd25d83d32a0fbf873892cef4b4a74b0c9097",
+                "url": "https://api.github.com/repos/thecodezone/wp-support/zipball/3a72acf8c86c431fe9b3bf5c8ddd3c22e4903212",
+                "reference": "3a72acf8c86c431fe9b3bf5c8ddd3c22e4903212",
                 "shasum": ""
             },
             "require": {
                 "guzzlehttp/psr7": "^2.6",
                 "kucrut/vite-for-wp": "^0.8.0",
                 "league/container": "4.*",
-                "league/plates": "^3.5",
+                "league/plates": "3.5",
                 "league/route": "^5.1",
                 "php": "^7.4"
             },
@@ -56,9 +56,9 @@
             "description": "Support utilities for building WordPress plugins.",
             "support": {
                 "issues": "https://github.com/thecodezone/wp-support/issues",
-                "source": "https://github.com/thecodezone/wp-support/tree/1.1.3"
+                "source": "https://github.com/thecodezone/wp-support/tree/1.1.5"
             },
-            "time": "2024-09-13T23:48:19+00:00"
+            "time": "2024-12-05T22:25:46+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -217,16 +217,16 @@
         },
         {
             "name": "league/container",
-            "version": "4.2.2",
+            "version": "4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/container.git",
-                "reference": "ff346319ca1ff0e78277dc2311a42107cc1aab88"
+                "reference": "7ea728b013b9a156c409c6f0fc3624071b742dec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/container/zipball/ff346319ca1ff0e78277dc2311a42107cc1aab88",
-                "reference": "ff346319ca1ff0e78277dc2311a42107cc1aab88",
+                "url": "https://api.github.com/repos/thephpleague/container/zipball/7ea728b013b9a156c409c6f0fc3624071b742dec",
+                "reference": "7ea728b013b9a156c409c6f0fc3624071b742dec",
                 "shasum": ""
             },
             "require": {
@@ -287,7 +287,7 @@
             ],
             "support": {
                 "issues": "https://github.com/thephpleague/container/issues",
-                "source": "https://github.com/thephpleague/container/tree/4.2.2"
+                "source": "https://github.com/thephpleague/container/tree/4.2.4"
             },
             "funding": [
                 {
@@ -295,7 +295,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-13T13:12:53+00:00"
+            "time": "2024-11-10T12:42:13+00:00"
         },
         {
             "name": "league/plates",
