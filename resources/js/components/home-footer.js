@@ -91,8 +91,9 @@ class HomeFooter extends LitElement {
 
             sp-dialog {
                 background-color: var(--dialog-bg-color, white);
-                border: 2px solid var(--dialog-border-color, none);
-                box-shadow: none; /* Remove any shadow */
+                border: 1px solid var(--dialog-border-color, #a1a1a1);
+                border-radius: 5px;
+                box-shadow: -2px -2px 40px 20px rgb(0 0 0 / 10%);
                 height: 200px; /* Let the content dictate the height */
                 padding: 0; /* Remove default padding */
                 overflow: hidden; /* Hide overflow */
