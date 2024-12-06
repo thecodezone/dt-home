@@ -450,6 +450,7 @@ class AppFormModal extends LitElement {
                             id="icon"
                             placeholder="Select an icon"
                             require
+                            slug="${this.appData.slug || ''}"
                             .value="${this.appData.icon || ''}"
                         ></icon-picker>
                         <dt-text

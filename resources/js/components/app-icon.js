@@ -10,6 +10,7 @@ import { property } from 'lit/decorators.js'
 @customElement('dt-home-app-icon')
 class AppIcon extends LitElement {
     @property({ type: String }) name = ''
+    @property({ type: String }) slug = ''
     @property({ type: String }) icon = ''
     @property({ type: Boolean }) isVisible = true
 
@@ -111,8 +112,11 @@ class AppIcon extends LitElement {
                       <div class="app-icon__icon">
                           ${this.isIconURL()
                               ? html`<img
+                                    alt="${this.slug} icon"
                                     src="${this.icon}"
-                                    class="svg-icon"
+                                    class="${this.slug !== 'disciple-tools'
+                                        ? 'svg-icon'
+                                        : ''}"
                                 />`
                               : html`<i
                                     class="${this.icon}"
