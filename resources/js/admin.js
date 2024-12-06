@@ -159,6 +159,11 @@ document.addEventListener('DOMContentLoaded', function () {
         return
     }
 
+    // Check if all roles are checked on document load
+    const roles = document.querySelectorAll('input.apps-user-role')
+    const allSelected = Array.from(roles).every((role) => role.checked)
+    select_all.checked = allSelected
+
     // Listen for select all app user role clicks.
     select_all.addEventListener('click', (e) => {
         const roles = document.querySelectorAll('input.apps-user-role')
@@ -169,13 +174,18 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
     // Listen for individual user role clicks and update parent all option accordingly.
-    for (const role of document.querySelectorAll('input.apps-user-role')) {
-        role.addEventListener('click', (e) => {
+    document.querySelectorAll('input.apps-user-role').forEach((role) => {
+        role.addEventListener('click', () => {
             if (!role.checked) {
                 select_all.checked = false
+            } else {
+                const allSelected = Array.from(
+                    document.querySelectorAll('input.apps-user-role')
+                ).every((role) => role.checked)
+                select_all.checked = allSelected
             }
         })
-    }
+    })
 
     // Execute final pre-submission tasks.
     document.getElementById('submit').addEventListener('click', (e) => {
@@ -215,9 +225,17 @@ document.addEventListener('DOMContentLoaded', function () {
     const copyButton = document.getElementById('copyButton')
     const closeButtons = document.querySelectorAll('.close-button')
     const overlay = document.getElementById('overlay')
+    const shareTab = document.getElementById('shareTab')
+    const copyTab = document.getElementById('copyTab')
+    const shareContent = document.getElementById('shareContent')
+    const copyContent = document.getElementById('copyContent')
+    const exportLink = document.getElementById('exportLink')
+
+    const qrCodeImage = document.getElementById('qrCodeImage')
 
     // Parse the apps data from the exportPopup element's data attribute
-    const appsData = JSON.parse(exportPopup.getAttribute('data-apps'))
+    const appsArray = JSON.parse(exportPopup.getAttribute('data-apps'))
+    const appsData = Object.values(appsArray)
 
     // Function to update the state of the export button based on checkbox selection
     const updateExportButtonState = () => {
@@ -280,11 +298,29 @@ document.addEventListener('DOMContentLoaded', function () {
             2
         )
 
+        // Generate the endpoint URL with the selected slugs as query parameters
+
+        const endpointUrl = `${exportPopup.getAttribute('data-site-domain')}/apps/json?${selectedSlugs.map((slug) => `slugs[]=${encodeURIComponent(slug)}`).join('&')}`
+
+        // Set the value of the export link input field
+        exportLink.value = endpointUrl
+
+        // Generate the QR code URL
+        const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&color=323a68&data=${encodeURIComponent(endpointUrl)}`
+        qrCodeImage.src = qrCodeUrl
         // Display the JSON representation of the selected apps in the textarea
         exportTextarea.value = selectedValues
+
+        // Show the import modal with tabs
         exportPopup.style.display = 'block'
         overlay.style.display = 'block'
         document.body.style.overflow = 'hidden'
+
+        // Set the default tab to Share
+        shareTab.classList.add('active')
+        copyTab.classList.remove('active')
+        shareContent.style.display = 'block'
+        copyContent.style.display = 'none'
     })
 
     // Event listener for the copy button
@@ -307,6 +343,21 @@ document.addEventListener('DOMContentLoaded', function () {
             document.body.style.overflow = 'auto'
             exportTextarea.classList.remove('copied')
         })
+    })
+
+    // Event listeners for the tabs
+    shareTab.addEventListener('click', () => {
+        shareTab.classList.add('active')
+        copyTab.classList.remove('active')
+        shareContent.style.display = 'block'
+        copyContent.style.display = 'none'
+    })
+
+    copyTab.addEventListener('click', () => {
+        copyTab.classList.add('active')
+        shareTab.classList.remove('active')
+        shareContent.style.display = 'none'
+        copyContent.style.display = 'block'
     })
 })
 
