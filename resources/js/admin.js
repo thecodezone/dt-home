@@ -490,6 +490,7 @@ jQuery(document).ready(function ($) {
             import_apps_textarea.focus()
         }
     }
+
 });
 
 /**
