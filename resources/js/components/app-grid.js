@@ -1,7 +1,7 @@
-import {css, html, LitElement} from 'lit'
-import {customElement} from 'lit-element'
-import {property, queryAll} from 'lit/decorators.js'
-import {isAndroid, isiOS, magic_url, translate} from '../helpers.js'
+import { css, html, LitElement } from 'lit'
+import { customElement } from 'lit-element'
+import { property, queryAll } from 'lit/decorators.js'
+import { isAndroid, isiOS, magic_url, translate } from '../helpers.js'
 import './app-form-modal.js'
 import Sortable from 'sortablejs'
 
@@ -142,6 +142,7 @@ class AppGrid extends LitElement {
     @property({ type: Boolean }) open = false
     @property({ type: Object }) app = {}
     @queryAll('.app-grid__item') items = []
+    @property({ type: Boolean }) isSortableDragging = true
 
     showRemoveIconId = null
     clickTimer = null
@@ -193,25 +194,27 @@ class AppGrid extends LitElement {
 
     initSortable() {
         // Select the container for the grid items
-        if (this.editing) {
-            const appGrids = this.shadowRoot.querySelectorAll('.app-grid')
+        if (this.isSortableDragging) {
+            if (this.editing) {
+                const appGrids = this.shadowRoot.querySelectorAll('.app-grid')
 
-            appGrids.forEach((appGrid) => {
-                const sortableInstance = new Sortable(appGrid, {
-                    group: 'shared',
-                    animation: 500,
-                    draggable: '.app-grid__item',
-                    fallbackOnBody: true,
-                    dragClass: 'sortable-drag',
-                    onEnd: (evt) => this.handleReorder(evt),
+                appGrids.forEach((appGrid) => {
+                    const sortableInstance = new Sortable(appGrid, {
+                        group: 'shared',
+                        animation: 500,
+                        draggable: '.app-grid__item',
+                        fallbackOnBody: true,
+                        dragClass: 'sortable-drag',
+                        onEnd: (evt) => this.handleReorder(evt),
+                    })
+                    this.sortableInstances.push(sortableInstance)
                 })
-                this.sortableInstances.push(sortableInstance)
-            })
-        } else {
-            this.sortableInstances.forEach((sortableInstance) => {
-                sortableInstance.destroy()
-            })
-            this.sortableInstances = []
+            } else {
+                this.sortableInstances.forEach((sortableInstance) => {
+                    sortableInstance.destroy()
+                })
+                this.sortableInstances = []
+            }
         }
     }
 
@@ -253,26 +256,35 @@ class AppGrid extends LitElement {
         fetch(url)
             .then((response) => response.json())
             .then((data) => {
-                this.appDataCopy = data
+                if (this.isSortableDragging) {
+                    this.appDataCopy = data
 
-                const appCopyIndex = this.appDataCopy.findIndex(
-                    (app) => app.slug === unhiddenApp.slug
-                )
+                    const appCopyIndex = this.appDataCopy.findIndex(
+                        (app) => app.slug === unhiddenApp.slug
+                    )
 
-                if (appCopyIndex > -1) {
-                    this.appDataCopy[appCopyIndex].is_hidden = false
-                }
+                    if (appCopyIndex > -1) {
+                        this.appDataCopy[appCopyIndex].is_hidden = false
+                    }
 
-                const appIndex = this.appData.findIndex(
-                    (app) => app.slug === unhiddenApp.slug
-                )
+                    const appIndex = this.appData.findIndex(
+                        (app) => app.slug === unhiddenApp.slug
+                    )
 
-                if (appIndex === -1) {
-                    this.appData.splice(this.appData.length, 0, unhiddenApp)
-                    this.initSortable()
+                    if (appIndex === -1) {
+                        this.appData.splice(this.appData.length, 0, unhiddenApp)
+                    } else {
+                        this.appData.splice(appIndex, 1, unhiddenApp)
+                        this.initSortable()
+                    }
                 } else {
-                    this.appData.splice(appIndex, 1, unhiddenApp)
-                    this.initSortable()
+                    this.appData = data
+                    const appIndex = this.appData.findIndex(
+                        (app) => app.slug === unhiddenApp.slug
+                    )
+                    if (appIndex > -1) {
+                        this.appData[appIndex] = unhiddenApp
+                    }
                 }
                 this.requestUpdate()
             })
@@ -434,7 +446,10 @@ class AppGrid extends LitElement {
     postAppDataToServer(slug) {
         const url = magic_url('hide')
 
-        const appCopyToHide = this.appDataCopy.find((app) => app.slug === slug)
+        const appCopyToHide = this.isSortableDragging
+            ? this.appDataCopy.find((app) => app.slug === slug)
+            : this.appData.find((app) => app.slug === slug)
+
         if (!appCopyToHide) {
             console.error('App not found')
             return
@@ -571,6 +586,63 @@ class AppGrid extends LitElement {
         this.classList.remove('modal-open')
     }
 
+    handleDragStart(event, index) {
+        this.showRemoveIconId = null
+        event.dataTransfer.setData('text/plain', index)
+        this.shadowRoot
+            .querySelectorAll('.app-grid__remove-icon')
+            .forEach((icon) => {
+                icon.classList.add('hidden')
+            })
+    }
+
+    handleDragEnd(event) {
+        this.items.forEach((item) => {
+            item.classList.remove('app-grid__item--over')
+            item.classList.remove('app-grid__item--dragging')
+        })
+        this.shadowRoot
+            .querySelectorAll('.app-grid__remove-icon')
+            .forEach((icon) => {
+                icon.classList.remove('hidden')
+            })
+    }
+
+    handleDragOver(event) {
+        event.preventDefault()
+        event.target.classList.add('app-grid__item--over')
+    }
+
+    handleDragLeave(event) {
+        event.target.classList.remove('app-grid__item--over')
+    }
+
+    handleDrop(event) {
+        event.preventDefault()
+        const visibleApps = this.appData.filter((app) => !app.is_hidden)
+        const fromIndex = parseInt(event.dataTransfer.getData('text/plain'), 10)
+        const toElement = event.target.closest('.app-grid__item')
+        const toIndex = Array.from(this.items).indexOf(toElement)
+        if (fromIndex >= 0 && toIndex >= 0) {
+            const originalFromIndex = this.appData.findIndex(
+                (app) => app.slug === visibleApps[fromIndex].slug
+            )
+            const originalToIndex = this.appData.findIndex(
+                (app) => app.slug === visibleApps[toIndex].slug
+            )
+            this.reorderApps(originalFromIndex, originalToIndex)
+        }
+        this.handleDocumentClick(event)
+    }
+
+    reorderApps(fromIndex, toIndex) {
+        const appsCopy = [...this.appData]
+        const [removedApp] = appsCopy.splice(fromIndex, 1)
+        appsCopy.splice(toIndex, 0, removedApp)
+        this.appData = appsCopy
+        this.postNewOrderToServer(this.appData)
+    }
+
     /**
      * Generate required app icon string, based on current dark mode setting.
      *
@@ -579,41 +651,37 @@ class AppGrid extends LitElement {
      * @returns {string}
      */
     getAppIcon(app) {
+        // First, determine the current system color mode, session is in.
+        const isDarkMode = window.matchMedia(
+            '(prefers-color-scheme: dark)'
+        ).matches
 
-      // First, determine the current system color mode, session is in.
-      const isDarkMode = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-
-      // Return icon accordingly, based on mode and availability.
-      return (isDarkMode && app['icon_dark']) ? app['icon_dark'] : app['icon'];
+        // Return icon accordingly, based on mode and availability.
+        return isDarkMode && app['icon_dark'] ? app['icon_dark'] : app['icon']
     }
 
-  /**
-   * Generate corresponding app icon color, based on current dark mode setting and
-   * color availability.
-   *
-   * @param app
-   *
-   * @returns {string}
-   */
-  getAppIconColor(app) {
+    /**
+     * Generate corresponding app icon color, based on current dark mode setting and
+     * color availability.
+     *
+     * @param app
+     *
+     * @returns {string}
+     */
+    getAppIconColor(app) {
+        // First, determine the current system color mode, session is in.
+        const isDarkMode = window.matchMedia(
+            '(prefers-color-scheme: dark)'
+        ).matches
 
-      // First, determine the current system color mode, session is in.
-      const isDarkMode = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
+        // Return icon color accordingly, based on mode and availability.
+        if (isDarkMode && app['icon_dark_color']) {
+            return app['icon_dark_color']
+        } else if (!isDarkMode && app['icon_color']) {
+            return app['icon_color']
+        }
 
-      // Return icon color accordingly, based on mode and availability.
-      if ( isDarkMode && app['icon_dark_color'] ) {
-        return app['icon_dark_color'];
-
-      } else if ( !isDarkMode && app['icon_color'] ) {
-        return app['icon_color'];
-
-      }
-
-      return null;
+        return null
     }
 
     /**
@@ -623,35 +691,64 @@ class AppGrid extends LitElement {
     render() {
         return html`
             <div class="app-grid">
-                ${this.appData.map(
-                    (app, index) => html`
-                        <div
-                            class="app-grid__item ${this.editing
-                                ? 'editing'
-                                : ''}"
-                            style="display: ${this.appDataCopy[
-                                this.appDataCopy.findIndex(
-                                    (item) => item.slug === app.slug
-                                )
-                            ].is_hidden
-                                ? 'none'
-                                : 'block'}"
-                            data-index="${index}"
-                            @touchstart="${(event) =>
-                                this.handleTouchStart(event, index, app)}"
-                            @touchend="${this.handleTouchEnd}"
-                            @touchcancel="${this.handleTouchEnd}"
-                            @click="${(event) =>
-                                !this.editing &&
-                                this.handleClick(event, app.slug, app)}"
-                            @mousedown="${(event) =>
-                                this.handleMouseDown(event, index, app)}"
-                            draggable="${this.editing ? 'true' : 'false'}"
-                        >
-                            ${this.editing
-                                ? html`
-                                      <sp-action-menu
-                                          style="
+                ${this.appData
+                    .filter((app) =>
+                        !this.isSortableDragging ? !app.is_hidden : true
+                    )
+                    .map(
+                        (app, index) => html`
+                            <div
+                                class="app-grid__item ${this.editing
+                                    ? 'editing'
+                                    : ''}"
+                                style="display: ${this.isSortableDragging &&
+                                this.appDataCopy[
+                                    this.appDataCopy.findIndex(
+                                        (item) => item.slug === app.slug
+                                    )
+                                ].is_hidden
+                                    ? 'none'
+                                    : 'block'}"
+                                data-index="${index}"
+                                @touchstart="${(event) =>
+                                    this.handleTouchStart(event, index, app)}"
+                                @touchend="${this.handleTouchEnd}"
+                                @touchcancel="${this.handleTouchEnd}"
+                                @click="${(event) =>
+                                    !this.editing &&
+                                    this.handleClick(event, app.slug, app)}"
+                                @mousedown="${(event) =>
+                                    this.handleMouseDown(event, index, app)}"
+                                draggable="${this.editing ? 'true' : 'false'}"
+                                @dragstart="${!this.isSortableDragging
+                                    ? (event) =>
+                                          this.handleDragStart(event, index)
+                                    : null}"
+                                @dragend="${!this.isSortableDragging
+                                    ? (event) =>
+                                          this.handleDragEnd(event, index, app)
+                                    : null}"
+                                @dragover="${!this.isSortableDragging
+                                    ? (event) =>
+                                          this.handleDragOver(event, index, app)
+                                    : null}"
+                                @dragleave="${!this.isSortableDragging
+                                    ? (event) =>
+                                          this.handleDragLeave(
+                                              event,
+                                              index,
+                                              app
+                                          )
+                                    : null}"
+                                @drop="${!this.isSortableDragging
+                                    ? (event) =>
+                                          this.handleDrop(event, index, app)
+                                    : null}"
+                            >
+                                ${this.editing
+                                    ? html`
+                                          <sp-action-menu
+                                              style="
                                         position: absolute;
                                         top: -7px;
                                         right: -10px;
@@ -670,72 +767,71 @@ class AppGrid extends LitElement {
                                         height: 31px;
                                         --mod-actionbutton-edge-to-text:10px !important;
                                             "
-                                          class="app-grid__remove-icon ${this
-                                              .showRemoveIconId
-                                              ? ''
-                                              : 'hidden'}"
-                                          @click="${(event) =>
-                                              event.stopPropagation()}"
-                                          label="More Actions"
-                                      >
-                                          <sp-menu-item
+                                              class="app-grid__remove-icon ${this
+                                                  .showRemoveIconId
+                                                  ? ''
+                                                  : 'hidden'}"
                                               @click="${(event) =>
-                                                  this.toggleModal(
-                                                      event,
-                                                      index,
-                                                      app
-                                                  )}"
-                                              @touchstart="${(event) =>
-                                                  this.toggleModal(
-                                                      event,
-                                                      index,
-                                                      app
-                                                  )}"
-                                              class="edit-menu"
+                                                  event.stopPropagation()}"
+                                              label="More Actions"
                                           >
-                                              <span>
-                                                  <sp-icon-edit></sp-icon-edit
-                                                  >&nbsp;
-                                                  ${translate(
-                                                      'edit_menu_label'
-                                                  )}</span
+                                              <sp-menu-item
+                                                  @click="${(event) =>
+                                                      this.toggleModal(
+                                                          event,
+                                                          index,
+                                                          app
+                                                      )}"
+                                                  @touchstart="${(event) =>
+                                                      this.toggleModal(
+                                                          event,
+                                                          index,
+                                                          app
+                                                      )}"
+                                                  class="edit-menu"
                                               >
-                                          </sp-menu-item>
-                                          <sp-menu-item
-                                              @click="${(event) =>
-                                                  this.handleRemove(
-                                                      event,
-                                                      index,
-                                                      app
-                                                  )}"
-                                              @touchstart="${(event) =>
-                                                  this.handleRemove(
-                                                      event,
-                                                      index,
-                                                      app
-                                                  )}"
-                                              class="remove-menu"
-                                          >
-                                              <span>
-                                                  <sp-icon-close></sp-icon-close
-                                                  >&nbsp;
-                                                  ${translate(
-                                                      'remove_menu_label'
-                                                  )}
-                                              </span>
-                                          </sp-menu-item>
-                                      </sp-action-menu>
-                                  `
-                                : ''}
-                            <dt-home-app-icon
-                                class="app-grid__icon"
-                                name="${app.name}"
-                                icon="${this.getAppIcon(app)}"
-                                color="${this.getAppIconColor(app)}"
-                            ></dt-home-app-icon>
-                        </div>
-                    `
-                )}
+                                                  <span>
+                                                      <sp-icon-edit></sp-icon-edit
+                                                      >&nbsp;
+                                                      ${translate(
+                                                          'edit_menu_label'
+                                                      )}</span
+                                                  >
+                                              </sp-menu-item>
+                                              <sp-menu-item
+                                                  @click="${(event) =>
+                                                      this.handleRemove(
+                                                          event,
+                                                          index,
+                                                          app
+                                                      )}"
+                                                  @touchstart="${(event) =>
+                                                      this.handleRemove(
+                                                          event,
+                                                          index,
+                                                          app
+                                                      )}"
+                                                  class="remove-menu"
+                                              >
+                                                  <span>
+                                                      <sp-icon-close></sp-icon-close
+                                                      >&nbsp;
+                                                      ${translate(
+                                                          'remove_menu_label'
+                                                      )}
+                                                  </span>
+                                              </sp-menu-item>
+                                          </sp-action-menu>
+                                      `
+                                    : ''}
+                                <dt-home-app-icon
+                                    class="app-grid__icon"
+                                    name="${app.name}"
+                                    icon="${app.icon}"
+                                ></dt-home-app-icon>
+                            </div>
+                        `
+                    )}
             </div>
             <app-form-modal
                 id="customModal"
