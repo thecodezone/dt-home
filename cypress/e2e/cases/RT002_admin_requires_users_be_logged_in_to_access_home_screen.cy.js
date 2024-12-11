@@ -1,9 +1,9 @@
 describe('RT002 - Admin Requires Users Be Logged In To Access Home Screen.', () => {
     let shared_data = {}
 
-    // before(() => {
-    //     cy.npmHomeScreenInit()
-    // })
+    before(() => {
+        cy.npmHomeScreenInit()
+    })
 
     // Successfully login and access home screen general tab and check requires login setting.
     it('Successfully login and access home screen general tab and check requires login setting.', () => {
