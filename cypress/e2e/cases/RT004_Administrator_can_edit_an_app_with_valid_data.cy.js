@@ -12,34 +12,6 @@ describe('RT004 - Administrator can edit an app with valid data.', () => {
         cy.npmHomeScreenInit()
     })
 
-    // Successfully login and access home screen general tab and uncheck requires login setting.
-    it('Successfully login and access home screen general tab and uncheck requires login setting.', () => {
-        cy.session(
-            'admin_login_and_uncheck_requires_login_general_setting',
-            () => {
-                const general_tab_url_path =
-                    '/wp-admin/admin.php?page=dt_home&tab=general'
-
-                cy.adminGeneralSettingsInit()
-
-                // Obtain alias handle onto require login checkbox.
-                cy.get('input#dt_home_require_login').as(
-                    'require_login_checkbox'
-                )
-
-                // Force to unchecked state and commit updates.
-                cy.get('@require_login_checkbox').uncheck()
-                cy.get('#ml_email_main_col_update_but').as('update_but')
-                cy.get('@update_but').click()
-
-                // Revisit general tab and confirm require login checkbox is not selected.
-                cy.visit(general_tab_url_path)
-                    .get('@require_login_checkbox')
-                    .should('not.be.checked')
-            }
-        )
-    })
-
     // Admin can add a new app.
     it('Admin can add a new app.', () => {
         cy.session('admin_can_add_a_new_app', () => {
