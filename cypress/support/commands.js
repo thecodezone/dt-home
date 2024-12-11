@@ -26,201 +26,205 @@
 
 // -- Initialization NPM Home Screen Plugin Environment -- //
 Cypress.Commands.add('npmHomeScreenInit', () => {
-  cy.exec('composer install')
-  cy.exec('composer update')
-  cy.exec('npm install')
-  cy.exec('npm run build')
-  cy.exec('cp -R ./node_modules/@disciple.tools/web-components/dist/generated ./dist/assets/')
-  cy.exec('cp -R ./node_modules/@disciple.tools/web-components/dist/lit-localize-*.js ./dist/assets/')
+    cy.exec('composer install')
+    cy.exec('composer update')
+    cy.exec('npm install')
+    cy.exec('npm run build')
+    cy.exec(
+        'cp -R ./node_modules/@disciple.tools/web-components/dist/generated ./dist/assets/'
+    )
+    cy.exec(
+        'cp -R ./node_modules/@disciple.tools/web-components/dist/lit-localize-*.js ./dist/assets/'
+    )
 })
 
 // -- Administration Login -- //
 Cypress.Commands.add('loginAdmin', (username, password) => {
+    // Navigate to WP Admin login page.
+    cy.visit('/wp-admin')
 
-  // Navigate to WP Admin login page.
-  cy.visit('/wp-admin');
-
-  // Specify credentials and submit.
-  cy.get('#user_login').invoke('attr', 'value', username);
-  cy.get('#user_pass').invoke('attr', 'value', password);
-  cy.get('#wp-submit').click();
+    // Specify credentials and submit.
+    cy.get('#user_login').invoke('attr', 'value', username)
+    cy.get('#user_pass').invoke('attr', 'value', password)
+    cy.get('#wp-submit').click()
 })
 
 // -- Frontend D.T Login -- //
 Cypress.Commands.add('loginDT', (username, password) => {
+    // Navigate to DT frontend login page.
+    cy.visit('/wp-login.php')
 
-  // Navigate to DT frontend login page.
-  cy.visit('/wp-login.php');
-
-  // Specify credentials and submit.
-  cy.get('#user_login').type(username);
-  cy.get('#user_pass').type(password);
-  cy.get('#wp-submit').click();
+    // Specify credentials and submit.
+    cy.get('#user_login').type(username)
+    cy.get('#user_pass').type(password)
+    cy.get('#wp-submit').click()
 })
 
 // -- Frontend Home Screen Login -- //
 Cypress.Commands.add('loginHomeScreen', (username, password) => {
-
-  // Navigate to Home Screen login page.
-  cy.visit('/apps/login')
-
-  // Extract nonce value, to be included within post request.
-  cy.get('input[name="_wpnonce"]')
-  .invoke('attr', 'value')
-  .then(nonce => {
-
-    // Create headers, also including nonce value.
-    const headers = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'X-WP-Nonce': nonce
-    };
-
-    // Submit post request to backend login controller.
-    cy.request({
-      method: 'POST',
-      url: '/apps/login',
-      form: false,
-      headers: headers,
-      body: {
-        username: username,
-        password: password
-        //_wpnonce: nonce // DO NOT SPECIFY NONCE HERE, OR ENTIRE BODY WILL BE DELETED WITHIN BACKEND!
-      }
+    // Handle uncaught exceptions
+    cy.on('uncaught:exception', (err, runnable) => {
+        // Returning false here prevents Cypress from failing the test
+        return false
     })
-    .then((response) => {
 
-      // Ensure we have an OK (200) response and force page refresh.
-      expect(response.status).to.eq(200);
-      cy.reload(true);
-    });
-  });
+    // Navigate to Home Screen login page.
+    cy.visit('/apps/login')
+
+    // Extract nonce value, to be included within post request.
+    cy.get('input[name="_wpnonce"]')
+        .invoke('attr', 'value')
+        .then((nonce) => {
+            // Create headers, also including nonce value.
+            const headers = {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'X-WP-Nonce': nonce,
+            }
+
+            // Submit post request to backend login controller.
+            cy.request({
+                method: 'POST',
+                url: '/apps/login',
+                form: false,
+                headers: headers,
+                body: {
+                    username: username,
+                    password: password,
+                    // _wpnonce: nonce // DO NOT SPECIFY NONCE HERE, OR ENTIRE BODY WILL BE DELETED WITHIN BACKEND!
+                },
+            }).then((response) => {
+                // Ensure we have an OK (200) response and force page refresh.
+                expect(response.status).to.eq(200)
+                cy.reload(true)
+            })
+        })
 })
 
 // -- Admin General Settings Initialization -- //
 Cypress.Commands.add('adminGeneralSettingsInit', () => {
+    const general_tab_url_path = '/wp-admin/admin.php?page=dt_home&tab=general'
 
-  const general_tab_url_path = '/wp-admin/admin.php?page=dt_home&tab=general';
+    /**
+     * Ensure uncaught exceptions do not fail test run; however, any thrown
+     * exceptions must not be ignored and a ticket must be raised, in order
+     * to resolve identified exception.
+     *
+     * TODO:
+     *  - Resolve any identified exceptions.
+     */
 
-  /**
-   * Ensure uncaught exceptions do not fail test run; however, any thrown
-   * exceptions must not be ignored and a ticket must be raised, in order
-   * to resolve identified exception.
-   *
-   * TODO:
-   *  - Resolve any identified exceptions.
-   */
+    cy.on('uncaught:exception', (err, runnable) => {
+        // Returning false here prevents Cypress from failing the test
+        return false
+    })
 
-  cy.on('uncaught:exception', (err, runnable) => {
-    // Returning false here prevents Cypress from failing the test
-    return false;
-  });
+    // Capture admin credentials.
+    const dt_config = cy.config('dt')
+    const username = dt_config.credentials.admin.username
+    const password = dt_config.credentials.admin.password
 
-  // Capture admin credentials.
-  const dt_config = cy.config('dt');
-  const username = dt_config.credentials.admin.username;
-  const password = dt_config.credentials.admin.password;
+    // Login to WP Admin area.
+    cy.loginAdmin(username, password)
 
-  // Login to WP Admin area.
-  cy.loginAdmin(username, password);
-
-  // Access Home Screen plugin area on the general tab.
-  cy.visit(general_tab_url_path);
+    // Access Home Screen plugin area on the general tab.
+    cy.visit(general_tab_url_path)
 })
 
 // -- Admin Apps Settings Initialization -- //
 Cypress.Commands.add('adminAppsSettingsInit', () => {
+    const app_tab_url_path = '/wp-admin/admin.php?page=dt_home&tab=app'
 
-  const app_tab_url_path = '/wp-admin/admin.php?page=dt_home&tab=app';
+    /**
+     * Ensure uncaught exceptions do not fail test run; however, any thrown
+     * exceptions must not be ignored and a ticket must be raised, in order
+     * to resolve identified exception.
+     *
+     * TODO:
+     *  - Resolve any identified exceptions.
+     */
 
-  /**
-   * Ensure uncaught exceptions do not fail test run; however, any thrown
-   * exceptions must not be ignored and a ticket must be raised, in order
-   * to resolve identified exception.
-   *
-   * TODO:
-   *  - Resolve any identified exceptions.
-   */
+    cy.on('uncaught:exception', (err, runnable) => {
+        // Returning false here prevents Cypress from failing the test
+        return false
+    })
 
-  cy.on('uncaught:exception', (err, runnable) => {
-    // Returning false here prevents Cypress from failing the test
-    return false;
-  });
+    // Capture admin credentials.
+    const dt_config = cy.config('dt')
+    const username = dt_config.credentials.admin.username
+    const password = dt_config.credentials.admin.password
 
-  // Capture admin credentials.
-  const dt_config = cy.config('dt');
-  const username = dt_config.credentials.admin.username;
-  const password = dt_config.credentials.admin.password;
+    // Login to WP Admin area.
+    cy.loginAdmin(username, password)
 
-  // Login to WP Admin area.
-  cy.loginAdmin(username, password);
-
-  // Access Home Screen plugin area on the apps tab.
-  cy.visit(app_tab_url_path);
+    // Access Home Screen plugin area on the apps tab.
+    cy.visit(app_tab_url_path)
 })
 
 // -- Admin Training Settings Initialization -- //
 Cypress.Commands.add('adminTrainingSettingsInit', () => {
+    const training_tab_url_path =
+        '/wp-admin/admin.php?page=dt_home&tab=training'
 
-  const training_tab_url_path = '/wp-admin/admin.php?page=dt_home&tab=training';
+    /**
+     * Ensure uncaught exceptions do not fail test run; however, any thrown
+     * exceptions must not be ignored and a ticket must be raised, in order
+     * to resolve identified exception.
+     *
+     * TODO:
+     *  - Resolve any identified exceptions.
+     */
 
-  /**
-   * Ensure uncaught exceptions do not fail test run; however, any thrown
-   * exceptions must not be ignored and a ticket must be raised, in order
-   * to resolve identified exception.
-   *
-   * TODO:
-   *  - Resolve any identified exceptions.
-   */
+    cy.on('uncaught:exception', (err, runnable) => {
+        // Returning false here prevents Cypress from failing the test
+        return false
+    })
 
-  cy.on('uncaught:exception', (err, runnable) => {
-    // Returning false here prevents Cypress from failing the test
-    return false;
-  });
+    // Capture admin credentials.
+    const dt_config = cy.config('dt')
+    const username = dt_config.credentials.admin.username
+    const password = dt_config.credentials.admin.password
 
-  // Capture admin credentials.
-  const dt_config = cy.config('dt');
-  const username = dt_config.credentials.admin.username;
-  const password = dt_config.credentials.admin.password;
+    // Login to WP Admin area.
+    cy.loginAdmin(username, password)
 
-  // Login to WP Admin area.
-  cy.loginAdmin(username, password);
-
-  // Access Home Screen plugin area on the apps tab.
-  cy.visit(training_tab_url_path);
+    // Access Home Screen plugin area on the apps tab.
+    cy.visit(training_tab_url_path)
 })
 
 // -- Frontend D.T Login & Fetch User Settings Home Screen Plugin Magic Link -- //
-Cypress.Commands.add('fetchDTUserHomeScreenML', (username, password, logout = true) => {
+Cypress.Commands.add(
+    'fetchDTUserHomeScreenML',
+    (username, password, logout = true) => {
+        // Login to D.T frontend.
+        cy.loginDT(username, password)
 
-  // Login to D.T frontend.
-  cy.loginDT(username, password);
+        // Navigate to frontend user settings view.
+        cy.visit('/settings')
 
-  // Navigate to frontend user settings view.
-  cy.visit('/settings');
+        // Ensure D.T Home Screen app is activated.
+        cy.get('input#app_state_apps_launcher_magic_key').as(
+            'home_screen_ml_state_checkbox'
+        )
+        cy.get('@home_screen_ml_state_checkbox').then(($checkbox) => {
+            // Trigger a click if currently in an unchecked state.
+            if ($checkbox.prop('checked') === false) {
+                cy.get('@home_screen_ml_state_checkbox').click()
+            }
 
-  // Ensure D.T Home Screen app is activated.
-  cy.get('input#app_state_apps_launcher_magic_key').as('home_screen_ml_state_checkbox');
-  cy.get('@home_screen_ml_state_checkbox')
-  .then(($checkbox) => {
+            // Identify the corresponding app-link action button and extract magic link.
+            cy.get(`a[href*="/apps/launcher/"]`).then(($app_link) => {
+                // Persist identified home screen magic link, for use further down stream.
+                const home_screen_ml = $app_link.attr('href')
+                cy.wrap(home_screen_ml).as('home_screen_ml')
 
-    // Trigger a click if currently in an unchecked state.
-    if ($checkbox.prop('checked')===false) {
-      cy.get('@home_screen_ml_state_checkbox').click();
+                // If required, force a user logout, based on the first link encountered; as there are typically multiple options on a given page.
+                if (logout) {
+                    cy.get(
+                        `a[href*="/wp-login.php?action=logout&"]:first`
+                    ).click({ force: true })
+                }
+            })
+        })
     }
-
-    // Identify the corresponding app-link action button and extract magic link.
-    cy.get(`a[href*="/apps/launcher/"]`)
-    .then(($app_link) => {
-
-      // Persist identified home screen magic link, for use further down stream.
-      const home_screen_ml = $app_link.attr('href');
-      cy.wrap(home_screen_ml).as('home_screen_ml');
-
-      // If required, force a user logout, based on the first link encountered; as there are typically multiple options on a given page.
-      if (logout) {
-        cy.get(`a[href*="/wp-login.php?action=logout&"]:first`).click({'force': true});
-      }
-    });
-  })
-})
+)
