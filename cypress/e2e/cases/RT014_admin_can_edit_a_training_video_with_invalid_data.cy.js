@@ -6,9 +6,9 @@ describe('RT014 - Administrator attempts to edit a training video with invalid d
         anchor: 'cypress_test_video',
         sort: '1',
     }
-    // before(() => {
-    //     cy.npmHomeScreenInit()
-    // })
+    before(() => {
+        cy.npmHomeScreenInit()
+    })
 
     // Admin can add a new training video.
     it('Admin can add a new training video.', () => {

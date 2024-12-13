@@ -7,9 +7,9 @@ describe('RT013 - Administrator can edit an Training video with valid data.', ()
         anchor: 'cypress_test_video',
         sort: '1',
     }
-    // before(() => {
-    //     cy.npmHomeScreenInit()
-    // })
+    before(() => {
+        cy.npmHomeScreenInit()
+    })
 
     // Successfully login and access home screen general tab and uncheck requires login setting.
     it('Successfully login and access home screen general tab and uncheck requires login setting.', () => {
