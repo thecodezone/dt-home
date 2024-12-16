@@ -372,7 +372,8 @@ document.addEventListener('DOMContentLoaded', function () {
  */
 document.addEventListener('DOMContentLoaded', function () {
     const exportPopup = document.getElementById('exportPopup')
-    const appsData = JSON.parse(exportPopup.getAttribute('data-apps'))
+    const appsArray = JSON.parse(exportPopup.getAttribute('data-apps'))
+    const appsData = Object.values(appsArray)
 
     window.copyApp = function (slug, element) {
         const app = appsData.find(function (app) {
@@ -490,9 +491,7 @@ jQuery(document).ready(function ($) {
             import_apps_textarea.focus()
         }
     }
-
 });
-
 
 /**
  * Handle apps icons toggle display.
