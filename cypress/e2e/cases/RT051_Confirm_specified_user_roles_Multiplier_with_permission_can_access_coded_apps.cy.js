@@ -15,7 +15,7 @@ describe('RT051: Confirm specified user roles Multiplier with permission can acc
     }
 
     before(() => {
-        // cy.npmHomeScreenInit()
+        cy.npmHomeScreenInit()
         cy.createTestUser(user_data)
     })
 

@@ -12,7 +12,7 @@ describe('RT057: Confirm specified user roles Dispatcher with no can access home
         password: 'cypress_test_123',
     }
     before(() => {
-        // cy.npmHomeScreenInit()
+        cy.npmHomeScreenInit()
         cy.createTestUser(user_data)
     })
 

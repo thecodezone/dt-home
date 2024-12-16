@@ -15,7 +15,7 @@ describe('RT052: Confirm specified user roles dispatcher with no permission is u
     }
 
     before(() => {
-        // cy.npmHomeScreenInit()
+        cy.npmHomeScreenInit()
         cy.createTestUser(user_data)
     })
 

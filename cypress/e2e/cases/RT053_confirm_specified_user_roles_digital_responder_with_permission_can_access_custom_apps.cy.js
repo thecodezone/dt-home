@@ -13,7 +13,7 @@ describe('RT053: Confirm specified user roles Digital Responder with permission 
         password: 'cypress_test_123',
     }
     before(() => {
-        // cy.npmHomeScreenInit()
+        cy.npmHomeScreenInit()
         cy.createTestUser(user_data)
     })
 

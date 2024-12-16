@@ -12,7 +12,7 @@ describe('RT055: Confirm specified user roles Multiplier with no can access home
         password: 'cypress_test_123',
     }
     before(() => {
-        // cy.npmHomeScreenInit()
+        cy.npmHomeScreenInit()
         cy.createTestUser(user_data)
     })
     // Administrator visits the Home Screen plugin General tab and confirms Restricted access for some users option is enabled.
