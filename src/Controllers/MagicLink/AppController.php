@@ -6,6 +6,7 @@ use DT\Home\GuzzleHttp\Psr7\ServerRequest as Request;
 use DT\Home\Psr\Http\Message\ResponseInterface;
 use DT\Home\Services\Apps;
 use DT\Home\Services\RolesPermissions;
+use DT\Home\Sources\SettingsApps;
 use DT\Home\Sources\UserApps;
 use function DT\Home\container;
 use function DT\Home\extract_request_input;
@@ -199,7 +200,7 @@ class AppController
      */
     public function reset_apps( Request $request )
     {
-        update_user_option( get_current_user_id(), 'dt_home_apps', $this->apps->from( 'settings' ) );
+        update_user_option( get_current_user_id(), 'dt_home_apps', container()->get( SettingsApps::class )->raw() );
 
         return response( [ 'message' => 'App order updated' ] );
     }

@@ -154,13 +154,14 @@ class UserAppsTest extends TestCase
         // Get the first app
         $apps_service = container()->get( Apps::class );
         $apps = $apps_service->for( $user_id );
-        $data = $apps[0];
+
+        $source = container()->get( UserApps::class );
+        $source->save_for( $user_id, $apps );
 
         // Hide the app
-        $source = container()->get( UserApps::class );
-		$source->find( $data['slug'] );
+        $result = $source->hide( $apps[0]['slug'] );
 
-        $result = $source->hide( $data['slug'] );
+        // Assert app has been hidden
 		$this->assertTrue( $result['is_hidden'] );
     }
 
@@ -179,6 +180,7 @@ class UserAppsTest extends TestCase
 
         // Hide the app
         $source      = container()->get( UserApps::class );
+        $source->save_for( $user_id, $apps );
         $hidden_item = $source->hide( $data['slug'] );
 
         // Unhide the app
@@ -207,8 +209,9 @@ class UserAppsTest extends TestCase
 
         // Hide the app
         $source = container()->get( UserApps::class );
-        $hidden_item = $source->hide($data['slug']
-        );
+        $source->save_for( $user_id, $apps );
+        $hidden_item = $source->hide( $data['slug'] );
+
         // Assert that the item is hidden
         $this->assertTrue( $hidden_item['is_hidden'] );
 

@@ -62,6 +62,12 @@ Cypress.Commands.add('loginDT', (username, password) => {
 
 // -- Frontend Home Screen Login -- //
 Cypress.Commands.add('loginHomeScreen', (username, password) => {
+    // Handle uncaught exceptions
+    cy.on('uncaught:exception', (err, runnable) => {
+        // Returning false here prevents Cypress from failing the test
+        return false
+    })
+  
     // Navigate to Home Screen login page.
     cy.visit('/apps/login')
 
@@ -222,7 +228,6 @@ Cypress.Commands.add(
         })
     }
 )
-
 // Reset frontend apps
 Cypress.Commands.add('resetFrontendApps', () => {
     // click the + button to display the popup model

@@ -5,6 +5,7 @@ namespace Tests;
 use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\Controllers\MagicLink\AppController;
 use DT\Home\Services\Apps;
+use DT\Home\Sources\UserApps;
 use function DT\Home\container;
 
 class AppControllerTest extends TestCase
@@ -56,6 +57,8 @@ class AppControllerTest extends TestCase
         $apps = $apps_service->for( $user_id );
         $data = $apps[0];
 
+        container()->get( UserApps::class )->save_for( $user_id, $apps );
+
         $request = ServerRequestFactory::request( 'POST', 'apps/launcher/key/update-hide-apps', $data );
         $key = $this->faker->md5;
         $controller = container()->get( AppController::class );
@@ -74,6 +77,8 @@ class AppControllerTest extends TestCase
         $apps_service = container()->get( Apps::class );
         $apps = $apps_service->for( $user_id );
         $data = $apps[0];
+
+        container()->get( UserApps::class )->save_for( $user_id, $apps );
 
         $request = ServerRequestFactory::request( 'POST', 'apps/launcher/key/un-hide-app', $data );
         $key = $this->faker->md5;
