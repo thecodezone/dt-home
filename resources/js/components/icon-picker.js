@@ -10,6 +10,7 @@ class IconPicker extends LitElement {
     @property({ type: String }) iconSearchQuery = ''
     @property({ type: Array }) materialIcons = []
     @property({ type: String }) name = ''
+    @property({ type: String }) slug = ''
     @property({ type: String }) label = ''
     @property({ type: String }) placeholder = ''
     @property({ type: Boolean }) required = false
@@ -339,7 +340,9 @@ class IconPicker extends LitElement {
                     ${this.isIconURL()
                         ? html`<img
                               style="width:100%"
-                              class="svg-icon"
+                              class="${this.slug !== 'disciple-tools'
+                                  ? 'svg-icon'
+                                  : ''}"
                               src="${this.selectedIcon}"
                           />`
                         : html`<i class="mdi ${this.selectedIcon}"></i>`}

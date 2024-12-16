@@ -6,6 +6,7 @@ use DT\Home\CodeZone\WPSupport\Router\ServerRequestFactory;
 use DT\Home\Controllers\Admin\AppSettingsController;
 use DT\Home\Services\Apps;
 use DT\Home\Sources\SettingsApps;
+use DT\Home\Sources\UserApps;
 use function DT\Home\container;
 use function DT\Home\set_plugin_option;
 
@@ -185,6 +186,7 @@ class AppSettingsControllerTest extends TestCase
         $controller = container()->get( AppSettingsController::class );
         $settings_apps = container()->get( SettingsApps::class );
         $settings_apps->save( [
+            $app,
             app_factory(),
             app_factory()
         ] );

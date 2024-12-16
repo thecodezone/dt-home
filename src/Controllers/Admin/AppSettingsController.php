@@ -132,7 +132,7 @@ class AppSettingsController
         ];
 
         // Get the existing apps array
-        $apps_array = $this->apps->from( 'settings' ); // Default to an empty array if the option does not exist
+        $apps_array = $this->settings_apps->raw();
 
         // Avoid duplicate slugs and append unique counter if required.
         $dup_apps = array_filter($apps_array, function ( $app ) use ( $app_data ) {
@@ -246,7 +246,7 @@ class AppSettingsController
         $deleted_roles = json_decode( stripslashes_from_strings_only( $input['deleted_roles'] ?? '[]' ) );
 
         // Retrieve the existing array of apps
-        $apps_array = $this->apps->from( $this->settings_apps );
+        $apps_array = $this->settings_apps->raw();
 
         // Find and update the app in the array
         foreach ( $apps_array as $key => $app ) {
