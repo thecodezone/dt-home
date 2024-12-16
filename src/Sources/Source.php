@@ -189,7 +189,7 @@ abstract class Source
      */
     public function set( string $find_key_value, string $key, $value, array $params = [], array $save_params = [] )
     {
-        $items = $this->fetch_for_save( $params );
+        $items = $this->raw( $params );
         $index = array_search( $find_key_value, array_column( $items, $this->find_key() ) );
 		if ( $index === false ) {
             return false;
