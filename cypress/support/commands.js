@@ -67,7 +67,7 @@ Cypress.Commands.add('loginHomeScreen', (username, password) => {
         // Returning false here prevents Cypress from failing the test
         return false
     })
-
+  
     // Navigate to Home Screen login page.
     cy.visit('/apps/login')
 
@@ -91,7 +91,7 @@ Cypress.Commands.add('loginHomeScreen', (username, password) => {
                 body: {
                     username: username,
                     password: password,
-                    // _wpnonce: nonce // DO NOT SPECIFY NONCE HERE, OR ENTIRE BODY WILL BE DELETED WITHIN BACKEND!
+                    //_wpnonce: nonce // DO NOT SPECIFY NONCE HERE, OR ENTIRE BODY WILL BE DELETED WITHIN BACKEND!
                 },
             }).then((response) => {
                 // Ensure we have an OK (200) response and force page refresh.
@@ -228,3 +228,20 @@ Cypress.Commands.add(
         })
     }
 )
+// Reset frontend apps
+Cypress.Commands.add('resetFrontendApps', () => {
+    // click the + button to display the popup model
+    cy.get('dt-home-footer')
+        .shadow()
+        .find('sp-button.trigger-button[slot="trigger"]')
+        .click()
+
+    // Click the reset button to restore the apps to their default state
+    cy.get('dt-home-footer')
+        .shadow()
+        .find('sp-action-button[slot="buttons"][label="Reset"]')
+        .click()
+
+    // Click ok for displayed confirmation.
+    cy.on('window:confirm', () => true)
+})
