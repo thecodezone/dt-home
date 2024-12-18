@@ -35,7 +35,14 @@
     "php": "7.4.27",
     "ext-json": "*",
     "ext-zip": "*",
-    "composer-plugin-api": "^1.0 || ^2.0"
+    "composer-plugin-api": "^1.0 || ^2.0",
+    "open-telemetry/api": "*",
+    "open-telemetry/sem-conv": "*",
+    "open-telemetry/sdk": "*",
+    "open-telemetry/exporter-otlp": "*",
+    "symfony/http-client": "*",
+    "nyholm/psr7": "*",
+    "php-http/guzzle7-adapter": "*"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
@@ -70,7 +77,8 @@
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true,
       "bamarni/composer-bin-plugin": true,
-      "wpify/scoper": true
+      "wpify/scoper": true,
+      "php-http/discovery": true
     }
   }
 }
