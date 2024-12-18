@@ -21,6 +21,7 @@ use OpenTelemetry\SDK\Trace\Sampler\ParentBased;
 use OpenTelemetry\SDK\Trace\SpanProcessor\SimpleSpanProcessor;
 use OpenTelemetry\SDK\Trace\TracerProvider;
 use OpenTelemetry\SemConv\ResourceAttributes;
+use function DT\Home\config;
 use function DT\Home\get_plugin_option;
 use function DT\Home\set_plugin_option;
 
@@ -63,32 +64,7 @@ class Analytics {
      */
     private function ot_settings(): array {
         return [
-            'export_endpoints' => get_plugin_option( self::OPTION_KEY_ANALYTICS_EXPORT_ENDPOINTS, [
-                'traces' => [
-                    'endpoint' => 'https://api.honeycomb.io/v1/traces',
-                    'content_type' => 'application/json',
-                    'headers' => [
-                        'x-honeycomb-team' => '<API-KEY-PLACEHOLDER>',
-                        'x-honeycomb-dataset' => self::DT_HOME_PLUGIN_NAME
-                    ]
-                ],
-                'metrics' => [
-                    'endpoint' => 'https://api.honeycomb.io/v1/metrics',
-                    'content_type' => 'application/json',
-                    'headers' => [
-                        'x-honeycomb-team' => '<API-KEY-PLACEHOLDER>',
-                        'x-honeycomb-dataset' => self::DT_HOME_PLUGIN_NAME
-                    ]
-                ],
-                'logs' => [
-                    'endpoint' => 'https://api.honeycomb.io/v1/logs',
-                    'content_type' => 'application/json',
-                    'headers' => [
-                        'x-honeycomb-team' => '<API-KEY-PLACEHOLDER>',
-                        'x-honeycomb-dataset' => self::DT_HOME_PLUGIN_NAME
-                    ]
-                ]
-            ] ),
+            'export_endpoints' => get_plugin_option( self::OPTION_KEY_ANALYTICS_EXPORT_ENDPOINTS, config( 'analytics.export_endpoints.honeycomb' ) ),
             'resource_attributes' => [
                 ResourceAttributes::SERVICE_NAMESPACE => 'DT\Home',
                 ResourceAttributes::SERVICE_NAME => self::DT_HOME_PLUGIN_NAME,

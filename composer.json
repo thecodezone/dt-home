@@ -42,7 +42,8 @@
     "open-telemetry/exporter-otlp": "*",
     "symfony/http-client": "*",
     "nyholm/psr7": "*",
-    "php-http/guzzle7-adapter": "*"
+    "php-http/guzzle7-adapter": "*",
+    "vlucas/phpdotenv": "*"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0",

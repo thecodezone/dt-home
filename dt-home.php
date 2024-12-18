@@ -17,6 +17,8 @@
  * @license GPL-2.0 or later
  *          https://www.gnu.org/licenses/gpl-2.0.html
  */
+
+use Dotenv\Dotenv;
 use DT\Home\CodeZone\WPSupport\Config\ConfigInterface;
 use DT\Home\CodeZone\WPSupport\Container\ContainerFactory;
 use DT\Home\Plugin;
@@ -35,7 +37,8 @@ require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/scoper-autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-
+// Load environmental variables.
+Dotenv::createUnsafeImmutable( __DIR__ )->load();
 
 // Create the IOC container
 $container = ContainerFactory::singleton();
