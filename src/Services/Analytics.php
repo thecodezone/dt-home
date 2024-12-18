@@ -103,7 +103,6 @@ class Analytics {
      * @return void
      */
     public function init(): void {
-
         /*
          * Ensure analytics permission has been granted, before proceeding.
          */
@@ -126,19 +125,19 @@ class Analytics {
          */
 
         $trace_settings = $settings['export_endpoints']['traces'];
-        $traceExporter = new SpanExporter(
+        $trace_exporter = new SpanExporter(
             ( new OtlpHttpTransportFactory() )->create( $trace_settings['endpoint'], $trace_settings['content_type'], $trace_settings['headers'] )
         );
 
         $metric_settings = $settings['export_endpoints']['metrics'];
-        $metricExporter = new ExportingReader(
+        $metric_exporter = new ExportingReader(
             new MetricExporter(
                 ( new OtlpHttpTransportFactory() )->create( $metric_settings['endpoint'], $metric_settings['content_type'], $metric_settings['headers'] )
             )
         );
 
         $log_settings = $settings['export_endpoints']['logs'];
-        $logExporter = new LogsExporter(
+        $log_exporter = new LogsExporter(
             ( new OtlpHttpTransportFactory() )->create( $log_settings['endpoint'], $log_settings['content_type'], $log_settings['headers'] )
         );
 
@@ -146,23 +145,23 @@ class Analytics {
          * Initialise domain providers.
          */
 
-        $traceProvider = TracerProvider::builder()
+        $trace_provider = TracerProvider::builder()
             ->addSpanProcessor(
-                new SimpleSpanProcessor( $traceExporter )
+                new SimpleSpanProcessor( $trace_exporter )
             )
             ->setResource( $resources )
             ->setSampler( new ParentBased( new AlwaysOnSampler() ) )
             ->build();
 
-        $metricProvider = MeterProvider::builder()
+        $metric_provider = MeterProvider::builder()
             ->setResource( $resources )
-            ->addReader( $metricExporter )
+            ->addReader( $metric_exporter )
             ->build();
 
-        $logProvider = LoggerProvider::builder()
+        $log_provider = LoggerProvider::builder()
             ->setResource( $resources )
             ->addLogRecordProcessor(
-                new SimpleLogRecordProcessor( $logExporter )
+                new SimpleLogRecordProcessor( $log_exporter )
             )
             ->build();
 
@@ -171,9 +170,9 @@ class Analytics {
          */
 
         Sdk::builder()
-            ->setTracerProvider( $traceProvider )
-            ->setMeterProvider( $metricProvider )
-            ->setLoggerProvider( $logProvider )
+            ->setTracerProvider( $trace_provider )
+            ->setMeterProvider( $metric_provider )
+            ->setLoggerProvider( $log_provider )
             ->setPropagator( TraceContextPropagator::getInstance() )
             ->setAutoShutdown( true )
             ->buildAndRegisterGlobal();
@@ -184,7 +183,6 @@ class Analytics {
      * @return bool
      */
     public function event( $name, $properties = [] ): bool {
-
         /*
          * Ensure analytics permission has been granted, before proceeding.
          */
@@ -232,7 +230,6 @@ class Analytics {
                         $lib_version,
                         $schema,
                         $properties['attributes'] ?? []
-
                     )->spanBuilder( $evt_name )->startSpan();
 
                     // Capture returning result.
@@ -272,7 +269,6 @@ class Analytics {
                         $lib_version,
                         $schema,
                         $properties['attributes'] ?? []
-
                     )->spanBuilder( $evt_name )->startSpan()->end();
                     $result = true;
                 }
