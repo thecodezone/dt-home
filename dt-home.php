@@ -17,12 +17,15 @@
  * @license GPL-2.0 or later
  *          https://www.gnu.org/licenses/gpl-2.0.html
  */
+
+use Dotenv\Dotenv;
 use DT\Home\CodeZone\WPSupport\Config\ConfigInterface;
 use DT\Home\CodeZone\WPSupport\Container\ContainerFactory;
 use DT\Home\Plugin;
 use DT\Home\Providers\ConfigServiceProvider;
 use DT\Home\Providers\PluginServiceProvider;
 use DT\Home\Providers\RewritesServiceProvider;
+use DT\Home\Services\Analytics;
 use DT\Home\Services\RolesPermissions;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -34,7 +37,8 @@ require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/scoper-autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor-scoped/autoload.php';
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
 
-
+// Load environmental variables.
+Dotenv::createUnsafeImmutable( __DIR__ )->load();
 
 // Create the IOC container
 $container = ContainerFactory::singleton();
@@ -56,6 +60,7 @@ $dt_home = $container->get( Plugin::class );
 $dt_home->init();
 
 $container->get( RolesPermissions::class )->init();
+$container->get( Analytics::class )->init();
 
 // Add the rest of the service providers
 $config = $container->get( ConfigInterface::class );
