@@ -185,6 +185,17 @@ class Analytics {
         }
 
         /*
+         * Ensure to include a hashed source id; to aid backend report grouping,
+         * whilst adhering to anonymity policy.
+         */
+
+        if ( !isset( $properties['attributes'] ) ) {
+            $properties['attributes'] = [];
+        }
+
+        $properties['attributes']['src.id'] = wp_hash( get_site_url() );
+
+        /*
          * Handle event request accordingly based on specified action.
          */
 
@@ -246,6 +257,101 @@ class Analytics {
                         $schema,
                         $properties['attributes'] ?? []
                     )->spanBuilder( $evt_name )->startSpan()->end();
+                    $result = true;
+                }
+                break;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Handle analytical metered metrics; typically used when
+     * capturing numerical counts.
+     */
+    public function metric( $name, $properties = [] ): bool {
+        /*
+         * Ensure analytics permission has been granted, before proceeding.
+         */
+
+        if ( !$this->is_enabled() ) {
+            return false;
+        }
+
+        /*
+         * Adjust incoming properties to be processed.
+         */
+
+        $properties = array_merge( [
+            'type' => 'counter',
+            'lib_name' => null,
+            'lib_version' => self::DT_HOME_PLUGIN_VERSION,
+            'metric_name' => $name,
+            'schema' => 'https://opentelemetry.io/schemas/1.24.0',
+            'attributes' => [],
+            'value' => null, // Metric float/int value; e.g. 1.5 or 150
+            'unit' => null, // Unit of measure; e.g. apps
+            'description' => null // Description of the metric; e.g. Total count of active apps
+        ], $properties );
+
+        if ( !isset( $properties['type'], $properties['metric_name'] ) ) {
+            return false;
+        }
+
+        /*
+         * Ensure to include a hashed source id; to aid backend report grouping,
+         * whilst adhering to anonymity policy.
+         */
+
+        if ( !isset( $properties['attributes'] ) ) {
+            $properties['attributes'] = [];
+        }
+
+        $properties['attributes']['src.id'] = wp_hash( get_site_url() );
+
+        /*
+         * Handle meter request accordingly based on specified type.
+         */
+
+        $result = false;
+        switch ( $properties['type'] ) {
+            case 'counter':
+
+                // Ensure required counter properties are present.
+                if ( isset( $properties['lib_name'], $properties['lib_version'], $properties['schema'], $properties['value'] ) ) {
+
+                    $lib_name = $properties['lib_name'];
+                    $lib_version = $properties['lib_version'];
+                    $schema = $properties['schema'];
+                    $metric_name = $properties['metric_name'];
+                    $metric_value = $properties['value'];
+                    $unit  = $properties['unit'] ?? null;
+                    $description = $properties['description'] ?? null;
+
+                    // Ensure any available units & descriptions are also included.
+                    if ( !empty( $unit ) ) {
+                        $properties['attributes']['unit'] = $unit;
+                    }
+                    if ( !empty( $description ) ) {
+                        $properties['attributes']['description'] = $description;
+                    }
+
+                    $meter_provider = Globals::meterProvider();
+                    $meter_provider->getMeter(
+                        $lib_name,
+                        $lib_version,
+                        $schema
+                    )->createCounter( 'value' )->add( $metric_value, array_merge( $properties['attributes'], [
+                        'name' => $metric_name,
+                        'library.name' => $lib_name,
+                        'library.version' => $lib_version
+                    ] ) );
+
+                    // Switch to sdk in order to force a flush.
+                    if ( $meter_provider instanceof \OpenTelemetry\SDK\Metrics\MeterProviderInterface ) {
+                        $meter_provider->forceFlush();
+                    }
+
                     $result = true;
                 }
                 break;

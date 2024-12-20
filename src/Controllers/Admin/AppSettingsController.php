@@ -152,6 +152,9 @@ class AppSettingsController
         // Update global roles and permissions.
         $this->roles_permissions->update( $slug, [ $this->roles_permissions->generate_permission_key( $slug ) ], $roles, $deleted_roles );
 
+        // Capture core analytics metric counts.
+        $this->settings_apps->capture_analytics_metric_counts( __CLASS__ );
+
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
 
@@ -279,6 +282,9 @@ class AppSettingsController
         // Update global roles and permissions.
         $this->roles_permissions->update( $slug, [ $this->roles_permissions->generate_permission_key( $slug ) ], $roles, $deleted_roles );
 
+        // Capture core analytics metric counts.
+        $this->settings_apps->capture_analytics_metric_counts( __CLASS__ );
+
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
 
@@ -321,6 +327,8 @@ class AppSettingsController
     {
         $this->settings_apps->destroy( $params['slug'] ?? '' );
 
+        $this->settings_apps->capture_analytics_metric_counts( __CLASS__ );
+
         return redirect( 'admin.php?page=dt_home&tab=app&updated=true' );
     }
 
@@ -334,7 +342,11 @@ class AppSettingsController
      */
     public function soft_delete_app( Request $request, array $params ): ResponseInterface
     {
-        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . ( $this->settings_apps->delete( $params['slug'] ?? '' ) ? 'true' : 'false' ) );
+        $result = ( $this->settings_apps->delete( $params['slug'] ?? '' ) ? 'true' : 'false' );
+
+        $this->settings_apps->capture_analytics_metric_counts( __CLASS__ );
+
+        return redirect( 'admin.php?page=dt_home&tab=app&updated=' . $result );
     }
 
     /**
@@ -372,6 +384,9 @@ class AppSettingsController
         // Save the updated array back to the option
         $this->settings_apps->save( $apps );
 
+        // Capture core analytics metric counts.
+        $this->settings_apps->capture_analytics_metric_counts( __CLASS__ );
+
         // Redirect to the page with a success message
         return redirect( 'admin.php?page=dt_home&tab=app&action=available_app&updated=true' );
     }
@@ -386,8 +401,12 @@ class AppSettingsController
      */
     public function import( Request $request, array $params ): ResponseInterface
     {
+        $success = $this->apps->import( extract_request_input( $request ) );
+
+        $this->settings_apps->capture_analytics_metric_counts( __CLASS__, null, [ 'total-active-apps-count', 'total-active-custom-apps-count' ] );
+
         return response([
-            'success' => $this->apps->import( extract_request_input( $request ) )
+            'success' => $success
         ], 200, [ 'Content-Type' => 'application/json' ]);
     }
 }
