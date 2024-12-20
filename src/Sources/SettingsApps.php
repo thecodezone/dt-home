@@ -2,6 +2,8 @@
 
 namespace DT\Home\Sources;
 
+use DT\Home\Services\Analytics;
+use function DT\Home\container;
 use function DT\Home\get_plugin_option;
 use function DT\Home\set_plugin_option;
 
@@ -75,5 +77,89 @@ class SettingsApps extends AppSource {
             'is_hidden' => false,
             'is_deleted' => false,
         ], $app, $overrides);
+    }
+
+    /**
+     * If enabled, capture a snapshot of core analytical metric counts;
+     * with the ability to filter metrics to be exported.
+     *
+     * @param string $scope Metric scope (library.name) to be used.
+     * @param array|null $apps Apps array to process; otherwise default to raw apps.
+     * @param array $metrics Metrics to be captured.
+     */
+    public function capture_analytics_metric_counts( string $scope = __CLASS__, array $apps = null, array $metrics = [
+        'total-active-apps-count',
+        'total-active-custom-apps-count',
+        'total-active-coded-apps-count',
+        'total-deleted-coded-apps-count'
+    ] ): void {
+
+        $analytics = container()->get( Analytics::class );
+
+        if ( !$analytics->is_enabled() ) {
+            return;
+        }
+
+        $apps = $apps ?? $this->raw();
+
+        // Process identified metrics.
+        foreach ( $metrics as $metric ) {
+            $properties = null;
+            switch ( $metric ) {
+                case 'total-active-apps-count':
+                    $total_active_apps_count = count( array_filter( $apps, function ( $app ) {
+                        return ( !isset( $app['is_deleted'] ) || $app['is_deleted'] === false );
+                    } ) );
+
+                    $properties = [
+                        'lib_name' => $scope,
+                        'value' => $total_active_apps_count,
+                        'unit' => 'active-apps',
+                        'description' => 'Total Active Apps Count'
+                    ];
+                    break;
+                case 'total-active-custom-apps-count':
+                    $total_active_custom_apps_count = count( array_filter( $apps, function ( $app ) {
+                        return ( $app['creation_type'] === 'custom' ) && ( !isset( $app['is_deleted'] ) || $app['is_deleted'] === false );
+                    } ) );
+
+                    $properties = [
+                        'lib_name' => $scope,
+                        'value' => $total_active_custom_apps_count,
+                        'unit' => 'active-custom-apps',
+                        'description' => 'Total Active Custom Apps Count'
+                    ];
+                    break;
+                case 'total-active-coded-apps-count':
+                    $total_active_coded_apps_count = count( array_filter( $apps, function ( $app ) {
+                        return ( $app['creation_type'] === 'code' ) && ( !isset( $app['is_deleted'] ) || $app['is_deleted'] === false );
+                    } ) );
+
+                    $properties = [
+                        'lib_name' => $scope,
+                        'value' => $total_active_coded_apps_count,
+                        'unit' => 'active-coded-apps',
+                        'description' => 'Total Active Coded Apps Count'
+                    ];
+                    break;
+                case 'total-deleted-coded-apps-count':
+                    $total_deleted_coded_apps_count = count( array_filter( $apps, function ( $app ) {
+                        return ( $app['creation_type'] === 'code' ) && ( isset( $app['is_deleted'] ) && $app['is_deleted'] === true );
+                    } ) );
+
+                    $properties = [
+                        'lib_name' => $scope,
+                        'value' => $total_deleted_coded_apps_count,
+                        'unit' => 'deleted-coded-apps',
+                        'description' => 'Total Deleted Coded Apps Count'
+                    ];
+                    break;
+            }
+
+            // Generate metric exports on properties detection.
+            if ( !empty( $properties ) ) {
+                $analytics->metric( $metric, $properties );
+            }
+        }
     }
 }

@@ -161,6 +161,9 @@ class TrainingSettingsController
 
         $result = $this->trainings_source->save( $trainings_array );
 
+        // Capture core analytics metric counts.
+        $this->trainings_source->capture_analytics_metric_counts( __CLASS__ );
+
         // Save and return updated bool result.
         return redirect( 'admin.php?page=dt_home&tab=training&updated=' . ( $result ? 'true' : 'false' ) );
     }
@@ -181,6 +184,8 @@ class TrainingSettingsController
         }
 
         $result = $this->trainings_source->delete( $id );
+
+        $this->trainings_source->capture_analytics_metric_counts( __CLASS__ );
 
         // Save and return updated bool result.
         return redirect( 'admin.php?page=dt_home&tab=training&updated=' . ( $result ? 'true' : 'false' ) );
